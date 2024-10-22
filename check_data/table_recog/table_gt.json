@@ -1,0 +1,26 @@
+[
+    {
+        "category_type": "table",
+        "ignore": false,
+        "order": 0,
+        "anno_id": 0,
+        "image_path": "benchmark_table_00000.png",
+        "html": "<table border=\"1\">\n<thead>\n<tr>\n<td>基金类型</td>\n<td>基金支数</td>\n<td>费率大于1.2%基金支数占比</td>\n<td>2022年管理费(亿元)</td>\n<td>预计调降影响(亿元)</td>\n<td>对2023年权益基金管理费影响(%)</td>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>股票类</td>\n<td>2096</td>\n<td>24.3%</td>\n<td>192.0</td>\n<td>-8.7</td>\n<td>-4.5%</td>\n</tr>\n<tr>\n<td>混合类</td>\n<td>4453</td>\n<td>68.6%</td>\n<td>695.6</td>\n<td>-49.9</td>\n<td>-7.2%</td>\n</tr>\n<tr>\n<td>合计</td>\n<td>6549</td>\n<td>54.4%</td>\n<td>887.6</td>\n<td>-58.6</td>\n<td>-6.6%</td>\n</tr>\n</tbody>\n</table>"
+    },
+    {
+        "category_type": "table",
+        "ignore": false,
+        "order": 0,
+        "anno_id": 1,
+        "image_path": "benchmark_table_00001.png",
+        "html": "<table border=\"1\">\n<thead>\n<tr>\n<td rowspan=\"2\">Chromatid breaks per cell</td>\n<td rowspan=\"2\">Case patients (%)</td>\n<td rowspan=\"2\">Control subjects (%)</td>\n<td colspan=\"2\">Odds ratio(95% CI)</td>\n</tr>\n<tr>\n<td>Crude</td>\n<td>Adjusted<sup>a</sup></td>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td colspan=\"5\">Dichotomized</td>\n</tr>\n<tr>\n<td>≤0.40</td>\n<td>3(5.3)</td>\n<td>54(51.4)</td>\n<td>1.00</td>\n<td>1.00</td>\n</tr>\n<tr>\n<td>&gt;0.40</td>\n<td>54(94.7)</td>\n<td>51(48.6)</td>\n<td>19.05(5.60-64.76)</td>\n<td>17.25(4.92-60.49)</td>\n</tr>\n</tbody>\n<tr>\n<td colspan=\"5\">Trichotomized</td>\n</tr>\n<tr>\n<td>≤0.40</td>\n<td>3(5.3)</td>\n<td>54(51.4)</td>\n<td>1.00</td>\n<td>1.00</td>\n</tr>\n<tr>\n<td>0.41-0.52</td>\n<td>10(17.5)</td>\n<td>27(25.7)</td>\n<td>6.67(1.69-26.25)</td>\n<td>5.53(1.37-23.04)</td>\n</tr>\n<tr>\n<td>&gt;0.52</td>\n<td>44(77.2)</td>\n<td>24(22.9)</td>\n<td>33.00(9.32-116.87)</td>\n<td>33.79(8.97-127.32)</td>\n</tr>\n\n</table>"
+    },
+    {
+        "category_type": "table",
+        "ignore": false,
+        "order": 0,
+        "anno_id": 2,
+        "image_path": "benchmark_table_00002.png",
+        "html": "<table border=\"1\">\n<tr>\n<td colspan=\"5\"></td>\n<td colspan=\"5\">归母净利润(亿元)</td>\n<td colspan=\"5\">PE</td>\n</tr>\n<tr>\n<td>股票代码</td>\n<td>股票名称</td>\n<td>股价(元)</td>\n<td>总市值<br/>(亿元)</td>\n<td>2022A</td>\n<td>2023E</td>\n<td>2024E</td>\n<td>2025E</td>\n<td>2022A</td>\n<td>2023E</td>\n<td>2024E</td>\n<td>2025E</td>\n</tr>\n<tr>\n<td>601100.SH</td>\n<td>恒立液压</td>\n<td>57.06</td>\n<td>765.07</td>\n<td>23.43</td>\n<td>28.23</td>\n<td>32.51</td>\n<td>35.77</td>\n<td>32.65</td>\n<td>27.10</td>\n<td>23.53</td>\n<td>21.39</td>\n</tr>\n<tr>\n<td>002472.SZ</td>\n<td>双环传动</td>\n<td>27.73</td>\n<td>236.51</td>\n<td>5.82</td>\n<td>7.85</td>\n<td>10.38</td>\n<td>13.12</td>\n<td>40.64</td>\n<td>30.13</td>\n<td>22.79</td>\n<td>18.03</td>\n</tr>\n<tr>\n<td>300161.SZ</td>\n<td>华中数控</td>\n<td>36.29</td>\n<td>72.11</td>\n<td>0.17</td>\n<td>1.12</td>\n<td>2.00</td>\n<td>3.09</td>\n<td>424.16</td>\n<td>64.38</td>\n<td>36.05</td>\n<td>23.34</td>\n</tr>\n<tr>\n<td>688305.SH</td>\n<td>科德数控</td>\n<td>72.19</td>\n<td>67.27</td>\n<td>0.6</td>\n<td>1.13</td>\n<td>1.76</td>\n<td>2.45</td>\n<td>112.11</td>\n<td>59.53</td>\n<td>38.22</td>\n<td>27.46</td>\n</tr>\n<tr>\n<td>600150.SH</td>\n<td>中国船舶</td>\n<td>25.95</td>\n<td>1,160.60</td>\n<td>1.72</td>\n<td>4.64</td>\n<td>29.96</td>\n<td>55.20</td>\n<td>674.76</td>\n<td>250.13</td>\n<td>38.74</td>\n<td>21.03</td>\n</tr>\n</table>"
+    }
+]

@@ -1,0 +1,10 @@
+recogition_eval: # Text
+  metrics:
+    - Edit_dist
+    - BLEU
+  dataset:
+    dataset_name: recogition_text_dataset
+    ground_truth:
+      data_path: ./check_data/ocr/ocr_test_gt.json
+    prediction:
+      data_path: ./check_data/ocr/pred

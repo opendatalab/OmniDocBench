@@ -1,0 +1,47 @@
+[
+  {
+    "category_type": "text",
+    "poly": [
+      10.0,
+      7.0,
+      1348.0,
+      7.0,
+      1348.0,
+      41.0,
+      10.0,
+      41.0
+    ],
+    "score": 0.96,
+    "text": "Three distinct segments are chosen at random among the segments whose end-points are thevertices"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      10.0,
+      51.0,
+      1352.0,
+      51.0,
+      1352.0,
+      81.0,
+      10.0,
+      81.0
+    ],
+    "score": 0.98,
+    "text": "of aregular12-gon.Whatistheprobabilitythat thelengthsof thesethreesegments arethethreeside"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      10.0,
+      93.0,
+      534.0,
+      93.0,
+      534.0,
+      122.0,
+      10.0,
+      122.0
+    ],
+    "score": 0.98,
+    "text": "lengthsofatrianglewithpositivearea?"
+  }
+]

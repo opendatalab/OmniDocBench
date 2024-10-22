@@ -1,0 +1,287 @@
+[
+  {
+    "category_type": "text",
+    "poly": [
+      51.0,
+      5.0,
+      649.0,
+      5.0,
+      649.0,
+      31.0,
+      51.0,
+      31.0
+    ],
+    "score": 1.0,
+    "text": "Analysisofhistologicsubgroupsrevealedthatthe"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      2.0,
+      37.0,
+      277.0,
+      37.0,
+      277.0,
+      63.0,
+      2.0,
+      63.0
+    ],
+    "score": 0.99,
+    "text": "meanb/cvalueswere"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      441.0,
+      39.0,
+      647.0,
+      39.0,
+      647.0,
+      63.0,
+      441.0,
+      63.0
+    ],
+    "score": 1.0,
+    "text": "forpatientswith"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      2.0,
+      72.0,
+      513.0,
+      72.0,
+      513.0,
+      98.0,
+      2.0,
+      98.0
+    ],
+    "score": 0.96,
+    "text": "MSTs (median, 0.58; range, 0.40-0.90) and"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      4.0,
+      106.0,
+      646.0,
+      106.0,
+      646.0,
+      129.0,
+      4.0,
+      129.0
+    ],
+    "score": 0.94,
+    "text": "forpatientswithBSTs（median,0.55;range,0.36-0.68)"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      3.0,
+      139.0,
+      648.0,
+      139.0,
+      648.0,
+      162.0,
+      3.0,
+      162.0
+    ],
+    "score": 0.98,
+    "text": "(Fig.1),bothsignificantlyhigherthantheb/cvaluesof"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      4.0,
+      172.0,
+      647.0,
+      172.0,
+      647.0,
+      195.0,
+      4.0,
+      195.0
+    ],
+    "score": 0.92,
+    "text": "thecontrolsubjects(P<0.oo01andP=0.o07,re-"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      3.0,
+      206.0,
+      648.0,
+      206.0,
+      648.0,
+      227.0,
+      3.0,
+      227.0
+    ],
+    "score": 0.99,
+    "text": "spectively).Afterdividinggammasensitivitydatainto"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      3.0,
+      237.0,
+      649.0,
+      237.0,
+      649.0,
+      262.0,
+      3.0,
+      262.0
+    ],
+    "score": 0.99,
+    "text": "highandlowvaluesbasedonthemedianforthe"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      4.0,
+      271.0,
+      647.0,
+      271.0,
+      647.0,
+      294.0,
+      4.0,
+      294.0
+    ],
+    "score": 0.96,
+    "text": "controls(0.40b/c),thecrudeORofb/casariskfactor"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      3.0,
+      305.0,
+      647.0,
+      305.0,
+      647.0,
+      327.0,
+      3.0,
+      327.0
+    ],
+    "score": 0.93,
+    "text": "was46.56forMSTs(95%CI,6.19-350.34)and5.29fon"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      4.0,
+      339.0,
+      648.0,
+      339.0,
+      648.0,
+      362.0,
+      4.0,
+      362.0
+    ],
+    "score": 0.97,
+    "text": "BSTs(95%CI,1.11-25.34)(Table5).Theriskestimates"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      3.0,
+      372.0,
+      644.0,
+      372.0,
+      644.0,
+      396.0,
+      3.0,
+      396.0
+    ],
+    "score": 0.99,
+    "text": "remainedsignificantforMsTsandpossessedborder"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      4.0,
+      404.0,
+      647.0,
+      404.0,
+      647.0,
+      429.0,
+      4.0,
+      429.0
+    ],
+    "score": 0.97,
+    "text": "linesignificance(duetothesmallersamplesize)for"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      3.0,
+      439.0,
+      648.0,
+      439.0,
+      648.0,
+      463.0,
+      3.0,
+      463.0
+    ],
+    "score": 0.93,
+    "text": "BSTsafteradjustmentforage,gender,ethnicity,and"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      4.0,
+      472.0,
+      648.0,
+      472.0,
+      648.0,
+      495.0,
+      4.0,
+      495.0
+    ],
+    "score": 0.99,
+    "text": "familyhistoryofmalignancy.Whenthedatasetswere"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      4.0,
+      504.0,
+      647.0,
+      504.0,
+      647.0,
+      526.0,
+      4.0,
+      526.0
+    ],
+    "score": 0.99,
+    "text": "trichotomizedbasedonthedistributionofcontrolb/c"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      3.0,
+      537.0,
+      648.0,
+      537.0,
+      648.0,
+      563.0,
+      3.0,
+      563.0
+    ],
+    "score": 0.99,
+    "text": "values,b/cvaluesdemonstratedadose-responsere-"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      3.0,
+      569.0,
+      648.0,
+      569.0,
+      648.0,
+      594.0,
+      3.0,
+      594.0
+    ],
+    "score": 0.98,
+    "text": "lationwithriskforboththeMSTandBSTgroups"
+  }
+]

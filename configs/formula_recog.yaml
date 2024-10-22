@@ -1,0 +1,11 @@
+recogition_eval:    # Formula
+  metrics:
+    - Edit_dist
+    - CDM
+  dataset:
+    dataset_name: recogition_formula_dataset
+    ground_truth:
+      data_path: ./check_data/formula_recog/gt/cpe.txt
+    prediction:
+      data_path: ./check_data/formula_recog/pred/Complex Print Expression(CPE).txt
+  save_path: ./result/paper_LLM_display_formula.json

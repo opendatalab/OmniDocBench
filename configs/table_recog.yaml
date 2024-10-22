@@ -1,0 +1,10 @@
+recogition_eval:  # Table
+  metrics:
+    - TEDS
+    - Edit_dist
+  dataset:
+    dataset_name: recogition_table_dataset
+    ground_truth:
+      data_path: ./check_data/table_recog/table_gt.json
+    prediction:
+      data_path: ./check_data/table_recog/table_pred.json

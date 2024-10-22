@@ -1,0 +1,24 @@
+end2end_eval:
+  metrics:
+    text_block:
+      - Edit_dist
+      # - BLEU
+    title:
+      - Edit_dist
+    inline_formula:
+      - Edit_dist
+      - CDM
+    display_formula:
+      - Edit_dist
+      - CDM
+    table:
+      - TEDS
+    reading_order:
+      - Edit_dist
+      - Move_dist
+  dataset:
+    dataset_name: end2end_dataset
+    ground_truth:
+      data_path: ./check_data/end2end/gt/demo_val_dataset.json
+    prediction:
+      data_path: ./check_data_full/end2end/mineru

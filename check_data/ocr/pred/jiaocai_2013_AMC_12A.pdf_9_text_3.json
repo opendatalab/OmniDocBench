@@ -1,0 +1,77 @@
+[
+  {
+    "category_type": "text",
+    "poly": [
+      0.0,
+      15.0,
+      54.0,
+      15.0,
+      54.0,
+      52.0,
+      0.0,
+      52.0
+    ],
+    "score": 1.0,
+    "text": "Let"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      228.0,
+      12.0,
+      412.0,
+      12.0,
+      412.0,
+      55.0,
+      228.0,
+      55.0
+    ],
+    "score": 0.99,
+    "text": "bedefinedby"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      738.0,
+      17.0,
+      1350.0,
+      17.0,
+      1350.0,
+      52.0,
+      738.0,
+      52.0
+    ],
+    "score": 0.94,
+    "text": "How many complex numbers z are there such"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      4.0,
+      85.0,
+      1357.0,
+      85.0,
+      1357.0,
+      144.0,
+      4.0,
+      144.0
+    ],
+    "score": 0.95,
+    "text": "that Im(z) > O and both the real and the imaginary parts of f(z) are integers with absolute vale at"
+  },
+  {
+    "category_type": "text",
+    "poly": [
+      2.0,
+      161.0,
+      128.0,
+      161.0,
+      128.0,
+      189.0,
+      2.0,
+      189.0
+    ],
+    "score": 0.99,
+    "text": "most10?"
+  }
+]
