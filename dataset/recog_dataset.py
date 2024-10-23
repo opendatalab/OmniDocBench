@@ -4,7 +4,12 @@ import json
 import html
 import unicodedata
 import os
+import uuid
+import shutil
+import subprocess
+from bs4 import BeautifulSoup
 from utils.ocr_utils import get_text_for_block
+
 
 @DATASET_REGISTRY.register("recogition_text_dataset")
 class RecognitionTextDataset():
@@ -108,6 +113,8 @@ class RecognitionTableDataset():
     def __init__(self, cfg_task):
         gt_file = cfg_task['dataset']['ground_truth']['data_path']
         pred_file = cfg_task['dataset']['prediction']['data_path']
+        self.pred_table_format = cfg_task['dataset']['prediction'].get('table_format', 'html')
+
         references, predictions = self.load_data(gt_file), self.load_data(pred_file)
         self.samples = self.normalize_data(references, predictions)
 
@@ -116,14 +123,18 @@ class RecognitionTableDataset():
         for img in references.keys():
             r = references[img]['html']
             if predictions.get(img):
-                p = predictions[img]['html']
+                if self.pred_table_format == 'latex':
+                    raw_p = predictions[img]['latex']
+                    p = self.convert_latex_to_html(raw_p)
+                else:
+                    p = predictions[img]['html']
             else:
                 p = ""
             img_id = references[img]["anno_id"]
-            # print('p:', p)
-            # print('r:', r)
             _, p = self.process_table(p)
             _, r = self.process_table(r)
+            # print('p:', p)
+            # print('r:', r)
             samples.append({
                 'gt': self.strcut_clean(self.clean_table(r)),
                 'pred': self.strcut_clean(p),
@@ -162,6 +173,12 @@ class RecognitionTableDataset():
         """
         pred_md format edit
         """
+        def convert_th_to_td(html_content):
+            soup = BeautifulSoup(html_content, 'html.parser')
+            th_tags = soup.find_all('th')
+            for th in th_tags:
+                th.name = 'td'
+            return str(soup)
         # pred_md = pred_md["result"]["markdown"]
         # pred_md = pred_md.split("\n\n")
         # table_flow = []
@@ -170,16 +187,20 @@ class RecognitionTableDataset():
         table_res=''
         table_res_no_space=''
         if '<table' in md_i.replace(" ","").replace("'",'"'):
+            md_i = convert_th_to_td(md_i)
             table_res = html.unescape(md_i).replace('\\', '').replace('\n', '')
             table_res = unicodedata.normalize('NFKC', table_res).strip()
+            pattern = r'<table\b[^>]*>(.*?)</table>'
+            tables = re.findall(pattern, table_res, re.DOTALL | re.IGNORECASE)
+            table_res = ''.join(tables)
             table_res = re.sub('<table.*?>','',table_res)
-            table_res = re.sub('</?tbody>','',table_res)
             table_res = re.sub('( style=".*?")', "", table_res)
             table_res = re.sub('( height=".*?")', "", table_res)
             table_res = re.sub('( width=".*?")', "", table_res)
             table_res = re.sub('( align=".*?")', "", table_res)
             table_res = re.sub('( class=".*?")', "", table_res)
-            table_res_no_space = '<html><body><table border="1" >' + table_res.replace(' ','') + '</body></html>'
+            table_res = re.sub('</?tbody>',"",table_res)
+            table_res_no_space = '<html><body><table border="1" >' + table_res.replace(' ','') + '</table></body></html>'
             # table_res_no_space = re.sub(' (style=".*?")',"",table_res_no_space)
             table_res_no_space = re.sub(r'[ $]', "", table_res_no_space)
             table_res_no_space = re.sub('colspan="', ' colspan="', table_res_no_space)
@@ -191,3 +212,55 @@ class RecognitionTableDataset():
             # table_flow_no_space.append(table_res_no_space)
 
         return table_res, table_res_no_space
+    
+    def convert_latex_to_html(self, latex_content):
+        uuid_str = str(uuid.uuid1())
+        os.makedirs(uuid_str, exist_ok=True)
+        with open(f'{uuid_str}/temp.tex', 'w') as f:
+            f.write(self.latex_template(latex_content))
+
+        cmd = ['latexmlc', f'{uuid_str}/temp.tex', f'--dest={uuid_str}/output.html']
+        try:
+            subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            with open(f'{uuid_str}/output.html', 'r') as f:
+                html_content = f.read()
+
+            pattern = r'<table\b[^>]*>(.*?)</table>'
+            tables = re.findall(pattern, html_content, re.DOTALL | re.IGNORECASE)
+            tables = [f'<table>{table}</table>' for table in tables]
+            html_content = '\n'.join(tables)
+        
+        except Exception as e:
+            html_content = ''
+        
+        if os.path.exists(f'{uuid_str}'):
+            shutil.rmtree(f'{uuid_str}')
+        return html_content
+
+    def latex_template(self, latex_code):  
+        template = r'''
+        \documentclass[border=20pt]{standalone}
+        \usepackage{blindtext}%
+        \usepackage{subcaption}
+        \usepackage{url}
+        \usepackage{graphicx}
+        \usepackage{caption}
+        \usepackage{multirow}
+        \usepackage{booktabs}
+        \usepackage{color}
+        \usepackage{colortbl}
+        \usepackage{xcolor,soul,framed}
+        \usepackage{xeCJK}
+        \usepackage{fontspec}
+        %\usepackage[margin=1in]{geometry} 
+        \usepackage{printlen}
+        \usepackage{amsmath,amssymb,mathtools,bm,mathrsfs,textcomp}
+        \setlength{\parindent}{0pt}''' + \
+        r'''
+        \begin{document}
+        ''' + \
+        latex_code + \
+        r'''
+        \end{document}'''
+    
+        return template
