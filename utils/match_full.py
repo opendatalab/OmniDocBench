@@ -219,7 +219,7 @@ def match_gt_pred(gts, predications):
     return matcher.match()
 
 
-def match_gt_pred_readable(gts, predications):
+def match_gt2pred_full(gts, predications):
     res = match_gt_pred(gts, predications)
     
     return [
@@ -231,8 +231,8 @@ def match_gt_pred_readable(gts, predications):
             } for gt_idx, pred_indices in enumerate(res)
         ]
 
-def match_gt2pred_textblock(gt_lines, pred_lines):
-    text_inline_match_s = match_gt_pred_readable(gt_lines, pred_lines, 'text')
+def match_gt2pred_textblock_full(gt_lines, pred_lines):
+    text_inline_match_s = match_gt2pred_full(gt_lines, pred_lines, 'text')
     plain_text_match = []
     inline_formula_match = []
     for item in text_inline_match_s:
@@ -253,8 +253,7 @@ def match_gt2pred_textblock(gt_lines, pred_lines):
             })
 
         if inline_gt_list:
-            inline_formula_match_s = match_gt_pred_readable(inline_gt_list, inline_pred_list)
+            inline_formula_match_s = match_gt2pred_full(inline_gt_list, inline_pred_list)
             inline_formula_match.extend(inline_formula_match_s)    
     return plain_text_match, inline_formula_match
-
 
