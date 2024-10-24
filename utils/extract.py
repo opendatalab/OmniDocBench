@@ -195,3 +195,68 @@ def inline_filter(text):
             text = text.replace(match.group(0), content)
 
     return text, inline_array
+
+# 提取循环嵌套表
+def extract_tex_table(content):
+    walker = LatexWalker(content)
+    nodes, _, _ = walker.get_latex_nodes()
+
+    tables = []  # 用于存储提取的表格
+    positions = []  # 用于存储表格的起始和结束位置
+
+    # 遍历节点，查找所有 'tabular' 环境
+    for node in nodes:
+        if isinstance(node, LatexEnvironmentNode) and node.environmentname == 'tabular':
+            table_latex = extract_node_content(node)
+            tables.append(table_latex)
+            start_pos = node.pos  # 表格的起始位置
+            end_pos = get_node_end_pos(node)  # 获取表格的结束位置
+            positions.append((start_pos, end_pos))  # 记录表格的起始和结束位置
+
+    return tables, positions
+
+def extract_node_content(node):
+    """ 递归提取LatexEnvironmentNode的内容，重建表格的LaTeX表示 """
+    if isinstance(node, LatexCharsNode):
+        return node.chars  # 使用 chars 属性
+    elif isinstance(node, LatexGroupNode):
+        return "{" + "".join(extract_node_content(n) for n in node.nodelist) + "}"
+    elif isinstance(node, LatexMacroNode):
+        # 提取宏命令及其参数
+        macro_content = "\\" + node.macroname
+        if node.nodeargs:
+            macro_content += "".join([extract_node_content(arg) for arg in node.nodeargs])
+        return macro_content
+    elif isinstance(node, LatexEnvironmentNode):
+        # 提取环境，保留环境名和参数
+        content = "\\begin{" + node.environmentname + "}"
+        if node.nodeargd:
+            # content += "".join("{" + extract_node_content(arg) + "}" for arg in node.nodeargd)
+            content += "".join("{" + extract_node_content(node.nodeargd) + "}")
+        if node.nodelist:
+            content += "".join(extract_node_content(n) for n in node.nodelist)
+        content += "\\end{" + node.environmentname + "}"
+        return content
+    else:
+        return ""
+        
+def get_node_end_pos(node):
+    """递归确定节点的结束位置"""
+    if hasattr(node, 'nodelist') and node.nodelist:
+        # 如果节点有子节点，则递归查找最后一个子节点的结束位置
+        return get_node_end_pos(node.nodelist[-1])
+    elif hasattr(node, 'pos_end'):
+        # 如果节点有 pos_end 属性，直接返回
+        return node.pos_end
+    else:
+        # 如果没有子节点，则假设该节点结束于其内容的最后一个字符
+        return node.pos + len(str(node))
+
+def remove_tex_table(content):
+    tables, positions = extract_tex_table(content)
+
+    # 按照位置顺序从后向前删除，以免影响未处理的起始位置
+    for start, end in sorted(positions, reverse=True):
+        content = content[:start] + content[end:]  # 删除表格内容
+
+    return content
