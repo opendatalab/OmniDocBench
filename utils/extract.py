@@ -1,8 +1,8 @@
 import re
 import os
 import json
-from utils.table_utils import convert_markdown_to_html
-
+#from  modules.table_utils import convert_markdown_to_html #end
+from  table_utils import convert_markdown_to_html
 # math reg
 display_reg = re.compile(
     r'\\begin{equation\*?}(.*?)\\end{equation\*?}|'
@@ -42,20 +42,32 @@ title_reg = re.compile(
 
 # img
 img_pattern = r'!\[.*?\]\(.*?\)'
+# code block
+code_block_reg = re.compile(
+    r'```(\w+)\n(.*?)```',
+    re.DOTALL
+)
+def remove_markdown_fences(content):
+    content = re.sub(r'^```markdown\n?', '', content, flags=re.MULTILINE)
+    content = re.sub(r'```\n?$', '', content, flags=re.MULTILINE)
+    return content.strip()  
 
+# 标准化连续下划线
+def standardize_underscores(content):
+    content = re.sub(r'_{5,}', '____', content)
+    return content
 
 def md_tex_filter(content):
     '''
     Input: 1 page md or tex content - String
-    Output: text, display, inline, table, title - list
+    Output: text, display, inline, table, title, code - list
     '''
-
     content = re.sub(img_pattern, '', content)
-
+    content=remove_markdown_fences(content)
+    content = standardize_underscores(content) 
     # extract tables in latex and html
     table_array = []
     table_matches = table_reg.finditer(content)
-
     tables = ""
     for match in table_matches:
         matched = match.group(0)
@@ -81,7 +93,7 @@ def md_tex_filter(content):
     # extract md table with ||
     md_table_mathces = md_table_reg.findall(content)        
     if md_table_mathces:
-        # print("md table found!")
+        print("md table found!")
         # print("content:", content)
         content = convert_markdown_to_html(content)
         # print('content after converting md table to html:', content)
@@ -121,8 +133,16 @@ def md_tex_filter(content):
                 #     for formula in re.findall(r'\$(.*?)\$', text):
                 #         formula_array.append(formula)
 
-
-    return text_array, display_array, table_array, title_array
+    # extract code blocks
+    code_array = []
+    code_matches = code_block_reg.finditer(content)
+    for match in code_matches:
+        language = match.group(1)
+        code = match.group(2).strip()
+        code_array.append({'language': language, 'code': code})
+        content = content.replace(match.group(0), '')
+        
+    return text_array, display_array, table_array, title_array, code_array
 
 
 # def replace_or_extract(match):
@@ -135,14 +155,37 @@ def md_tex_filter(content):
 #         return content
 
 # extract inline math equations in text
-def inline_filter(text):
+# def inline_filter(text):
 
+#     inline_array = []
+#     inline_matches = inline_reg.finditer(text)
+#     for match in inline_matches:
+#         content = match.group(1) if match.group(1) is not None else match.group(2)
+        
+#         # remove \\, \_, \&, \%, \^
+#         clean_content = re.sub(r'\\([\\_&%^])', '', content)
+
+#         if any(char in clean_content for char in r'\^_'):
+#             inline_array.append(match.group(0))
+#             text = text.replace(match.group(0), '')
+#         else:
+#             text = text.replace(match.group(0), content)
+
+#     return text, inline_array
+
+
+def inline_filter(text):
+    # 确保 text 是字符串类型
+    if not isinstance(text, str):
+        text = str(text)
+    
     inline_array = []
     inline_matches = inline_reg.finditer(text)
+    
     for match in inline_matches:
         content = match.group(1) if match.group(1) is not None else match.group(2)
         
-        # remove \\, \_, \&, \%, \^
+        # 移除转义字符 \
         clean_content = re.sub(r'\\([\\_&%^])', '', content)
 
         if any(char in clean_content for char in r'\^_'):
@@ -152,5 +195,3 @@ def inline_filter(text):
             text = text.replace(match.group(0), content)
 
     return text, inline_array
-
-
