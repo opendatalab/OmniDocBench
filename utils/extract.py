@@ -1,8 +1,15 @@
 import re
 import os
 import json
+import copy
 #from  modules.table_utils import convert_markdown_to_html #end
-from  table_utils import convert_markdown_to_html
+from  utils.table_utils import convert_markdown_to_html
+import re
+import unicodedata
+from pylatexenc.latexencode import unicode_to_latex
+# from pylatexenc.latex2text import LatexNodes2Text
+from pylatexenc.latexwalker import LatexWalker, LatexEnvironmentNode, LatexCharsNode, LatexGroupNode, LatexMacroNode
+
 # math reg
 display_reg = re.compile(
     r'\\begin{equation\*?}(.*?)\\end{equation\*?}|'
@@ -42,11 +49,13 @@ title_reg = re.compile(
 
 # img
 img_pattern = r'!\[.*?\]\(.*?\)'
+
 # code block
 code_block_reg = re.compile(
     r'```(\w+)\n(.*?)```',
     re.DOTALL
 )
+
 def remove_markdown_fences(content):
     content = re.sub(r'^```markdown\n?', '', content, flags=re.MULTILINE)
     content = re.sub(r'```\n?$', '', content, flags=re.MULTILINE)
@@ -57,25 +66,99 @@ def standardize_underscores(content):
     content = re.sub(r'_{5,}', '____', content)
     return content
 
+# 特殊Unicode处理
+def fullwidth_to_halfwidth(s):
+    result = []
+    for char in s:
+        code = ord(char)
+        # 全角空格转换为半角空格
+        if code == 0x3000:
+            code = 0x0020
+        # 其他全角字符转换为半角字符
+        elif 0xFF01 <= code <= 0xFF5E:
+            code -= 0xFEE0
+        result.append(chr(code))
+    return ''.join(result)
+
+def find_special_unicode(s):
+    special_chars = {}
+    for char in s:
+        if ord(char) > 127:  # 非 ASCII 字符
+            # unicode_name = unicodedata.name(char, None)
+            unicode_name = unicodedata.category(char)
+            special_chars[char] = f'U+{ord(char):04X} ({unicode_name})'
+    return special_chars
+
+# 定义要替换的Unicode字符和替换后的内容的字典
+unicode_replacements = {
+    "\u00A9": r"$\copyright$",  # 版权符号©替换为latex
+    "\u00AE": r"$^\circledR$",  # 注册商标符号®替换为latex
+    "\u2122": r"$^\text{TM}$",   # 商标符号™替换latex
+    "\u2018": "'",             # 左单引号转直引号
+    "\u2019": "'",             # 右单引号转直引号
+    "\u201C": "\"",            # 左双引号转直双引号
+    "\u201D": "\"",            # 右双引号转直双引号
+    "\u2013": "-",             # 短破折号转连字符
+    "\u2014": "-",             # 长破折号转连字符
+    "\u2026": "...",           # Unicode 省略号转三个点
+    "\u2103": r"$\textdegree C$",  # ℃
+    "\u03B1": r"$\alpha$",         # α
+    "\u03B2": r"$\beta$",          # β
+    "\u03A3": r"$\Sigma$",         # Σ
+}
+
+# 使用正则表达式替换Unicode字符
+def replace_unicode(match):
+    char = match.group(0)
+    return unicode_replacements.get(char, char)
+
 def md_tex_filter(content):
     '''
     Input: 1 page md or tex content - String
     Output: text, display, inline, table, title, code - list
     '''
-    content = re.sub(img_pattern, '', content)
-    content=remove_markdown_fences(content)
-    content = standardize_underscores(content) 
-    # extract tables in latex and html
-    table_array = []
-    table_matches = table_reg.finditer(content)
-    tables = ""
-    for match in table_matches:
-        matched = match.group(0)
-        if matched:
-            tables += matched
-            tables += "\n\n"
-            table_array.append(matched)
-            content = content.replace(matched, '')
+
+    content = re.sub(img_pattern, '', content)  # 去除图片
+    content = remove_markdown_fences(content)   # 去除开头的markdown标记，若有
+    content = standardize_underscores(content) # 下划线标准化处理
+    
+    # 使用正则表达式对unicode进行替换
+    special_unicode = ''.join(unicode_replacements.keys())
+    content = re.sub(f'[{special_unicode}]', replace_unicode, content)
+
+    content = fullwidth_to_halfwidth(content)  # 全角转半角，TODO: GT也需要做这个操作
+
+    # pylatexenc的unicode转latex
+    content = unicode_to_latex(content, unknown_char_warning=False)
+    # markdown_table_content[i, j] = LatexNodes2Text().latex_to_text(content_str)
+    content_ori = copy.deepcopy(content)
+
+    # 提取latex表格 
+    latex_table_array, table_positions = extract_tex_table(content)
+
+    # 按照位置顺序从后向前删除，以免影响未处理的起始位置
+    for start, end in sorted(table_positions, reverse=True):
+        content = content[:start] + content[end:]  # 删除表格内容
+
+    # 提取html表格
+    html_table_array = []
+    html_table_matches = html_table_reg.findall(content)
+    if html_table_matches:
+        for match in html_table_matches:
+            html_table_array.append(match.strip())
+            content = content.replace(match, '')
+
+    # # extract tables in latex and html
+    # table_array = []
+    # table_matches = table_reg.finditer(content)
+    # tables = ""
+    # for match in table_matches:
+    #     matched = match.group(0)
+    #     if matched:
+    #         tables += matched
+    #         tables += "\n\n"
+    #         table_array.append(matched)
+    #         content = content.replace(matched, '')
   
     # extract interline formula
     display_matches = display_reg.finditer(content)
@@ -100,9 +183,18 @@ def md_tex_filter(content):
         html_table_matches = html_table_reg.findall(content)
         if html_table_matches:
             for match in html_table_matches:
-                table_array.append(match.strip())
+                html_table_array.append(match.strip())
                 content = content.replace(match, '')
                 # print('content after removing the md table:', content)
+
+    # extract code blocks
+    code_array = []
+    code_matches = code_block_reg.finditer(content)
+    for match in code_matches:
+        language = match.group(1)
+        code = match.group(2).strip()
+        code_array.append({'language': language, 'code': code})
+        content = content.replace(match.group(0), '')
 
     # extract titles
     title_matches = title_reg.findall(content)
@@ -111,7 +203,7 @@ def md_tex_filter(content):
         for match in title_matches:
             title_array.append(match.strip('\n').strip('#').strip(' '))
             content = content.replace(match, '')
-            # print('content after removing the titles:', content)
+            print('content after removing the titles:', content)
     
     # extract texts
     res = content.split('\n\n')
@@ -122,27 +214,58 @@ def md_tex_filter(content):
         text = text.strip('\n')
         if text:  # Check if the stripped text is not empty
             if text.startswith('<table') and text.endswith('</table>'):
-                table_array.append(text)
+                html_table_array.append(text)
             elif text.startswith('#') and '\n' not in text:
                 title_array.append(text)
-            # elif text.startswith('$') and text.endswith('$'):
-            #     formula_array.append(text)
+            elif text.startswith('$') and text.endswith('$'):
+                display_array.append(text)
             else:
                 text_array.append(text)
                 # if '$' in text:
                 #     for formula in re.findall(r'\$(.*?)\$', text):
                 #         formula_array.append(formula)
-
-    # extract code blocks
-    code_array = []
-    code_matches = code_block_reg.finditer(content)
-    for match in code_matches:
-        language = match.group(1)
-        code = match.group(2).strip()
-        code_array.append({'language': language, 'code': code})
-        content = content.replace(match.group(0), '')
+    pred_dataset = {'text_all': [], 'equation_isolated': [], 'latex_table': [], 'html_table': []}
+    pred_all = []
+    content_ori = re.escape(content_ori)
+    for item_list, category_type in zip([text_array, display_array, code_array, title_array], ['text_block', 'equation_isolated', 'code_text', 'title']):
+        if item_list:
+            for item in item_list:
+                item_escape = re.escape(item)
+                fs = re.finditer(item_escape, content_ori)
+                # except:
+                #     print('Trouble: ', item)
+                #     print('-'*20)
+                for f in fs:
+                    position = int(f.start())
+                    content_ori = re.sub(item_escape, ' '*len(item_escape), content_ori, count=1)
+                    pred_all.append({
+                        'category_type': category_type,
+                        'position': position,
+                        'content': item
+                    })
+                    break
+    pred_all = sorted(pred_all, key=lambda x: x['position'])
+    for item in pred_all:
+        if item['category_type'] == 'equation_isolated':
+            pred_dataset['equation_isolated'].append(item)
+        else:
+            pred_dataset['text_all'].append(item)
+    
+    for item in latex_table_array:
+        pred_dataset['latex_table'].append({
+            'category_type': 'table',
+            'position': 0,   # 目前表格的position没有考虑，主要是因为md表格不好找
+            'content': item
+        })
+    
+    for item in html_table_array:
+        pred_dataset['html_table'].append({
+            'category_type': 'table',
+            'position': 0,
+            'content': item
+        })
         
-    return text_array, display_array, table_array, title_array, code_array
+    return pred_dataset
 
 
 # def replace_or_extract(match):

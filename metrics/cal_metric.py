@@ -62,12 +62,14 @@ class call_Edit_dist():
     def evaluate(self):
         lev_dist = []
         gt_len = 0
+        pred_len = 0
         for sample in self.samples:
             lev_dist.append(Levenshtein.distance(sample['pred'], sample['gt']))
             gt_len += len(sample['gt'])
+            pred_len += len(sample['pred'])
         
-        if gt_len != 0:
-            Edit_dist = sum(lev_dist) / gt_len
+        if gt_len != 0 or pred_len != 0:
+            Edit_dist = sum(lev_dist) / max(gt_len, pred_len)
         else:
             Edit_dist = 0
 
