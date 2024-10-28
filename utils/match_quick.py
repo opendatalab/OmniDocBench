@@ -4,7 +4,7 @@ import Levenshtein
 import numpy as np
 import re
 # from modules.extract import inline_filter #end
-from modules.extract import inline_filter
+from utils.extract import inline_filter
 import os
 import json
 from collections import defaultdict, Counter
@@ -58,7 +58,7 @@ def normalized_formula(text):
     return text
 
 
-def match_gt2pred(gt_lines, pred_lines, line_type):
+def match_gt2pred_quick(gt_lines, pred_lines, line_type):
     print('--------------------------------------------------------------------------------------------------------------------')
     
     if line_type == 'formula':
@@ -228,8 +228,8 @@ def formula_format(formula_matches, img_name):
         })
     return formated_list
 
-def match_gt2pred_textblock(gt_lines, pred_lines):
-    text_inline_match_s = match_gt2pred(gt_lines, pred_lines, 'text')
+def match_gt2pred_textblock_quick(gt_lines, pred_lines):
+    text_inline_match_s = match_gt2pred_quick(gt_lines, pred_lines, 'text')
     plain_text_match = []
     inline_formula_match = []
     for item in text_inline_match_s:
@@ -250,7 +250,7 @@ def match_gt2pred_textblock(gt_lines, pred_lines):
             })
 
         if inline_gt_list:
-            inline_formula_match_s = match_gt2pred(inline_gt_list, inline_pred_list, 'formula')
+            inline_formula_match_s = match_gt2pred_quick(inline_gt_list, inline_pred_list, 'formula')
             inline_formula_match.extend(inline_formula_match_s)
             
     

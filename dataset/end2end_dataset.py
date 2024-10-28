@@ -65,6 +65,7 @@ class End2EndDataset():
                 "truncated_list": sorted_block
             }
             saved_element_dict[sorted_block[0]["category_type"]].append(merged_block)
+            print('Merged truncated')
             
         return saved_element_dict
     

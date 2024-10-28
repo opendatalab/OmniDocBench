@@ -17,9 +17,9 @@ end2end_eval:
   dataset:
     dataset_name: end2end_dataset
     ground_truth:
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1025.json
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1025_subset.json
     prediction:
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/mathpix
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/mathpix_subset
     match_method: simple_match
     # match_method: quick_match
     # match_method: full_match
