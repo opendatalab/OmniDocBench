@@ -402,18 +402,18 @@ def extract_tex_table(content):
     walker = LatexWalker(content)
     nodes, _, _ = walker.get_latex_nodes()
 
-    tables = []  # 用于存储提取的表格
-    positions = []  # 用于存储表格的起始和结束位置
+    tables = []
+    positions = []
 
-    # 遍历节点，查找所有 'tabular' 环境
     for node in nodes:
-        if isinstance(node, LatexEnvironmentNode) and node.environmentname == 'tabular':
+        if isinstance(node, LatexEnvironmentNode) and (
+            node.environmentname == 'tabular' or node.environmentname == 'table'):
             # table_latex = extract_node_content(node)
             table_latex = content[node.pos:node.pos_end]
             tables.append(table_latex)
-            start_pos = node.pos  # 表格的起始位置
-            end_pos = get_node_end_pos(node)  # 获取表格的结束位置
-            positions.append((start_pos, end_pos))  # 记录表格的起始和结束位置
+            start_pos = node.pos
+            end_pos = get_node_end_pos(node)
+            positions.append((start_pos, end_pos))
 
     return tables, positions
 

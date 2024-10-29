@@ -59,6 +59,8 @@ def normalized_formula(text):
 
 
 def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
+
+    norm_html_lines = []
     gt_lines = []
     gt_cat_list = []
     for item in gt_items:
@@ -71,6 +73,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             gt_lines.append(str(item['html']))
         elif line_type == 'latex_table':
             gt_lines.append(str(item['latex']))
+            norm_html_lines.append(str(item['html']))
         
     if line_type == 'formula':
         norm_gt_lines = [normalized_formula(_) for _ in gt_lines]
@@ -83,6 +86,9 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
     else:
         norm_pred_lines = pred_lines
 
+    if line_type == 'latex_table':
+        gt_lines = norm_html_lines
+
     all_gt_indices = set(range(len(norm_gt_lines)))  
     #print('-----------all_gt_indices----------',all_gt_indices)
     all_pred_indices = set(range(len(norm_pred_lines)))  
@@ -94,10 +100,10 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
     #     print('--------------norm_gt_lines{i}--------------',norm_gt_lines[i])
     def get_pred_pred_category_type(pred_idx, pred_items):
         if pred_idx != -1:
-                if pred_items[pred_idx].get('fine_category_type'):
-                    pred_pred_category_type = pred_items[pred_idx]['fine_category_type']
-                else:
-                    pred_pred_category_type = pred_items[pred_idx]['category_type']
+            if pred_items[pred_idx].get('fine_category_type'):
+                pred_pred_category_type = pred_items[pred_idx]['fine_category_type']
+            else:
+                pred_pred_category_type = pred_items[pred_idx]['category_type']
         else:
             pred_pred_category_type = ""
         return pred_pred_category_type
