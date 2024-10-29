@@ -4,6 +4,8 @@ import Levenshtein
 import numpy as np
 import re
 from utils.extract import inline_filter
+import sys
+import pdb
 
 
 def compute_edit_distance_matrix_new(gt_lines, matched_lines):
@@ -56,45 +58,49 @@ def normalized_formula(text):
 
 
 def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
-    norm_gt_lines = []
+
     norm_html_lines = []
+    gt_lines = []
     gt_cat_list = []
     for item in gt_items:
         gt_cat_list.append(item['category_type'])
         if item.get('content'):
-            norm_gt_lines.append(str(item['content']))
-        elif line_type == 'text':
-            norm_gt_lines.append(str(item['text']))
-        elif line_type in 'html_table':
-            norm_gt_lines.append(str(item['html']))
+            gt_lines.append(str(item['content']))
+        elif line_type == 'text' or line_type == 'formula':   # TODO: 要把formula换成latex
+            gt_lines.append(str(item['text']))
+        elif line_type == 'html_table':
+            gt_lines.append(str(item['html']))
         elif line_type == 'latex_table':
-            norm_gt_lines.append(str(item['latex']))
+            gt_lines.append(str(item['latex']))
             norm_html_lines.append(str(item['html']))
-        elif line_type == 'formula':
-            # norm_gt_lines.append(normalized_formula(str(item['latex'])))
-            norm_gt_lines.append(normalized_formula(str(item.get('text', ""))))
-    
+        
     if line_type == 'formula':
-        norm_pred_lines = [normalized_formula(str(item['content'])) for item in pred_items]
+        norm_gt_lines = [normalized_formula(_) for _ in gt_lines]
     else:
-        norm_pred_lines = [str(item['content']) for item in pred_items]
+        norm_gt_lines = gt_lines
+    
+    pred_lines = [str(item['content']) for item in pred_items]
+    if line_type == 'formula':
+        norm_pred_lines = [normalized_formula(_) for _ in pred_lines]
+    else:
+        norm_pred_lines = pred_lines
     
     cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
     if line_type == 'latex_table':
-        norm_gt_lines = norm_html_lines
+        gt_lines = norm_html_lines
 
     row_ind, col_ind = linear_sum_assignment(cost_matrix)
 
     match_list = []
     for gt_idx in range(len(norm_gt_lines)):
-        gt_line = norm_gt_lines[gt_idx]
+        gt_line = gt_lines[gt_idx]
         # print('gt_idx', gt_idx)
         # print('new gt: ', gt_line)
 
         if gt_idx in row_ind:
             row_i = list(row_ind).index(gt_idx)
             pred_idx = int(col_ind[row_i])
-            pred_line = norm_pred_lines[pred_idx]
+            pred_line = pred_lines[pred_idx]
             edit = cost_matrix[gt_idx][pred_idx]
             # print('edit_dist', edit)
             # if edit > 0.7:
@@ -105,11 +111,6 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
             pred_line = ""
             edit = 1
         
-        if pred_idx != -1:
-            try:
-                pred_items[pred_idx]['position']
-            except:
-                print(pred_items[pred_idx])
         # print(type(gt_idx))
         # print(type(pred_idx))
         if pred_idx != -1:
@@ -136,25 +137,24 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
     for pred_idx in range(len(norm_pred_lines)):  # 把没有任何匹配的pred也加上计算
         if pred_idx in col_ind:
             continue
-        pred_line = norm_pred_lines[pred_idx]
+        pred_line = pred_lines[pred_idx]
         # print('gt_idx', gt_idx)
         # print('new gt: ', gt_line)
         if pred_items[pred_idx].get('fine_category_type'):
             pred_pred_category_type = pred_items[pred_idx]['fine_category_type']
         else:
             pred_pred_category_type = pred_items[pred_idx]['category_type']
-        if pred_idx in col_ind:
-            match_list.append({
-                'gt_idx': -1,
-                'gt': "",
-                'gt_category_type': "",
-                'pred_idx': pred_idx,
-                'pred': pred_line,
-                'pred_category_type': pred_pred_category_type,
-                'pred_position': pred_items[pred_idx]['position'][0],
-                'edit': 1,
-                'img_id': img_name
-            })
+        match_list.append({
+            'gt_idx': -1,
+            'gt': "",
+            'gt_category_type': "",
+            'pred_idx': pred_idx,
+            'pred': pred_line,
+            'pred_category_type': pred_pred_category_type,
+            'pred_position': pred_items[pred_idx]['position'][0],
+            'edit': 1,
+            'img_id': img_name
+        })
     
     return match_list
 
@@ -164,7 +164,10 @@ def match_gt2pred_textblock_simple(gt_items, pred_lines, img_name):
     plain_text_match = []
     inline_formula_match = []
     for item in text_inline_match_s:
+        # print('GT')
         plaintext_gt, inline_gt_items = inline_filter(item['gt'])  # TODO:这个后续最好是直接从span里提取出来
+        # print('Pred')
+        # print(item['pred'])
         plaintext_pred, inline_pred_items = inline_filter(item['pred'])
         # print('inline_pred_list', inline_pred_list)
         # print('plaintext_pred: ', plaintext_pred)
@@ -187,8 +190,8 @@ def match_gt2pred_textblock_simple(gt_items, pred_lines, img_name):
         if inline_gt_items or inline_pred_items:
             # inline_gt_items = [{'category_type': 'equation_inline', 'latex': line} for line in inline_gt_list]
             # inline_pred_items = [{'category_type': 'equation_inline', 'content': line} for line in inline_pred_list]
-            print('inline_gt_items: ', inline_gt_items)
-            print('inline_pred_items: ', inline_pred_items)
+            # print('inline_gt_items: ', inline_gt_items)
+            # print('inline_pred_items: ', inline_pred_items)
             inline_formula_match_s = match_gt2pred_simple(inline_gt_items, inline_pred_items, 'formula', img_name)
             inline_formula_match.extend(inline_formula_match_s)
 
