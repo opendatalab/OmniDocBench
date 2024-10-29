@@ -9,6 +9,7 @@ from utils.read_files import read_md_file
 from registry.registry import DATASET_REGISTRY
 from dataset.recog_dataset import *
 import pdb
+import Levenshtein
 
 @DATASET_REGISTRY.register("end2end_dataset")
 class End2EndDataset():
@@ -102,13 +103,19 @@ class End2EndDataset():
         return filted_items
 
     def get_order_paired(self, order_match_s, img_name):
-        matched = [(item['gt_idx'], item['pred_position']) for item in order_match_s]
-        read_order_gt = [i[0] for i in sorted(matched, key=lambda x: x[0])]   # 以GT的idx来sort，获取GT排序的GT_idx
+        matched = [(item['gt_position'], item['pred_position']) for item in order_match_s]
+        # read_order_gt = [i[0] for i in sorted(matched, key=lambda x: x[0])]   # 以GT的idx来sort，获取GT排序的GT_idx
+        print(matched)
         read_order_pred = [i[0] for i in sorted(matched, key=lambda x: x[1])]  # 以pred的idx来sort，获取Pred排序的GT_idx
+        read_order_gt = sorted(read_order_pred) # 以GT的idx来sort，获取GT排序的GT_idx
+        gt = sum(read_order_gt, []) # 转成一个一维list
+        pred = sum(read_order_pred, [])
+        edit = Levenshtein.distance(gt, pred)/max(len(pred), len(gt))
         return {
-            'gt': read_order_gt,
-            'pred': read_order_pred,
-            'img_id': img_name
+            'gt': gt,  
+            'pred': pred,
+            'img_id': img_name,
+            'edit': edit
         }
 
     def formula_format(self, formula_matches, img_name):

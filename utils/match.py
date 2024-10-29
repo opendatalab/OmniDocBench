@@ -119,12 +119,13 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
             else:
                 pred_pred_category_type = pred_items[pred_idx]['category_type']
         else:
-            pred_pred_category_type = -1
+            pred_pred_category_type = ""
         match_list.append({
-            'gt_idx': gt_idx,
+            'gt_idx': [gt_idx],
             'gt': gt_line,
             'gt_category_type': gt_cat_list[gt_idx],
-            'pred_idx': pred_idx,
+            'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]],
+            'pred_idx': [pred_idx],
             'pred': pred_line,
             'pred_category_type': pred_pred_category_type,
             'pred_position': pred_items[pred_idx]['position'][0] if pred_idx != -1 else -1,
@@ -145,10 +146,11 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
         else:
             pred_pred_category_type = pred_items[pred_idx]['category_type']
         match_list.append({
-            'gt_idx': -1,
+            'gt_idx': [-1],
             'gt': "",
             'gt_category_type': "",
-            'pred_idx': pred_idx,
+            'gt_position': [-1],
+            'pred_idx': [pred_idx],
             'pred': pred_line,
             'pred_category_type': pred_pred_category_type,
             'pred_position': pred_items[pred_idx]['position'][0],
@@ -175,10 +177,16 @@ def match_gt2pred_textblock_simple(gt_items, pred_lines, img_name):
         # plaintext_pred = plaintext_pred.replace(' ', '')
         if plaintext_gt or plaintext_pred:
             edit = Levenshtein.distance(plaintext_gt, plaintext_pred)/max(len(plaintext_pred), len(plaintext_gt))
+            if item['gt_idx'][0] == -1:
+                gt_position = [-1]
+            else:
+                gt_idx = item['gt_idx'][0]
+                gt_position = [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]]
             plain_text_match.append({
                 'gt_idx': item['gt_idx'],
                 'gt': plaintext_gt,
                 'gt_category_type': item['gt_category_type'],
+                'gt_position': gt_position,
                 'pred_idx': item['pred_idx'],
                 'pred': plaintext_pred,
                 'pred_category_type': item['pred_category_type'],

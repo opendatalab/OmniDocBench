@@ -58,16 +58,31 @@ def normalized_formula(text):
     return text
 
 
-def match_gt2pred_quick(gt_lines, pred_lines, line_type):
-    print('--------------------------------------------------------------------------------------------------------------------')
-    
+def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
+    gt_lines = []
+    gt_cat_list = []
+    for item in gt_items:
+        gt_cat_list.append(item['category_type'])
+        if item.get('content'):
+            gt_lines.append(str(item['content']))
+        elif line_type == 'text' or line_type == 'formula':   # TODO: 要把formula换成latex
+            gt_lines.append(str(item['text']))
+        elif line_type == 'html_table':
+            gt_lines.append(str(item['html']))
+        elif line_type == 'latex_table':
+            gt_lines.append(str(item['latex']))
+        
     if line_type == 'formula':
-        norm_gt_lines = [normalized_formula(str(line)) for line in gt_lines]
-        norm_pred_lines = [normalized_formula(str(line)) for line in pred_lines]
-
+        norm_gt_lines = [normalized_formula(_) for _ in gt_lines]
     else:
-        norm_gt_lines = [str(line) for line in gt_lines]
-        norm_pred_lines = [str(line) for line in pred_lines]
+        norm_gt_lines = gt_lines
+
+    pred_lines = [str(item['content']) for item in pred_items]
+    if line_type == 'formula':
+        norm_pred_lines = [normalized_formula(_) for _ in pred_lines]
+    else:
+        norm_pred_lines = pred_lines
+
     all_gt_indices = set(range(len(norm_gt_lines)))  
     #print('-----------all_gt_indices----------',all_gt_indices)
     all_pred_indices = set(range(len(norm_pred_lines)))  
@@ -77,35 +92,68 @@ def match_gt2pred_quick(gt_lines, pred_lines, line_type):
     #     print('--------------norm_pred_lines{i}--------------',norm_pred_lines[i])
     # for i in range(len(norm_gt_lines)):
     #     print('--------------norm_gt_lines{i}--------------',norm_gt_lines[i])
-    if not norm_gt_lines :
+    def get_pred_pred_category_type(pred_idx, pred_items):
+        if pred_idx != -1:
+                if pred_items[pred_idx].get('fine_category_type'):
+                    pred_pred_category_type = pred_items[pred_idx]['fine_category_type']
+                else:
+                    pred_pred_category_type = pred_items[pred_idx]['category_type']
+        else:
+            pred_pred_category_type = ""
+        return pred_pred_category_type
+    
+    if not norm_gt_lines:
+        match_list = []
         print("One of the lists is empty. Returning an empty gt result.")
-        return [{
-                'gt_idx': 0,
-                'gt': None,
-                'pred_idx': str([0]),
-                'pred': norm_pred_lines[0],
-                'edit': 1
-            }]
+        for pred_idx in range(len(norm_pred_lines)):
+            match_list.append({
+                    'gt_idx': [-1],
+                    'gt': "",
+                    'gt_category_type': "",
+                    'gt_position': -1,
+                    'pred_idx': [pred_idx],
+                    'pred': pred_lines[pred_idx],
+                    'pred_category_type': get_pred_pred_category_type(pred_idx, pred_items),
+                    'pred_position': pred_items[pred_idx]['position'][0],
+                    'edit': 1,
+                    'img_id': img_name
+                })
+        return match_list
     elif not norm_pred_lines:
         print("One of the lists is empty. Returning an empty pred result.")
-        return [{
-                'gt_idx': 0,
-                'gt': norm_gt_lines[0],
-                'pred_idx': str([0]),
-                'pred': None,
-                'edit': 1
-            }]
+        match_list = []
+        for gt_idx in range(len(norm_gt_lines)):
+            match_list.append({
+                    'gt_idx': [gt_idx],
+                    'gt': gt_lines[gt_idx],
+                    'gt_category_type': gt_cat_list[gt_idx],
+                    'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]],
+                    'pred_idx': [-1],
+                    'pred': "",
+                    'pred_category_type': "",
+                    'pred_position': -1,
+                    'edit': 1,
+                    'img_id': img_name
+                })
+        return match_list
     elif len(norm_gt_lines) == 1 and len(norm_pred_lines) == 1:
         edit_distance = Levenshtein.distance(norm_gt_lines[0], norm_pred_lines[0])
         normalized_edit_distance = edit_distance / max(len(norm_gt_lines[0]), len(norm_pred_lines[0]))
         print("Both lists have only one element. Matching them directly.")
-        return [ {
-                'gt_idx': 0,
-                'gt': norm_gt_lines[0],
-                'pred_idx': str([0]),
-                'pred': norm_pred_lines[0],
-                'edit': normalized_edit_distance
-            }]
+        if not gt_items[0].get('order'):
+            print(gt_items[0])
+        return [{
+            'gt_idx': [0],
+            'gt': gt_lines[0],
+            'gt_category_type': gt_cat_list[0],
+            'gt_position': [gt_items[0].get('order') if gt_items[0].get('order') else gt_items[0].get('position', [-1])[0]],
+            'pred_idx': [0],
+            'pred': pred_lines[0],
+            'pred_category_type': get_pred_pred_category_type(0, pred_items),
+            'pred_position': pred_items[0]['position'][0],
+            'edit': normalized_edit_distance,
+            'img_id': img_name
+        }]
     
     cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
     matched_col_idx, row_ind, cost_list = cal_final_match(cost_matrix, norm_gt_lines, norm_pred_lines)
@@ -128,7 +176,14 @@ def match_gt2pred_quick(gt_lines, pred_lines, line_type):
     for entry in merged_results:
         entry['gt_idx'] = [entry['gt_idx']] if isinstance(entry['gt_idx'], int) else entry['gt_idx']
         entry['pred_idx'] = [entry['pred_idx']] if isinstance(entry['pred_idx'], int) else entry['pred_idx']
-        print('--------entry------',entry)
+        entry['gt'] = '\n'.join([gt_lines[_] for _ in entry['gt_idx']])
+        entry['pred'] = '\n'.join([pred_lines[_] for _ in entry['pred_idx']])
+        entry['gt_position'] = [gt_items[_].get('order') if gt_items[_].get('order') else gt_items[_].get('position', [-1])[0] for _ in entry['gt_idx']]
+        entry['gt_category_type'] = gt_cat_list[entry['gt_idx'][0]]  # 用GT的第一个元素的类别
+        entry['pred_category_type'] = get_pred_pred_category_type(entry['pred_idx'][0], pred_items) if entry['pred_idx'] else "" # 用Pred的第一个元素的类别
+        entry['pred_position'] = pred_items[entry['pred_idx'][0]]['position'][0] if entry['pred_idx'] else -1
+        entry['img_id'] = img_name
+        # print('--------entry------', entry)
     
     return merged_results
     # row_ind, col_ind = linear_sum_assignment(cost_matrix)
@@ -228,32 +283,43 @@ def formula_format(formula_matches, img_name):
         })
     return formated_list
 
-def match_gt2pred_textblock_quick(gt_lines, pred_lines):
-    text_inline_match_s = match_gt2pred_quick(gt_lines, pred_lines, 'text')
+def match_gt2pred_textblock_quick(gt_items, pred_lines, img_name):
+    text_inline_match_s = match_gt2pred_quick(gt_items, pred_lines, 'text', img_name)
     plain_text_match = []
     inline_formula_match = []
     for item in text_inline_match_s:
-        plaintext_gt, inline_gt_list = inline_filter(item['gt'])  # 这个后续最好是直接从span里提取出来
-        plaintext_pred, inline_pred_list = inline_filter(item['pred'])
+        # print('GT')
+        plaintext_gt, inline_gt_items = inline_filter(item['gt'])  # TODO:这个后续最好是直接从span里提取出来
+        # print('Pred')
+        # print(item['pred'])
+        plaintext_pred, inline_pred_items = inline_filter(item['pred'])
         # print('inline_pred_list', inline_pred_list)
         # print('plaintext_pred: ', plaintext_pred)
-        plaintext_gt = plaintext_gt.replace(' ', '')
-        plaintext_pred = plaintext_pred.replace(' ', '')
+        # plaintext_gt = plaintext_gt.replace(' ', '')
+        # plaintext_pred = plaintext_pred.replace(' ', '')
         if plaintext_gt or plaintext_pred:
             edit = Levenshtein.distance(plaintext_gt, plaintext_pred)/max(len(plaintext_pred), len(plaintext_gt))
             plain_text_match.append({
                 'gt_idx': item['gt_idx'],
                 'gt': plaintext_gt,
+                'gt_category_type': item['gt_category_type'],
+                'gt_position': [gt_items[_]['order'] if _ != -1 else -1 for _ in item['gt_idx']],
                 'pred_idx': item['pred_idx'],
                 'pred': plaintext_pred,
-                'edit': edit
+                'pred_category_type': item['pred_category_type'],
+                'pred_position': item['pred_position'],
+                'edit': edit,
+                'img_id': img_name
             })
 
-        if inline_gt_list:
-            inline_formula_match_s = match_gt2pred_quick(inline_gt_list, inline_pred_list, 'formula')
+        if inline_gt_items or inline_pred_items:
+            # inline_gt_items = [{'category_type': 'equation_inline', 'latex': line} for line in inline_gt_list]
+            # inline_pred_items = [{'category_type': 'equation_inline', 'content': line} for line in inline_pred_list]
+            # print('inline_gt_items: ', inline_gt_items)
+            # print('inline_pred_items: ', inline_pred_items)
+            inline_formula_match_s = match_gt2pred_quick(inline_gt_items, inline_pred_items, 'formula', img_name)
             inline_formula_match.extend(inline_formula_match_s)
-            
-    
+
     return plain_text_match, inline_formula_match
 
 def merge_lists_with_sublists(main_list, sub_lists):
@@ -1004,30 +1070,30 @@ def convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines):
 #             })
     
 #     return merged_results
-if __name__ == "__main__":
-    file_name='merge_split_example.txt'
-    with open(f"/mnt/petrelfs/zhujiawei/Projects/pdf_validation-add_fuzzy_match3/test_match/match_gt/{file_name}") as f:
-        gts = f.readlines()
-    with open(f"/mnt/petrelfs/zhujiawei/Projects/pdf_validation-add_fuzzy_match3/test_match/match_pred/{file_name}") as f:
-        predications = f.readlines()
-    norm_gt_lines = [normalized_formula(line) for line in gts]  
-    norm_pred_lines = [normalized_formula(line) for line in predications]  
-    cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
+# if __name__ == "__main__":
+#     file_name='merge_split_example.txt'
+#     with open(f"/mnt/petrelfs/zhujiawei/Projects/pdf_validation-add_fuzzy_match3/test_match/match_gt/{file_name}") as f:
+#         gts = f.readlines()
+#     with open(f"/mnt/petrelfs/zhujiawei/Projects/pdf_validation-add_fuzzy_match3/test_match/match_pred/{file_name}") as f:
+#         predications = f.readlines()
+#     norm_gt_lines = [normalized_formula(line) for line in gts]  
+#     norm_pred_lines = [normalized_formula(line) for line in predications]  
+#     cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
     
-    matched_col_idx, row_ind, cost_list = cal_final_match(cost_matrix, norm_gt_lines, norm_pred_lines)  
-    #print('cost_matrix',cost_matrix)
-    gt_lens_dict, pred_lens_dict = initialize_indices(norm_gt_lines, norm_pred_lines)
-    matches, unmatched_gt_indices, unmatched_pred_indices = process_matches(
-        matched_col_idx, row_ind, cost_list, norm_gt_lines, norm_pred_lines, predications)
-    matching_dict = fuzzy_match_unmatched_items(unmatched_gt_indices, norm_gt_lines, norm_pred_lines)
-    final_matches = merge_matches(matches, matching_dict)
-    recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_pred_lines)
+#     matched_col_idx, row_ind, cost_list = cal_final_match(cost_matrix, norm_gt_lines, norm_pred_lines)  
+#     #print('cost_matrix',cost_matrix)
+#     gt_lens_dict, pred_lens_dict = initialize_indices(norm_gt_lines, norm_pred_lines)
+#     matches, unmatched_gt_indices, unmatched_pred_indices = process_matches(
+#         matched_col_idx, row_ind, cost_list, norm_gt_lines, norm_pred_lines, predications)
+#     matching_dict = fuzzy_match_unmatched_items(unmatched_gt_indices, norm_gt_lines, norm_pred_lines)
+#     final_matches = merge_matches(matches, matching_dict)
+#     recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_pred_lines)
     
-    print_final_results(final_matches)
-    converted_final_matches = convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines)
-    merged_results = merge_duplicates(converted_final_matches, norm_gt_lines)
+#     print_final_results(final_matches)
+#     converted_final_matches = convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines)
+#     merged_results = merge_duplicates(converted_final_matches, norm_gt_lines)
     
-    #merged_matches = merge_matching_results(converted_final_matches)
-    for entry in merged_results:
-        print(entry)
+#     #merged_matches = merge_matching_results(converted_final_matches)
+#     for entry in merged_results:
+#         print(entry)
     

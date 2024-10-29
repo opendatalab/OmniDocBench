@@ -20,6 +20,6 @@ end2end_eval:
       data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1025_subset.json
     prediction:
       data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/mathpix_subset
-    match_method: simple_match
-    # match_method: quick_match
+    # match_method: simple_match
+    match_method: quick_match
     # match_method: full_match
