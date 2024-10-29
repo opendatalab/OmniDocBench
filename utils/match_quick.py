@@ -287,6 +287,7 @@ def sub_pred_fuzzy_matching(gt, pred):
         return min_d
     else:
         return False
+        
 def sub_gt_fuzzy_matching(pred, gt):  
     
     min_d = float('inf')  
@@ -310,6 +311,7 @@ def sub_gt_fuzzy_matching(pred, gt):
     else:  
         # 如果没有找到匹配，返回相应的信息  
         return 1, -1, gt_len, "" 
+        
 def get_final_subset(subset_certain, subset_certain_cost):
     if not subset_certain or not subset_certain_cost:
         return []  
@@ -498,6 +500,7 @@ def deal_with_truncated(cost_matrix, norm_gt_lines, norm_pred_lines):
     new_cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, final_norm_pred_lines)
 
     return new_cost_matrix, final_norm_pred_lines, final_pred_idx_list
+    
 def cal_move_dist(gt, pred):
     # 计算阅读顺序移动距离
     assert len(gt) == len(pred), 'Not right length'
@@ -625,67 +628,69 @@ def merge_matches(matches, matching_dict):
             }
 
     return final_matches
+    
 # def merge_matches(matches, matching_dict, all_gt_indices, all_pred_indices):
 
-    final_matches = {}
-    unmatched_gt_indices = set(all_gt_indices)  # 初始化所有gt索引为未匹配状态
-    unmatched_pred_indices = set(all_pred_indices)  # 初始化所有pred索引为未匹配状态
+    # final_matches = {}
+    # unmatched_gt_indices = set(all_gt_indices)  # 初始化所有gt索引为未匹配状态
+    # unmatched_pred_indices = set(all_pred_indices)  # 初始化所有pred索引为未匹配状态
 
-    # 合并matches字典中的匹配项
-    for gt_idx, match_info in matches.items():
-        pred_indices = match_info['pred_indices']
-        edit_distance = match_info['edit_distance']
+    # # 合并matches字典中的匹配项
+    # for gt_idx, match_info in matches.items():
+    #     pred_indices = match_info['pred_indices']
+    #     edit_distance = match_info['edit_distance']
 
-        pred_key = tuple(sorted(pred_indices))
+    #     pred_key = tuple(sorted(pred_indices))
         
-        # 标记pred索引为已匹配
-        unmatched_pred_indices -= set(pred_indices)
+    #     # 标记pred索引为已匹配
+    #     unmatched_pred_indices -= set(pred_indices)
 
-        if pred_key in final_matches:
-            final_matches[pred_key]['gt_indices'].append(gt_idx)
-        else:
-            final_matches[pred_key] = {
-                'gt_indices': [gt_idx],
-                'edit_distance': edit_distance
-            }
+    #     if pred_key in final_matches:
+    #         final_matches[pred_key]['gt_indices'].append(gt_idx)
+    #     else:
+    #         final_matches[pred_key] = {
+    #             'gt_indices': [gt_idx],
+    #             'edit_distance': edit_distance
+    #         }
         
-        # 移除已匹配的gt_idx
-        unmatched_gt_indices.remove(gt_idx)
+    #     # 移除已匹配的gt_idx
+    #     unmatched_gt_indices.remove(gt_idx)
 
-    # 合并matching_dict中的匹配项
-    for pred_idx, gt_indices in matching_dict.items():
-        pred_key = (pred_idx,) if not isinstance(pred_idx, (list, tuple)) else tuple(sorted(pred_idx))
+    # # 合并matching_dict中的匹配项
+    # for pred_idx, gt_indices in matching_dict.items():
+    #     pred_key = (pred_idx,) if not isinstance(pred_idx, (list, tuple)) else tuple(sorted(pred_idx))
         
-        # 标记pred索引为已匹配
-        unmatched_pred_indices -= set([pred_idx])
+    #     # 标记pred索引为已匹配
+    #     unmatched_pred_indices -= set([pred_idx])
 
-        if pred_key in final_matches:
-            final_matches[pred_key]['gt_indices'].extend(gt_indices)
-        else:
-            final_matches[pred_key] = {
-                'gt_indices': gt_indices,
-                'edit_distance': None
-            }
+    #     if pred_key in final_matches:
+    #         final_matches[pred_key]['gt_indices'].extend(gt_indices)
+    #     else:
+    #         final_matches[pred_key] = {
+    #             'gt_indices': gt_indices,
+    #             'edit_distance': None
+    #         }
         
-        # 移除已匹配的gt_indices
-        unmatched_gt_indices -= set(gt_indices)
+    #     # 移除已匹配的gt_indices
+    #     unmatched_gt_indices -= set(gt_indices)
 
-    # 添加未匹配的gt_indices
-    for gt_idx in unmatched_gt_indices:
-        final_matches[()] = {
-            'gt_indices': [gt_idx],
-            'edit_distance': 1
-        } if () not in final_matches else final_matches[()].update({'gt_indices': final_matches[()]['gt_indices'] + [gt_idx], 'edit_distance': 1})
+    # # 添加未匹配的gt_indices
+    # for gt_idx in unmatched_gt_indices:
+    #     final_matches[()] = {
+    #         'gt_indices': [gt_idx],
+    #         'edit_distance': 1
+    #     } if () not in final_matches else final_matches[()].update({'gt_indices': final_matches[()]['gt_indices'] + [gt_idx], 'edit_distance': 1})
 
-    # 添加未匹配的pred_indices
-    for pred_idx in unmatched_pred_indices:
-        pred_key = (pred_idx,) if not isinstance(pred_idx, (list, tuple)) else tuple(sorted(pred_idx))
-        final_matches[pred_key] = {
-            'gt_indices': [],
-            'edit_distance': 1
-        } if pred_key not in final_matches else final_matches[pred_key].update({'gt_indices': final_matches[pred_key]['gt_indices'], 'edit_distance': 1})
+    # # 添加未匹配的pred_indices
+    # for pred_idx in unmatched_pred_indices:
+    #     pred_key = (pred_idx,) if not isinstance(pred_idx, (list, tuple)) else tuple(sorted(pred_idx))
+    #     final_matches[pred_key] = {
+    #         'gt_indices': [],
+    #         'edit_distance': 1
+    #     } if pred_key not in final_matches else final_matches[pred_key].update({'gt_indices': final_matches[pred_key]['gt_indices'], 'edit_distance': 1})
 
-    return final_matches
+    # return final_matches
+
 # def recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_pred_lines):
 #     for pred_key, info in final_matches.items():
 #         gt_indices = sorted(set(info['gt_indices']))
