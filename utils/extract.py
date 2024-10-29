@@ -6,6 +6,7 @@ import copy
 from  utils.table_utils import convert_markdown_to_html
 import re
 import unicodedata
+from bs4 import BeautifulSoup
 from pylatexenc.latexencode import unicode_to_latex
 # from pylatexenc.latex2text import LatexNodes2Text
 from pylatexenc.latexwalker import LatexWalker, LatexEnvironmentNode, LatexCharsNode, LatexGroupNode, LatexMacroNode, LatexSpecialsNode
@@ -149,7 +150,7 @@ def md_tex_filter(content):
         })
         content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
 
-    print('--------After latex table: \n', content)
+    # print('--------After latex table: \n', content)
     # print('-------latex_table_array: \n', latex_table_array)
     
     # 按照位置顺序从后向前删除，以免影响未处理的起始位置
@@ -157,20 +158,29 @@ def md_tex_filter(content):
         # content = content[:start] + content[end:]
 
     # 提取html表格
-    html_table_array = []
-    html_table_matches = html_table_reg.finditer(content)
-    if html_table_matches:
-        for match in html_table_matches:
-            matched = match.group(0)
-            position = [match.start(), match.end()]
-            html_table_array.append(matched.strip())
-            # content = content.replace(matched, ' '*len(matched)) # 替换成空格
-            content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
-            pred_all.append({
-                'category_type': 'html_table',
-                'position': position,
-                'content': matched.strip()
-            })
+    html_table_array, table_positions = extract_html_table(content)
+    for html_table, position in zip(html_table_array, table_positions):
+        position = [position[0], position[0]+len(html_table)]
+        pred_all.append({
+            'category_type': 'html_table',
+            'position': position,
+            'content': matched.strip()
+        })
+        content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
+    # html_table_array = []
+    # html_table_matches = html_table_reg.finditer(content)
+    # if html_table_matches:
+    #     for match in html_table_matches:
+    #         matched = match.group(0)
+    #         position = [match.start(), match.end()]
+    #         html_table_array.append(matched.strip())
+    #         # content = content.replace(matched, ' '*len(matched)) # 替换成空格
+    #         content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
+    #         pred_all.append({
+    #             'category_type': 'html_table',
+    #             'position': position,
+    #             'content': matched.strip()
+    #         })
 
     # print('--------------After html table: \n', content)
     # # extract tables in latex and html
@@ -406,6 +416,23 @@ def extract_tex_table(content):
             positions.append((start_pos, end_pos))  # 记录表格的起始和结束位置
 
     return tables, positions
+
+def extract_html_table(content):
+    soup = BeautifulSoup(content, 'html.parser')
+    all_tables = soup.find_all('table')
+    tables = []
+    positions = []
+    
+    for table in all_tables:
+        if table.find_parent('table') is None:
+            table_str = str(table)
+            start_pos = content.find(table_str)
+            end_pos = start_pos + len(table_str)
+            
+            tables.append(table_str)
+            positions.append((start_pos, end_pos))
+    return tables, positions
+
 
 def extract_node_content(node):
     """ 递归提取LatexEnvironmentNode的内容，重建表格的LaTeX表示 """

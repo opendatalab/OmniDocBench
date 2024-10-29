@@ -199,10 +199,10 @@ class RecognitionTableDataset():
             md_i = process_table_html(md_i)
             table_res = html.unescape(md_i).replace('\\', '').replace('\n', '')
             table_res = unicodedata.normalize('NFKC', table_res).strip()
-            pattern = r'<table\b[^>]*>(.*?)</table>'
+            pattern = r'<table\b[^>]*>(.*)</table>'
             tables = re.findall(pattern, table_res, re.DOTALL | re.IGNORECASE)
             table_res = ''.join(tables)
-            table_res = re.sub('<table.*?>','',table_res)
+            # table_res = re.sub('<table.*?>','',table_res)
             table_res = re.sub('( style=".*?")', "", table_res)
             table_res = re.sub('( height=".*?")', "", table_res)
             table_res = re.sub('( width=".*?")', "", table_res)
@@ -234,7 +234,7 @@ class RecognitionTableDataset():
             with open(f'{cache_dir}/{uuid_str}.html', 'r') as f:
                 html_content = f.read()
 
-            pattern = r'<table\b[^>]*>(.*?)</table>'
+            pattern = r'<table\b[^>]*>(.*)</table>'
             tables = re.findall(pattern, html_content, re.DOTALL | re.IGNORECASE)
             tables = [f'<table>{table}</table>' for table in tables]
             html_content = '\n'.join(tables)
