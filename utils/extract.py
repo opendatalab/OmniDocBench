@@ -123,23 +123,25 @@ def md_tex_filter(content):
     content = remove_markdown_fences(content)   # 去除开头的markdown标记，若有
     content = standardize_underscores(content) # 下划线标准化处理
     
-    # 使用正则表达式对unicode进行替换
-    special_unicode = ''.join(unicode_replacements.keys())
-    content = re.sub(f'[{special_unicode}]', replace_unicode, content)
+    # # 使用正则表达式对unicode进行替换
+    # special_unicode = ''.join(unicode_replacements.keys())
+    # content = re.sub(f'[{special_unicode}]', replace_unicode, content)
 
     # content = fullwidth_to_halfwidth(content)  # 全角转半角，TODO: GT也需要做这个操作
 
     # # pylatexenc的unicode转latex
     # content = unicode_to_latex(content, unknown_char_warning=False)
-    # print(content)
     # markdown_table_content[i, j] = LatexNodes2Text().latex_to_text(content_str)
     # content_ori = copy.deepcopy(content)
+
+    # print('--------------After pre_process: \n', content)
 
     pred_all = []
 
     # 提取latex表格 
     latex_table_array, table_positions = extract_tex_table(content)
     for latex_table, position in zip(latex_table_array, table_positions):
+        position = [position[0], position[0]+len(latex_table)]   # !!!
         pred_all.append({
             'category_type': 'latex_table',
             'position': position,  # 只记录start
@@ -147,9 +149,12 @@ def md_tex_filter(content):
         })
         content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
 
+    print('--------After latex table: \n', content)
+    # print('-------latex_table_array: \n', latex_table_array)
+    
     # 按照位置顺序从后向前删除，以免影响未处理的起始位置
     # for start, end in sorted(table_positions, reverse=True):
-        # content = content[:start] + content[end:]  # 把表格的内容替换成空格
+        # content = content[:start] + content[end:]
 
     # 提取html表格
     html_table_array = []
@@ -167,6 +172,7 @@ def md_tex_filter(content):
                 'content': matched.strip()
             })
 
+    # print('--------------After html table: \n', content)
     # # extract tables in latex and html
     # table_array = []
     # table_matches = table_reg.finditer(content)
@@ -190,6 +196,7 @@ def md_tex_filter(content):
             # replace $$ with \[\]
             dollar_pattern = re.compile(r'\$\$(.*?)\$\$', re.DOTALL)
             single_line = re.sub(dollar_pattern, r'\\[\1\\]', single_line)
+            # print('single_line: ', single_line)
             display_array.append(single_line)
             # content = content.replace(matched, ' '*len(matched))
             content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
@@ -198,7 +205,9 @@ def md_tex_filter(content):
                 'position': position,
                 'content': single_line
             })
-            print('-----Found display formula: ', matched)
+            # print('-----Found display formula: ', matched)
+
+    # print('-------------After display: \n', content)
 
     # extract md table with ||
     md_table_mathces = md_table_reg.findall(content)        
@@ -222,6 +231,8 @@ def md_tex_filter(content):
                     'content': matched.strip(),
                     'fine_category_type': 'md2html_table'
                 })
+    
+    # print('---------After md table: \n', content)
 
     # extract code blocks
     code_array = []
@@ -242,6 +253,8 @@ def md_tex_filter(content):
                 'fine_category_type': 'code'
             })
 
+    # print('-------After code block: \n', content)
+
     # extract titles
     title_matches = title_reg.finditer(content)
     title_array =[]
@@ -260,6 +273,8 @@ def md_tex_filter(content):
                 'fine_category_type': 'title'
             })
     
+    # print('----------After title: \n', content)
+
     # extract texts
     res = content.split('\n\n')
     text_array = []
@@ -353,6 +368,7 @@ def inline_filter(text):
     for match in inline_matches:
         position = [match.start(), match.end()]
         content = match.group(1) if match.group(1) is not None else match.group(2)
+        # print('inline_content: ', content)
         
         # 移除转义字符 \
         clean_content = re.sub(r'\\([\\_&%^])', '', content)
@@ -365,7 +381,7 @@ def inline_filter(text):
                 'content': match.group(0),
             })
             text = text.replace(match.group(0), '')
-            print('-----Found inline formula: ', match.group(0))
+            # print('-----Found inline formula: ', match.group(0))
         else:
             text = text.replace(match.group(0), content)
 

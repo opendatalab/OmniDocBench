@@ -5,10 +5,10 @@ end2end_eval:
       # - BLEU
     inline_formula:
       - Edit_dist
-      - CDM
+      # - CDM
     display_formula:
       - Edit_dist
-      - CDM
+      # - CDM
     table:
       - TEDS
     reading_order:

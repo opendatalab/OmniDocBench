@@ -8,6 +8,7 @@ from utils.match_quick import match_gt2pred_quick, match_gt2pred_textblock_quick
 from utils.read_files import read_md_file
 from registry.registry import DATASET_REGISTRY
 from dataset.recog_dataset import *
+import pdb
 
 @DATASET_REGISTRY.register("end2end_dataset")
 class End2EndDataset():
@@ -31,7 +32,7 @@ class End2EndDataset():
         related_truncated = []
         truncated_all = {}
         for relation in selected_annos["extra"]["relation"]:   # 解决被截断的文本的问题
-            if relation["relation_type"] == 'Truncated':
+            if relation["relation_type"] == 'truncated':
                 truncated_all[relation["source_anno_id"]] = ""
                 truncated_all[relation["target_anno_id"]] = ""
                 exist_flag = False
@@ -41,8 +42,8 @@ class End2EndDataset():
                         merge_list.append(relation["target_anno_id"])
                         exist_flag = True
                 if not exist_flag:
-                    related_truncated.append([relation["source_anno_id"], relation["target_anno_id"]])
-                
+                    related_truncated.append([relation["source_anno_id"], relation["target_anno_id"]])       
+        
         for item in selected_annos['layout_dets']:
             if item['anno_id'] not in truncated_all.keys():
                 saved_element_dict[item["category_type"]].append(item)
@@ -62,11 +63,11 @@ class End2EndDataset():
                 "order": sorted_block[0]["order"],
                 "anno_id": sorted_block[0]["anno_id"],   
                 "text": text,
-                "truncated_list": sorted_block
+                "merge_list": sorted_block
             }
             saved_element_dict[sorted_block[0]["category_type"]].append(merged_block)
             print('Merged truncated')
-            
+
         return saved_element_dict
     
     def get_page_elements_list(self, gt_page_elements, category_list):
@@ -159,13 +160,14 @@ class End2EndDataset():
             # print('pred_title_list: ', pred_title_list)
 
             gt_page_elements = self.get_page_elements(sample)
-            # print('gt_page_elements: ', gt_page_elements)
+            # print('-----------gt_page_elements: ', gt_page_elements['text_block'])
             
             # 文本相关的所有element，不涉及的类别有figure, table, table_mask, equation_isolated, equation_caption, equation_ignore, equation_inline, footnote_mark, page_number, abandon, list, text_mask, need_mask
             text_all = self.get_page_elements_list(gt_page_elements, ['text_block', 'title', 'code_txt', 'code_txt_caption', 'list_merge', 'reference',
                                                     'figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption'
                                                     'header', 'footer', 'page_footnote'])           
 
+            # print('-------------!!text_all: ', text_all)
             formated_display_formula = []
             plain_text_match_clean = []
             if text_all:
@@ -235,6 +237,10 @@ class End2EndDataset():
             json.dump(table_match, f, indent=4, ensure_ascii=False)
         with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/order_match.json', 'w', encoding='utf-8') as f:
             json.dump(order_match, f, indent=4, ensure_ascii=False)
+        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/display_match.json', 'w', encoding='utf-8') as f:
+            json.dump(display_formula_match, f, indent=4, ensure_ascii=False)
+        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/inline_match.json', 'w', encoding='utf-8') as f:
+            json.dump(inline_formula_match, f, indent=4, ensure_ascii=False)
 
         matched_samples_all = {
             'text_block': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(plain_text_match),
