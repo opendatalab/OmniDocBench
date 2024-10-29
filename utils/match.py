@@ -57,6 +57,7 @@ def normalized_formula(text):
 
 def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
     norm_gt_lines = []
+    norm_html_lines = []
     gt_cat_list = []
     for item in gt_items:
         gt_cat_list.append(item['category_type'])
@@ -64,10 +65,11 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
             norm_gt_lines.append(str(item['content']))
         elif line_type == 'text':
             norm_gt_lines.append(str(item['text']))
-        elif line_type == 'html_table':
+        elif line_type in 'html_table':
             norm_gt_lines.append(str(item['html']))
         elif line_type == 'latex_table':
             norm_gt_lines.append(str(item['latex']))
+            norm_html_lines.append(str(item['html']))
         elif line_type == 'formula':
             # norm_gt_lines.append(normalized_formula(str(item['latex'])))
             norm_gt_lines.append(normalized_formula(str(item.get('text', ""))))
@@ -78,6 +80,8 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
         norm_pred_lines = [str(item['content']) for item in pred_items]
     
     cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
+    if line_type == 'latex_table':
+        norm_gt_lines = norm_html_lines
 
     row_ind, col_ind = linear_sum_assignment(cost_matrix)
 
@@ -130,6 +134,8 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
         # [([0,1], 0),(2, 1), (1,2)] --> [0,2,1]/[0,1,2]
     
     for pred_idx in range(len(norm_pred_lines)):  # 把没有任何匹配的pred也加上计算
+        if pred_idx in col_ind:
+            continue
         pred_line = norm_pred_lines[pred_idx]
         # print('gt_idx', gt_idx)
         # print('new gt: ', gt_line)

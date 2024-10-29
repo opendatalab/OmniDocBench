@@ -229,12 +229,12 @@ class End2EndDataset():
             table_format = 'html'
 
         # 提取匹配数据检查
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/plain_text_match.json', 'w', encoding='utf-8') as f:
-            json.dump(plain_text_match, f, indent=4, ensure_ascii=False)
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/table_match.json', 'w', encoding='utf-8') as f:
-            json.dump(table_match, f, indent=4, ensure_ascii=False)
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/order_match.json', 'w', encoding='utf-8') as f:
-            json.dump(order_match, f, indent=4, ensure_ascii=False)
+        # with open('data/result/plain_text_match.json', 'w', encoding='utf-8') as f:
+        #     json.dump(plain_text_match, f, indent=4, ensure_ascii=False)
+        # with open('data/result/table_match.json', 'w', encoding='utf-8') as f:
+        #     json.dump(table_match, f, indent=4, ensure_ascii=False)
+        # with open('data/result/order_match.json', 'w', encoding='utf-8') as f:
+        #     json.dump(order_match, f, indent=4, ensure_ascii=False)
 
         matched_samples_all = {
             'text_block': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(plain_text_match),
@@ -281,6 +281,9 @@ class RecognitionEnd2EndTableDataset(RecognitionTableDataset):
         self.samples = self.normalize_data(samples)
 
     def normalize_data(self, samples):
+        if self.pred_table_format == 'latex':
+            os.makedirs('./temp', exist_ok=True)
+
         norm_samples = []
         img_id = 0
         for sample in samples:
@@ -288,18 +291,21 @@ class RecognitionEnd2EndTableDataset(RecognitionTableDataset):
             r = sample['gt']
             if self.pred_table_format == 'latex':
                 if p:
-                    p = self.convert_latex_to_html(p)
-                if r:
-                    r = self.convert_latex_to_html(r)
-
+                    p = self.convert_latex_to_html(p, cache_dir='./temp')
+                # if r:
+                #     r = self.convert_latex_to_html(r)
             _, p = self.process_table(p)
             _, r = self.process_table(r)
-            # print('p:', p)
-            # print('r:', r)
+            # print('p:\n', p)
+            # print('r:\n', r)
             norm_samples.append({
                 'gt': self.strcut_clean(self.clean_table(r)),
                 'pred': self.strcut_clean(p),
                 'img_id': sample['img_id'] if sample.get('img_id') else img_id
             })
             img_id += 1
+
+        if self.pred_table_format == 'latex':
+            shutil.rmtree('./temp')
+
         return norm_samples

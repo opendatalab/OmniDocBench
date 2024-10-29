@@ -8,7 +8,7 @@ import re
 import unicodedata
 from pylatexenc.latexencode import unicode_to_latex
 # from pylatexenc.latex2text import LatexNodes2Text
-from pylatexenc.latexwalker import LatexWalker, LatexEnvironmentNode, LatexCharsNode, LatexGroupNode, LatexMacroNode
+from pylatexenc.latexwalker import LatexWalker, LatexEnvironmentNode, LatexCharsNode, LatexGroupNode, LatexMacroNode, LatexSpecialsNode
 from collections import defaultdict
 
 # math reg
@@ -382,7 +382,8 @@ def extract_tex_table(content):
     # 遍历节点，查找所有 'tabular' 环境
     for node in nodes:
         if isinstance(node, LatexEnvironmentNode) and node.environmentname == 'tabular':
-            table_latex = extract_node_content(node)
+            # table_latex = extract_node_content(node)
+            table_latex = content[node.pos:node.pos_end]
             tables.append(table_latex)
             start_pos = node.pos  # 表格的起始位置
             end_pos = get_node_end_pos(node)  # 获取表格的结束位置
@@ -405,13 +406,16 @@ def extract_node_content(node):
     elif isinstance(node, LatexEnvironmentNode):
         # 提取环境，保留环境名和参数
         content = "\\begin{" + node.environmentname + "}"
-        if node.nodeargd:
+        if node.nodeargd and node.nodeargd.argnlist:
             # content += "".join("{" + extract_node_content(arg) + "}" for arg in node.nodeargd)
-            content += "".join("{" + extract_node_content(node.nodeargd) + "}")
+            # content += "".join("{" + extract_node_content(node.nodeargd) + "}")
+            content += "{" + extract_node_content(node.nodeargd.argnlist[0]) + "}"
         if node.nodelist:
             content += "".join(extract_node_content(n) for n in node.nodelist)
         content += "\\end{" + node.environmentname + "}"
         return content
+    elif isinstance(node, LatexSpecialsNode):  # 修改为 LatexSpecialsNode
+        return node.specials_chars
     else:
         return ""
         

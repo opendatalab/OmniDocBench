@@ -173,11 +173,20 @@ class RecognitionTableDataset():
         """
         pred_md format edit
         """
-        def convert_th_to_td(html_content):
+        def process_table_html(html_content):
             soup = BeautifulSoup(html_content, 'html.parser')
             th_tags = soup.find_all('th')
             for th in th_tags:
                 th.name = 'td'
+            thead_tags = soup.find_all('thead')
+            for thead in thead_tags:
+                thead.unwrap()  # unwrap()会移除标签但保留其内容
+            math_tags = soup.find_all('math')
+            for math_tag in math_tags:
+                alttext = math_tag.get('alttext', '')
+                alttext = f'${alttext}$'
+                if alttext:
+                    math_tag.replace_with(alttext)
             return str(soup)
         # pred_md = pred_md["result"]["markdown"]
         # pred_md = pred_md.split("\n\n")
@@ -187,7 +196,7 @@ class RecognitionTableDataset():
         table_res=''
         table_res_no_space=''
         if '<table' in md_i.replace(" ","").replace("'",'"'):
-            md_i = convert_th_to_td(md_i)
+            md_i = process_table_html(md_i)
             table_res = html.unescape(md_i).replace('\\', '').replace('\n', '')
             table_res = unicodedata.normalize('NFKC', table_res).strip()
             pattern = r'<table\b[^>]*>(.*?)</table>'
@@ -207,22 +216,22 @@ class RecognitionTableDataset():
             table_res_no_space = re.sub('rowspan="', ' rowspan="', table_res_no_space)
             table_res_no_space = re.sub('border="', ' border="', table_res_no_space)
 
-            table_res = '<html><body>' + table_res + '</body></html>'
+            table_res = '<html><body><table border="1" >' + table_res + '</table></body></html>'
             # table_flow.append(table_res)
             # table_flow_no_space.append(table_res_no_space)
 
         return table_res, table_res_no_space
     
-    def convert_latex_to_html(self, latex_content):
+    def convert_latex_to_html(self, latex_content, cache_dir='./temp'):
         uuid_str = str(uuid.uuid1())
-        os.makedirs(uuid_str, exist_ok=True)
-        with open(f'{uuid_str}/temp.tex', 'w') as f:
+        with open(f'{cache_dir}/{uuid_str}.tex', 'w') as f:
             f.write(self.latex_template(latex_content))
 
-        cmd = ['latexmlc', f'{uuid_str}/temp.tex', f'--dest={uuid_str}/output.html']
+        cmd = ['latexmlc', '--quiet', '--nocomments', f'--log={cache_dir}/{uuid_str}.log',
+               f'{cache_dir}/{uuid_str}.tex', f'--dest={cache_dir}/{uuid_str}.html']
         try:
             subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            with open(f'{uuid_str}/output.html', 'r') as f:
+            with open(f'{cache_dir}/{uuid_str}.html', 'r') as f:
                 html_content = f.read()
 
             pattern = r'<table\b[^>]*>(.*?)</table>'
@@ -232,9 +241,6 @@ class RecognitionTableDataset():
         
         except Exception as e:
             html_content = ''
-        
-        if os.path.exists(f'{uuid_str}'):
-            shutil.rmtree(f'{uuid_str}')
         return html_content
 
     def latex_template(self, latex_code):  
