@@ -9,6 +9,7 @@ import os
 import json
 from collections import defaultdict, Counter
 import copy
+import pdb
 def compute_edit_distance_matrix_new(gt_lines, matched_lines):
     distance_matrix = np.zeros((len(gt_lines), len(matched_lines)))
     # print('gt len: ', len(gt_lines))
@@ -67,6 +68,8 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         gt_cat_list.append(item['category_type'])
         if item.get('content'):
             gt_lines.append(str(item['content']))
+            if item['category_type'] == 'latex_table':
+                norm_html_lines.append(str(item['content']))
         elif line_type == 'text' or line_type == 'formula':   # TODO: 要把formula换成latex
             gt_lines.append(str(item['text']))
         elif line_type == 'html_table':
@@ -110,7 +113,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
     
     if not norm_gt_lines:
         match_list = []
-        print("One of the lists is empty. Returning an empty gt result.")
+        # print("One of the lists is empty. Returning an empty gt result.")
         for pred_idx in range(len(norm_pred_lines)):
             match_list.append({
                     'gt_idx': [-1],
@@ -126,7 +129,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
                 })
         return match_list
     elif not norm_pred_lines:
-        print("One of the lists is empty. Returning an empty pred result.")
+        # print("One of the lists is empty. Returning an empty pred result.")
         match_list = []
         for gt_idx in range(len(norm_gt_lines)):
             match_list.append({
@@ -145,9 +148,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
     elif len(norm_gt_lines) == 1 and len(norm_pred_lines) == 1:
         edit_distance = Levenshtein.distance(norm_gt_lines[0], norm_pred_lines[0])
         normalized_edit_distance = edit_distance / max(len(norm_gt_lines[0]), len(norm_pred_lines[0]))
-        print("Both lists have only one element. Matching them directly.")
-        if not gt_items[0].get('order'):
-            print(gt_items[0])
+        # print("Both lists have only one element. Matching them directly.")
         return [{
             'gt_idx': [0],
             'gt': gt_lines[0],
@@ -301,15 +302,22 @@ def match_gt2pred_textblock_quick(gt_items, pred_lines, img_name):
         plaintext_pred, inline_pred_items = inline_filter(item['pred'])
         # print('inline_pred_list', inline_pred_list)
         # print('plaintext_pred: ', plaintext_pred)
-        # plaintext_gt = plaintext_gt.replace(' ', '')
-        # plaintext_pred = plaintext_pred.replace(' ', '')
+        plaintext_gt = plaintext_gt.strip().strip('\t')
+        plaintext_pred = plaintext_pred.strip().strip('\t')
         if plaintext_gt or plaintext_pred:
             edit = Levenshtein.distance(plaintext_gt, plaintext_pred)/max(len(plaintext_pred), len(plaintext_gt))
+            gt_position = []
+            for gt_idx in item['gt_idx']:
+                if gt_idx == -1:
+                    gt_position.append(-1)
+                else:
+                    gt_position_s = gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]
+                    gt_position.append(gt_position_s)
             plain_text_match.append({
                 'gt_idx': item['gt_idx'],
                 'gt': plaintext_gt,
                 'gt_category_type': item['gt_category_type'],
-                'gt_position': [gt_items[_]['order'] if _ != -1 else -1 for _ in item['gt_idx']],
+                'gt_position': gt_position,
                 'pred_idx': item['pred_idx'],
                 'pred': plaintext_pred,
                 'pred_category_type': item['pred_category_type'],

@@ -14,11 +14,11 @@ end2end_eval:
       - Edit_dist
     reading_order:
       - Edit_dist
-      - Move_dist
+      # - Move_dist
   dataset:
-    dataset_name: end2end_dataset
+    dataset_name: md2md_dataset
     ground_truth:
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1025_subset.json
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/mds1025_latex_table
     prediction:
       data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/mathpix_subset
     # match_method: simple_match

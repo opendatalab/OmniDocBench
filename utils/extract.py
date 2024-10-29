@@ -11,6 +11,7 @@ from pylatexenc.latexencode import unicode_to_latex
 # from pylatexenc.latex2text import LatexNodes2Text
 from pylatexenc.latexwalker import LatexWalker, LatexEnvironmentNode, LatexCharsNode, LatexGroupNode, LatexMacroNode, LatexSpecialsNode
 from collections import defaultdict
+import pdb
 
 # math reg
 display_reg = re.compile(
@@ -164,7 +165,7 @@ def md_tex_filter(content):
         pred_all.append({
             'category_type': 'html_table',
             'position': position,
-            'content': matched.strip()
+            'content': html_table
         })
         content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
     # html_table_array = []
@@ -272,7 +273,7 @@ def md_tex_filter(content):
         for match in title_matches:
             position = [match.start(), match.end()]
             matched = match.group(0)
-            title_array.append(match.strip('\n').strip('#').strip(' '))
+            title_array.append(matched.strip('\n').strip('#').strip(' '))
             # content = content.replace(match, '')
             # print('content after removing the titles:', content)
             content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格

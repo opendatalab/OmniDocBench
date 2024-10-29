@@ -8,16 +8,17 @@ import evaluate
 import random
 from utils.read_files import save_paired_result
 from registry.registry import METRIC_REGISTRY
+import pdb
 
 
 @METRIC_REGISTRY.register("TEDS")
 class call_TEDS():
-    def __int__(self, dataset):
+    def __init__(self, dataset):
         self.dataset = dataset
     def evaluate(self):
         teds = TEDS(structure_only=False)
         teds_socres = []
-        for sample in self.samples:
+        for sample in self.dataset.samples:
             score = teds.evaluate(sample['pred'], sample['gt'])
             # print('TEDS score:', score)
             teds_socres.append(score)
@@ -29,11 +30,11 @@ class call_TEDS():
 
 @METRIC_REGISTRY.register("BLEU")
 class call_BLEU():
-    def __int__(self, dataset):
+    def __init__(self, dataset):
         self.dataset = dataset
     def evaluate(self):
         predictions, references = [], []
-        for sample in self.samples:
+        for sample in self.dataset.samples:
             predictions.append(sample['gt'])
             references.append(sample['pred'])
         bleu = evaluate.load("bleu", keep_in_memory=True, experiment_id=random.randint(1,1e8))
@@ -43,11 +44,11 @@ class call_BLEU():
     
 @METRIC_REGISTRY.register("METEOR")
 class call_METEOR():
-    def __int__(self, dataset):
+    def __init__(self, dataset):
         self.dataset = dataset
     def evaluate(self):
         predictions, references = [], []
-        for sample in self.samples:
+        for sample in self.dataset.samples:
             predictions.append(sample['gt'])
             references.append(sample['pred'])
         meteor = evaluate.load('meteor', keep_in_memory=True, experiment_id=random.randint(1,1e8))
@@ -57,13 +58,13 @@ class call_METEOR():
 
 @METRIC_REGISTRY.register("Edit_dist")
 class call_Edit_dist():
-    def __int__(self, dataset):
+    def __init__(self, dataset):
         self.dataset = dataset
     def evaluate(self):
         lev_dist = []
         gt_len = 0
         pred_len = 0
-        for sample in self.samples:
+        for sample in self.dataset.samples:
             lev_dist.append(Levenshtein.distance(sample['pred'], sample['gt']))
             gt_len += len(sample['gt'])
             pred_len += len(sample['pred'])
@@ -77,12 +78,12 @@ class call_Edit_dist():
     
 @METRIC_REGISTRY.register("Move_dist")
 class call_Move_dist():
-    def __int__(self, dataset):
+    def __init__(self, dataset):
         self.dataset = dataset
     def evaluate(self):
         gt_len = 0
         move_dist_list = []
-        for sample in self.samples:
+        for sample in self.dataset.samples:
             pred = sample['pred']
             gt = sample['gt']
             assert len(gt) == len(pred), 'Not right length'
@@ -104,9 +105,9 @@ class call_Move_dist():
     
 @METRIC_REGISTRY.register("CDM")
 class call_CDM():
-    def __int__(self, dataset):
+    def __init__(self, dataset):
         self.dataset = dataset
     def evaluate(self):
         time_stap = time.time()
         with open(f'result/{time_stap}_formula.json', 'w', encoding='utf-8') as f:
-            json.dump(self.samples, f, indent=4, ensure_ascii=False)
+            json.dump(self.dataset.samples, f, indent=4, ensure_ascii=False)

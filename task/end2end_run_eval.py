@@ -11,7 +11,7 @@ class End2EndEval():
             result = {}
             for metric in metrics_list[element]:
                 metric_val = METRIC_REGISTRY.get(metric)
-                result_s = metric_val.evaluate(dataset.samples[element])
+                result_s = metric_val(dataset.samples[element]).evaluate()
                 if result_s:
                     result.update(result_s)
             if result:
