@@ -953,56 +953,57 @@ def convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines):
 #                 'edit': first_match['edit']
 #             })
 #     return merged_results
-def merge_duplicates(converted_results, norm_gt_lines):
-    merged_results = []
-    processed = set()  # 跟踪已经处理过的pred_idx
+
+# def merge_duplicates(converted_results, norm_gt_lines):
+#     merged_results = []
+#     processed = set()  # 跟踪已经处理过的pred_idx
     
-    for entry in converted_results:
-        pred_idx_tuple = tuple(entry['pred_idx'])
+#     for entry in converted_results:
+#         pred_idx_tuple = tuple(entry['pred_idx'])
         
-        if pred_idx_tuple not in processed:
-            merged_entry = {
-                'gt_idx': [],
-                'gt': '',
-                'pred_idx': entry['pred_idx'],
-                'pred': entry['pred'],
-                'edit': entry['edit']
-            }
+#         if pred_idx_tuple not in processed:
+#             merged_entry = {
+#                 'gt_idx': [],
+#                 'gt': '',
+#                 'pred_idx': entry['pred_idx'],
+#                 'pred': entry['pred'],
+#                 'edit': entry['edit']
+#             }
             
-            # 找出所有具有相同pred_idx的entries
-            for other_entry in converted_results:
-                if tuple(other_entry['pred_idx']) == pred_idx_tuple:
-                    merged_entry['gt_idx'].append(other_entry['gt_idx'])
-                    merged_entry['gt'] += other_entry['gt']
+#             # 找出所有具有相同pred_idx的entries
+#             for other_entry in converted_results:
+#                 if tuple(other_entry['pred_idx']) == pred_idx_tuple:
+#                     merged_entry['gt_idx'].append(other_entry['gt_idx'])
+#                     merged_entry['gt'] += other_entry['gt']
                     
-                    # 标记为已处理
-                    processed.add(tuple(other_entry['pred_idx']))
+#                     # 标记为已处理
+#                     processed.add(tuple(other_entry['pred_idx']))
             
-            merged_results.append(merged_entry)
+#             merged_results.append(merged_entry)
             
-    # 添加未匹配上的pred_idx
-    for pred_idx in all_pred_indices:
-        if pred_idx not in processed_pred_indices:
-            merged_results.append({
-                'gt_idx': [],
-                'gt': '',
-                'pred_idx': pred_idx,
-                'pred': norm_pred_lines[pred_idx[0]] if isinstance(pred_idx[0], int) else '',
-                'edit': 1
-            })
+#     # 添加未匹配上的pred_idx
+#     for pred_idx in all_pred_indices:
+#         if pred_idx not in processed_pred_indices:
+#             merged_results.append({
+#                 'gt_idx': [],
+#                 'gt': '',
+#                 'pred_idx': pred_idx,
+#                 'pred': norm_pred_lines[pred_idx[0]] if isinstance(pred_idx[0], int) else '',
+#                 'edit': 1
+#             })
     
-    # 添加未匹配上的gt_idx
-    for gt_idx in all_gt_indices:
-        if gt_idx not in processed_gt_indices:
-            merged_results.append({
-                'gt_idx': [gt_idx],
-                'gt': norm_gt_lines[gt_idx],
-                'pred_idx': [],
-                'pred': '',
-                'edit': 1
-            })
+#     # 添加未匹配上的gt_idx
+#     for gt_idx in all_gt_indices:
+#         if gt_idx not in processed_gt_indices:
+#             merged_results.append({
+#                 'gt_idx': [gt_idx],
+#                 'gt': norm_gt_lines[gt_idx],
+#                 'pred_idx': [],
+#                 'pred': '',
+#                 'edit': 1
+#             })
     
-    return merged_results
+#     return merged_results
 if __name__ == "__main__":
     file_name='merge_split_example.txt'
     with open(f"/mnt/petrelfs/zhujiawei/Projects/pdf_validation-add_fuzzy_match3/test_match/match_gt/{file_name}") as f:
