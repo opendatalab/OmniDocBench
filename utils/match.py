@@ -3,10 +3,10 @@ from scipy.optimize import linear_sum_assignment
 import Levenshtein
 import numpy as np
 import re
-from utils.extract import inline_filter
+from utils.extract import inline_filter,inline_filter_unicode
 import sys
 import pdb
-
+from pylatexenc.latex2text import LatexNodes2Text
 
 def compute_edit_distance_matrix_new(gt_lines, matched_lines):
     distance_matrix = np.zeros((len(gt_lines), len(matched_lines)))
@@ -167,10 +167,12 @@ def match_gt2pred_textblock_simple(gt_items, pred_lines, img_name):
     inline_formula_match = []
     for item in text_inline_match_s:
         # print('GT')
-        plaintext_gt, inline_gt_items = inline_filter(item['gt'])  # TODO:这个后续最好是直接从span里提取出来
+        plaintext_gt, inline_gt_items = inline_filter_unicode(item['gt'])  # TODO:这个后续最好是直接从span里提取出来
+        #print('----------inline_gt_items--------------',inline_gt_items)
         # print('Pred')
         # print(item['pred'])
-        plaintext_pred, inline_pred_items = inline_filter(item['pred'])
+        plaintext_pred, inline_pred_items = inline_filter_unicode(item['pred'])
+        #print('----------inline_gt_items--------------',inline_pred_items)
         # print('inline_pred_list', inline_pred_list)
         # print('plaintext_pred: ', plaintext_pred)
         # plaintext_gt = plaintext_gt.replace(' ', '')
