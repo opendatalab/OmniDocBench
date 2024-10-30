@@ -245,7 +245,7 @@ class RecognitionTableDataset():
 
     def latex_template(self, latex_code):  
         template = r'''
-        \documentclass[border=20pt]{standalone}
+        \documentclass[border=20pt]{article}
         \usepackage{blindtext}%
         \usepackage{subcaption}
         \usepackage{url}

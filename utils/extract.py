@@ -13,6 +13,47 @@ from pylatexenc.latexwalker import LatexWalker, LatexEnvironmentNode, LatexChars
 from collections import defaultdict
 import pdb
 
+
+def extract_tabular(text):
+    begin_pattern = r'\\begin{tabular}'
+    end_pattern = r'\\end{tabular}'
+
+    tabulars = []
+    positions = []
+    current_pos = 0
+    stack = []
+    
+    while current_pos < len(text):
+        begin_match = re.search(begin_pattern, text[current_pos:])
+        end_match = re.search(end_pattern, text[current_pos:])
+        
+        if not begin_match and not end_match:
+            break
+            
+        if begin_match and (not end_match or begin_match.start() < end_match.start()):
+            stack.append(current_pos + begin_match.start())
+            current_pos += begin_match.start() + len(end_pattern)
+        elif end_match:
+            if stack:
+                start_pos = stack.pop()
+                if not stack:
+                    end_pos = current_pos + end_match.start() + len(end_pattern)
+                    tabular_code = text[start_pos:end_pos]
+                    tabulars.append(tabular_code)
+                    positions.append((start_pos, end_pos))
+            current_pos += end_match.start() + len(end_pattern)
+        else:
+            current_pos += 1
+    
+    if stack:
+        new_start = stack[0] + len(begin_pattern)
+        new_tabulars, new_positions = extract_tabular(text[new_start:])
+        new_positions = [(start + new_start, end + new_start) for start, end in new_positions]
+        tabulars.extend(new_tabulars)
+        positions.extend(new_positions)
+
+    return tabulars, positions
+
 # math reg
 display_reg = re.compile(
     r'\\begin{equation\*?}(.*?)\\end{equation\*?}|'
@@ -398,25 +439,49 @@ def inline_filter(text):
 
     return text, inline_array
 
-# 提取循环嵌套表
+# def extract_tex_table(content):
+#     tables = []
+#     positions = []
+
+#     walker = LatexWalker(content)
+#     nodes, _, _ = walker.get_latex_nodes()
+#     if nodes is None:
+#         return tables, positions
+
+#     for node in nodes:
+#         if isinstance(node, LatexEnvironmentNode) and (
+#             node.environmentname == 'tabular' or node.environmentname == 'table'):
+#             # table_latex = extract_node_content(node)
+#             table_latex = content[node.pos:node.pos_end]
+#             tables.append(table_latex)
+#             start_pos = node.pos
+#             end_pos = get_node_end_pos(node)
+#             positions.append((start_pos, end_pos))
+
+#     return tables, positions
+
 def extract_tex_table(content):
-    walker = LatexWalker(content)
-    nodes, _, _ = walker.get_latex_nodes()
-
     tables = []
-    positions = []
+    tables_positions = []
 
-    for node in nodes:
-        if isinstance(node, LatexEnvironmentNode) and (
-            node.environmentname == 'tabular' or node.environmentname == 'table'):
-            # table_latex = extract_node_content(node)
-            table_latex = content[node.pos:node.pos_end]
-            tables.append(table_latex)
-            start_pos = node.pos
-            end_pos = get_node_end_pos(node)
-            positions.append((start_pos, end_pos))
+    pattern = r'\\begin{table}(.*?)\\end{table}'
+    for match in re.finditer(pattern, content, re.DOTALL):
+        start_pos = match.start()
+        end_pos = match.end()
+        table_content = match.group(0)
+        tables.append(table_content)
+        tables_positions.append((start_pos, end_pos))
+        content = content[:start_pos] + ' '*(end_pos-start_pos) + content[end_pos:]
 
-    return tables, positions
+    tabulars, tabular_positions = extract_tabular(content)
+    all_tables = tables + tabulars
+    all_positions = tables_positions + tabular_positions
+
+    all_result = sorted([[pos, table]for pos, table in zip(all_positions, all_tables)], key=lambda x: x[0][0])
+    all_tables = [x[1] for x in all_result]
+    all_positions = [x[0] for x in all_result]
+
+    return all_tables, all_positions
 
 def extract_html_table(content):
     soup = BeautifulSoup(content, 'html.parser')
