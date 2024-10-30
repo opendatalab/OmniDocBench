@@ -156,6 +156,11 @@ def replace_unicode(match):
     char = match.group(0)
     return unicode_replacements.get(char, char)
 
+from pylatexenc.latex2text import LatexNodes2Text
+def inline_to_unicode(inline_content):
+    inline_text = LatexNodes2Text().latex_to_text(inline_content)
+    return inline_text
+
 def md_tex_filter(content):
     '''
     Input: 1 page md or tex content - String
@@ -165,6 +170,7 @@ def md_tex_filter(content):
     content = re.sub(img_pattern, '', content)  # 去除图片
     content = remove_markdown_fences(content)   # 去除开头的markdown标记，若有
     content = standardize_underscores(content) # 下划线标准化处理
+    
     
     # # 使用正则表达式对unicode进行替换
     # special_unicode = ''.join(unicode_replacements.keys())
@@ -181,6 +187,19 @@ def md_tex_filter(content):
 
     pred_all = []
 
+    # 处理行内公式，添加到text_all中
+    # content_new, inline_array = inline_filter_unicode(content)
+    # #print('------------inline_array----------------',inline_array)
+    # for inline_item in inline_array:
+    #     inline_item['content'] = inline_to_unicode(inline_item['content'])
+    #     #print('------------inline_array_unicode----------------',inline_item['content'])
+    #     pred_all.append({
+    #         'category_type': 'text_all',
+    #         'position': inline_item['position'],
+    #         'content': inline_item['content'],
+    #         'fine_category_type': 'equation_inline'
+    #     })
+    
     # 提取latex表格 
     latex_table_array, table_positions = extract_tex_table(content)
     for latex_table, position in zip(latex_table_array, table_positions):
@@ -408,19 +427,61 @@ def md_tex_filter(content):
 
 #     return text, inline_array
 
+
+# def inline_filter_unicode(text):
+#     # 确保 text 是字符串类型
+#     if not isinstance(text, str):
+#         text = str(text)
+    
+#     # 将LaTeX内容转换为Unicode表示
+#     text = LatexNodes2Text().latex_to_text(text)
+    
+#     inline_array = []
+#     inline_matches = inline_reg.finditer(text)
+    
+#     for match in inline_matches:
+#         position = [match.start(), match.end()]
+#         content = match.group(1) if match.group(1) is not None else match.group(2)
+        
+#         # 移除转义字符 \
+#         clean_content = re.sub(r'\\([\\_&%^])', '', content)
+
+#         if any(char in clean_content for char in r'\^_'):
+#             # inline_array.append(match.group(0))
+#             inline_array.append({
+#                 'category_type': 'equation_inline',
+#                 'position': position,
+#                 'content': match.group(0),
+#             })
+#             text = text.replace(match.group(0), '')
+#             # print('-----Found inline formula: ', match.group(0))
+#         else:
+#             text = text.replace(match.group(0), content)
+#         # # 添加到 inline_array 中
+#         # inline_array.append({
+#         #     'category_type': 'equation_inline',
+#         #     'position': position,
+#         #     'content': content,
+#         # })
+        
+#         # # 将匹配到的公式从原始文本中移除，这里可以选择是否替换为空格或直接移除
+#         # text = text[:position[0]] + ' '*(position[1]-position[0]) + text[position[1]:]
+
+#     return text, inline_array
+
 def inline_filter_unicode(text):
     # 确保 text 是字符串类型
     if not isinstance(text, str):
         text = str(text)
     
     # 替换行内公式的边界标识符
-    print('--------text-------',text)
+    #print('--------text-------',text)
     placeholder = '__INLINE_FORMULA_BOUNDARY__'
     text_copy = text.replace('$', placeholder).replace('\\(', placeholder).replace('\\)', placeholder)
-    print('--------text_copy-------',text_copy)
+    #print('--------text_copy-------',text_copy)
     # 将LaTeX内容转换为Unicode表示
     text_copy = LatexNodes2Text().latex_to_text(text_copy)
-    print('--------text_copy---unicode----',text_copy)
+    #print('--------text_copy---unicode----',text_copy)
     # 恢复边界标识符
     text_copy = text_copy.replace(placeholder, '$')
     
