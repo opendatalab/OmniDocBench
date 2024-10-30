@@ -1,5 +1,5 @@
 result/
 **/__pycache__/
-check_data/
+# check_data/
 **/.ipynb_checkpoints/
 **log

@@ -70,8 +70,10 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             gt_lines.append(str(item['content']))
             if item['category_type'] == 'latex_table':
                 norm_html_lines.append(str(item['content']))
-        elif line_type == 'text' or line_type == 'formula':   # TODO: 要把formula换成latex
+        elif line_type == 'text':
             gt_lines.append(str(item['text']))
+        elif line_type == 'formula':
+            gt_lines.append(str(item['latex']))
         elif line_type == 'html_table':
             gt_lines.append(str(item['html']))
         elif line_type == 'latex_table':
@@ -118,10 +120,12 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             match_list.append({
                     'gt_idx': [-1],
                     'gt': "",
+                    'norm_gt': "",
                     'gt_category_type': "",
                     'gt_position': -1,
                     'pred_idx': [pred_idx],
                     'pred': pred_lines[pred_idx],
+                    'norm_pred': norm_pred_lines[pred_idx],
                     'pred_category_type': get_pred_pred_category_type(pred_idx, pred_items),
                     'pred_position': pred_items[pred_idx]['position'][0],
                     'edit': 1,
@@ -135,10 +139,12 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             match_list.append({
                     'gt_idx': [gt_idx],
                     'gt': gt_lines[gt_idx],
+                    'norm_gt': norm_gt_lines[gt_idx],
                     'gt_category_type': gt_cat_list[gt_idx],
                     'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]],
                     'pred_idx': [-1],
                     'pred': "",
+                    'norm_pred': "",
                     'pred_category_type': "",
                     'pred_position': -1,
                     'edit': 1,
@@ -152,10 +158,12 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         return [{
             'gt_idx': [0],
             'gt': gt_lines[0],
+            'norm_gt': norm_gt_lines[0],
             'gt_category_type': gt_cat_list[0],
             'gt_position': [gt_items[0].get('order') if gt_items[0].get('order') else gt_items[0].get('position', [-1])[0]],
             'pred_idx': [0],
             'pred': pred_lines[0],
+            'norm_pred': norm_pred_lines[0],
             'pred_category_type': get_pred_pred_category_type(0, pred_items),
             'pred_position': pred_items[0]['position'][0],
             'edit': normalized_edit_distance,
@@ -184,7 +192,9 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         entry['gt_idx'] = [entry['gt_idx']] if isinstance(entry['gt_idx'], int) else entry['gt_idx']
         entry['pred_idx'] = [entry['pred_idx']] if isinstance(entry['pred_idx'], int) else entry['pred_idx']
         entry['gt'] = '\n'.join([gt_lines[_] for _ in entry['gt_idx']])
+        entry['norm_gt'] = '\n'.join([norm_gt_lines[_] for _ in entry['gt_idx']])
         entry['pred'] = '\n'.join([pred_lines[_] for _ in entry['pred_idx']])
+        entry['norm_pred'] = '\n'.join([norm_pred_lines[_] for _ in entry['pred_idx']])
         entry['gt_position'] = [gt_items[_].get('order') if gt_items[_].get('order') else gt_items[_].get('position', [-1])[0] for _ in entry['gt_idx']]
         entry['gt_category_type'] = gt_cat_list[entry['gt_idx'][0]]  # 用GT的第一个元素的类别
         entry['pred_category_type'] = get_pred_pred_category_type(entry['pred_idx'][0], pred_items) if entry['pred_idx'] else "" # 用Pred的第一个元素的类别
@@ -316,10 +326,12 @@ def match_gt2pred_textblock_quick(gt_items, pred_lines, img_name):
             plain_text_match.append({
                 'gt_idx': item['gt_idx'],
                 'gt': plaintext_gt,
+                'norm_gt': plaintext_gt,
                 'gt_category_type': item['gt_category_type'],
                 'gt_position': gt_position,
                 'pred_idx': item['pred_idx'],
                 'pred': plaintext_pred,
+                'norm_pred': plaintext_pred,
                 'pred_category_type': item['pred_category_type'],
                 'pred_position': item['pred_position'],
                 'edit': edit,

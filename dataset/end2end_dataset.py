@@ -16,7 +16,13 @@ class End2EndDataset():
     def __init__(self, cfg_task):
         gt_path = cfg_task['dataset']['ground_truth']['data_path']
         pred_folder = cfg_task['dataset']['prediction']['data_path']
-        self.match_method = cfg_task['dataset']['match_method']
+        self.match_method = cfg_task['dataset'].get('match_method', 'simple_match')
+        # self.table_latex2html = cfg_task['dataset'].get('table_latex2html', True)
+        if not cfg_task['metrics'].get('table'):
+            self.table_latex2html = False
+        elif 'TEDS' not in cfg_task['metrics']['table']:
+            self.table_latex2html = False
+
         with open(gt_path, 'r') as f:
             gt_samples = json.load(f)
 
@@ -105,7 +111,7 @@ class End2EndDataset():
     def get_order_paired(self, order_match_s, img_name):
         matched = [(item['gt_position'], item['pred_position']) for item in order_match_s]
         # read_order_gt = [i[0] for i in sorted(matched, key=lambda x: x[0])]   # 以GT的idx来sort，获取GT排序的GT_idx
-        print(matched)
+        # print(matched)
         read_order_pred = [i[0] for i in sorted(matched, key=lambda x: x[1])]  # 以pred的idx来sort，获取Pred排序的GT_idx
         read_order_gt = sorted(read_order_pred) # 以GT的idx来sort，获取GT排序的GT_idx
         gt = sum(read_order_gt, []) # 转成一个一维list
@@ -253,7 +259,7 @@ class End2EndDataset():
             'text_block': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(plain_text_match),
             'inline_formula': DATASET_REGISTRY.get('recogition_end2end_formula_dataset')(inline_formula_match), 
             'display_formula':  DATASET_REGISTRY.get('recogition_end2end_formula_dataset')(display_formula_match), 
-            'table': DATASET_REGISTRY.get('recogition_end2end_table_dataset')(table_match, table_format),
+            'table': DATASET_REGISTRY.get('recogition_end2end_table_dataset')(table_match, table_format, self.table_latex2html),
             'reading_order': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(order_match)
         }
         
@@ -289,36 +295,46 @@ class RecognitionEnd2EndFormulaDataset(RecognitionFormulaDataset):
     
 @DATASET_REGISTRY.register("recogition_end2end_table_dataset")
 class RecognitionEnd2EndTableDataset(RecognitionTableDataset):
-    def __init__(self, samples, table_format):
+    def __init__(self, samples, table_format, table_latex2html):
         self.pred_table_format = table_format
-        self.samples = self.normalize_data(samples)
+        self.samples = self.normalize_data(samples, table_latex2html)
 
-    def normalize_data(self, samples):
-        if self.pred_table_format == 'latex':
-            os.makedirs('./temp', exist_ok=True)
-
+    def normalize_data(self, samples, table_latex2html):
         norm_samples = []
         img_id = 0
-        for sample in samples:
-            p = sample['pred']
-            r = sample['gt']
+        
+        if not table_latex2html:
+            for sample in samples:
+                norm_samples.append({
+                    'gt': sample['norm_gt'],
+                    'pred': sample['norm_pred'],
+                    'img_id': sample['img_id'] if sample.get('img_id') else img_id
+                })
+                img_id += 1
+        else:
             if self.pred_table_format == 'latex':
-                if p:
-                    p = self.convert_latex_to_html(p, cache_dir='./temp')
-                # if r:
-                #     r = self.convert_latex_to_html(r)
-            _, p = self.process_table(p)
-            _, r = self.process_table(r)
-            # print('p:\n', p)
-            # print('r:\n', r)
-            norm_samples.append({
-                'gt': self.strcut_clean(self.clean_table(r)),
-                'pred': self.strcut_clean(p),
-                'img_id': sample['img_id'] if sample.get('img_id') else img_id
-            })
-            img_id += 1
+                os.makedirs('./temp', exist_ok=True)
 
-        if self.pred_table_format == 'latex':
-            shutil.rmtree('./temp')
+            for sample in samples:
+                p = sample['pred']
+                r = sample['gt']
+                if self.pred_table_format == 'latex':
+                    if p:
+                        p = self.convert_latex_to_html(p, cache_dir='./temp')
+                    # if r:
+                    #     r = self.convert_latex_to_html(r)
+                _, p = self.process_table(p)
+                _, r = self.process_table(r)
+                # print('p:\n', p)
+                # print('r:\n', r)
+                norm_samples.append({
+                    'gt': self.strcut_clean(self.clean_table(r)),
+                    'pred': self.strcut_clean(p),
+                    'img_id': sample['img_id'] if sample.get('img_id') else img_id
+                })
+                img_id += 1
+
+            if self.pred_table_format == 'latex':
+                shutil.rmtree('./temp')
 
         return norm_samples

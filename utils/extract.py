@@ -348,6 +348,8 @@ def md_tex_filter(content):
 
     # extract texts
     res = content.split('\n\n')
+    if len(res) == 1:
+        res = content.split('\n')  # 有的模型结果里没有双换行，只能用单换行来拆分
     text_array = []
 
     content_position = 0

@@ -16,7 +16,12 @@ class Md2MdDataset():
     def __init__(self, cfg_task):
         gt_folder = cfg_task['dataset']['ground_truth']['data_path']
         pred_folder = cfg_task['dataset']['prediction']['data_path']
-        self.match_method = cfg_task['dataset']['match_method']
+        self.match_method = cfg_task['dataset'].get('match_method', 'simple_match')
+        # self.table_latex2html = cfg_task['dataset'].get('table_latex2html', True)
+        if not cfg_task['metrics'].get('table'):
+            self.table_latex2html = False
+        elif 'TEDS' not in cfg_task['metrics']['table']:
+            self.table_latex2html = False
 
         self.samples = self.get_matched_elements(gt_folder, pred_folder)
         

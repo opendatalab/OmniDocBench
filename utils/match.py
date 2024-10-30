@@ -66,10 +66,12 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
         gt_cat_list.append(item['category_type'])
         if item.get('content'):
             gt_lines.append(str(item['content']))
-        elif line_type == 'text' or line_type == 'formula':   # TODO: 要把formula换成latex
+        elif line_type == 'text':
             gt_lines.append(str(item['text']))
         elif line_type == 'html_table':
             gt_lines.append(str(item['html']))
+        elif line_type == 'formula':
+            gt_lines.append(str(item['latex']))
         elif line_type == 'latex_table':
             gt_lines.append(str(item['latex']))
             norm_html_lines.append(str(item['html']))
@@ -93,14 +95,11 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
 
     match_list = []
     for gt_idx in range(len(norm_gt_lines)):
-        gt_line = gt_lines[gt_idx]
-        # print('gt_idx', gt_idx)
-        # print('new gt: ', gt_line)
-
         if gt_idx in row_ind:
             row_i = list(row_ind).index(gt_idx)
             pred_idx = int(col_ind[row_i])
             pred_line = pred_lines[pred_idx]
+            norm_pred_line = norm_pred_lines[pred_idx]
             edit = cost_matrix[gt_idx][pred_idx]
             # print('edit_dist', edit)
             # if edit > 0.7:
@@ -109,6 +108,7 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
             # print('No match pred')
             pred_idx = -1
             pred_line = ""
+            norm_pred_line = ""
             edit = 1
         
         # print(type(gt_idx))
@@ -122,11 +122,13 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
             pred_pred_category_type = ""
         match_list.append({
             'gt_idx': [gt_idx],
-            'gt': gt_line,
+            'gt': gt_lines[gt_idx],
+            'norm_gt': norm_gt_lines[gt_idx],
             'gt_category_type': gt_cat_list[gt_idx],
             'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]],
             'pred_idx': [pred_idx],
             'pred': pred_line,
+            'norm_pred': norm_pred_line,
             'pred_category_type': pred_pred_category_type,
             'pred_position': pred_items[pred_idx]['position'][0] if pred_idx != -1 else -1,
             'edit': edit,
@@ -138,7 +140,6 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
     for pred_idx in range(len(norm_pred_lines)):  # 把没有任何匹配的pred也加上计算
         if pred_idx in col_ind:
             continue
-        pred_line = pred_lines[pred_idx]
         # print('gt_idx', gt_idx)
         # print('new gt: ', gt_line)
         if pred_items[pred_idx].get('fine_category_type'):
@@ -148,10 +149,12 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
         match_list.append({
             'gt_idx': [-1],
             'gt': "",
+            'norm_gt': "",
             'gt_category_type': "",
             'gt_position': [-1],
             'pred_idx': [pred_idx],
-            'pred': pred_line,
+            'pred': pred_lines[pred_idx],
+            'norm_pred': norm_pred_lines[pred_idx],
             'pred_category_type': pred_pred_category_type,
             'pred_position': pred_items[pred_idx]['position'][0],
             'edit': 1,
@@ -187,10 +190,12 @@ def match_gt2pred_textblock_simple(gt_items, pred_lines, img_name):
             plain_text_match.append({
                 'gt_idx': item['gt_idx'],
                 'gt': plaintext_gt,
+                'norm_gt': plaintext_gt,
                 'gt_category_type': item['gt_category_type'],
                 'gt_position': gt_position,
                 'pred_idx': item['pred_idx'],
                 'pred': plaintext_pred,
+                'norm_pred': plaintext_pred,
                 'pred_category_type': item['pred_category_type'],
                 'pred_position': item['pred_position'],
                 'edit': edit,
