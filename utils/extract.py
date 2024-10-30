@@ -408,6 +408,48 @@ def md_tex_filter(content):
 
 #     return text, inline_array
 
+def inline_filter_unicode(text):
+    # 确保 text 是字符串类型
+    if not isinstance(text, str):
+        text = str(text)
+    
+    # 替换行内公式的边界标识符
+    print('--------text-------',text)
+    placeholder = '__INLINE_FORMULA_BOUNDARY__'
+    text_copy = text.replace('$', placeholder).replace('\\(', placeholder).replace('\\)', placeholder)
+    print('--------text_copy-------',text_copy)
+    # 将LaTeX内容转换为Unicode表示
+    text_copy = LatexNodes2Text().latex_to_text(text_copy)
+    print('--------text_copy---unicode----',text_copy)
+    # 恢复边界标识符
+    text_copy = text_copy.replace(placeholder, '$')
+    
+    inline_array = []
+    inline_matches = inline_reg.finditer(text_copy)
+    # 记录需要移除的行内公式及其位置
+    removal_positions = []
+    
+    for match in inline_matches:
+        position = [match.start(), match.end()]
+        content = match.group(1) if match.group(1) is not None else match.group(2)
+        print('-------- content-------', content)
+        # 移除转义字符 \
+        clean_content = re.sub(r'\\([\\_&%^])', '', content)
+
+        if any(char in clean_content for char in r'\^_'):
+            # inline_array.append(match.group(0))
+            inline_array.append({
+                'category_type': 'equation_inline',
+                'position': position,
+                'content': content,
+            })
+            removal_positions.append((position[0], position[1]))
+    
+    # 从原始文本中移除行内公式
+    for start, end in sorted(removal_positions, reverse=True):
+        text = text[:start] + text[end:]
+
+    return text, inline_array
 
 def inline_filter(text):
     # 确保 text 是字符串类型
