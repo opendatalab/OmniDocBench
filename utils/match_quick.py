@@ -59,9 +59,6 @@ def normalized_formula(text):
     return text
 
 
-def normalize_text(text):
-    return text.strip('\n').strip().strip('#').strip()
-
 def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
 
     norm_html_lines = []
@@ -89,8 +86,8 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         norm_gt_lines = [normalized_formula(_) for _ in gt_lines]
         norm_pred_lines = [normalized_formula(_) for _ in pred_lines]
     else:
-        norm_gt_lines = [normalize_text(_) for _ in gt_lines]
-        norm_pred_lines = [normalize_text(_) for _ in pred_lines]
+        norm_gt_lines = gt_lines
+        norm_pred_lines = pred_lines
 
     if line_type == 'latex_table':
         gt_lines = norm_html_lines
@@ -119,38 +116,38 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         # print("One of the lists is empty. Returning an empty gt result.")
         for pred_idx in range(len(norm_pred_lines)):
             match_list.append({
-                    'gt_idx': [-1],
-                    'gt': "",
-                    'norm_gt': "",
-                    'gt_category_type': "",
-                    'gt_position': -1,
-                    'pred_idx': [pred_idx],
-                    'pred': pred_lines[pred_idx],
-                    'norm_pred': norm_pred_lines[pred_idx],
-                    'pred_category_type': get_pred_pred_category_type(pred_idx, pred_items),
-                    'pred_position': pred_items[pred_idx]['position'][0],
-                    'edit': 1,
-                    'img_id': img_name
-                })
+                'gt_idx': [-1],
+                'gt': "",
+                'norm_gt': "",
+                'gt_category_type': "",
+                'gt_position': -1,
+                'pred_idx': [pred_idx],
+                'pred': pred_lines[pred_idx],
+                'norm_pred': norm_pred_lines[pred_idx],
+                'pred_category_type': get_pred_pred_category_type(pred_idx, pred_items),
+                'pred_position': pred_items[pred_idx]['position'][0],
+                'edit': 1,
+                'img_id': img_name
+            })
         return match_list
     elif not norm_pred_lines:
         # print("One of the lists is empty. Returning an empty pred result.")
         match_list = []
         for gt_idx in range(len(norm_gt_lines)):
             match_list.append({
-                    'gt_idx': [gt_idx],
-                    'gt': gt_lines[gt_idx],
-                    'norm_gt': norm_gt_lines[gt_idx],
-                    'gt_category_type': gt_cat_list[gt_idx],
-                    'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]],
-                    'pred_idx': [-1],
-                    'pred': "",
-                    'norm_pred': "",
-                    'pred_category_type': "",
-                    'pred_position': -1,
-                    'edit': 1,
-                    'img_id': img_name
-                })
+                'gt_idx': [gt_idx],
+                'gt': gt_lines[gt_idx],
+                'norm_gt': norm_gt_lines[gt_idx],
+                'gt_category_type': gt_cat_list[gt_idx],
+                'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]],
+                'pred_idx': [-1],
+                'pred': "",
+                'norm_pred': "",
+                'pred_category_type': "",
+                'pred_position': -1,
+                'edit': 1,
+                'img_id': img_name
+            })
         return match_list
     elif len(norm_gt_lines) == 1 and len(norm_pred_lines) == 1:
         edit_distance = Levenshtein.distance(norm_gt_lines[0], norm_pred_lines[0])
@@ -327,12 +324,12 @@ def match_gt2pred_textblock_quick(gt_items, pred_lines, img_name):
             plain_text_match.append({
                 'gt_idx': item['gt_idx'],
                 'gt': plaintext_gt,
-                'norm_gt': normalize_text(plaintext_gt),
+                'norm_gt': plaintext_gt,
                 'gt_category_type': item['gt_category_type'],
                 'gt_position': gt_position,
                 'pred_idx': item['pred_idx'],
                 'pred': plaintext_pred,
-                'norm_pred': normalize_text(plaintext_pred),
+                'norm_pred': plaintext_pred,
                 'pred_category_type': item['pred_category_type'],
                 'pred_position': item['pred_position'],
                 'edit': edit,

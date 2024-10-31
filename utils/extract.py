@@ -321,21 +321,24 @@ def md_tex_filter(content):
 
     # print('-------After code block: \n', content)
 
-    # extract titles
-    title_matches = title_reg.finditer(content)
-    if title_matches:
-        for match in title_matches:
-            position = [match.start(), match.end()]
-            matched = match.group(0)
-            # content = content.replace(match, '')
-            # print('content after removing the titles:', content)
-            content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
-            pred_all.append({
-                'category_type': 'text_all',
-                'position': position,
-                'content': matched,
-                'fine_category_type': 'title'
-            })
+    # # extract titles：不提取标题了，因为有的模型没有给code block包起来，导致里面的注释全变成标题
+    # title_matches = title_reg.finditer(content)
+    # if title_matches:
+    #     for match in title_matches:
+    #         position = [match.start(), match.end()]
+    #         matched = match.group(0)
+    #         matched = matched.replace("#", "").strip()
+    #         # content = content.replace(match, '')
+    #         # print('content after removing the titles:', content)
+    #         if matched:
+    #             # print('Add title: ', matched)
+    #             content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]
+    #             pred_all.append({
+    #                 'category_type': 'text_all',
+    #                 'position': position,
+    #                 'content': matched,
+    #                 'fine_category_type': 'title'
+    #             })
     
     # print('----------After title: \n', content)
 
@@ -350,6 +353,10 @@ def md_tex_filter(content):
         content_position += len(text)
         text = text.strip()
         text = text.strip('\n')
+        # print('ori_text: ', text)
+        text = '\n'.join([_.strip() for _ in text.split('\n') if _.strip()])   # 以防有一些单换行的内容被替换成空格了
+        # print('after strip text: ', text)
+
         if text:  # Check if the stripped text is not empty
             if text.startswith('<table') and text.endswith('</table>'):
                 pred_all.append({
@@ -357,19 +364,23 @@ def md_tex_filter(content):
                     'position': position,
                     'content': text,
                 })
-            elif text.startswith('#') and '\n' not in text:
-                pred_all.append({
-                    'category_type': 'text_all',
-                    'position': position,
-                    'content': text,
-                    'fine_category_type': 'title'
-                })
+            # elif text.startswith('#') and '\n' not in text:
+            #     text = text.replace('#', '').strip()
+            #     if text:
+            #         # print('Add title: ', matched)
+            #         pred_all.append({
+            #             'category_type': 'text_all',
+            #             'position': position,
+            #             'content': text,
+            #             'fine_category_type': 'title'
+            #         })
             elif text.startswith('$') and text.endswith('$'):
-                pred_all.append({
-                    'category_type': 'equation_isolated',
-                    'position': position,
-                    'content': text,
-                })
+                if text.replace('$').strip():
+                    pred_all.append({
+                        'category_type': 'equation_isolated',
+                        'position': position,
+                        'content': text.strip(),
+                    })
             else:
                 pred_all.append({
                     'category_type': 'text_all',
@@ -385,7 +396,7 @@ def md_tex_filter(content):
     pred_all = sorted(pred_all, key=lambda x: x['position'][0])
     for item in pred_all:
         pred_dataset[item['category_type']].append(item)
-        
+    # pdb.set_trace()
     return pred_dataset
 
 

@@ -19,8 +19,9 @@ end2end_eval:
     dataset_name: md2md_dataset
     ground_truth:
       data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/mds1030_html_table
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/test_data/gt
     prediction:
       data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/internvl76b_subset
-    match_method: simple_match
-    # match_method: quick_match
+    # match_method: simple_match
+    match_method: quick_match
     # match_method: full_match

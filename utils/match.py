@@ -10,10 +10,10 @@ from pylatexenc.latex2text import LatexNodes2Text
 
 def compute_edit_distance_matrix_new(gt_lines, matched_lines):
     distance_matrix = np.zeros((len(gt_lines), len(matched_lines)))
-    # print('gt len: ', len(gt_lines))
-    # print('pred_len: ', len(matched_lines))
-    # print('norm_gt_lines: ', gt_lines)
-    # print('norm_pred_lines: ', matched_lines)
+    print('gt len: ', len(gt_lines))
+    print('pred_len: ', len(matched_lines))
+    print('norm_gt_lines: ', gt_lines)
+    print('norm_pred_lines: ', matched_lines)
     for i, gt_line in enumerate(gt_lines):
         for j, matched_line in enumerate(matched_lines):
             distance_matrix[i][j] = Levenshtein.distance(gt_line, matched_line)/max(len(matched_line), len(gt_line))
@@ -56,8 +56,6 @@ def normalized_formula(text):
     text = text.lower()
     return text
 
-def normalize_text(text):
-    return text.strip('\n').strip().strip('#').strip()
 
 def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
 
@@ -84,8 +82,8 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
         norm_gt_lines = [normalized_formula(_) for _ in gt_lines]
         norm_pred_lines = [normalized_formula(_) for _ in pred_lines]
     else:
-        norm_gt_lines = [normalize_text(_) for _ in gt_lines]
-        norm_pred_lines = [normalize_text(_) for _ in pred_lines]
+        norm_gt_lines = gt_lines
+        norm_pred_lines = pred_lines
     
     if line_type == 'latex_table':
         gt_lines = norm_html_lines
@@ -171,11 +169,13 @@ def match_gt2pred_textblock_simple(gt_items, pred_lines, img_name):
     inline_formula_match = []
     for item in text_inline_match_s:
         # print('GT')
-        plaintext_gt, inline_gt_items = inline_filter_unicode(item['gt'])  # TODO:这个后续最好是直接从span里提取出来
+        # plaintext_gt, inline_gt_items = inline_filter_unicode(item['gt'])  # TODO:这个后续最好是直接从span里提取出来
+        plaintext_gt, inline_gt_items = inline_filter(item['gt'])  # TODO:这个后续最好是直接从span里提取出来
         #print('----------inline_gt_items--------------',inline_gt_items)
         # print('Pred')
         # print(item['pred'])
-        plaintext_pred, inline_pred_items = inline_filter_unicode(item['pred'])
+        # plaintext_pred, inline_pred_items = inline_filter_unicode(item['pred'])
+        plaintext_pred, inline_pred_items = inline_filter(item['pred'])
         #print('----------inline_gt_items--------------',inline_pred_items)
         # print('inline_pred_list', inline_pred_list)
         # print('plaintext_pred: ', plaintext_pred)

@@ -119,8 +119,8 @@ class Md2MdDataset():
 
                 formated_inline_formula = self.formula_format(inline_formula_match_s, img_name)
                 inline_formula_match.extend(formated_inline_formula)
-                # print('inline_formula_match_s: ', inline_formula_match_s)
-                # print('-'*10)
+                print('inline_formula_match_s: ', inline_formula_match_s)
+                print('-'*10)
                 
             # if gt_page_elements.get('title'):
             #     gt_title_list = self.get_sorted_text_list(gt_page_elements['title'])
