@@ -61,18 +61,12 @@ class call_Edit_dist():
     def __init__(self, dataset):
         self.dataset = dataset
     def evaluate(self):
-        lev_dist = []
-        gt_len = 0
-        pred_len = 0
+        lev_dist_list = []
         for sample in self.dataset.samples:
-            lev_dist.append(Levenshtein.distance(sample['pred'], sample['gt']))
-            gt_len += len(sample['gt'])
-            pred_len += len(sample['pred'])
+            normalized_edit_dist = Levenshtein.distance(sample['pred'], sample['gt']) / max(len(sample['pred']), len(sample['gt']))
+            lev_dist_list.append(normalized_edit_dist)
         
-        if gt_len != 0 or pred_len != 0:
-            Edit_dist = sum(lev_dist) / max(gt_len, pred_len)
-        else:
-            Edit_dist = 0
+        Edit_dist = sum(lev_dist_list) / len(lev_dist_list)    # paired级别的norm的均值
 
         return {'Edit_dist': Edit_dist}
     
