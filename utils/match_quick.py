@@ -59,6 +59,9 @@ def normalized_formula(text):
     return text
 
 
+def normalize_text(text):
+    return text.strip('\n').strip().strip('#').strip()
+
 def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
 
     norm_html_lines = []
@@ -79,17 +82,15 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         elif line_type == 'latex_table':
             gt_lines.append(str(item['latex']))
             norm_html_lines.append(str(item['html']))
-        
+    
+    pred_lines = [str(item['content']) for item in pred_items]
+
     if line_type == 'formula':
         norm_gt_lines = [normalized_formula(_) for _ in gt_lines]
-    else:
-        norm_gt_lines = gt_lines
-
-    pred_lines = [str(item['content']) for item in pred_items]
-    if line_type == 'formula':
         norm_pred_lines = [normalized_formula(_) for _ in pred_lines]
     else:
-        norm_pred_lines = pred_lines
+        norm_gt_lines = [normalize_text(_) for _ in gt_lines]
+        norm_pred_lines = [normalize_text(_) for _ in pred_lines]
 
     if line_type == 'latex_table':
         gt_lines = norm_html_lines
@@ -326,12 +327,12 @@ def match_gt2pred_textblock_quick(gt_items, pred_lines, img_name):
             plain_text_match.append({
                 'gt_idx': item['gt_idx'],
                 'gt': plaintext_gt,
-                'norm_gt': plaintext_gt,
+                'norm_gt': normalize_text(plaintext_gt),
                 'gt_category_type': item['gt_category_type'],
                 'gt_position': gt_position,
                 'pred_idx': item['pred_idx'],
                 'pred': plaintext_pred,
-                'norm_pred': plaintext_pred,
+                'norm_pred': normalize_text(plaintext_pred),
                 'pred_category_type': item['pred_category_type'],
                 'pred_position': item['pred_position'],
                 'edit': edit,

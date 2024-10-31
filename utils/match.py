@@ -56,6 +56,8 @@ def normalized_formula(text):
     text = text.lower()
     return text
 
+def normalize_text(text):
+    return text.strip('\n').strip().strip('#').strip()
 
 def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
 
@@ -76,20 +78,19 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
             gt_lines.append(str(item['latex']))
             norm_html_lines.append(str(item['html']))
         
+    pred_lines = [str(item['content']) for item in pred_items]
+
     if line_type == 'formula':
         norm_gt_lines = [normalized_formula(_) for _ in gt_lines]
-    else:
-        norm_gt_lines = gt_lines
-    
-    pred_lines = [str(item['content']) for item in pred_items]
-    if line_type == 'formula':
         norm_pred_lines = [normalized_formula(_) for _ in pred_lines]
     else:
-        norm_pred_lines = pred_lines
+        norm_gt_lines = [normalize_text(_) for _ in gt_lines]
+        norm_pred_lines = [normalize_text(_) for _ in pred_lines]
     
-    cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
     if line_type == 'latex_table':
         gt_lines = norm_html_lines
+
+    cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
 
     row_ind, col_ind = linear_sum_assignment(cost_matrix)
 

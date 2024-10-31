@@ -63,10 +63,15 @@ class call_Edit_dist():
     def evaluate(self):
         lev_dist_list = []
         for sample in self.dataset.samples:
-            normalized_edit_dist = Levenshtein.distance(sample['pred'], sample['gt']) / max(len(sample['pred']), len(sample['gt']))
-            lev_dist_list.append(normalized_edit_dist)
+            if len(sample['pred']) > 0 or len(sample['gt']) > 0:
+                normalized_edit_dist = Levenshtein.distance(sample['pred'], sample['gt']) / max(len(sample['pred']), len(sample['gt']))
+                lev_dist_list.append(normalized_edit_dist)
         
-        Edit_dist = sum(lev_dist_list) / len(lev_dist_list)    # paired级别的norm的均值
+        if len(lev_dist_list) > 0:
+            Edit_dist = sum(lev_dist_list) / len(lev_dist_list)    # paired级别的norm的均值
+        else:
+            Edit_dist = 0
+            print('Warning: Empyty matched samples.')
 
         return {'Edit_dist': Edit_dist}
     

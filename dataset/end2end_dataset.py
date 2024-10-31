@@ -17,7 +17,7 @@ class End2EndDataset():
         gt_path = cfg_task['dataset']['ground_truth']['data_path']
         pred_folder = cfg_task['dataset']['prediction']['data_path']
         self.match_method = cfg_task['dataset'].get('match_method', 'simple_match')
-        # self.table_latex2html = cfg_task['dataset'].get('table_latex2html', True)
+        self.table_latex2html = cfg_task['dataset'].get('table_latex2html', True)
         if not cfg_task['metrics'].get('table'):
             self.table_latex2html = False
         elif 'TEDS' not in cfg_task['metrics']['table']:
@@ -116,7 +116,10 @@ class End2EndDataset():
         read_order_gt = sorted(read_order_pred) # 以GT的idx来sort，获取GT排序的GT_idx
         gt = sum(read_order_gt, []) # 转成一个一维list
         pred = sum(read_order_pred, [])
-        edit = Levenshtein.distance(gt, pred)/max(len(pred), len(gt))
+        if len(pred) > 0 or len(gt) > 0:
+            edit = Levenshtein.distance(gt, pred)/ max(len(pred), len(gt))
+        else:
+            edit = 0
         return {
             'gt': gt,  
             'pred': pred,

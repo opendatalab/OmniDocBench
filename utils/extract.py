@@ -258,7 +258,6 @@ def md_tex_filter(content):
   
     # extract interline formula
     display_matches = display_reg.finditer(content)
-    display_array = []
     for match in display_matches:
         matched = match.group(0)
         if matched:
@@ -268,7 +267,6 @@ def md_tex_filter(content):
             dollar_pattern = re.compile(r'\$\$(.*?)\$\$', re.DOTALL)
             single_line = re.sub(dollar_pattern, r'\\[\1\\]', single_line)
             # print('single_line: ', single_line)
-            display_array.append(single_line)
             # content = content.replace(matched, ' '*len(matched))
             content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
             pred_all.append({
@@ -292,7 +290,6 @@ def md_tex_filter(content):
             for match in html_table_matches:
                 matched = match.group(0)
                 position = [match.start(), match.end()]
-                html_table_array.append(matched.strip())
                 # content = content.replace(match, '')
                 # print('content after removing the md table:', content)
                 content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
@@ -306,14 +303,12 @@ def md_tex_filter(content):
     # print('---------After md table: \n', content)
 
     # extract code blocks
-    code_array = []
     code_matches = code_block_reg.finditer(content)
     if code_matches:
         for match in code_matches:
             position = [match.start(), match.end()]
             language = match.group(1)
             code = match.group(2).strip()
-            code_array.append({'language': language, 'code': code})
             # content = content.replace(match.group(0), '')
             content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
             pred_all.append({
@@ -328,19 +323,17 @@ def md_tex_filter(content):
 
     # extract titles
     title_matches = title_reg.finditer(content)
-    title_array =[]
     if title_matches:
         for match in title_matches:
             position = [match.start(), match.end()]
             matched = match.group(0)
-            title_array.append(matched.strip('\n').strip('#').strip(' '))
             # content = content.replace(match, '')
             # print('content after removing the titles:', content)
             content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
             pred_all.append({
                 'category_type': 'text_all',
                 'position': position,
-                'content': matched.strip('\n').strip('#').strip(' '),
+                'content': matched,
                 'fine_category_type': 'title'
             })
     
@@ -350,7 +343,6 @@ def md_tex_filter(content):
     res = content.split('\n\n')
     if len(res) == 1:
         res = content.split('\n')  # 有的模型结果里没有双换行，只能用单换行来拆分
-    text_array = []
 
     content_position = 0
     for text in res:
@@ -360,14 +352,12 @@ def md_tex_filter(content):
         text = text.strip('\n')
         if text:  # Check if the stripped text is not empty
             if text.startswith('<table') and text.endswith('</table>'):
-                html_table_array.append(text)
                 pred_all.append({
                     'category_type': 'html_table',
                     'position': position,
                     'content': text,
                 })
             elif text.startswith('#') and '\n' not in text:
-                title_array.append(text)
                 pred_all.append({
                     'category_type': 'text_all',
                     'position': position,
@@ -375,14 +365,12 @@ def md_tex_filter(content):
                     'fine_category_type': 'title'
                 })
             elif text.startswith('$') and text.endswith('$'):
-                display_array.append(text)
                 pred_all.append({
                     'category_type': 'equation_isolated',
                     'position': position,
                     'content': text,
                 })
             else:
-                text_array.append(text)
                 pred_all.append({
                     'category_type': 'text_all',
                     'position': position,

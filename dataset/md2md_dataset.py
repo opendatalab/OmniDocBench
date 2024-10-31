@@ -17,7 +17,7 @@ class Md2MdDataset():
         gt_folder = cfg_task['dataset']['ground_truth']['data_path']
         pred_folder = cfg_task['dataset']['prediction']['data_path']
         self.match_method = cfg_task['dataset'].get('match_method', 'simple_match')
-        # self.table_latex2html = cfg_task['dataset'].get('table_latex2html', True)
+        self.table_latex2html = cfg_task['dataset'].get('table_latex2html', True)
         if not cfg_task['metrics'].get('table'):
             self.table_latex2html = False
         elif 'TEDS' not in cfg_task['metrics']['table']:
@@ -37,7 +37,10 @@ class Md2MdDataset():
         read_order_gt = sorted(read_order_pred) # 以GT的idx来sort，获取GT排序的GT_idx
         gt = sum(read_order_gt, []) # 转成一个一维list
         pred = sum(read_order_pred, [])
-        edit = Levenshtein.distance(gt, pred)/max(len(pred), len(gt))
+        if len(pred) > 0 or len(gt) > 0:
+            edit = Levenshtein.distance(gt, pred)/ max(len(pred), len(gt))
+        else:
+            edit = 0
         return {
             'gt': gt,  
             'pred': pred,
@@ -64,7 +67,7 @@ class Md2MdDataset():
         latex_table_match = []
         order_match = []
 
-        for sample_name in os.listdir(gt_folder)[2:3]:
+        for sample_name in os.listdir(gt_folder):
             if not sample_name.endswith('.md'):
                 continue
             
@@ -144,9 +147,9 @@ class Md2MdDataset():
                 # print('-'*10)
             else:
                 if gt_dataset.get('latex_table') or gt_dataset.get('html_table'):
-                    print('GT table is not empty. But format is different from pred, or pred is empty.')
+                    print('GT table is not empty. But pred is empty or its format is different from gt.')
                 if pred_dataset.get('latex_table') or pred_dataset.get('html_table'):
-                    print('Pred table is not empty. But format is different from gt, or gt is empty.')
+                    print('Pred table is not empty. But gt is empty or its format is different from pred.')
 
             # 阅读顺序的处理
             order_match_s = []
@@ -179,7 +182,7 @@ class Md2MdDataset():
             'text_block': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(plain_text_match),
             'inline_formula': DATASET_REGISTRY.get('recogition_end2end_formula_dataset')(inline_formula_match), 
             'display_formula':  DATASET_REGISTRY.get('recogition_end2end_formula_dataset')(display_formula_match), 
-            'table': DATASET_REGISTRY.get('recogition_end2end_table_dataset')(table_match, table_format),
+            'table': DATASET_REGISTRY.get('recogition_end2end_table_dataset')(table_match, table_format, self.table_latex2html),
             'reading_order': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(order_match)
         }
         
