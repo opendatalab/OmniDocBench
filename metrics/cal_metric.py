@@ -35,8 +35,10 @@ class call_BLEU():
     def evaluate(self):
         predictions, references = [], []
         for sample in self.dataset.samples:
-            predictions.append(sample['gt'])
-            references.append(sample['pred'])
+            gt = sample['norm_gt'] if sample.get('norm_gt') else sample['gt']
+            pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
+            predictions.append(gt)
+            references.append(pred)
         bleu = evaluate.load("bleu", keep_in_memory=True, experiment_id=random.randint(1,1e8))
         bleu_results = bleu.compute(predictions=predictions, references=references)
         
@@ -49,8 +51,10 @@ class call_METEOR():
     def evaluate(self):
         predictions, references = [], []
         for sample in self.dataset.samples:
-            predictions.append(sample['gt'])
-            references.append(sample['pred'])
+            gt = sample['norm_gt'] if sample.get('norm_gt') else sample['gt']
+            pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
+            predictions.append(gt)
+            references.append(pred)
         meteor = evaluate.load('meteor', keep_in_memory=True, experiment_id=random.randint(1,1e8))
         meteor_results = meteor.compute(predictions=predictions, references=references)
         
@@ -63,8 +67,10 @@ class call_Edit_dist():
     def evaluate(self):
         lev_dist_list = []
         for sample in self.dataset.samples:
-            if len(sample['pred']) > 0 or len(sample['gt']) > 0:
-                normalized_edit_dist = Levenshtein.distance(sample['pred'], sample['gt']) / max(len(sample['pred']), len(sample['gt']))
+            gt = sample['norm_gt'] if sample.get('norm_gt') else sample['gt']
+            pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
+            if len(pred) > 0 or len(gt) > 0:
+                normalized_edit_dist = Levenshtein.distance(pred, gt) / max(len(pred), len(gt))
                 lev_dist_list.append(normalized_edit_dist)
         
         if len(lev_dist_list) > 0:

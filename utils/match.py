@@ -3,17 +3,18 @@ from scipy.optimize import linear_sum_assignment
 import Levenshtein
 import numpy as np
 import re
-from utils.extract import inline_filter,inline_filter_unicode
+# from utils.extract import inline_filter,inline_filter_unicode
 import sys
 import pdb
 from pylatexenc.latex2text import LatexNodes2Text
+from utils.extract import textblock2unicode
 
 def compute_edit_distance_matrix_new(gt_lines, matched_lines):
     distance_matrix = np.zeros((len(gt_lines), len(matched_lines)))
-    print('gt len: ', len(gt_lines))
-    print('pred_len: ', len(matched_lines))
-    print('norm_gt_lines: ', gt_lines)
-    print('norm_pred_lines: ', matched_lines)
+    # print('gt len: ', len(gt_lines))
+    # print('pred_len: ', len(matched_lines))
+    # print('norm_gt_lines: ', gt_lines)
+    # print('norm_pred_lines: ', matched_lines)
     for i, gt_line in enumerate(gt_lines):
         for j, matched_line in enumerate(matched_lines):
             distance_matrix[i][j] = Levenshtein.distance(gt_line, matched_line)/max(len(matched_line), len(gt_line))
@@ -21,7 +22,7 @@ def compute_edit_distance_matrix_new(gt_lines, matched_lines):
 
 
 def normalized_formula(text):
-    # 把数学公式做一下norm
+    # 把数学公式做一下norm再匹配
     filter_list = ['\\mathbf', '\\mathrm', '\\mathnormal', '\\mathit', '\\mathbb', '\\mathcal', '\\mathscr', '\\mathfrak', '\\mathsf', '\\mathtt', 
                    '\\textbf', '\\text', '\\boldmath', '\\boldsymbol', '\\operatorname', '\\bm',
                    '\\symbfit', '\\mathbfcal', '\\symbf', '\\scriptscriptstyle', '\\notag',
@@ -57,8 +58,7 @@ def normalized_formula(text):
     return text
 
 
-def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
-
+def get_gt_pred_lines(gt_items, pred_items, line_type):
     norm_html_lines = []
     gt_lines = []
     gt_cat_list = []
@@ -81,12 +81,22 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
     if line_type == 'formula':
         norm_gt_lines = [normalized_formula(_) for _ in gt_lines]
         norm_pred_lines = [normalized_formula(_) for _ in pred_lines]
+    elif line_type == 'text':
+        norm_gt_lines = [textblock2unicode(_) for _ in gt_lines]
+        norm_pred_lines = [textblock2unicode(_) for _ in pred_lines]
     else:
         norm_gt_lines = gt_lines
         norm_pred_lines = pred_lines
     
     if line_type == 'latex_table':
         gt_lines = norm_html_lines
+
+    return gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines
+
+
+def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
+
+    gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines = get_gt_pred_lines(gt_items, pred_items, line_type)
 
     cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
 
@@ -163,54 +173,54 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
     return match_list
 
 
-def match_gt2pred_textblock_simple(gt_items, pred_lines, img_name):
-    text_inline_match_s = match_gt2pred_simple(gt_items, pred_lines, 'text', img_name)
-    plain_text_match = []
-    inline_formula_match = []
-    for item in text_inline_match_s:
-        # print('GT')
-        # plaintext_gt, inline_gt_items = inline_filter_unicode(item['gt'])  # TODO:这个后续最好是直接从span里提取出来
-        plaintext_gt, inline_gt_items = inline_filter(item['gt'])  # TODO:这个后续最好是直接从span里提取出来
-        #print('----------inline_gt_items--------------',inline_gt_items)
-        # print('Pred')
-        # print(item['pred'])
-        # plaintext_pred, inline_pred_items = inline_filter_unicode(item['pred'])
-        plaintext_pred, inline_pred_items = inline_filter(item['pred'])
-        #print('----------inline_gt_items--------------',inline_pred_items)
-        # print('inline_pred_list', inline_pred_list)
-        # print('plaintext_pred: ', plaintext_pred)
-        # plaintext_gt = plaintext_gt.replace(' ', '')
-        # plaintext_pred = plaintext_pred.replace(' ', '')
-        if plaintext_gt or plaintext_pred:
-            edit = Levenshtein.distance(plaintext_gt, plaintext_pred)/max(len(plaintext_pred), len(plaintext_gt))
-            if item['gt_idx'][0] == -1:
-                gt_position = [-1]
-            else:
-                gt_idx = item['gt_idx'][0]
-                gt_position = [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]]
-            plain_text_match.append({
-                'gt_idx': item['gt_idx'],
-                'gt': plaintext_gt,
-                'norm_gt': plaintext_gt,
-                'gt_category_type': item['gt_category_type'],
-                'gt_position': gt_position,
-                'pred_idx': item['pred_idx'],
-                'pred': plaintext_pred,
-                'norm_pred': plaintext_pred,
-                'pred_category_type': item['pred_category_type'],
-                'pred_position': item['pred_position'],
-                'edit': edit,
-                'img_id': img_name
-            })
+# def match_gt2pred_textblock_simple(gt_items, pred_lines, img_name):   # 仅存档，不再单独提取inline formula
+#     text_inline_match_s = match_gt2pred_simple(gt_items, pred_lines, 'text', img_name)
+#     plain_text_match = []
+#     inline_formula_match = []
+#     for item in text_inline_match_s:
+#         # print('GT')
+#         # plaintext_gt, inline_gt_items = inline_filter_unicode(item['gt'])  # TODO:这个后续最好是直接从span里提取出来
+#         plaintext_gt, inline_gt_items = inline_filter(item['gt'])  # TODO:这个后续最好是直接从span里提取出来
+#         #print('----------inline_gt_items--------------',inline_gt_items)
+#         # print('Pred')
+#         # print(item['pred'])
+#         # plaintext_pred, inline_pred_items = inline_filter_unicode(item['pred'])
+#         plaintext_pred, inline_pred_items = inline_filter(item['pred'])
+#         #print('----------inline_gt_items--------------',inline_pred_items)
+#         # print('inline_pred_list', inline_pred_list)
+#         # print('plaintext_pred: ', plaintext_pred)
+#         # plaintext_gt = plaintext_gt.replace(' ', '')
+#         # plaintext_pred = plaintext_pred.replace(' ', '')
+#         if plaintext_gt or plaintext_pred:
+#             edit = Levenshtein.distance(plaintext_gt, plaintext_pred)/max(len(plaintext_pred), len(plaintext_gt))
+#             if item['gt_idx'][0] == -1:
+#                 gt_position = [-1]
+#             else:
+#                 gt_idx = item['gt_idx'][0]
+#                 gt_position = [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]]
+#             plain_text_match.append({
+#                 'gt_idx': item['gt_idx'],
+#                 'gt': plaintext_gt,
+#                 'norm_gt': plaintext_gt,
+#                 'gt_category_type': item['gt_category_type'],
+#                 'gt_position': gt_position,
+#                 'pred_idx': item['pred_idx'],
+#                 'pred': plaintext_pred,
+#                 'norm_pred': plaintext_pred,
+#                 'pred_category_type': item['pred_category_type'],
+#                 'pred_position': item['pred_position'],
+#                 'edit': edit,
+#                 'img_id': img_name
+#             })
 
-        if inline_gt_items or inline_pred_items:
-            # inline_gt_items = [{'category_type': 'equation_inline', 'latex': line} for line in inline_gt_list]
-            # inline_pred_items = [{'category_type': 'equation_inline', 'content': line} for line in inline_pred_list]
-            # print('inline_gt_items: ', inline_gt_items)
-            # print('inline_pred_items: ', inline_pred_items)
-            inline_formula_match_s = match_gt2pred_simple(inline_gt_items, inline_pred_items, 'formula', img_name)
-            inline_formula_match.extend(inline_formula_match_s)
+#         if inline_gt_items or inline_pred_items:
+#             # inline_gt_items = [{'category_type': 'equation_inline', 'latex': line} for line in inline_gt_list]
+#             # inline_pred_items = [{'category_type': 'equation_inline', 'content': line} for line in inline_pred_list]
+#             # print('inline_gt_items: ', inline_gt_items)
+#             # print('inline_pred_items: ', inline_pred_items)
+#             inline_formula_match_s = match_gt2pred_simple(inline_gt_items, inline_pred_items, 'formula', img_name)
+#             inline_formula_match.extend(inline_formula_match_s)
 
     
-    return plain_text_match, inline_formula_match
+#     return plain_text_match, inline_formula_match
     

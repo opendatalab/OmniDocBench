@@ -2,8 +2,8 @@ import json
 import os
 from collections import defaultdict
 from utils.extract import md_tex_filter
-from utils.match import match_gt2pred_simple, match_gt2pred_textblock_simple
-from utils.match_quick import match_gt2pred_quick, match_gt2pred_textblock_quick
+from utils.match import match_gt2pred_simple
+from utils.match_quick import match_gt2pred_quick
 # from utils.match_full import match_gt2pred_full, match_gt2pred_textblock_full
 from utils.read_files import read_md_file
 from registry.registry import DATASET_REGISTRY
@@ -61,7 +61,6 @@ class Md2MdDataset():
 
     def get_matched_elements(self, gt_folder, pred_folder):
         plain_text_match = []
-        inline_formula_match = []
         display_formula_match = []
         html_table_match = []
         latex_table_match = []
@@ -88,10 +87,10 @@ class Md2MdDataset():
             
             if self.match_method == 'simple_match':   # add match choice
                 match_gt2pred = match_gt2pred_simple
-                match_gt2pred_textblock = match_gt2pred_textblock_simple
+                # match_gt2pred_textblock = match_gt2pred_textblock_simple
             elif self.match_method == 'quick_match':
                 match_gt2pred = match_gt2pred_quick
-                match_gt2pred_textblock = match_gt2pred_textblock_quick
+                # match_gt2pred_textblock = match_gt2pred_textblock_quick
 
             gt_dataset = md_tex_filter(gt_content)
             pred_dataset = md_tex_filter(pred_content)
@@ -106,7 +105,8 @@ class Md2MdDataset():
             plain_text_match_clean = []
             if gt_dataset['text_all']:
                 # print('gt_text_list: ', gt_text_list)
-                plain_text_match_s, inline_formula_match_s = match_gt2pred_textblock(gt_dataset['text_all'], pred_dataset['text_all'], img_name)
+                # plain_text_match_s, inline_formula_match_s = match_gt2pred_textblock(gt_dataset['text_all'], pred_dataset['text_all'], img_name)
+                plain_text_match_s = match_gt2pred(gt_dataset['text_all'], pred_dataset['text_all'], 'text', img_name)
                 # print('plain_text_match_s: ', plain_text_match_s)
                 # print('-'*10)
                 # print('inline_formula_match_s', inline_formula_match_s)
@@ -117,10 +117,10 @@ class Md2MdDataset():
                 
                 plain_text_match.extend(plain_text_match_s)
 
-                formated_inline_formula = self.formula_format(inline_formula_match_s, img_name)
-                inline_formula_match.extend(formated_inline_formula)
-                print('inline_formula_match_s: ', inline_formula_match_s)
-                print('-'*10)
+                # formated_inline_formula = self.formula_format(inline_formula_match_s, img_name)
+                # inline_formula_match.extend(formated_inline_formula)
+                # print('inline_formula_match_s: ', inline_formula_match_s)
+                # print('-'*10)
                 
             # if gt_page_elements.get('title'):
             #     gt_title_list = self.get_sorted_text_list(gt_page_elements['title'])
@@ -175,13 +175,11 @@ class Md2MdDataset():
             json.dump(order_match, f, indent=4, ensure_ascii=False)
         with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/display_match.json', 'w', encoding='utf-8') as f:
             json.dump(display_formula_match, f, indent=4, ensure_ascii=False)
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/inline_match.json', 'w', encoding='utf-8') as f:
-            json.dump(inline_formula_match, f, indent=4, ensure_ascii=False)
 
         matched_samples_all = {
             'text_block': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(plain_text_match),
-            'inline_formula': DATASET_REGISTRY.get('recogition_end2end_formula_dataset')(inline_formula_match), 
-            'display_formula':  DATASET_REGISTRY.get('recogition_end2end_formula_dataset')(display_formula_match), 
+            # 'inline_formula': DATASET_REGISTRY.get('recogition_end2end_formula_dataset')(inline_formula_match), 
+            'display_formula':  DATASET_REGISTRY.get('recogition_end2end_base_dataset')(display_formula_match), 
             'table': DATASET_REGISTRY.get('recogition_end2end_table_dataset')(table_match, table_format, self.table_latex2html),
             'reading_order': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(order_match)
         }

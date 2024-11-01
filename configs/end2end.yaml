@@ -3,14 +3,11 @@ end2end_eval:
     text_block:
       - Edit_dist
       # - BLEU
-    inline_formula:
-      - Edit_dist
-      # - CDM
     display_formula:
       - Edit_dist
       # - CDM
     table:
-      # - TEDS
+      - TEDS
       - Edit_dist
     reading_order:
       - Edit_dist
@@ -20,7 +17,7 @@ end2end_eval:
     ground_truth:
       data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1030_subset.json
     prediction:
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/internvl76b_subset
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/qwenvl
     # match_method: simple_match
     match_method: quick_match
     # match_method: full_match

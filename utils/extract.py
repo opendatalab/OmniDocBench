@@ -8,7 +8,7 @@ import re
 import unicodedata
 from bs4 import BeautifulSoup
 from pylatexenc.latexencode import unicode_to_latex
-# from pylatexenc.latex2text import LatexNodes2Text
+from pylatexenc.latex2text import LatexNodes2Text
 from pylatexenc.latexwalker import LatexWalker, LatexEnvironmentNode, LatexCharsNode, LatexGroupNode, LatexMacroNode, LatexSpecialsNode
 from collections import defaultdict
 import pdb
@@ -133,33 +133,34 @@ def find_special_unicode(s):
             special_chars[char] = f'U+{ord(char):04X} ({unicode_name})'
     return special_chars
 
-# 定义要替换的Unicode字符和替换后的内容的字典
-unicode_replacements = {
-    "\u00A9": r"$\copyright$",  # 版权符号©替换为latex
-    "\u00AE": r"$^\circledR$",  # 注册商标符号®替换为latex
-    "\u2122": r"$^\text{TM}$",   # 商标符号™替换latex
-    "\u2018": "'",             # 左单引号转直引号
-    "\u2019": "'",             # 右单引号转直引号
-    "\u201C": "\"",            # 左双引号转直双引号
-    "\u201D": "\"",            # 右双引号转直双引号
-    "\u2013": "-",             # 短破折号转连字符
-    "\u2014": "-",             # 长破折号转连字符
-    "\u2026": "...",           # Unicode 省略号转三个点
-    "\u2103": r"$\textdegree C$",  # ℃
-    "\u03B1": r"$\alpha$",         # α
-    "\u03B2": r"$\beta$",          # β
-    "\u03A3": r"$\Sigma$",         # Σ
-}
+# # 定义要替换的Unicode字符和替换后的内容的字典
+# unicode_replacements = {
+#     "\u00A9": r"$\copyright$",  # 版权符号©替换为latex
+#     "\u00AE": r"$^\circledR$",  # 注册商标符号®替换为latex
+#     "\u2122": r"$^\text{TM}$",   # 商标符号™替换latex
+#     "\u2018": "'",             # 左单引号转直引号
+#     "\u2019": "'",             # 右单引号转直引号
+#     "\u201C": "\"",            # 左双引号转直双引号
+#     "\u201D": "\"",            # 右双引号转直双引号
+#     "\u2013": "-",             # 短破折号转连字符
+#     "\u2014": "-",             # 长破折号转连字符
+#     "\u2026": "...",           # Unicode 省略号转三个点
+#     "\u2103": r"$\textdegree C$",  # ℃
+#     "\u03B1": r"$\alpha$",         # α
+#     "\u03B2": r"$\beta$",          # β
+#     "\u03A3": r"$\Sigma$",         # Σ
+# }
 
-# 使用正则表达式替换Unicode字符
-def replace_unicode(match):
-    char = match.group(0)
-    return unicode_replacements.get(char, char)
+# # 使用正则表达式替换Unicode字符
+# def replace_unicode(match):
+#     char = match.group(0)
+#     return unicode_replacements.get(char, char)
 
-from pylatexenc.latex2text import LatexNodes2Text
-def inline_to_unicode(inline_content):
-    inline_text = LatexNodes2Text().latex_to_text(inline_content)
-    return inline_text
+def textblock2unicode(text):
+    if inline_reg.findall(text):
+        return LatexNodes2Text().latex_to_text(text)
+    else:
+        return text
 
 def md_tex_filter(content):
     '''
@@ -206,17 +207,13 @@ def md_tex_filter(content):
         position = [position[0], position[0]+len(latex_table)]   # !!!
         pred_all.append({
             'category_type': 'latex_table',
-            'position': position,  # 只记录start
+            'position': position,
             'content': latex_table
         })
         content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
 
     # print('--------After latex table: \n', content)
     # print('-------latex_table_array: \n', latex_table_array)
-    
-    # 按照位置顺序从后向前删除，以免影响未处理的起始位置
-    # for start, end in sorted(table_positions, reverse=True):
-        # content = content[:start] + content[end:]
 
     # 提取html表格
     html_table_array, table_positions = extract_html_table(content)
@@ -341,6 +338,11 @@ def md_tex_filter(content):
     #             })
     
     # print('----------After title: \n', content)
+            
+    # 按照位置顺序从后向前删除，以免影响未处理的起始位置
+    extracted_position = [_['position'] for _ in pred_all]
+    for start, end in sorted(extracted_position, reverse=True):
+        content = content[:start] + content[end:]
 
     # extract texts
     res = content.split('\n\n')
@@ -354,7 +356,7 @@ def md_tex_filter(content):
         text = text.strip()
         text = text.strip('\n')
         # print('ori_text: ', text)
-        text = '\n'.join([_.strip() for _ in text.split('\n') if _.strip()])   # 以防有一些单换行的内容被替换成空格了
+        text = '\n'.join([_.strip() for _ in text.split('\n') if _.strip()])   # 以防有一些单换行的内容里有很多空格
         # print('after strip text: ', text)
 
         if text:  # Check if the stripped text is not empty
@@ -375,13 +377,14 @@ def md_tex_filter(content):
             #             'fine_category_type': 'title'
             #         })
             elif text.startswith('$') and text.endswith('$'):
-                if text.replace('$').strip():
+                if text.replace('$', '').strip():
                     pred_all.append({
                         'category_type': 'equation_isolated',
                         'position': position,
                         'content': text.strip(),
                     })
             else:
+                text = textblock2unicode(text)  # 新增：如果文本段落里有行内公式，则跑一个latex2unicode
                 pred_all.append({
                     'category_type': 'text_all',
                     'position': position,

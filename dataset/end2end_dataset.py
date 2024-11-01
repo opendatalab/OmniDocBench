@@ -2,8 +2,8 @@ import json
 import os
 from collections import defaultdict
 from utils.extract import md_tex_filter
-from utils.match import match_gt2pred_simple, match_gt2pred_textblock_simple
-from utils.match_quick import match_gt2pred_quick, match_gt2pred_textblock_quick
+from utils.match import match_gt2pred_simple
+from utils.match_quick import match_gt2pred_quick
 # from utils.match_full import match_gt2pred_full, match_gt2pred_textblock_full
 from utils.read_files import read_md_file
 from registry.registry import DATASET_REGISTRY
@@ -140,7 +140,6 @@ class End2EndDataset():
 
     def get_matched_elements(self, gt_samples, pred_folder):
         plain_text_match = []
-        inline_formula_match = []
         display_formula_match = []
         html_table_match = []
         latex_table_match = []
@@ -163,10 +162,10 @@ class End2EndDataset():
             
             if self.match_method == 'simple_match':   # add match choice
                 match_gt2pred = match_gt2pred_simple
-                match_gt2pred_textblock = match_gt2pred_textblock_simple
+                # match_gt2pred_textblock = match_gt2pred_textblock_simple
             elif self.match_method == 'quick_match':
                 match_gt2pred = match_gt2pred_quick
-                match_gt2pred_textblock = match_gt2pred_textblock_quick
+                # match_gt2pred_textblock = match_gt2pred_textblock_quick
 
             pred_dataset = md_tex_filter(pred_content)
             # print('pred_text_list: ', pred_text_list)
@@ -189,7 +188,8 @@ class End2EndDataset():
             if text_all:
                 gt_text_list = self.get_sorted_text_list(text_all)
                 # print('gt_text_list: ', gt_text_list)
-                plain_text_match_s, inline_formula_match_s = match_gt2pred_textblock(gt_text_list, pred_dataset['text_all'], img_name)
+                # plain_text_match_s, inline_formula_match_s = match_gt2pred_textblock(gt_text_list, pred_dataset['text_all'], img_name)
+                plain_text_match_s = match_gt2pred(gt_text_list, pred_dataset['text_all'], 'text', img_name)
                 # print('plain_text_match_s: ', plain_text_match_s)
                 # print('-'*10)
                 # print('inline_formula_match_s', inline_formula_match_s)
@@ -199,8 +199,8 @@ class End2EndDataset():
                 
                 plain_text_match.extend(plain_text_match_clean)
 
-                formated_inline_formula = self.formula_format(inline_formula_match_s, img_name)
-                inline_formula_match.extend(formated_inline_formula)
+                # formated_inline_formula = self.formula_format(inline_formula_match_s, img_name)
+                # inline_formula_match.extend(formated_inline_formula)
                 # print('inline_formula_match_s: ', inline_formula_match_s)
                 # print('-'*10)
                 
@@ -255,13 +255,11 @@ class End2EndDataset():
             json.dump(order_match, f, indent=4, ensure_ascii=False)
         with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/display_match.json', 'w', encoding='utf-8') as f:
             json.dump(display_formula_match, f, indent=4, ensure_ascii=False)
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/inline_match.json', 'w', encoding='utf-8') as f:
-            json.dump(inline_formula_match, f, indent=4, ensure_ascii=False)
 
         matched_samples_all = {
             'text_block': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(plain_text_match),
-            'inline_formula': DATASET_REGISTRY.get('recogition_end2end_formula_dataset')(inline_formula_match), 
-            'display_formula':  DATASET_REGISTRY.get('recogition_end2end_formula_dataset')(display_formula_match), 
+            # 'inline_formula': DATASET_REGISTRY.get('recogition_end2end_formula_dataset')(inline_formula_match), 
+            'display_formula':  DATASET_REGISTRY.get('recogition_end2end_base_dataset')(display_formula_match), 
             'table': DATASET_REGISTRY.get('recogition_end2end_table_dataset')(table_match, table_format, self.table_latex2html),
             'reading_order': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(order_match)
         }
@@ -281,63 +279,97 @@ class RecognitionEnd2EndBaseDataset():
     def __getitem__(self, idx):
         return self.samples[idx]
     
-@DATASET_REGISTRY.register("recogition_end2end_formula_dataset")
-class RecognitionEnd2EndFormulaDataset(RecognitionFormulaDataset):
-    def __init__(self, samples):
-        self.samples = []
-        img_id = 0
-        for sample in samples:
-            gt = self.normalize_text(sample['gt'])
-            pred = self.normalize_text(sample['pred'])
-            self.samples.append({
-                'gt': gt,
-                'pred': pred,
-                'img_id': sample['img_id'] if sample.get('img_id') else img_id
-            })
-            img_id += 1
-    
+# @DATASET_REGISTRY.register("recogition_end2end_formula_dataset")
+# class RecognitionEnd2EndFormulaDataset(RecognitionFormulaDataset):
+#     def __init__(self, samples):
+#         self.samples = []
+#         img_id = 0
+#         for sample in samples:
+#             gt = self.normalize_text(sample['gt'])
+#             pred = self.normalize_text(sample['pred'])
+#             self.samples.append({
+#                 'gt': gt,
+#                 'pred': pred,
+#                 'img_id': sample['img_id'] if sample.get('img_id') else img_id
+#             })
+#             img_id += 1
+
 @DATASET_REGISTRY.register("recogition_end2end_table_dataset")
 class RecognitionEnd2EndTableDataset(RecognitionTableDataset):
     def __init__(self, samples, table_format, table_latex2html):
         self.pred_table_format = table_format
-        self.samples = self.normalize_data(samples, table_latex2html)
+        self.samples = self.normalize_data(samples)
 
-    def normalize_data(self, samples, table_latex2html):
-        norm_samples = []
+    def normalize_data(self, samples):
         img_id = 0
         
-        if not table_latex2html:
-            for sample in samples:
-                norm_samples.append({
-                    'gt': sample['norm_gt'],
-                    'pred': sample['norm_pred'],
-                    'img_id': sample['img_id'] if sample.get('img_id') else img_id
-                })
-                img_id += 1
-        else:
+        if self.pred_table_format == 'latex':
+            os.makedirs('./temp', exist_ok=True)
+
+        for sample in samples:
+            p = sample['pred']
+            r = sample['gt']
             if self.pred_table_format == 'latex':
-                os.makedirs('./temp', exist_ok=True)
+                if p:
+                    p = self.convert_latex_to_html(p, cache_dir='./temp')
+                # if r:
+                #     r = self.convert_latex_to_html(r)
+            _, p = self.process_table(p)
+            _, r = self.process_table(r)
+            # print('p:\n', p)
+            # print('r:\n', r)
+            sample['gt'] = self.strcut_clean(self.clean_table(r))
+            sample['pred'] = self.strcut_clean(p)
+            sample['img_id'] = sample['img_id'] if sample.get('img_id') else img_id
+            img_id += 1
 
-            for sample in samples:
-                p = sample['pred']
-                r = sample['gt']
-                if self.pred_table_format == 'latex':
-                    if p:
-                        p = self.convert_latex_to_html(p, cache_dir='./temp')
-                    # if r:
-                    #     r = self.convert_latex_to_html(r)
-                _, p = self.process_table(p)
-                _, r = self.process_table(r)
-                # print('p:\n', p)
-                # print('r:\n', r)
-                norm_samples.append({
-                    'gt': self.strcut_clean(self.clean_table(r)),
-                    'pred': self.strcut_clean(p),
-                    'img_id': sample['img_id'] if sample.get('img_id') else img_id
-                })
-                img_id += 1
+        if self.pred_table_format == 'latex':
+            shutil.rmtree('./temp')
 
-            if self.pred_table_format == 'latex':
-                shutil.rmtree('./temp')
+        return samples
+    
+# @DATASET_REGISTRY.register("recogition_end2end_table_dataset")
+# class RecognitionEnd2EndTableDataset(RecognitionTableDataset):
+#     def __init__(self, samples, table_format, table_latex2html):
+#         self.pred_table_format = table_format
+#         self.samples = self.normalize_data(samples, table_latex2html)
 
-        return norm_samples
+#     def normalize_data(self, samples, table_latex2html):
+#         norm_samples = []
+#         img_id = 0
+        
+#         if not table_latex2html:
+#             for sample in samples:
+#                 norm_samples.append({
+#                     'gt': sample['norm_gt'],
+#                     'pred': sample['norm_pred'],
+#                     'img_id': sample['img_id'] if sample.get('img_id') else img_id
+#                 })
+#                 img_id += 1
+#         else:
+#             if self.pred_table_format == 'latex':
+#                 os.makedirs('./temp', exist_ok=True)
+
+#             for sample in samples:
+#                 p = sample['pred']
+#                 r = sample['gt']
+#                 if self.pred_table_format == 'latex':
+#                     if p:
+#                         p = self.convert_latex_to_html(p, cache_dir='./temp')
+#                     # if r:
+#                     #     r = self.convert_latex_to_html(r)
+#                 _, p = self.process_table(p)
+#                 _, r = self.process_table(r)
+#                 # print('p:\n', p)
+#                 # print('r:\n', r)
+#                 norm_samples.append({
+#                     'gt': self.strcut_clean(self.clean_table(r)),
+#                     'pred': self.strcut_clean(p),
+#                     'img_id': sample['img_id'] if sample.get('img_id') else img_id
+#                 })
+#                 img_id += 1
+
+#             if self.pred_table_format == 'latex':
+#                 shutil.rmtree('./temp')
+
+#         return norm_samples
