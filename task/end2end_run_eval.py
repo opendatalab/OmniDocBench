@@ -9,9 +9,10 @@ class End2EndEval():
     def __init__(self, dataset, metrics_list):
         for element in metrics_list.keys():
             result = {}
-            for metric in metrics_list[element]:
+            group_info = metrics_list[element].get('group', [])
+            for metric in metrics_list[element]['metric']:
                 metric_val = METRIC_REGISTRY.get(metric)
-                result_s = metric_val(dataset.samples[element]).evaluate()
+                result_s = metric_val(dataset.samples[element]).evaluate(group_info)
                 if result_s:
                     result.update(result_s)
             if result:

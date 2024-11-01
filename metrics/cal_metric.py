@@ -8,111 +8,167 @@ import evaluate
 import random
 from utils.read_files import save_paired_result
 from registry.registry import METRIC_REGISTRY
+from collections import defaultdict
 import pdb
+
+
+def get_groups(samples, group_info):
+    group_samples = defaultdict(list)
+    for sample in samples:
+        group_samples['all'].append(sample)
+        for group in group_info:
+            select_flag = True
+            for k, v in group.items():
+                for gt_attribute in sample['gt_attribute']:   # gt_attribute是一个list，截断合并的gt都在里面
+                    if not gt_attribute:   # 如果没有GT属性，也不纳入计算
+                        select_flag = False
+                    elif gt_attribute[k] != v:  # 只要其中有一个gt的属性不符合标准，则不选中        
+                        select_flag = False
+            if select_flag:
+                group_samples[str(group)].append(sample)
+    return group_samples
 
 
 @METRIC_REGISTRY.register("TEDS")
 class call_TEDS():
     def __init__(self, dataset):
         self.dataset = dataset
-    def evaluate(self):
+    def evaluate(self, group_info=[]):
         teds = TEDS(structure_only=False)
-        teds_socres = []
+        group_scores = defaultdict(list)
+
         for sample in self.dataset.samples:
             score = teds.evaluate(sample['pred'], sample['gt'])
             # print('TEDS score:', score)
-            teds_socres.append(score)
-        if len(teds_socres):
-            return {'teds': sum(teds_socres) / len(teds_socres)}
-        else:
-            return {'teds': 'NaN'}
+            group_scores['all'].append(score)
+            for group in group_info:
+                select_flag = True
+                for k, v in group.items():
+                    for gt_attribute in sample['gt_attribute']:   # gt_attribute是一个list，截断合并的gt都在里面
+                        if not gt_attribute:   # 如果没有GT属性，也不纳入计算
+                            select_flag = False
+                        elif gt_attribute[k] != v:  # 只要其中有一个gt的属性不符合标准，则不选中        
+                            select_flag = False
+                if select_flag:
+                    group_scores[str(group)].append(score)
+
+        result = {}
+        for group_name, scores in group_scores.items():
+            if len(scores) > 0:
+                result[group_name] = sum(scores) / len(scores)    # paired级别的norm的均值
+            else:
+                result[group_name] = 'NaN'
+                print(f'Warning: Empyty matched samples for {group_name}.')
+
+        return {'TEDS': result}
 
 
 @METRIC_REGISTRY.register("BLEU")
 class call_BLEU():
     def __init__(self, dataset):
         self.dataset = dataset
-    def evaluate(self):
-        predictions, references = [], []
-        for sample in self.dataset.samples:
-            gt = sample['norm_gt'] if sample.get('norm_gt') else sample['gt']
-            pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
-            predictions.append(gt)
-            references.append(pred)
-        bleu = evaluate.load("bleu", keep_in_memory=True, experiment_id=random.randint(1,1e8))
-        bleu_results = bleu.compute(predictions=predictions, references=references)
+    def evaluate(self, group_info=[]):
+        group_samples = get_groups(self.dataset.samples, group_info)
+        result = {}
+        for group_name, samples in group_samples.items():
+            predictions, references = [], []
+            for sample in samples:
+                gt = sample['norm_gt'] if sample.get('norm_gt') else sample['gt']
+                pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
+                predictions.append(gt)
+                references.append(pred)
+            bleu = evaluate.load("bleu", keep_in_memory=True, experiment_id=random.randint(1,1e8))
+            bleu_results = bleu.compute(predictions=predictions, references=references)
+            result[group_name] = bleu_results["bleu"]
         
-        return {'BLEU': bleu_results["bleu"]}
+        return {'BLEU': result}
     
 @METRIC_REGISTRY.register("METEOR")
 class call_METEOR():
     def __init__(self, dataset):
         self.dataset = dataset
-    def evaluate(self):
-        predictions, references = [], []
-        for sample in self.dataset.samples:
-            gt = sample['norm_gt'] if sample.get('norm_gt') else sample['gt']
-            pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
-            predictions.append(gt)
-            references.append(pred)
-        meteor = evaluate.load('meteor', keep_in_memory=True, experiment_id=random.randint(1,1e8))
-        meteor_results = meteor.compute(predictions=predictions, references=references)
+    def evaluate(self, group_info=[]):
+        group_samples = get_groups(self.dataset.samples, group_info)
+        result = {}
+        for group_name, samples in group_samples.items():
+            predictions, references = [], []
+            for sample in samples:
+                gt = sample['norm_gt'] if sample.get('norm_gt') else sample['gt']
+                pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
+                predictions.append(gt)
+                references.append(pred)
+            meteor = evaluate.load('meteor', keep_in_memory=True, experiment_id=random.randint(1,1e8))
+            meteor_results = meteor.compute(predictions=predictions, references=references)
+            result[group_name] = meteor_results['meteor']
         
-        return {'METEOR': meteor_results['meteor']}
+        return {'METEOR': result}
 
 @METRIC_REGISTRY.register("Edit_dist")
 class call_Edit_dist():
     def __init__(self, dataset):
         self.dataset = dataset
-    def evaluate(self):
-        lev_dist_list = []
+    def evaluate(self, group_info=[]):
+        group_scores = defaultdict(list)
         for sample in self.dataset.samples:
             gt = sample['norm_gt'] if sample.get('norm_gt') else sample['gt']
             pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
             if len(pred) > 0 or len(gt) > 0:
                 normalized_edit_dist = Levenshtein.distance(pred, gt) / max(len(pred), len(gt))
-                lev_dist_list.append(normalized_edit_dist)
-        
-        if len(lev_dist_list) > 0:
-            Edit_dist = sum(lev_dist_list) / len(lev_dist_list)    # paired级别的norm的均值
-        else:
-            Edit_dist = 0
-            print('Warning: Empyty matched samples.')
+                
+                group_scores['all'].append(normalized_edit_dist)
+                for group in group_info:
+                    select_flag = True
+                    for k, v in group.items():
+                        for gt_attribute in sample['gt_attribute']:   # gt_attribute是一个list，截断合并的gt都在里面
+                            if not gt_attribute:   # 如果没有GT属性，也不纳入计算
+                                select_flag = False
+                            elif gt_attribute[k] != v:  # 只要其中有一个gt的属性不符合标准，则不选中        
+                                select_flag = False
+                    if select_flag:
+                        group_scores[str(group)].append(normalized_edit_dist)
 
-        return {'Edit_dist': Edit_dist}
+        result = {}
+        for group_name, scores in group_scores.items():
+            if len(scores) > 0:
+                result[group_name] = sum(scores) / len(scores)    # paired级别的norm的均值
+            else:
+                result[group_name] = 'NaN'
+                print(f'Warning: Empyty matched samples for {group_name}.')
+
+        return {'Edit_dist': result}
     
-@METRIC_REGISTRY.register("Move_dist")
-class call_Move_dist():
-    def __init__(self, dataset):
-        self.dataset = dataset
-    def evaluate(self):
-        gt_len = 0
-        move_dist_list = []
-        for sample in self.dataset.samples:
-            pred = sample['pred']
-            gt = sample['gt']
-            assert len(gt) == len(pred), 'Not right length'
-            step = 0
-            for i, gt_c in enumerate(gt):
-                if gt_c != pred[i]:
-                    step += abs(i - pred.index(gt_c))
-                    pred.pop(pred.index(gt_c))
-                    pred.insert(i, gt_c)
-            move_dist_list.append(step)
-            gt_len += len(gt)
+# @METRIC_REGISTRY.register("Move_dist")
+# class call_Move_dist():
+#     def __init__(self, dataset):
+#         self.dataset = dataset
+#     def evaluate(self, group_info=[]):
+#         gt_len = 0
+#         move_dist_list = []
+#         for sample in self.dataset.samples:
+#             pred = sample['pred']
+#             gt = sample['gt']
+#             assert len(gt) == len(pred), 'Not right length'
+#             step = 0
+#             for i, gt_c in enumerate(gt):
+#                 if gt_c != pred[i]:
+#                     step += abs(i - pred.index(gt_c))
+#                     pred.pop(pred.index(gt_c))
+#                     pred.insert(i, gt_c)
+#             move_dist_list.append(step)
+#             gt_len += len(gt)
         
-        if gt_len != 0:
-            Move_dist = sum(move_dist_list) / gt_len
-        else:
-            Move_dist = 0
+#         if gt_len != 0:
+#             Move_dist = sum(move_dist_list) / gt_len
+#         else:
+#             Move_dist = 0
 
-        return {'Move_dist': Move_dist}
+#         return {'Move_dist': Move_dist}
     
 @METRIC_REGISTRY.register("CDM")
 class call_CDM():
     def __init__(self, dataset):
         self.dataset = dataset
-    def evaluate(self):
+    def evaluate(self, group_info=[]):
         time_stap = time.time()
         with open(f'result/{time_stap}_formula.json', 'w', encoding='utf-8') as f:
             json.dump(self.dataset.samples, f, indent=4, ensure_ascii=False)

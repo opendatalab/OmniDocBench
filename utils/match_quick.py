@@ -51,6 +51,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
                 'norm_pred': norm_pred_lines[pred_idx],
                 'gt_category_type': "",
                 'pred_category_type': get_pred_category_type(pred_idx, pred_items),
+                'gt_attribute': [{}],
                 'edit': 1,
                 'img_id': img_name
             })
@@ -70,6 +71,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
                 'norm_pred': "",
                 'gt_category_type': gt_cat_list[gt_idx],
                 'pred_category_type': "",
+                'gt_attribute': [gt_items[gt_idx].get("attribute", {})],
                 'edit': 1,
                 'img_id': img_name
             })
@@ -89,6 +91,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             'norm_pred': norm_pred_lines[0],
             'gt_category_type': gt_cat_list[0],
             'pred_category_type': get_pred_category_type(0, pred_items),
+            'gt_attribute': [gt_items[0].get("attribute", {})],
             'edit': normalized_edit_distance,
             'img_id': img_name
         }]
@@ -122,6 +125,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         entry['norm_pred'] = '\n'.join([norm_pred_lines[_] for _ in entry['pred_idx']])
         entry['gt_category_type'] = gt_cat_list[entry['gt_idx'][0]]  # 用GT的第一个元素的类别
         entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], pred_items) if entry['pred_idx'] else "" # 用Pred的第一个元素的类别
+        entry['gt_attribute'] = [gt_items[_].get("attribute", {}) for _ in entry['gt_idx']]  # 把gt的attribute加上，用于后续细粒度的精度统计
         entry['img_id'] = img_name
         # print('--------entry------', entry)
     

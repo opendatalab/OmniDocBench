@@ -16,17 +16,25 @@ class End2EndDataset():
     def __init__(self, cfg_task):
         gt_path = cfg_task['dataset']['ground_truth']['data_path']
         pred_folder = cfg_task['dataset']['prediction']['data_path']
-        self.match_method = cfg_task['dataset'].get('match_method', 'simple_match')
-        self.table_latex2html = cfg_task['dataset'].get('table_latex2html', True)
-        if not cfg_task['metrics'].get('table'):
-            self.table_latex2html = False
-        elif 'TEDS' not in cfg_task['metrics']['table']:
-            self.table_latex2html = False
+        self.match_method = cfg_task['dataset'].get('match_method', 'quick_match')
+        filtered_types = cfg_task['dataset'].get('filter')
 
         with open(gt_path, 'r') as f:
             gt_samples = json.load(f)
 
-        self.samples = self.get_matched_elements(gt_samples, pred_folder)
+        filtered_gt_samples = []
+        if filtered_types:
+            for gt_sample in gt_samples:
+                select_flag = True
+                for k, v in filtered_types.items():
+                    if gt_sample["page_info"]["page_attribute"][k] != v:
+                        select_flag = False
+                if select_flag:
+                    filtered_gt_samples.append(gt_sample)
+        else:
+            filtered_gt_samples = gt_samples
+
+        self.samples = self.get_matched_elements(filtered_gt_samples, pred_folder)
         
     def __getitem__(self, cat_name, idx):
         return self.samples[cat_name][idx]
@@ -155,10 +163,14 @@ class End2EndDataset():
             # print('Process: ', img_name)
             pred_path = os.path.join(pred_folder, img_name[:-4] + '.md')
             if not os.path.exists(pred_path):
-                print(f'!!!WARNING: No prediction for {img_name}')
-                continue
-            else:
-                pred_content = read_md_file(pred_path)
+                pred_path = os.path.join(pred_folder, img_name[:-4].replace('.pdf', "") + '.mmd')  # nougat
+                if not os.path.exists(pred_path):
+                    pred_path = os.path.join(pred_folder, img_name[:-4].replace('.pdf', "") + '.md')  # marker&mineru
+                    if not os.path.exists(pred_path):
+                        print(f'!!!WARNING: No prediction for {img_name}')
+                        continue
+            
+            pred_content = read_md_file(pred_path)
             
             if self.match_method == 'simple_match':   # add match choice
                 match_gt2pred = match_gt2pred_simple
@@ -260,7 +272,7 @@ class End2EndDataset():
             'text_block': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(plain_text_match),
             # 'inline_formula': DATASET_REGISTRY.get('recogition_end2end_formula_dataset')(inline_formula_match), 
             'display_formula':  DATASET_REGISTRY.get('recogition_end2end_base_dataset')(display_formula_match), 
-            'table': DATASET_REGISTRY.get('recogition_end2end_table_dataset')(table_match, table_format, self.table_latex2html),
+            'table': DATASET_REGISTRY.get('recogition_end2end_table_dataset')(table_match, table_format),
             'reading_order': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(order_match)
         }
         
@@ -296,7 +308,7 @@ class RecognitionEnd2EndBaseDataset():
 
 @DATASET_REGISTRY.register("recogition_end2end_table_dataset")
 class RecognitionEnd2EndTableDataset(RecognitionTableDataset):
-    def __init__(self, samples, table_format, table_latex2html):
+    def __init__(self, samples, table_format):
         self.pred_table_format = table_format
         self.samples = self.normalize_data(samples)
 

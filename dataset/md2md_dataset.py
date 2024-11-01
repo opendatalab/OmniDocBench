@@ -17,11 +17,6 @@ class Md2MdDataset():
         gt_folder = cfg_task['dataset']['ground_truth']['data_path']
         pred_folder = cfg_task['dataset']['prediction']['data_path']
         self.match_method = cfg_task['dataset'].get('match_method', 'simple_match')
-        self.table_latex2html = cfg_task['dataset'].get('table_latex2html', True)
-        if not cfg_task['metrics'].get('table'):
-            self.table_latex2html = False
-        elif 'TEDS' not in cfg_task['metrics']['table']:
-            self.table_latex2html = False
 
         self.samples = self.get_matched_elements(gt_folder, pred_folder)
         
@@ -180,7 +175,7 @@ class Md2MdDataset():
             'text_block': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(plain_text_match),
             # 'inline_formula': DATASET_REGISTRY.get('recogition_end2end_formula_dataset')(inline_formula_match), 
             'display_formula':  DATASET_REGISTRY.get('recogition_end2end_base_dataset')(display_formula_match), 
-            'table': DATASET_REGISTRY.get('recogition_end2end_table_dataset')(table_match, table_format, self.table_latex2html),
+            'table': DATASET_REGISTRY.get('recogition_end2end_table_dataset')(table_match, table_format),
             'reading_order': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(order_match)
         }
         

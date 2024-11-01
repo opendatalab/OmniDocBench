@@ -1,23 +1,33 @@
 end2end_eval:
   metrics:
     text_block:
-      - Edit_dist
-      # - BLEU
+      metric:
+        - Edit_dist
+        # - BLEU
+        # - METEOR
+      group:
+        - text_language: text_en
+          text_background: white
+        - text_language: text_simplified_chinese
     display_formula:
-      - Edit_dist
-      # - CDM
+      metric:
+        - Edit_dist
+        # - CDM
     table:
-      - TEDS
-      - Edit_dist
+      metric:
+        - TEDS
+        - Edit_dist
+      group:
+        - with_span: True
+        - with_span: False
     reading_order:
-      - Edit_dist
-      - Move_dist
+      metric:
+        - Edit_dist
   dataset:
     dataset_name: end2end_dataset
     ground_truth:
       data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1030_subset.json
     prediction:
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/qwenvl
-    # match_method: simple_match
-    match_method: quick_match
-    # match_method: full_match
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/mathpix_subset
+    # filter: 
+    #   language: en
