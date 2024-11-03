@@ -4,7 +4,7 @@ import re
 from collections import Counter
 import itertools
 from functools import reduce
-from modules.extract import inline_filter
+from utils.extract import inline_filter
 
 def cal_presum(arr):
     if len(arr) == 0:
@@ -57,7 +57,7 @@ class FuzzyMatch:
                 c_tmp.append(([(pr_idx, pos)], pos))
                 combinations.extend(c_tmp)
     
-            i_gts = self._gts[i]
+            i_gts = self.separator.join(self._gts[:i+1])
             NI = len(i_gts)
             L = 0 
             if i > 0:
@@ -65,8 +65,6 @@ class FuzzyMatch:
             for tups, pos in combinations:
                 i_preds = self.separator.join([self._preds[t_idx][:t_pos+1-L] for (t_idx, t_pos) in tups])
                 dis = Levenshtein.distance(i_gts, i_preds)
-                if dis * 1.0 / len(i_gts) > 0.7:
-                    continue
                 best_combination_candidates.append(([t_idx for t_idx, _ in tups], dis,  pos))
 
             best_pos_arr_combination = sorted(best_combination_candidates, key=lambda x: x[1])[:30]
