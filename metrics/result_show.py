@@ -31,3 +31,31 @@ def get_full_labels_results(samples):
             result[metric][attribute] = mean_score
 
     show_result(result)
+    return result
+
+def get_page_split(samples, page_info):
+    page_split_dict = defaultdict(lambda: defaultdict(list)) 
+    for sample in samples:
+        img_name = sample['img_id'] if sample['img_id'].endswith('.jpg') else '_'.join(sample['img_id'].split('_')[:-1])
+        page_info_s = page_info[img_name]
+        if not sample.get('metric'):
+            continue
+        for metric, score in sample['metric'].items():
+            for k,v in page_info_s.items():
+                if isinstance(v, list): # special issue
+                    for special_issue in v:
+                        if 'table' not in special_issue:  # Table相关的特殊字段有重复
+                            page_split_dict[metric][special_issue].append(score)
+                else:
+                    page_split_dict[metric][k+": "+str(v)].append(score)
+    
+    print('----Page Attribute---------------')
+    result = {}
+    for metric in page_split_dict.keys():
+        for attribute, scores in page_split_dict[metric].items():
+            mean_score = sum(scores) / len(scores)
+            if not result.get(metric):
+                result[metric] = {}
+            result[metric][attribute] = mean_score
+    show_result(result)
+    return result

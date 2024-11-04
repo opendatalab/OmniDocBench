@@ -43,4 +43,5 @@ if __name__ == '__main__':
         metrics_list = cfg[task]['metrics']  # 在task里再实例化
         val_dataset = DATASET_REGISTRY.get(dataset)(cfg[task])
         val_task = EVAL_TASK_REGISTRY.get(task)
-        val_task(val_dataset, metrics_list)
+        # val_task(val_dataset, metrics_list)
+        val_task(val_dataset, metrics_list, cfg[task]['dataset']['ground_truth']['data_path'])  # 按页面区分

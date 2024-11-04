@@ -26,9 +26,11 @@ end2end_eval:
   dataset:
     dataset_name: end2end_dataset
     ground_truth:
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1030.json
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1103.json
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1103_subset.json
     prediction:
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/mathpix
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/nougat
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/internvl76b_subset
     # match_method: no_split
     # filter: 
     #   language: en

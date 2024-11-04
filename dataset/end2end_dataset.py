@@ -157,7 +157,7 @@ class End2EndDataset():
 
         for sample in tqdm(gt_samples):
             img_name = os.path.basename(sample["page_info"]["image_path"])
-            print('Process: ', img_name)
+            # print('Process: ', img_name)
             pred_path = os.path.join(pred_folder, img_name[:-4] + '.md')
             if not os.path.exists(pred_path):
                 pred_path = os.path.join(pred_folder, img_name[:-4].replace('.pdf', "") + '.mmd')  # nougat
@@ -199,14 +199,14 @@ class End2EndDataset():
         # 提取匹配数据检查
         if not os.path.exists('./result'):
             os.makedirs('./result')
-        with open('./result/plain_text_match.json', 'w', encoding='utf-8') as f:
-            json.dump(plain_text_match, f, indent=4, ensure_ascii=False)
-        with open('./result/table_match.json', 'w', encoding='utf-8') as f:
-            json.dump(table_match, f, indent=4, ensure_ascii=False)
-        with open('./result/order_match.json', 'w', encoding='utf-8') as f:
-            json.dump(order_match, f, indent=4, ensure_ascii=False)
-        with open('./result/display_match.json', 'w', encoding='utf-8') as f:
-            json.dump(display_formula_match, f, indent=4, ensure_ascii=False)
+        # with open('./result/plain_text_match.json', 'w', encoding='utf-8') as f:
+        #     json.dump(plain_text_match, f, indent=4, ensure_ascii=False)
+        # with open('./result/table_match.json', 'w', encoding='utf-8') as f:
+        #     json.dump(table_match, f, indent=4, ensure_ascii=False)
+        # with open('./result/order_match.json', 'w', encoding='utf-8') as f:
+        #     json.dump(order_match, f, indent=4, ensure_ascii=False)
+        # with open('./result/display_match.json', 'w', encoding='utf-8') as f:
+        #     json.dump(display_formula_match, f, indent=4, ensure_ascii=False)
 
         matched_samples_all = {
             'text_block': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(plain_text_match),
@@ -245,7 +245,7 @@ class End2EndDataset():
         # 文本相关的所有element，不涉及的类别有figure, table, table_mask, equation_isolated, equation_caption, equation_ignore, equation_inline, footnote_mark, page_number, abandon, list, text_mask, need_mask
         text_all = self.get_page_elements_list(gt_page_elements, ['text_block', 'title', 'code_txt', 'code_txt_caption', 'list_merge', 'reference',
                                                 'figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption'
-                                                'header', 'footer', 'page_footnote'])           
+                                                'header', 'footer', 'page_footnote'])
 
         # print('-------------!!text_all: ', text_all)
         formated_display_formula = []

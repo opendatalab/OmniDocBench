@@ -12,7 +12,7 @@ from pylatexenc.latex2text import LatexNodes2Text
 from pylatexenc.latexwalker import LatexWalker, LatexEnvironmentNode, LatexCharsNode, LatexGroupNode, LatexMacroNode, LatexSpecialsNode
 from collections import defaultdict
 import pdb
-from utils.data_preprocess import remove_markdown_fences, standardize_underscores, textblock_with_norm_formula
+from utils.data_preprocess import remove_markdown_fences, replace_repeated_chars, textblock_with_norm_formula, textblock2unicode
 
 
 def extract_tabular(text):
@@ -108,7 +108,7 @@ def md_tex_filter(content):
     '''
     content = re.sub(img_pattern, '', content)  # 去除图片
     content = remove_markdown_fences(content)   # 去除开头的markdown标记，若有
-    content = standardize_underscores(content) # 下划线标准化处理
+    content = replace_repeated_chars(content) # 对所有连续字符做处理
     
     # # 使用正则表达式对unicode进行替换
     # special_unicode = ''.join(unicode_replacements.keys())
@@ -215,8 +215,8 @@ def md_tex_filter(content):
     if len(md_table_mathces) >= 2:
         # print("md table found!")
         # print("content:", content)
-        content = convert_markdown_to_html(content)    ## ！！这个转完以后是空的
-        # print('content after converting md table to html:', content)
+        content = convert_markdown_to_html(content)
+        # print('----------content after converting md table to html:', content)
         html_table_matches = html_table_reg.finditer(content)
         if html_table_matches:
             for match in html_table_matches:
@@ -273,10 +273,12 @@ def md_tex_filter(content):
     
     # print('----------After title: \n', content)
             
-    # 按照位置顺序从后向前删除，以免影响未处理的起始位置
-    extracted_position = [_['position'] for _ in pred_all]
-    for start, end in sorted(extracted_position, reverse=True):
-        content = content[:start] + content[end:]
+    # # 按照位置顺序从后向前删除，以免影响未处理的起始位置
+    # extracted_position = [_['position'] for _ in pred_all]
+    # for start, end in sorted(extracted_position, reverse=True):
+    #     content = content[:start] + content[end:]
+
+    # print('----------After delete extracted: \n', content)
 
     # extract texts
     res = content.split('\n\n')
@@ -318,7 +320,8 @@ def md_tex_filter(content):
                         'content': text.strip(),
                     })
             else:
-                text = textblock_with_norm_formula(text)  # !! 如果文本段落里有行内公式，则跑一个normalize_formula, 目前latex2unicode报错
+                # text = textblock_with_norm_formula(text)  # !! 如果文本段落里有行内公式，则跑一个normalize_formula, 目前latex2unicode报错
+                text = textblock2unicode(text)
                 pred_all.append({
                     'category_type': 'text_all',
                     'position': position,

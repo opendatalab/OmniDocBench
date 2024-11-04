@@ -50,12 +50,18 @@ def remove_markdown_fences(content):
     content = re.sub(r'```\n?$', '', content, flags=re.MULTILINE)
     return content.rstrip()
 
-# 标准化连续下划线和空格
-def standardize_underscores(content):
-    content = re.sub(r'_{5,}', '____', content) # 下划线
-    # content = re.sub(r'\s+', ' ', content)   # 空格
-    content = re.sub(r' +', ' ', content)
-    return content.rstrip()
+# # 标准化连续下划线和空格
+# def standardize_underscores(content):
+#     content = re.sub(r'_{5,}', '____', content) # 下划线
+#     content = re.sub(r'\s+', ' ', content)   # 空格
+#     return content
+
+# 标准化所有连续的字符
+def replace_repeated_chars(input_str):
+    # content = re.sub(r'_{5,}', '____', input_str) # 下划线连续超过4个替换成4个
+    input_str = re.sub(r' +', ' ', input_str)   # 空格有连续全部替换成1个
+    # return re.sub(r'(.)\1{10,}', r'\1\1\1\1', input_str) # 其他连续字符超过10个的话就替换成4个
+    return re.sub(r'([^a-zA-Z0-9])\1{4,}', r'\1\1\1\1', input_str)
 
 # 特殊Unicode处理
 def fullwidth_to_halfwidth(s):
