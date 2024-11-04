@@ -2,7 +2,7 @@ import json
 import os
 from collections import defaultdict
 from utils.extract import md_tex_filter
-from utils.match import match_gt2pred_simple
+from utils.match import match_gt2pred_simple, match_gt2pred_no_split
 from utils.match_quick import match_gt2pred_quick
 # from utils.match_full import match_gt2pred_full, match_gt2pred_textblock_full
 from utils.read_files import read_md_file
@@ -10,6 +10,8 @@ from registry.registry import DATASET_REGISTRY
 from dataset.recog_dataset import *
 import pdb
 import Levenshtein
+from tqdm import tqdm
+# from utils.data_preprocess import timed_function, timed_function_single
 
 @DATASET_REGISTRY.register("end2end_dataset")
 class End2EndDataset():
@@ -81,7 +83,7 @@ class End2EndDataset():
                 "merge_list": sorted_block
             }
             saved_element_dict[sorted_block[0]["category_type"]].append(merged_block)
-            print('Merged truncated')
+            # print('Merged truncated')
 
         return saved_element_dict
     
@@ -153,103 +155,39 @@ class End2EndDataset():
         latex_table_match = []
         order_match = []
 
-        for sample in gt_samples:
+        for sample in tqdm(gt_samples):
             img_name = os.path.basename(sample["page_info"]["image_path"])
-            
-            # # test english content only
-            # if img_name.startswith('yanbao') or img_name.startswith('jiaocai_2013_AMC_12A.pdf_9'):
-            #     continue
-
-            # print('Process: ', img_name)
+            print('Process: ', img_name)
             pred_path = os.path.join(pred_folder, img_name[:-4] + '.md')
             if not os.path.exists(pred_path):
                 pred_path = os.path.join(pred_folder, img_name[:-4].replace('.pdf', "") + '.mmd')  # nougat
                 if not os.path.exists(pred_path):
-                    pred_path = os.path.join(pred_folder, img_name[:-4].replace('.pdf', "") + '.md')  # marker&mineru
+                    pred_path = os.path.join(pred_folder, img_name[:-4].replace('.pdf', "") + '.md')  # marker
                     if not os.path.exists(pred_path):
-                        print(f'!!!WARNING: No prediction for {img_name}')
-                        continue
+                        pred_path = os.path.join(pred_folder, img_name + '.md')
+                        if not os.path.exists(pred_path):  # mineru
+                            print(f'!!!WARNING: No prediction for {img_name}')
+                            continue
             
             pred_content = read_md_file(pred_path)
-            
-            if self.match_method == 'simple_match':   # add match choice
-                match_gt2pred = match_gt2pred_simple
-                # match_gt2pred_textblock = match_gt2pred_textblock_simple
-            elif self.match_method == 'quick_match':
-                match_gt2pred = match_gt2pred_quick
-                # match_gt2pred_textblock = match_gt2pred_textblock_quick
+            # result = timed_function_single(self.process_get_matched_elements, sample, pred_content, img_name, timeout=25)
+            result = self.process_get_matched_elements(sample, pred_content, img_name)
+            # if result:
+            [plain_text_match_clean, formated_display_formula, latex_table_match_s, html_table_match_s, order_match_single] = result
+            # else:
+            #     print(f'Process time out for {img_name}. It will be skipped.')
+            #     continue
 
-            pred_dataset = md_tex_filter(pred_content)
-            # print('pred_text_list: ', pred_text_list)
-            # print('pred_display_list: ', pred_display_list)
-            # print('pred_latex_table_list', pred_latex_table_list)
-            # print('pred_html_table_list', pred_html_table_list)
-            # print('pred_title_list: ', pred_title_list)
-
-            gt_page_elements = self.get_page_elements(sample)
-            # print('-----------gt_page_elements: ', gt_page_elements['text_block'])
-            
-            # 文本相关的所有element，不涉及的类别有figure, table, table_mask, equation_isolated, equation_caption, equation_ignore, equation_inline, footnote_mark, page_number, abandon, list, text_mask, need_mask
-            text_all = self.get_page_elements_list(gt_page_elements, ['text_block', 'title', 'code_txt', 'code_txt_caption', 'list_merge', 'reference',
-                                                    'figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption'
-                                                    'header', 'footer', 'page_footnote'])           
-
-            # print('-------------!!text_all: ', text_all)
-            formated_display_formula = []
-            plain_text_match_clean = []
-            if text_all:
-                gt_text_list = self.get_sorted_text_list(text_all)
-                # print('gt_text_list: ', gt_text_list)
-                # plain_text_match_s, inline_formula_match_s = match_gt2pred_textblock(gt_text_list, pred_dataset['text_all'], img_name)
-                plain_text_match_s = match_gt2pred(gt_text_list, pred_dataset['text_all'], 'text', img_name)
-                # print('plain_text_match_s: ', plain_text_match_s)
-                # print('-'*10)
-                # print('inline_formula_match_s', inline_formula_match_s)
-                # print('-'*10)
-                # 文本类需要ignore的类别
-                plain_text_match_clean = self.filtered_out_ignore(plain_text_match_s, ['figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption', 'header', 'footer', 'page_footnote'])
-                
+            if order_match_single:
+                order_match.append(order_match_single)
+            if plain_text_match_clean:
                 plain_text_match.extend(plain_text_match_clean)
-
-                # formated_inline_formula = self.formula_format(inline_formula_match_s, img_name)
-                # inline_formula_match.extend(formated_inline_formula)
-                # print('inline_formula_match_s: ', inline_formula_match_s)
-                # print('-'*10)
-                
-            # if gt_page_elements.get('title'):
-            #     gt_title_list = self.get_sorted_text_list(gt_page_elements['title'])
-            #     # print('gt_title_list: ', gt_title_list)
-            #     title_match_s = match_gt2pred(gt_title_list, pred_title_list, 'text', img_name)
-            #     title_match.extend(title_match_s)
-                # print('title_match_s: ', title_match_s)
-                # print('-'*10)
-            if gt_page_elements.get('equation_isolated'):
-                gt_display_list = self.get_sorted_text_list(gt_page_elements['equation_isolated'])
-                # print('gt_display_list: ', gt_display_list)
-                display_formula_match_s = match_gt2pred(gt_display_list, pred_dataset['equation_isolated'], 'formula', img_name)
-                formated_display_formula = self.formula_format(display_formula_match_s, img_name)
-                # print('display_formula_match_s: ', display_formula_match_s)
-                # print('-'*10)
+            if formated_display_formula:
                 display_formula_match.extend(formated_display_formula)
-            if gt_page_elements.get('table'):
-                gt_table_list = self.get_sorted_text_list(gt_page_elements['table'])
-                # print('gt_table_list', gt_table_list)
-                if pred_dataset['latex_table']:
-                    table_match_s = match_gt2pred(gt_table_list, pred_dataset['latex_table'], 'latex_table', img_name)
-                    latex_table_match.extend(table_match_s)
-                elif pred_dataset['html_table']:   # 这里默认模型不会同时随机输出latex或html，而是二选一
-                    table_match_s = match_gt2pred(gt_table_list, pred_dataset['html_table'], 'html_table', img_name)
-                    html_table_match.extend(table_match_s)
-                # print('table_match_s: ', table_match_s)
-                # print('-'*10)
-
-            # 阅读顺序的处理
-            order_match_s = []
-            for mateches in [plain_text_match_clean, formated_display_formula]:
-                if mateches:
-                    order_match_s.extend(mateches)
-            if order_match_s:
-                order_match.append(self.get_order_paired(order_match_s, img_name))
+            if latex_table_match_s:
+                latex_table_match.extend(latex_table_match_s)
+            if html_table_match_s:
+                html_table_match.extend(html_table_match_s)
 
         if latex_table_match: # 这里默认模型不会同时随机输出latex或html，而是二选一
             table_match = latex_table_match
@@ -259,13 +197,15 @@ class End2EndDataset():
             table_format = 'html'
 
         # 提取匹配数据检查
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/plain_text_match.json', 'w', encoding='utf-8') as f:
+        if not os.path.exists('./result'):
+            os.makedirs('./result')
+        with open('./result/plain_text_match.json', 'w', encoding='utf-8') as f:
             json.dump(plain_text_match, f, indent=4, ensure_ascii=False)
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/table_match.json', 'w', encoding='utf-8') as f:
+        with open('./result/table_match.json', 'w', encoding='utf-8') as f:
             json.dump(table_match, f, indent=4, ensure_ascii=False)
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/order_match.json', 'w', encoding='utf-8') as f:
+        with open('./result/order_match.json', 'w', encoding='utf-8') as f:
             json.dump(order_match, f, indent=4, ensure_ascii=False)
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/display_match.json', 'w', encoding='utf-8') as f:
+        with open('./result/display_match.json', 'w', encoding='utf-8') as f:
             json.dump(display_formula_match, f, indent=4, ensure_ascii=False)
 
         matched_samples_all = {
@@ -277,6 +217,111 @@ class End2EndDataset():
         }
         
         return matched_samples_all
+
+
+    def process_get_matched_elements(self, sample, pred_content, img_name):
+        if self.match_method == 'simple_match':   # add match choice
+            match_gt2pred = match_gt2pred_simple
+            # match_gt2pred_textblock = match_gt2pred_textblock_simple
+        elif self.match_method == 'quick_match':
+            match_gt2pred = match_gt2pred_quick
+            # match_gt2pred_textblock = match_gt2pred_textblock_quick
+        elif self.match_method == 'no_split':
+            match_gt2pred = match_gt2pred_no_split
+        else:
+            print('Invalid match method name. The quick_match will be used.')
+            match_gt2pred = match_gt2pred_quick
+
+        pred_dataset = md_tex_filter(pred_content)
+        # print('pred_text_list: ', pred_text_list)
+        # print('pred_display_list: ', pred_display_list)
+        # print('pred_latex_table_list', pred_latex_table_list)
+        # print('pred_html_table_list', pred_html_table_list)
+        # print('pred_title_list: ', pred_title_list)
+
+        gt_page_elements = self.get_page_elements(sample)
+        # print('-----------gt_page_elements: ', gt_page_elements['text_block'])
+        
+        # 文本相关的所有element，不涉及的类别有figure, table, table_mask, equation_isolated, equation_caption, equation_ignore, equation_inline, footnote_mark, page_number, abandon, list, text_mask, need_mask
+        text_all = self.get_page_elements_list(gt_page_elements, ['text_block', 'title', 'code_txt', 'code_txt_caption', 'list_merge', 'reference',
+                                                'figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption'
+                                                'header', 'footer', 'page_footnote'])           
+
+        # print('-------------!!text_all: ', text_all)
+        formated_display_formula = []
+        plain_text_match_clean = []
+        latex_table_match_s = []
+        html_table_match_s = []
+        order_match_single = []
+        if text_all:
+            gt_text_list = self.get_sorted_text_list(text_all)
+            # print('gt_text_list: ', gt_text_list)
+            # plain_text_match_s, inline_formula_match_s = match_gt2pred_textblock(gt_text_list, pred_dataset['text_all'], img_name)
+            plain_text_match_s = match_gt2pred(gt_text_list, pred_dataset['text_all'], 'text', img_name)
+            # plain_text_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_text_list, pred_dataset['text_all'], 'text', img_name, timeout=15, print_msg=img_name)
+            if not plain_text_match_s:
+                # print(f'Time out for text match of {img_name}. The plain text match will be empty.')
+                print(f'No text match of {img_name}. The plain text match will be empty.')
+            else:
+                # print('plain_text_match_s: ', plain_text_match_s)
+                # print('-'*10)
+                # print('inline_formula_match_s', inline_formula_match_s)
+                # print('-'*10)
+                # 文本类需要ignore的类别
+                plain_text_match_clean = self.filtered_out_ignore(plain_text_match_s, ['figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption', 'header', 'footer', 'page_footnote'])
+                
+            # formated_inline_formula = self.formula_format(inline_formula_match_s, img_name)
+            # inline_formula_match.extend(formated_inline_formula)
+            # print('inline_formula_match_s: ', inline_formula_match_s)
+            # print('-'*10)
+            
+        # if gt_page_elements.get('title'):
+        #     gt_title_list = self.get_sorted_text_list(gt_page_elements['title'])
+        #     # print('gt_title_list: ', gt_title_list)
+        #     title_match_s = match_gt2pred(gt_title_list, pred_title_list, 'text', img_name)
+        #     title_match.extend(title_match_s)
+            # print('title_match_s: ', title_match_s)
+            # print('-'*10)
+        if gt_page_elements.get('equation_isolated'):
+            gt_display_list = self.get_sorted_text_list(gt_page_elements['equation_isolated'])
+            # print('gt_display_list: ', gt_display_list)
+            display_formula_match_s = match_gt2pred(gt_display_list, pred_dataset['equation_isolated'], 'formula', img_name)
+            # display_formula_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_display_list, pred_dataset['equation_isolated'], 'formula', img_name, timeout=15, print_msg=img_name)
+            if not display_formula_match_s:
+                # print(f'Time out for display_formula_match of {img_name}. The display_formula_match will be empty.')
+                print(f'No display_formula_match of {img_name}. The display_formula_match will be empty.')
+            else:
+                formated_display_formula = self.formula_format(display_formula_match_s, img_name)
+                # print('display_formula_match_s: ', display_formula_match_s)
+                # print('-'*10)
+      
+        if gt_page_elements.get('table'):
+            gt_table_list = self.get_sorted_text_list(gt_page_elements['table'])
+            # print('gt_table_list', gt_table_list)
+            if pred_dataset['latex_table']:
+                latex_table_match_s = match_gt2pred(gt_table_list, pred_dataset['latex_table'], 'latex_table', img_name)
+                # latex_table_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_table_list, pred_dataset['latex_table'], 'latex_table', img_name, timeout=15, print_msg=img_name)
+                # if not latex_table_match_s:
+                #     print(f'Time out for table_match_s of {img_name}. The table_match_s will be empty.') 
+            elif pred_dataset['html_table']:   # 这里默认模型不会同时随机输出latex或html，而是二选一
+                html_table_match_s = match_gt2pred(gt_table_list, pred_dataset['html_table'], 'html_table', img_name)
+                # html_table_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_table_list, pred_dataset['html_table'], 'html_table', img_name, timeout=15, print_msg=img_name)
+                # if not html_table_match_s:
+                #     print(f'Time out for table_match_s of {img_name}. The table_match_s will be empty.')
+            # else:
+            #     print(f'Empty table pred for {img_name}')
+            # print('table_match_s: ', table_match_s)
+            # print('-'*10)
+
+        # 阅读顺序的处理
+        order_match_s = []
+        for mateches in [plain_text_match_clean, formated_display_formula]:
+            if mateches:
+                order_match_s.extend(mateches)
+        if order_match_s:
+            order_match_single = self.get_order_paired(order_match_s, img_name)
+            
+        return [plain_text_match_clean, formated_display_formula, latex_table_match_s, html_table_match_s, order_match_single]       
     
 
 @DATASET_REGISTRY.register("recogition_end2end_base_dataset")

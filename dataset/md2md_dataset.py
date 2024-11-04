@@ -2,7 +2,7 @@ import json
 import os
 from collections import defaultdict
 from utils.extract import md_tex_filter
-from utils.match import match_gt2pred_simple
+from utils.match import match_gt2pred_simple, match_gt2pred_no_split
 from utils.match_quick import match_gt2pred_quick
 # from utils.match_full import match_gt2pred_full, match_gt2pred_textblock_full
 from utils.read_files import read_md_file
@@ -10,6 +10,7 @@ from registry.registry import DATASET_REGISTRY
 from dataset.recog_dataset import *
 import pdb
 import Levenshtein
+from tqdm import tqdm
 
 @DATASET_REGISTRY.register("md2md_dataset")
 class Md2MdDataset():
@@ -61,7 +62,7 @@ class Md2MdDataset():
         latex_table_match = []
         order_match = []
 
-        for sample_name in os.listdir(gt_folder):
+        for sample_name in tqdm(os.listdir(gt_folder)):
             if not sample_name.endswith('.md'):
                 continue
             
@@ -86,6 +87,11 @@ class Md2MdDataset():
             elif self.match_method == 'quick_match':
                 match_gt2pred = match_gt2pred_quick
                 # match_gt2pred_textblock = match_gt2pred_textblock_quick
+            elif self.match_method == 'no_split':
+                match_gt2pred = match_gt2pred_no_split
+            else:
+                print('Invalid match method name. The quick_match will be used.')
+                match_gt2pred = match_gt2pred_quick
 
             gt_dataset = md_tex_filter(gt_content)
             pred_dataset = md_tex_filter(pred_content)

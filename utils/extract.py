@@ -12,6 +12,7 @@ from pylatexenc.latex2text import LatexNodes2Text
 from pylatexenc.latexwalker import LatexWalker, LatexEnvironmentNode, LatexCharsNode, LatexGroupNode, LatexMacroNode, LatexSpecialsNode
 from collections import defaultdict
 import pdb
+from utils.data_preprocess import remove_markdown_fences, standardize_underscores, textblock_with_norm_formula
 
 
 def extract_tabular(text):
@@ -99,68 +100,6 @@ code_block_reg = re.compile(
     r'```(\w+)\n(.*?)```',
     re.DOTALL
 )
-
-def remove_markdown_fences(content):
-    content = re.sub(r'^```markdown\n?', '', content, flags=re.MULTILINE)
-    content = re.sub(r'```\n?$', '', content, flags=re.MULTILINE)
-    return content.strip()  
-
-# 标准化连续下划线
-def standardize_underscores(content):
-    content = re.sub(r'_{5,}', '____', content)
-    return content
-
-# 特殊Unicode处理
-def fullwidth_to_halfwidth(s):
-    result = []
-    for char in s:
-        code = ord(char)
-        # 全角空格转换为半角空格
-        if code == 0x3000:
-            code = 0x0020
-        # 其他全角字符转换为半角字符
-        elif 0xFF01 <= code <= 0xFF5E:
-            code -= 0xFEE0
-        result.append(chr(code))
-    return ''.join(result)
-
-def find_special_unicode(s):
-    special_chars = {}
-    for char in s:
-        if ord(char) > 127:  # 非 ASCII 字符
-            # unicode_name = unicodedata.name(char, None)
-            unicode_name = unicodedata.category(char)
-            special_chars[char] = f'U+{ord(char):04X} ({unicode_name})'
-    return special_chars
-
-# # 定义要替换的Unicode字符和替换后的内容的字典
-# unicode_replacements = {
-#     "\u00A9": r"$\copyright$",  # 版权符号©替换为latex
-#     "\u00AE": r"$^\circledR$",  # 注册商标符号®替换为latex
-#     "\u2122": r"$^\text{TM}$",   # 商标符号™替换latex
-#     "\u2018": "'",             # 左单引号转直引号
-#     "\u2019": "'",             # 右单引号转直引号
-#     "\u201C": "\"",            # 左双引号转直双引号
-#     "\u201D": "\"",            # 右双引号转直双引号
-#     "\u2013": "-",             # 短破折号转连字符
-#     "\u2014": "-",             # 长破折号转连字符
-#     "\u2026": "...",           # Unicode 省略号转三个点
-#     "\u2103": r"$\textdegree C$",  # ℃
-#     "\u03B1": r"$\alpha$",         # α
-#     "\u03B2": r"$\beta$",          # β
-#     "\u03A3": r"$\Sigma$",         # Σ
-# }
-
-# # 使用正则表达式替换Unicode字符
-# def replace_unicode(match):
-#     char = match.group(0)
-#     return unicode_replacements.get(char, char)
-
-def textblock2unicode(text):
-    if inline_reg.findall(text):
-        return LatexNodes2Text().latex_to_text(text)
-    else:
-        return text
 
 def md_tex_filter(content):
     '''
@@ -276,12 +215,12 @@ def md_tex_filter(content):
     # print('-------------After display: \n', content)
 
     # extract md table with ||
-    md_table_mathces = md_table_reg.findall(content)        
+    md_table_mathces = md_table_reg.match(content)        
     if md_table_mathces:
         # print("md table found!")
         # print("content:", content)
-        content = convert_markdown_to_html(content)
-        # print('content after converting md table to html:', content)
+        content = convert_markdown_to_html(content)    ## ！！这个转完以后是空的
+        print('content after converting md table to html:', content)
         html_table_matches = html_table_reg.finditer(content)
         if html_table_matches:
             for match in html_table_matches:
@@ -384,7 +323,7 @@ def md_tex_filter(content):
                         'content': text.strip(),
                     })
             else:
-                text = textblock2unicode(text)  # 新增：如果文本段落里有行内公式，则跑一个latex2unicode
+                text = textblock_with_norm_formula(text)  # !! 如果文本段落里有行内公式，则跑一个normalize_formula, 目前latex2unicode报错
                 pred_all.append({
                     'category_type': 'text_all',
                     'position': position,
@@ -430,121 +369,6 @@ def md_tex_filter(content):
 #             text = text.replace(match.group(0), content)
 
 #     return text, inline_array
-
-
-# def inline_filter_unicode(text):
-#     # 确保 text 是字符串类型
-#     if not isinstance(text, str):
-#         text = str(text)
-    
-#     # 将LaTeX内容转换为Unicode表示
-#     text = LatexNodes2Text().latex_to_text(text)
-    
-#     inline_array = []
-#     inline_matches = inline_reg.finditer(text)
-    
-#     for match in inline_matches:
-#         position = [match.start(), match.end()]
-#         content = match.group(1) if match.group(1) is not None else match.group(2)
-        
-#         # 移除转义字符 \
-#         clean_content = re.sub(r'\\([\\_&%^])', '', content)
-
-#         if any(char in clean_content for char in r'\^_'):
-#             # inline_array.append(match.group(0))
-#             inline_array.append({
-#                 'category_type': 'equation_inline',
-#                 'position': position,
-#                 'content': match.group(0),
-#             })
-#             text = text.replace(match.group(0), '')
-#             # print('-----Found inline formula: ', match.group(0))
-#         else:
-#             text = text.replace(match.group(0), content)
-#         # # 添加到 inline_array 中
-#         # inline_array.append({
-#         #     'category_type': 'equation_inline',
-#         #     'position': position,
-#         #     'content': content,
-#         # })
-        
-#         # # 将匹配到的公式从原始文本中移除，这里可以选择是否替换为空格或直接移除
-#         # text = text[:position[0]] + ' '*(position[1]-position[0]) + text[position[1]:]
-
-#     return text, inline_array
-
-def inline_filter_unicode(text):
-    # 确保 text 是字符串类型
-    if not isinstance(text, str):
-        text = str(text)
-    
-    # 替换行内公式的边界标识符
-    #print('--------text-------',text)
-    placeholder = '__INLINE_FORMULA_BOUNDARY__'
-    text_copy = text.replace('$', placeholder).replace('\\(', placeholder).replace('\\)', placeholder)
-    #print('--------text_copy-------',text_copy)
-    # 将LaTeX内容转换为Unicode表示
-    text_copy = LatexNodes2Text().latex_to_text(text_copy)
-    #print('--------text_copy---unicode----',text_copy)
-    # 恢复边界标识符
-    text_copy = text_copy.replace(placeholder, '$')
-    
-    inline_array = []
-    inline_matches = inline_reg.finditer(text_copy)
-    # 记录需要移除的行内公式及其位置
-    removal_positions = []
-    
-    for match in inline_matches:
-        position = [match.start(), match.end()]
-        content = match.group(1) if match.group(1) is not None else match.group(2)
-        print('-------- content-------', content)
-        # 移除转义字符 \
-        clean_content = re.sub(r'\\([\\_&%^])', '', content)
-
-        if any(char in clean_content for char in r'\^_'):
-            # inline_array.append(match.group(0))
-            inline_array.append({
-                'category_type': 'equation_inline',
-                'position': position,
-                'content': content,
-            })
-            removal_positions.append((position[0], position[1]))
-    
-    # 从原始文本中移除行内公式
-    for start, end in sorted(removal_positions, reverse=True):
-        text = text[:start] + text[end:]
-
-    return text, inline_array
-
-def inline_filter(text):
-    # 确保 text 是字符串类型
-    if not isinstance(text, str):
-        text = str(text)
-    
-    inline_array = []
-    inline_matches = inline_reg.finditer(text)
-    
-    for match in inline_matches:
-        position = [match.start(), match.end()]
-        content = match.group(1) if match.group(1) is not None else match.group(2)
-        # print('inline_content: ', content)
-        
-        # 移除转义字符 \
-        clean_content = re.sub(r'\\([\\_&%^])', '', content)
-
-        if any(char in clean_content for char in r'\^_'):
-            # inline_array.append(match.group(0))
-            inline_array.append({
-                'category_type': 'equation_inline',
-                'position': position,
-                'content': match.group(0),
-            })
-            text = text.replace(match.group(0), '')
-            # print('-----Found inline formula: ', match.group(0))
-        else:
-            text = text.replace(match.group(0), content)
-
-    return text, inline_array
 
 # def extract_tex_table(content):
 #     tables = []

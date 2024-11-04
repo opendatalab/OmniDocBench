@@ -1,13 +1,8 @@
 from scipy.optimize import linear_sum_assignment
 # from rapidfuzz.distance import Levenshtein
 import Levenshtein
-import numpy as np
-import re
 # from modules.extract import inline_filter #end
-from utils.extract import inline_filter
-import os
-import json
-from collections import defaultdict, Counter
+from collections import defaultdict
 import copy
 from utils.match import compute_edit_distance_matrix_new, get_gt_pred_lines
 import pdb

@@ -31,16 +31,19 @@ def get_groups(samples, group_info):
 
 @METRIC_REGISTRY.register("TEDS")
 class call_TEDS():
-    def __init__(self, dataset):
-        self.dataset = dataset
+    def __init__(self, samples):
+        self.samples = samples
     def evaluate(self, group_info=[]):
         teds = TEDS(structure_only=False)
         group_scores = defaultdict(list)
-
-        for sample in self.dataset.samples:
+        samples = self.samples
+        for sample in samples:
             score = teds.evaluate(sample['pred'], sample['gt'])
             # print('TEDS score:', score)
             group_scores['all'].append(score)
+            if not sample.get('metric'):
+                sample['metric'] = {}
+            sample['metric']['TEDS'] = score
             for group in group_info:
                 select_flag = True
                 for k, v in group.items():
@@ -60,15 +63,15 @@ class call_TEDS():
                 result[group_name] = 'NaN'
                 print(f'Warning: Empyty matched samples for {group_name}.')
 
-        return {'TEDS': result}
+        return samples, {'TEDS': result}
 
 
 @METRIC_REGISTRY.register("BLEU")
 class call_BLEU():
-    def __init__(self, dataset):
-        self.dataset = dataset
+    def __init__(self, samples):
+        self.samples = samples
     def evaluate(self, group_info=[]):
-        group_samples = get_groups(self.dataset.samples, group_info)
+        group_samples = get_groups(self.samples, group_info)
         result = {}
         for group_name, samples in group_samples.items():
             predictions, references = [], []
@@ -85,10 +88,10 @@ class call_BLEU():
     
 @METRIC_REGISTRY.register("METEOR")
 class call_METEOR():
-    def __init__(self, dataset):
-        self.dataset = dataset
+    def __init__(self, samples):
+        self.samples = samples
     def evaluate(self, group_info=[]):
-        group_samples = get_groups(self.dataset.samples, group_info)
+        group_samples = get_groups(self.samples, group_info)
         result = {}
         for group_name, samples in group_samples.items():
             predictions, references = [], []
@@ -105,16 +108,19 @@ class call_METEOR():
 
 @METRIC_REGISTRY.register("Edit_dist")
 class call_Edit_dist():
-    def __init__(self, dataset):
-        self.dataset = dataset
+    def __init__(self, samples):
+        self.samples = samples
     def evaluate(self, group_info=[]):
         group_scores = defaultdict(list)
-        for sample in self.dataset.samples:
+        samples = self.samples
+        for sample in samples:
             gt = sample['norm_gt'] if sample.get('norm_gt') else sample['gt']
             pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
             if len(pred) > 0 or len(gt) > 0:
                 normalized_edit_dist = Levenshtein.distance(pred, gt) / max(len(pred), len(gt))
-                
+                if not sample.get('metric'):
+                    sample['metric'] = {}
+                sample['metric']['Edit_dist'] = normalized_edit_dist
                 group_scores['all'].append(normalized_edit_dist)
                 for group in group_info:
                     select_flag = True
@@ -135,7 +141,7 @@ class call_Edit_dist():
                 result[group_name] = 'NaN'
                 print(f'Warning: Empyty matched samples for {group_name}.')
 
-        return {'Edit_dist': result}
+        return samples, {'Edit_dist': result}
     
 # @METRIC_REGISTRY.register("Move_dist")
 # class call_Move_dist():
@@ -166,9 +172,9 @@ class call_Edit_dist():
     
 @METRIC_REGISTRY.register("CDM")
 class call_CDM():
-    def __init__(self, dataset):
-        self.dataset = dataset
+    def __init__(self, samples):
+        self.samples = samples
     def evaluate(self, group_info=[]):
         time_stap = time.time()
         with open(f'result/{time_stap}_formula.json', 'w', encoding='utf-8') as f:
-            json.dump(self.dataset.samples, f, indent=4, ensure_ascii=False)
+            json.dump(self.samples, f, indent=4, ensure_ascii=False)

@@ -1,13 +1,21 @@
 from scipy.optimize import linear_sum_assignment
-# from rapidfuzz.distance import Levenshtein
 import Levenshtein
 import numpy as np
 import re
-# from utils.extract import inline_filter,inline_filter_unicode
 import sys
 import pdb
-from pylatexenc.latex2text import LatexNodes2Text
-from utils.extract import textblock2unicode
+from utils.data_preprocess import textblock_with_norm_formula, normalized_formula, textblock2unicode
+
+# def get_norm_text_lines(lines):
+#     norm_lines = []
+#     for line in lines:
+#         # 调用函数并设置超时时间
+#         result = timed_function(textblock2unicode, textblock_with_norm_formula, line, timeout=10, print_msg=line)
+#         if result:
+#             norm_lines.append(result)
+#         else:
+#             norm_lines.append(line)
+#     return norm_lines
 
 def compute_edit_distance_matrix_new(gt_lines, matched_lines):
     distance_matrix = np.zeros((len(gt_lines), len(matched_lines)))
@@ -19,43 +27,6 @@ def compute_edit_distance_matrix_new(gt_lines, matched_lines):
         for j, matched_line in enumerate(matched_lines):
             distance_matrix[i][j] = Levenshtein.distance(gt_line, matched_line)/max(len(matched_line), len(gt_line))
     return distance_matrix
-
-
-def normalized_formula(text):
-    # 把数学公式做一下norm再匹配
-    filter_list = ['\\mathbf', '\\mathrm', '\\mathnormal', '\\mathit', '\\mathbb', '\\mathcal', '\\mathscr', '\\mathfrak', '\\mathsf', '\\mathtt', 
-                   '\\textbf', '\\text', '\\boldmath', '\\boldsymbol', '\\operatorname', '\\bm',
-                   '\\symbfit', '\\mathbfcal', '\\symbf', '\\scriptscriptstyle', '\\notag',
-                   '\\setlength', '\\coloneqq', '\\space', '\\thickspace', '\\thinspace', '\\medspace', '\\nobreakspace', '\\negmedspace',
-                   '\\quad', '\\qquad', '\\enspace', '\\substackw',
-                   '\\left', '\\right', '{', '}', ' ']
-    
-    # delimiter_filter
-    pattern = re.compile(r"\\\[(.+?)(?<!\\)\\\]")
-    match = pattern.search(text)
-
-    if match:
-        text = match.group(1).strip()
-    
-    tag_pattern = re.compile(r"\\tag\{.*?\}")
-    text = tag_pattern.sub('', text)
-    hspace_pattern = re.compile(r"\\hspace\{.*?\}")
-    text = hspace_pattern.sub('', text)
-    begin_pattern = re.compile(r"\\begin\{.*?\}")
-    text = begin_pattern.sub('', text)
-    end_pattern = re.compile(r"\\end\{.*?\}")
-    text = end_pattern.sub('', text)
-    col_sep = re.compile(r"\\arraycolsep.*?\}")
-    text = col_sep.sub('', text)
-    text = text.strip('.')
-    
-    for filter_text in filter_list:
-        text = text.replace(filter_text, '')
-        
-    # text = normalize_text(delimiter_filter(text))
-    # text = delimiter_filter(text)
-    text = text.lower()
-    return text
 
 
 def get_gt_pred_lines(gt_items, pred_items, line_type):
@@ -82,8 +53,12 @@ def get_gt_pred_lines(gt_items, pred_items, line_type):
         norm_gt_lines = [normalized_formula(_) for _ in gt_lines]
         norm_pred_lines = [normalized_formula(_) for _ in pred_lines]
     elif line_type == 'text':
+        # norm_gt_lines = [textblock_with_norm_formula(_) for _ in gt_lines]
+        # norm_pred_lines = [textblock_with_norm_formula(_) for _ in pred_lines]
         norm_gt_lines = [textblock2unicode(_) for _ in gt_lines]
         norm_pred_lines = [textblock2unicode(_) for _ in pred_lines]
+        # norm_gt_lines = get_norm_text_lines(gt_lines)
+        # norm_pred_lines = get_norm_text_lines(pred_lines)
     else:
         norm_gt_lines = gt_lines
         norm_pred_lines = pred_lines
@@ -174,6 +149,37 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
     
     return match_list
 
+
+def match_gt2pred_no_split(gt_items, pred_items, line_type, img_name):
+    # 直接把gt和pred按position拼接成一个整体计算
+    gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines = get_gt_pred_lines(gt_items, pred_items, line_type)
+    gt_line_with_position = []
+    for gt_line, norm_gt_line, gt_item in zip(gt_lines, norm_gt_lines, gt_items):
+        gt_position = gt_item['order'] if gt_item.get('order') else gt_item.get('position', [-1])[0]
+        gt_line_with_position.append((gt_position, gt_line, norm_gt_line))
+    sorted_gt_lines = sorted(gt_line_with_position, key=lambda x: x[0])
+    gt = '\n\n'.join([_[1] for _ in sorted_gt_lines])
+    norm_gt = '\n\n'.join([_[2] for _ in sorted_gt_lines])
+    pred_line_with_position = [(pred_item['position'], pred_line, pred_norm_line) for pred_line, pred_norm_line, pred_item in zip(pred_lines, norm_pred_lines, pred_items)]
+    sorted_pred_lines = sorted(pred_line_with_position, key=lambda x: x[0])
+    pred = '\n\n'.join([_[1] for _ in sorted_pred_lines])
+    norm_pred = '\n\n'.join([_[2] for _ in sorted_pred_lines])
+    # edit = Levenshtein.distance(norm_gt, norm_pred)/max(len(norm_gt), len(norm_pred))
+    return [{
+            'gt_idx': [-1],
+            'gt': gt,
+            'norm_gt': norm_gt,
+            'gt_category_type': "text_merge",
+            'gt_position': [-1],
+            'gt_attribute': [{}],
+            'pred_idx': [-1],
+            'pred': pred,
+            'norm_pred': norm_pred,
+            'pred_category_type': "text_merge",
+            'pred_position': -1,
+            # 'edit': edit,
+            'img_id': img_name
+        }]
 
 # def match_gt2pred_textblock_simple(gt_items, pred_lines, img_name):   # 仅存档，不再单独提取inline formula
 #     text_inline_match_s = match_gt2pred_simple(gt_items, pred_lines, 'text', img_name)

@@ -5,10 +5,10 @@ end2end_eval:
         - Edit_dist
         # - BLEU
         # - METEOR
-      group:
-        - text_language: text_en
-          text_background: white
-        - text_language: text_simplified_chinese
+      # group:
+        # - text_language: text_en
+          # text_background: white
+        # - text_language: text_simplified_chinese
     display_formula:
       metric:
         - Edit_dist
@@ -17,17 +17,18 @@ end2end_eval:
       metric:
         - TEDS
         - Edit_dist
-      group:
-        - with_span: True
-        - with_span: False
+      # group:
+      #   - with_span: True
+      #   - with_span: False
     reading_order:
       metric:
         - Edit_dist
   dataset:
     dataset_name: end2end_dataset
     ground_truth:
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1030_subset.json
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1030.json
     prediction:
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/mathpix_subset
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/mathpix
+    # match_method: no_split
     # filter: 
     #   language: en
