@@ -48,13 +48,14 @@ import time
 def remove_markdown_fences(content):
     content = re.sub(r'^```markdown\n?', '', content, flags=re.MULTILINE)
     content = re.sub(r'```\n?$', '', content, flags=re.MULTILINE)
-    return content.strip()  
+    return content.rstrip()
 
 # 标准化连续下划线和空格
 def standardize_underscores(content):
     content = re.sub(r'_{5,}', '____', content) # 下划线
-    content = re.sub(r'\s+', ' ', content)   # 空格
-    return content
+    # content = re.sub(r'\s+', ' ', content)   # 空格
+    content = re.sub(r' +', ' ', content)
+    return content.rstrip()
 
 # 特殊Unicode处理
 def fullwidth_to_halfwidth(s):

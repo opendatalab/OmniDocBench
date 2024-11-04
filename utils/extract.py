@@ -106,11 +106,9 @@ def md_tex_filter(content):
     Input: 1 page md or tex content - String
     Output: text, display, inline, table, title, code - list
     '''
-
     content = re.sub(img_pattern, '', content)  # 去除图片
     content = remove_markdown_fences(content)   # 去除开头的markdown标记，若有
     content = standardize_underscores(content) # 下划线标准化处理
-    
     
     # # 使用正则表达式对unicode进行替换
     # special_unicode = ''.join(unicode_replacements.keys())
@@ -126,7 +124,6 @@ def md_tex_filter(content):
     # print('--------------After pre_process: \n', content)
 
     pred_all = []
-
     # 处理行内公式，添加到text_all中
     # content_new, inline_array = inline_filter_unicode(content)
     # #print('------------inline_array----------------',inline_array)
@@ -191,7 +188,7 @@ def md_tex_filter(content):
     #         tables += "\n\n"
     #         table_array.append(matched)
     #         content = content.replace(matched, '')
-  
+
     # extract interline formula
     display_matches = display_reg.finditer(content)
     for match in display_matches:
@@ -213,14 +210,13 @@ def md_tex_filter(content):
             # print('-----Found display formula: ', matched)
 
     # print('-------------After display: \n', content)
-
     # extract md table with ||
-    md_table_mathces = md_table_reg.match(content)        
-    if md_table_mathces:
+    md_table_mathces = md_table_reg.findall(content)
+    if len(md_table_mathces) >= 2:
         # print("md table found!")
         # print("content:", content)
         content = convert_markdown_to_html(content)    ## ！！这个转完以后是空的
-        print('content after converting md table to html:', content)
+        # print('content after converting md table to html:', content)
         html_table_matches = html_table_reg.finditer(content)
         if html_table_matches:
             for match in html_table_matches:
@@ -235,7 +231,6 @@ def md_tex_filter(content):
                     'content': matched.strip(),
                     'fine_category_type': 'md2html_table'
                 })
-    
     # print('---------After md table: \n', content)
 
     # extract code blocks
