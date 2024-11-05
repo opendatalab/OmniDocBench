@@ -7,6 +7,7 @@ import os
 import uuid
 import shutil
 import subprocess
+from tqdm import tqdm
 from bs4 import BeautifulSoup
 from utils.ocr_utils import get_text_for_block
 
@@ -119,13 +120,17 @@ class RecognitionTableDataset():
         self.samples = self.normalize_data(references, predictions)
 
     def normalize_data(self, references, predictions):
+        if self.pred_table_format == 'latex':
+            os.makedirs('./temp', exist_ok=True)
+
         samples = []
-        for img in references.keys():
+        ref_keys = list(references.keys())
+        for img in tqdm(ref_keys, total=len(ref_keys), ncols=140, ascii=True, desc='Normalizing data'):
             r = references[img]['html']
             if predictions.get(img):
                 if self.pred_table_format == 'latex':
                     raw_p = predictions[img]['latex']
-                    p = self.convert_latex_to_html(raw_p)
+                    p = self.convert_latex_to_html(raw_p, cache_dir='./temp')
                 else:
                     p = predictions[img]['html']
             else:
@@ -140,6 +145,9 @@ class RecognitionTableDataset():
                 'pred': self.strcut_clean(p),
                 'img_id': img_id
             })
+        
+        if self.pred_table_format == 'latex':
+            shutil.rmtree('./temp')
         return samples
 
     def __getitem__(self, idx):

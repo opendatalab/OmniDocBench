@@ -125,6 +125,8 @@ def textblock2unicode(text):
         clean_content = re.sub(r'\\([\\_&%^])', '', content)
 
         if any(char in clean_content for char in r'\^_'):
+            if clean_content.endswith('\\'):
+                clean_content += ' '
             # inline_array.append(match.group(0))
             unicode_content = LatexNodes2Text().latex_to_text(clean_content)
             removal_positions.append((position[0], position[1], unicode_content))
