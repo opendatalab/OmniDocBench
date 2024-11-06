@@ -155,7 +155,8 @@ class End2EndDataset():
         latex_table_match = []
         order_match = []
 
-        for sample in tqdm(gt_samples):
+        process_bar = tqdm(gt_samples, ascii=True, ncols=140)
+        for sample in process_bar:
             img_name = os.path.basename(sample["page_info"]["image_path"])
             # print('Process: ', img_name)
             pred_path = os.path.join(pred_folder, img_name[:-4] + '.md')
@@ -168,8 +169,10 @@ class End2EndDataset():
                         if not os.path.exists(pred_path):  # mineru
                             print(f'!!!WARNING: No prediction for {img_name}')
                             continue
-            
+
+            process_bar.set_description(f'Processing {os.path.basename(pred_path)}')
             pred_content = read_md_file(pred_path)
+
             # result = timed_function_single(self.process_get_matched_elements, sample, pred_content, img_name, timeout=25)
             result = self.process_get_matched_elements(sample, pred_content, img_name)
             # if result:

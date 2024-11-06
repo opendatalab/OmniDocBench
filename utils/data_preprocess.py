@@ -124,12 +124,15 @@ def textblock2unicode(text):
         # 移除转义字符 \
         clean_content = re.sub(r'\\([\\_&%^])', '', content)
 
-        if any(char in clean_content for char in r'\^_'):
-            if clean_content.endswith('\\'):
-                clean_content += ' '
-            # inline_array.append(match.group(0))
-            unicode_content = LatexNodes2Text().latex_to_text(clean_content)
-            removal_positions.append((position[0], position[1], unicode_content))
+        try:
+            if any(char in clean_content for char in r'\^_'):
+                if clean_content.endswith('\\'):
+                    clean_content += ' '
+                # inline_array.append(match.group(0))
+                unicode_content = LatexNodes2Text().latex_to_text(clean_content)
+                removal_positions.append((position[0], position[1], unicode_content))
+        except:
+            continue
     
     # 从原始文本中移除行内公式
     for start, end, unicode_content in sorted(removal_positions, reverse=True):
