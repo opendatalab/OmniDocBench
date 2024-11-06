@@ -37,6 +37,7 @@ def get_gt_pred_lines(gt_items, pred_items, line_type):
         gt_cat_list.append(item['category_type'])
         if item.get('content'):
             gt_lines.append(str(item['content']))
+            norm_html_lines.append(str(item['content']))
         elif line_type == 'text':
             gt_lines.append(str(item['text']))
         elif line_type == 'html_table':
