@@ -125,6 +125,7 @@ class RecognitionTableDataset():
 
         samples = []
         ref_keys = list(references.keys())
+
         for img in tqdm(ref_keys, total=len(ref_keys), ncols=140, ascii=True, desc='Normalizing data'):
             r = references[img]['html']
             if predictions.get(img):
@@ -136,8 +137,8 @@ class RecognitionTableDataset():
             else:
                 p = ""
             img_id = references[img]["anno_id"]
-            _, p = self.process_table(p)
-            _, r = self.process_table(r)
+            p, _ = self.process_table(p)
+            r, _ = self.process_table(r)
             # print('p:', p)
             # print('r:', r)
             samples.append({
@@ -195,6 +196,9 @@ class RecognitionTableDataset():
                 alttext = f'${alttext}$'
                 if alttext:
                     math_tag.replace_with(alttext)
+            span_tags = soup.find_all('span')
+            for span in span_tags:
+                span.unwrap()
             return str(soup)
         # pred_md = pred_md["result"]["markdown"]
         # pred_md = pred_md.split("\n\n")
@@ -205,7 +209,7 @@ class RecognitionTableDataset():
         table_res_no_space=''
         if '<table' in md_i.replace(" ","").replace("'",'"'):
             md_i = process_table_html(md_i)
-            table_res = html.unescape(md_i).replace('\\', '').replace('\n', '')
+            table_res = html.unescape(md_i).replace('\n', '')
             table_res = unicodedata.normalize('NFKC', table_res).strip()
             pattern = r'<table\b[^>]*>(.*)</table>'
             tables = re.findall(pattern, table_res, re.DOTALL | re.IGNORECASE)
@@ -217,9 +221,11 @@ class RecognitionTableDataset():
             table_res = re.sub('( align=".*?")', "", table_res)
             table_res = re.sub('( class=".*?")', "", table_res)
             table_res = re.sub('</?tbody>',"",table_res)
+            
+            table_res = re.sub(r'\s+', " ", table_res)
             table_res_no_space = '<html><body><table border="1" >' + table_res.replace(' ','') + '</table></body></html>'
             # table_res_no_space = re.sub(' (style=".*?")',"",table_res_no_space)
-            table_res_no_space = re.sub(r'[ $]', "", table_res_no_space)
+            # table_res_no_space = re.sub(r'[ ]', " ", table_res_no_space)
             table_res_no_space = re.sub('colspan="', ' colspan="', table_res_no_space)
             table_res_no_space = re.sub('rowspan="', ' rowspan="', table_res_no_space)
             table_res_no_space = re.sub('border="', ' border="', table_res_no_space)
