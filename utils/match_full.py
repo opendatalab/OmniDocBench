@@ -54,7 +54,6 @@ class FuzzyMatch:
         gs_used_s, preds_used_s = set(), set()
         for i in range(len(self._gs)):
             for j in range(len(self._preds)):
-                if j in preds_used_s: continue
                 if self._gs[i].content() == self._preds[j].content():
                     equal_match_pair[i] = j
                     gs_used_s.add(i)
@@ -144,6 +143,8 @@ class FuzzyMatch:
         for match_info, p in edit_dis_q:
             edit_dis, pos = match_info
             pred_idx, gt_idx = p.pred_idx, p.gt_idx
+            if edit_dis*1.0 / min(len(self._preds[pred_idx].content()), len(self._gs[gt_idx].content())) >= 0.5:
+                continue
             if pred_idx in pred_free_arr and pred_idx in used_pred_idx_s:
                 continue
             if gt_idx in gs_free_arr and gt_idx in used_gt_idx_s:
@@ -156,6 +157,7 @@ class FuzzyMatch:
 
             if gt_idx in gs_free_arr:
                 used_gt_idx_s.add(gt_idx)
+            print(gt_idx, pred_idx)
 
         group_by_gt, group_by_pred, gt_one_pred = {}, {}, {}
         gs_matched_s, pred_matched_s = set(), set()
@@ -171,16 +173,23 @@ class FuzzyMatch:
             group_by_pred[pred_idx].append((gt_idx, pos))
 
         # return combine_gs_match_preds_ret_h, combine_preds_match_gs_ret_h
+        one = set()
         for gt_idx in group_by_gt.keys():
             if len(group_by_gt[gt_idx]) == 1:
-                pred_idx, _ = group_by_gt[gt_idx][0]
-                if len(group_by_pred[pred_idx]) == 1:
-                    gt_one_pred[gt_idx] = group_by_gt[gt_idx][0]
-
-        for gt_idx in gt_one_pred.keys():
-            group_by_gt.pop(gt_idx)
-            group_by_pred.pop(gt_one_pred[gt_idx][0])
-
+                one.add((gt_idx, *group_by_gt[gt_idx][0]))        
+        for pred_idx in group_by_pred.keys():
+            if len(group_by_pred[pred_idx]) == 1:
+                gt_idx, pos = group_by_pred[pred_idx][0]
+                one.add((gt_idx, pred_idx, pos))
+        
+        for gt_idx, pred_idx, pos in one:
+            if gt_idx in group_by_gt.keys() and pred_idx in group_by_pred.keys():
+                if len(group_by_gt[gt_idx]) == 1 and len(group_by_pred[pred_idx]) == 1:
+                    gt_one_pred[gt_idx] = [pred_idx, pos]
+                elif len(group_by_gt[gt_idx]) == 1:
+                    group_by_gt.pop(gt_idx)
+                else:
+                    group_by_pred.pop(pred_idx)
         return group_by_gt, group_by_pred, gt_one_pred
 
     def _free_match_1(self, free_source_idx, source_arr, combined_target_h, combined_target_arr):
@@ -337,8 +346,14 @@ def match_gt_pred(gts, predications):
 
 
 def match_gt2pred_full(gts, predications):
-
     group_by_gt, group_by_pred, gt_one_pred = match_gt_pred(gts, predications)
+    seen_gt_s = set() 
+
+    print(group_by_gt)
+    print('\n')
+    print(group_by_pred)
+    print('\n')
+    print(gt_one_pred)
 
     ret = []
     for gt_idx in group_by_gt.keys():
@@ -349,6 +364,7 @@ def match_gt2pred_full(gts, predications):
             "pred_idx": matched_preds,
             "pred": "".join([predications[pr_idx] for pr_idx in matched_preds])
         })
+        seen_gt_s.add(gt_idx)
 
     for pred_idx in group_by_pred:
         matched_gts = [p[0] for p in sorted(group_by_pred[pred_idx], key=lambda x:x[1])]
@@ -359,6 +375,9 @@ def match_gt2pred_full(gts, predications):
             "pred": predications[pred_idx]
         })
     
+        for gt_idx in matched_gts:
+            seen_gt_s.add(gt_idx)
+
     for gt_idx in gt_one_pred.keys():
         pred_idx = gt_one_pred[gt_idx][0]
         ret.append({
@@ -367,7 +386,16 @@ def match_gt2pred_full(gts, predications):
             "pred_idx": [pred_idx],
             "pred": predications[pred_idx]
         })
+    seen_gt_s.add(gt_idx)
 
+    for i in range(len(gts)):
+        if i in seen_gt_s: continue
+        ret.append({
+            "gt_idx": [i],
+            "gt": gts[i],
+            "pred_idx": [],
+            "pred": ""
+        })
     return ret
 
 
