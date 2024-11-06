@@ -8,44 +8,12 @@ from utils.extract import inline_filter
 from copy import deepcopy
 import numpy as np
 
-class WrapStr:
-    def __init__(self, idx, content, sep=""):
-        self.idx = idx
-        self.contents = [content]
-        self.indices = [idx]
-        self.sep = sep
-        self._content = content 
-
-    def content(self):
-        return self._content
-
-    def __add__(self, other):
-        """
-        The order matters
-        """
-        self.idx = min(self.idx, other.idx)
-        self.indices += other.indices
-        self.contents += other.contents
-        self._content = self.sep.join(self.contents)
-
-    def idx_in(self, idx):
-        return idx in self.indices
-
-    def __len__(self):
-        return len(self._content)
-    
-    def __repr__(self):
-        return self._content
 
 class FuzzyMatch:
     def __init__(self, gts, preds):
         self.separator = ''
-
-        self._gs = [WrapStr(idx, content, self.separator) for idx, content in enumerate(gts)]
-        self._preds = [WrapStr(idx, content, self.separator) for idx, content in enumerate(preds)]
-
-        self.frozen_gts = set()
-        self.frozen_preds = set()
+        self._gs = gts
+        self._preds = preds
         self.matched_h = {}
 
     def match(self):
@@ -54,7 +22,7 @@ class FuzzyMatch:
         gs_used_s, preds_used_s = set(), set()
         for i in range(len(self._gs)):
             for j in range(len(self._preds)):
-                if self._gs[i].content() == self._preds[j].content():
+                if self._gs[i] == self._preds[j]:
                     equal_match_pair[i] = j
                     gs_used_s.add(i)
                     preds_used_s.add(j)
@@ -88,13 +56,13 @@ class FuzzyMatch:
         pred_free_gt_free_h = {} 
         for i in range(len(pred_free_arr)):
             for j in range(len(gs_free_arr)):
-                edit_dis, pos = self._dp(self._preds[i].content(), self._gs[j].content())
+                edit_dis, pos = self._dp(self._preds[i], self._gs[j])
                 pred_free_gt_free_h[(j, i)] = (edit_dis, pos)
 
         gt_free_pred_free_h = {}
         for i in range(len(gs_free_arr)):
             for j in range(len(pred_free_arr)):
-                edit_dis, pos = self._dp(self._gs[i].content(), self._preds[j].content())
+                edit_dis, pos = self._dp(self._gs[i], self._preds[j])
                 gt_free_pred_free_h[(j, i)] = (edit_dis, pos)
 
         class MatchPair:
@@ -143,7 +111,7 @@ class FuzzyMatch:
         for match_info, p in edit_dis_q:
             edit_dis, pos = match_info
             pred_idx, gt_idx = p.pred_idx, p.gt_idx
-            if edit_dis*1.0 / min(len(self._preds[pred_idx].content()), len(self._gs[gt_idx].content())) >= 0.5:
+            if edit_dis*1.0 / min(len(self._preds[pred_idx]), len(self._gs[gt_idx])) >= 0.5:
                 continue
             if pred_idx in pred_free_arr and pred_idx in used_pred_idx_s:
                 continue
@@ -157,7 +125,6 @@ class FuzzyMatch:
 
             if gt_idx in gs_free_arr:
                 used_gt_idx_s.add(gt_idx)
-            print(gt_idx, pred_idx)
 
         group_by_gt, group_by_pred, gt_one_pred = {}, {}, {}
         gs_matched_s, pred_matched_s = set(), set()
@@ -197,7 +164,7 @@ class FuzzyMatch:
         ret = {}
         def _do_match(target_str_segment):
             for free_idx in free_source_idx:
-                edit_dis, pos = self._dp(source_arr[free_idx].content(), target_str_segment)
+                edit_dis, pos = self._dp(source_arr[free_idx], target_str_segment)
                 if (matched_target_idx, free_idx) not in ret:
                     ret[(matched_target_idx, free_idx)] = (edit_dis, pos)
                 else:
@@ -212,16 +179,16 @@ class FuzzyMatch:
             for i, v in enumerate(matched_source_idx_pos):
                 matched_source_idx, pos = v
                 if i == 0:
-                    hole_len = pos + 1 - len(source_arr[matched_source_idx].content())
+                    hole_len = pos + 1 - len(source_arr[matched_source_idx])
                 else:
-                    hole_len = pos  - len(source_arr[matched_source_idx].content()) - matched_source_idx_pos[i-1][1]
+                    hole_len = pos  - len(source_arr[matched_source_idx]) - matched_source_idx_pos[i-1][1]
             
                 if 0 >= hole_len:
                     continue
-                target_str_segment = combined_target_arr[matched_target_idx].content()[pos+1-hole_len :pos+1]
+                target_str_segment = combined_target_arr[matched_target_idx][pos+1-hole_len :pos+1]
                 _do_match(target_str_segment)
 
-            target_str_segment = combined_target_arr[matched_target_idx].content()[matched_source_idx_pos[-1][1]+1:]
+            target_str_segment = combined_target_arr[matched_target_idx][matched_source_idx_pos[-1][1]+1:]
             if len(target_str_segment) > 0:
                 _do_match(target_str_segment)
 
@@ -266,7 +233,7 @@ class FuzzyMatch:
             if i in window_used_s: continue
             for j in range(len(line_arr)):
                 if j in line_used_s: continue
-                edit_dis_h[(i, j)] = self._dp(window_arr[i].content(), line_arr[j].content())
+                edit_dis_h[(i, j)] = self._dp(window_arr[i], line_arr[j])
 
         # search the one to one pair or combined pattern!
         matched_pair_h_gt = {}
@@ -349,12 +316,6 @@ def match_gt2pred_full(gts, predications):
     group_by_gt, group_by_pred, gt_one_pred = match_gt_pred(gts, predications)
     seen_gt_s = set() 
 
-    print(group_by_gt)
-    print('\n')
-    print(group_by_pred)
-    print('\n')
-    print(gt_one_pred)
-
     ret = []
     for gt_idx in group_by_gt.keys():
         matched_preds = [p[0] for p in sorted(group_by_gt[gt_idx], key=lambda x:x[1])]
@@ -424,4 +385,3 @@ def match_gt2pred_textblock_full(gt_lines, pred_lines):
             inline_formula_match_s = match_gt2pred_full(inline_gt_list, inline_pred_list)
             inline_formula_match.extend(inline_formula_match_s)    
     return plain_text_match, inline_formula_match
-
