@@ -3,3 +3,5 @@ result/
 # check_data/
 **/.ipynb_checkpoints/
 **log
+debug.py
+output/
