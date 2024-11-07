@@ -35,15 +35,20 @@ class call_TEDS():
         self.samples = samples
     def evaluate(self, group_info=[]):
         teds = TEDS(structure_only=False)
+        teds_structure_only = TEDS(structure_only=True)
         group_scores = defaultdict(list)
+        group_scores_structure_only = defaultdict(list)
         samples = self.samples
         for sample in samples:
             score = teds.evaluate(sample['pred'], sample['gt'])
+            score_structure_only = teds_structure_only.evaluate(sample['pred'], sample['gt'])
             # print('TEDS score:', score)
             group_scores['all'].append(score)
+            group_scores_structure_only['all'].append(score_structure_only)
             if not sample.get('metric'):
                 sample['metric'] = {}
             sample['metric']['TEDS'] = score
+            sample['metric']['TEDS_structure_only'] = score_structure_only
             for group in group_info:
                 select_flag = True
                 for k, v in group.items():
@@ -62,8 +67,16 @@ class call_TEDS():
             else:
                 result[group_name] = 'NaN'
                 print(f'Warning: Empyty matched samples for {group_name}.')
+        
+        structure_only_result = {}
+        for group_name, scores in group_scores_structure_only.items():
+            if len(scores) > 0:
+                structure_only_result[group_name] = sum(scores) / len(scores)    # paired级别的norm的均值
+            else:
+                structure_only_result[group_name] = 'NaN'
+                print(f'Warning: Empyty matched samples for {group_name}.')
 
-        return samples, {'TEDS': result}
+        return samples, {'TEDS': result, 'TEDS_structure_only': structure_only_result}
 
 
 @METRIC_REGISTRY.register("BLEU")

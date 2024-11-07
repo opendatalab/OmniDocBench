@@ -120,34 +120,44 @@ class RecognitionTableDataset():
         self.samples = self.normalize_data(references, predictions)
 
     def normalize_data(self, references, predictions):
-        if self.pred_table_format == 'latex':
+        if self.pred_table_format == 'latex2html':
             os.makedirs('./temp', exist_ok=True)
 
         samples = []
         ref_keys = list(references.keys())
 
         for img in tqdm(ref_keys, total=len(ref_keys), ncols=140, ascii=True, desc='Normalizing data'):
-            r = references[img]['html']
-            if predictions.get(img):
-                if self.pred_table_format == 'latex':
-                    raw_p = predictions[img]['latex']
-                    p = self.convert_latex_to_html(raw_p, cache_dir='./temp')
-                else:
-                    p = predictions[img]['html']
+            if self.pred_table_format == 'html':
+                r = references[img]['html']
+                p = predictions[img]['html']
+            elif self.pred_table_format == 'latex':
+                r = references[img]['latex']
+                p = predictions[img]['latex']
+            elif self.pred_table_format == 'latex2html':
+                r = references[img]['html']
+                raw_p = predictions[img]['latex']
+                p = self.convert_latex_to_html(raw_p, cache_dir='./temp')
             else:
-                p = ""
+                raise ValueError(f'Invalid table format: {self.pred_table_format}')
+
             img_id = references[img]["anno_id"]
-            p, _ = self.process_table(p)
-            r, _ = self.process_table(r)
+            if self.pred_table_format == 'latex':
+                p = self.process_table_latex(p)
+                r = self.process_table_latex(r)
+            else:
+                p, _ = self.process_table_html(p)
+                r, _ = self.process_table_html(r)
+                p = self.strcut_clean(self.clean_table(p))
+                r = self.strcut_clean(self.clean_table(r))
             # print('p:', p)
             # print('r:', r)
             samples.append({
-                'gt': self.strcut_clean(self.clean_table(r)),
-                'pred': self.strcut_clean(p),
+                'gt': p,
+                'pred': r,
                 'img_id': img_id
             })
         
-        if self.pred_table_format == 'latex':
+        if self.pred_table_format == 'latex2html':
             shutil.rmtree('./temp')
         return samples
 
@@ -178,7 +188,7 @@ class RecognitionTableDataset():
         return input_str
 
     # remove residuals and output two formats of the table
-    def process_table(self, md_i):
+    def process_table_html(self, md_i):
         """
         pred_md format edit
         """
@@ -235,6 +245,49 @@ class RecognitionTableDataset():
             # table_flow_no_space.append(table_res_no_space)
 
         return table_res, table_res_no_space
+    
+    def process_table_latex(self, latex_code):
+        SPECIAL_STRINGS= [
+            ['\\\\vspace\\{.*?\\}', ''],
+            ['\\\\hspace\\{.*?\\}', ''],
+            ['\\\\rule\{.*?\\}\\{.*?\\}', ''],
+            ['\\\\addlinespace\\[.*?\\]', ''],
+            ['\\\\addlinespace', ''],
+            ['\\\\renewcommand\\{\\\\arraystretch\\}\\{.*?\\}', ''],
+            ['\\\\arraystretch\\{.*?\\}', ''],
+            ['\\\\(row|column)?colors?\\{[^}]*\\}(\\{[^}]*\\}){0,2}', ''],
+            ['\\\\color\\{.*?\\}', ''],
+            ['\\\\textcolor\\{.*?\\}', ''],
+            ['\\\\rowcolor(\\[.*?\\])?\\{.*?\\}', ''],
+            ['\\\\columncolor(\\[.*?\\])?\\{.*?\\}', ''],
+            ['\\\\cellcolor(\\[.*?\\])?\\{.*?\\}', ''],
+            ['\\\\colorbox\\{.*?\\}', ''],
+            ['\\\\(tiny|scriptsize|footnotesize|small|normalsize|large|Large|LARGE|huge|Huge)', ''],
+            [r'\s+', ' '],
+            ['\\\\centering', ''],
+            ['\\\\begin\\{table\\}\\[.*?\\]', '\\\\begin{table}'],
+            ['\t', ''],
+            ['@{}', ''],
+            ['\\\\toprule(\\[.*?\\])?', '\\\\hline'],
+            ['\\\\bottomrule(\\[.*?\\])?', '\\\\hline'],
+            ['\\\\midrule(\\[.*?\\])?', '\\\\hline'],
+            ['p\\{[^}]*\\}', 'l'],
+            ['m\\{[^}]*\\}', 'c'],
+            ['\\\\scalebox\\{[^}]*\\}\\{([^}]*)\\}', '\\1'],
+            ['\\\\textbf\\{([^}]*)\\}', '\\1'],
+            ['\\\\textit\\{([^}]*)\\}', '\\1'],
+            ['\\\\cmidrule(\\[.*?\\])?\\(.*?\\)\\{([0-9]-[0-9])\\}', '\\\\cline{\\2}'],
+            ['\\\\hline', ''],
+            [r'\\multicolumn\{1\}\{[^}]*\}\{((?:[^{}]|(?:\{[^{}]*\}))*)\}', r'\1']
+        ]
+        pattern = r'\\begin\{tabular\}.*\\end\{tabular\}'  # 注意这里不用 .*?
+        matches = re.findall(pattern, latex_code, re.DOTALL)
+        latex_code = ' '.join(matches)
+
+        for special_str in SPECIAL_STRINGS:
+            latex_code = re.sub(fr'{special_str[0]}', fr'{special_str[1]}', latex_code)
+
+        return latex_code
     
     def convert_latex_to_html(self, latex_content, cache_dir='./temp'):
         uuid_str = str(uuid.uuid1())

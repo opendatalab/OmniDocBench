@@ -48,7 +48,7 @@ import time
 def remove_markdown_fences(content):
     content = re.sub(r'^```markdown\n?', '', content, flags=re.MULTILINE)
     content = re.sub(r'```\n?$', '', content, flags=re.MULTILINE)
-    return content.rstrip()
+    return content
 
 # # 标准化连续下划线和空格
 # def standardize_underscores(content):

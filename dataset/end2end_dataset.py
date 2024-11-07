@@ -192,7 +192,7 @@ class End2EndDataset():
             if html_table_match_s:
                 html_table_match.extend(html_table_match_s)
 
-        if latex_table_match: # 这里默认模型不会同时随机输出latex或html，而是二选一
+        if len(latex_table_match) > len(html_table_match): # 这里默认模型不会同时随机输出latex或html，而是二选一
             table_match = latex_table_match
             table_format = 'latex'
         else:
@@ -200,8 +200,8 @@ class End2EndDataset():
             table_format = 'html'
 
         # 提取匹配数据检查
-        if not os.path.exists('./result'):
-            os.makedirs('./result')
+        # if not os.path.exists('./result'):
+        #     os.makedirs('./result')
         # with open('./result/plain_text_match.json', 'w', encoding='utf-8') as f:
         #     json.dump(plain_text_match, f, indent=4, ensure_ascii=False)
         # with open('./result/table_match.json', 'w', encoding='utf-8') as f:
@@ -374,8 +374,8 @@ class RecognitionEnd2EndTableDataset(RecognitionTableDataset):
                     p = self.convert_latex_to_html(p, cache_dir='./temp')
                 # if r:
                 #     r = self.convert_latex_to_html(r)
-            _, p = self.process_table(p)
-            _, r = self.process_table(r)
+            _, p = self.process_table_html(p)
+            _, r = self.process_table_html(r)
             # print('p:\n', p)
             # print('r:\n', r)
             sample['gt'] = self.strcut_clean(self.clean_table(r))

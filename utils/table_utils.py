@@ -158,6 +158,7 @@ def merge_tables(input_str):
     merged_output = '<table>\n{}\n</table>'.format('\n'.join(output_lines))
 
     return "\n\n" + merged_output + "\n\n"
+
 def replace_table_with_placeholder(input_string):
     lines = input_string.split('\n')
     output_lines = []
@@ -169,46 +170,50 @@ def replace_table_with_placeholder(input_string):
     org_table_list = []
     in_org_table = False
 
-    i = 0
-    for line in lines:
-        if i == 334:
-            #print(i)
-            pass
-        if not in_org_table:
-            if "<table>" not in last_line and in_table_block == False and temp_block != "":
-                output_lines.append(merge_tables(temp_block))
-                temp_block = ""
-            if "<table>" in line:
-                if "<table><tr" in line:
-                    org_table_list.append(line)
-                    in_org_table = True
-                    output_lines.append(last_line)
-                    continue
-                else:
-                    in_table_block = True
-                    temp_block += last_line
-            elif in_table_block:
-                if not find_md_table_mode(last_line) and "</thead>" not in last_line:
-                    temp_block += "\n" + last_line
-                if "</table>" in last_line:
-                    if "<table>" not in line:
-                        in_table_block = False
-            else:
-                output_lines.append(last_line)
-
-            last_line = line
+    for idx, line in enumerate(lines):
+        # if not in_org_table:
+        # if "<table>" not in last_line and in_table_block == False and temp_block != "":
+        #     output_lines.append(merge_tables(temp_block))
+        #     temp_block = ""
+        if "<table>" in line:
+            # if "<table><tr" in line:
+            #     org_table_list.append(line)
+            #     in_org_table = True
+            #     output_lines.append(last_line)
+            #     continue
+            # else:
+            in_table_block = True
+            temp_block += last_line
+        elif in_table_block:
+            if not find_md_table_mode(last_line) and "</thead>" not in last_line:
+                temp_block += "\n" + last_line
+            if "</table>" in last_line:
+                if "<table>" not in line:
+                    in_table_block = False
+                    output_lines.append(merge_tables(temp_block))
+                    temp_block = ""
         else:
-            org_table_list.append(line)
-            if "</table" in line:
-                in_org_table = False
-                last_line = merge_table(org_table_list)
-                org_table_list = []
-        i += 1
+            output_lines.append(last_line)
 
-    if "</table>" in last_line:
-        output_lines.append(merge_tables(temp_block))
+        last_line = line
+        # else:
+        #     org_table_list.append(line)
+        #     if "</table" in line:
+        #         in_org_table = False
+        #         last_line = merge_table(org_table_list)
+        #         org_table_list = []
+
+    if last_line:
+        if in_table_block or "</table>" in last_line:
+            temp_block += "\n" + last_line
+            output_lines.append(merge_tables(temp_block))
+        else:
+            output_lines.append(last_line)
+    # if "</table>" in last_line:
+    #     output_lines.append(merge_tables(temp_block))
 
     return '\n'.join(output_lines)
+
 def convert_table(input_str):
     # 替换<table>
     output_str = input_str.replace("<table>", "<table border=\"1\" >")
@@ -217,16 +222,19 @@ def convert_table(input_str):
     output_str = output_str.replace("<td>", "<td colspan=\"1\" rowspan=\"1\">")
 
     return output_str
+
 def convert_markdown_to_html(markdown_content):
     # Define a regex pattern to find Markdown tables with newlines
-    markdown_content = markdown_content.replace('\r', '')
+    markdown_content = markdown_content.replace('\r', '')+'\n'
     pattern = re.compile(r'\|\s*.*?\s*\|\n', re.DOTALL)
 
     # Find all matches in the Markdown content
     matches = pattern.findall(markdown_content)
+
     for match in matches:
         html_table = markdown_to_html(match)
         markdown_content = markdown_content.replace(match, html_table, 1)  # Only replace the first occurrence
+
     res_html = convert_table(replace_table_with_placeholder(markdown_content))
 
     return res_html

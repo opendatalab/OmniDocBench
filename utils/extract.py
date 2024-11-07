@@ -211,7 +211,7 @@ def md_tex_filter(content):
 
     # print('-------------After display: \n', content)
     # extract md table with ||
-    md_table_mathces = md_table_reg.findall(content)
+    md_table_mathces = md_table_reg.findall(content+'\n')
     if len(md_table_mathces) >= 2:
         # print("md table found!")
         # print("content:", content)
