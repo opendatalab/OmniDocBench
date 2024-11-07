@@ -34,6 +34,8 @@ def get_full_labels_results(samples):
     return result
 
 def get_page_split(samples, page_info):
+    if not page_info:
+        return {}
     page_split_dict = defaultdict(lambda: defaultdict(list)) 
     for sample in samples:
         img_name = sample['img_id'] if sample['img_id'].endswith('.jpg') else '_'.join(sample['img_id'].split('_')[:-1])

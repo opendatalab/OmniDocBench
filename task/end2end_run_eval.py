@@ -10,13 +10,14 @@ import pdb
 class End2EndEval():
     def __init__(self, dataset, metrics_list, page_info_path, save_name):
         result_all = {}
-
-        with open(page_info_path, 'r') as f:
-            pages = json.load(f)
         page_info = {}
-        for page in pages:
-            img_path = os.path.basename(page['page_info']['image_path'])
-            page_info[img_path] = page['page_info']['page_attribute']
+        if not os.path.isdir(page_info_path):
+            with open(page_info_path, 'r') as f:
+                pages = json.load(f)
+            
+            for page in pages:
+                img_path = os.path.basename(page['page_info']['image_path'])
+                page_info[img_path] = page['page_info']['page_attribute']
 
         for element in metrics_list.keys():
             result = {}

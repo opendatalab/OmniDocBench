@@ -1,16 +1,20 @@
 end2end_eval:
   metrics:
     text_block:
-      - Edit_dist
+      metric:
+        - Edit_dist
       # - BLEU
     display_formula:
-      - Edit_dist
+      metric:
+        - Edit_dist
       # - CDM
     table:
-      - TEDS
-      - Edit_dist
+      metric:
+        - TEDS
+        - Edit_dist
     reading_order:
-      - Edit_dist
+      metric:
+        - Edit_dist
       # - Move_dist
   dataset:
     dataset_name: md2md_dataset
