@@ -58,10 +58,9 @@ def remove_markdown_fences(content):
 
 # 标准化所有连续的字符
 def replace_repeated_chars(input_str):
-    # content = re.sub(r'_{5,}', '____', input_str) # 下划线连续超过4个替换成4个
-    input_str = re.sub(r' +', ' ', input_str)   # 空格有连续全部替换成1个
-    # return re.sub(r'(.)\1{10,}', r'\1\1\1\1', input_str) # 其他连续字符超过10个的话就替换成4个
-    return re.sub(r'([^a-zA-Z0-9])\1{4,}', r'\1\1\1\1', input_str)
+    input_str = re.sub(r'_{4,}', '____', input_str) # 下划线连续超过4个替换成4个
+    input_str = re.sub(r' {4,}', '    ', input_str)   # 空格连续超过4个替换成4个
+    return re.sub(r'([^a-zA-Z0-9])\1{10,}', r'\1\1\1\1', input_str) # 其他连续符号，除了数字和字母以外，超过10个的话就替换成4个
 
 # 特殊Unicode处理
 def fullwidth_to_halfwidth(s):

@@ -12,6 +12,8 @@ import pdb
 import Levenshtein
 from tqdm import tqdm
 # from utils.data_preprocess import timed_function, timed_function_single
+from func_timeout import FunctionTimedOut, func_timeout
+from loguru import logger
 
 @DATASET_REGISTRY.register("end2end_dataset")
 class End2EndDataset():
@@ -173,8 +175,22 @@ class End2EndDataset():
             process_bar.set_description(f'Processing {os.path.basename(pred_path)}')
             pred_content = read_md_file(pred_path)
 
-            # result = timed_function_single(self.process_get_matched_elements, sample, pred_content, img_name, timeout=25)
             result = self.process_get_matched_elements(sample, pred_content, img_name)
+            # result = timed_function_single(self.process_get_matched_elements, sample, pred_content, img_name, timeout=25)
+            # try:
+            #     result = func_timeout(
+            #         30, self.process_get_matched_elements, args=(sample, pred_content, img_name)
+            #     )
+            # except FunctionTimedOut as e1:
+            #     logger.exception(e1)
+            #     print(f'Time out for {os.path.basename(pred_path)}, it will be skipped.')
+            #     with open('new_timeout.log', 'a') as f:
+            #         f.write(str(e1))
+            #         f.write('\n')
+            #     continue
+            # except Exception as e:
+            #     print(str(e))
+            #     continue
             # if result:
             [plain_text_match_clean, formated_display_formula, latex_table_match_s, html_table_match_s, order_match_single] = result
             # else:
@@ -260,8 +276,22 @@ class End2EndDataset():
             gt_text_list = self.get_sorted_text_list(text_all)
             # print('gt_text_list: ', gt_text_list)
             # plain_text_match_s, inline_formula_match_s = match_gt2pred_textblock(gt_text_list, pred_dataset['text_all'], img_name)
-            plain_text_match_s = match_gt2pred(gt_text_list, pred_dataset['text_all'], 'text', img_name)
+            # plain_text_match_s = match_gt2pred(gt_text_list, pred_dataset['text_all'], 'text', img_name)
             # plain_text_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_text_list, pred_dataset['text_all'], 'text', img_name, timeout=15, print_msg=img_name)
+            try:
+                plain_text_match_s = func_timeout(
+                    15, match_gt2pred, args=(gt_text_list, pred_dataset['text_all'], 'text', img_name)
+                )
+            except FunctionTimedOut as e1:
+                logger.exception(e1)
+                with open('timeout.log', 'a') as f:
+                    f.write(str(e1))
+                    f.write('\n')
+                plain_text_match_s = match_gt2pred_simple(gt_text_list, pred_dataset['text_all'], 'text', img_name)
+            except Exception as e:
+                # print(str(e))
+                print(f'Time out for plain text match of {img_name}, match_gt2pred_simple will be used.')
+
             if not plain_text_match_s:
                 # print(f'Time out for text match of {img_name}. The plain text match will be empty.')
                 print(f'No text match of {img_name}. The plain text match will be empty.')
@@ -302,12 +332,12 @@ class End2EndDataset():
             gt_table_list = self.get_sorted_text_list(gt_page_elements['table'])
             # print('gt_table_list', gt_table_list)
             if pred_dataset['latex_table']:
-                latex_table_match_s = match_gt2pred(gt_table_list, pred_dataset['latex_table'], 'latex_table', img_name)
+                latex_table_match_s = match_gt2pred_simple(gt_table_list, pred_dataset['latex_table'], 'latex_table', img_name) # Table不考虑截断合并
                 # latex_table_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_table_list, pred_dataset['latex_table'], 'latex_table', img_name, timeout=15, print_msg=img_name)
                 # if not latex_table_match_s:
                 #     print(f'Time out for table_match_s of {img_name}. The table_match_s will be empty.') 
             elif pred_dataset['html_table']:   # 这里默认模型不会同时随机输出latex或html，而是二选一
-                html_table_match_s = match_gt2pred(gt_table_list, pred_dataset['html_table'], 'html_table', img_name)
+                html_table_match_s = match_gt2pred_simple(gt_table_list, pred_dataset['html_table'], 'html_table', img_name) # Table不考虑截断合并
                 # html_table_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_table_list, pred_dataset['html_table'], 'html_table', img_name, timeout=15, print_msg=img_name)
                 # if not html_table_match_s:
                 #     print(f'Time out for table_match_s of {img_name}. The table_match_s will be empty.')

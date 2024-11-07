@@ -2,7 +2,8 @@ from PIL import Image
 from tqdm import tqdm
 import json
 import os
-
+from collections import defaultdict
+import langid
 def poly2bbox(poly):
     L = poly[0]
     U = poly[1]
@@ -13,21 +14,24 @@ def poly2bbox(poly):
     bbox = [L, U, R, D]
     return bbox
 
+
 table_format = 'latex'
 
-save_path = '/mnt/petrelfs/ouyanglinke/CDM_match/benchmark/mds1030_latex_table'
+save_path = r'D:\pdf-bench\正式标注任务\1112md'
 save_path_imgs = os.path.join(save_path, 'imgs')
 
 os.makedirs(save_path, exist_ok=True)
 os.makedirs(save_path_imgs, exist_ok=True)
 
 # with open('/mnt/petrelfs/ouyanglinke/CDM_match/demo_data_v2/demo_val_dataset.json', 'r') as f:
-with open('/mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1030_subset.json', 'r') as f:
+with open(r'D:\pdf-bench\正式标注任务\ocr-main-1105-update\export\ocr-main-1105-update.json', 'r', encoding='utf-8') as f:
         samples = json.load(f)
 
 def text_norm(text):
     return text.replace('/t', '\t').replace('/n', '\n')
 
+def remove_unencodable_characters(s, encoding):
+    return s.encode(encoding, errors='ignore').decode(encoding)
 for sample in samples:
     annos = []
     for x in sample['layout_dets']:
@@ -41,7 +45,7 @@ for sample in samples:
             # else:
             #     x['order'] = x['merge_list'][0]['order']
             #     annos.append(x)
-    
+
     # 处理truncated
     saved_element_dict = defaultdict(list)
     related_truncated = []
@@ -73,7 +77,14 @@ for sample in samples:
         sorted_block = sorted(text_block_list, key=lambda x: x['order'])
         text = ""
         for block in sorted_block:
-            text += block['text']
+            line_content = block['text']
+            if langid.classify(line_content)[0] == 'en' and line_content[-1] != "-":
+
+                text += f" {line_content}"
+            elif langid.classify(line_content)[0] == 'en' and line_content[-1] == "-":
+                text = text[:-1] + f"{line_content}"
+            else:
+                text += f"{line_content}"
         merged_block = {
             "category_type": sorted_block[0]["category_type"], # 这里直接占据了第一个block的各种信息
             "order": sorted_block[0]["order"],
@@ -83,18 +94,18 @@ for sample in samples:
         }
         merged_annos.append(merged_block)
         print('Merged truncated')
-    
+
     annos = sorted(merged_annos, key=lambda x: x['order'])
     img_name = os.path.basename(sample['page_info']['image_path'])
     # img_path = os.path.join('/mnt/petrelfs/ouyanglinke/CDM_match/demo_data_v2/new_demo_images', img_name)
-    img_path = os.path.join('/mnt/hwfile/opendatalab/ouyanglinke/PDF_Formula/Docparse/image', img_name)
+    img_path = os.path.join(r'D:\pdf-bench\正式标注任务\image', img_name)
     img = Image.open(img_path)
-    
+
     # md_path = os.path.join('/mnt/petrelfs/ouyanglinke/CDM_match/demo_data_v2/md_old', os.path.basename(sample['page_info']['image_path'])[:-4] + '.md')
     md_path = os.path.join(save_path, os.path.basename(sample['page_info']['image_path'])[:-4] + '.md')
-    
-    
-    with open(md_path, 'w') as f:
+
+
+    with open(md_path, 'w', encoding='utf-8') as f:
         for i, anno in enumerate(annos):
             if anno["category_type"] == 'figure':
                 bbox = poly2bbox(anno['poly'])
@@ -105,16 +116,6 @@ for sample in samples:
                 im.save(crop_img_path)
                 f.write(f'![](./imgs/{img_name[:-4]}_{anno_id}.jpg)')
                 f.write('\n\n')
-#             elif anno["category_type"] == 'merge':
-#                 items = anno['merge_list']
-#                 sep = '\n'
-#             else:
-#                 items = [anno]
-#                 sep = '\n\n'
-
-#             for i, item in enumerate(items):
-#                 if i == len(items) - 1:
-#                     sep = '\n\n'
             sep = '\n\n'
             item = anno
             if anno["category_type"] == 'table':
@@ -124,9 +125,10 @@ for sample in samples:
                 if item["category_type"] == 'title':
                     f.write('# ' + text_norm(item['text'].strip('#').strip()))
                     f.write(sep)
-                elif item["category_type"] == "equation_caption":
+                if item["category_type"] == "equation_caption":
                     pass
                 else:
+                    #print ("==err==", item["text"])
                     f.write(text_norm(item['text']))
                     f.write(sep)  
             elif item.get('html'):
