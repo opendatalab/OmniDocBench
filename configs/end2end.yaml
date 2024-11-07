@@ -3,7 +3,7 @@ end2end_eval:
     text_block:
       metric:
         - Edit_dist
-        # - BLEU
+        - BLEU
         # - METEOR
       # group:
         # - text_language: text_en

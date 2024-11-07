@@ -9,6 +9,8 @@ def show_result(results):
         print('='*100)
 
 def get_full_labels_results(samples):
+    if not samples:
+        return {}
     label_group_dict = defaultdict(lambda: defaultdict(list))
     for sample in samples:
         label_list = []

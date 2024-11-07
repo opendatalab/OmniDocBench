@@ -84,7 +84,7 @@ class call_BLEU():
             bleu_results = bleu.compute(predictions=predictions, references=references)
             result[group_name] = bleu_results["bleu"]
         
-        return {'BLEU': result}
+        return self.samples, {'BLEU': result}
     
 @METRIC_REGISTRY.register("METEOR")
 class call_METEOR():
@@ -104,7 +104,7 @@ class call_METEOR():
             meteor_results = meteor.compute(predictions=predictions, references=references)
             result[group_name] = meteor_results['meteor']
         
-        return {'METEOR': result}
+        return self.samples, {'METEOR': result}
 
 @METRIC_REGISTRY.register("Edit_dist")
 class call_Edit_dist():
