@@ -6,6 +6,8 @@ from collections import defaultdict
 import copy
 from utils.match import compute_edit_distance_matrix_new, get_gt_pred_lines
 import pdb
+import numpy as np
+import evaluate
 
 def get_pred_category_type(pred_idx, pred_items):
         if pred_idx != -1:
@@ -440,9 +442,6 @@ def judge_pred_merge(gt_list, pred_list):
         return merged_pred_flag, continue_flag
     
 def deal_with_truncated(cost_matrix, norm_gt_lines, norm_pred_lines):
-    import numpy as np
-    from Levenshtein import distance
-
     # 找到 cost_matrix 中小于阈值 0.25 的索引
     matched_first = np.argwhere(cost_matrix < 0.25)
     masked_gt_idx = [i[0] for i in matched_first]
@@ -477,7 +476,7 @@ def deal_with_truncated(cost_matrix, norm_gt_lines, norm_pred_lines):
 
             check_merge_subset.append(list(range(pred_idx, pred_idx + step)))
             matched_line = ' '.join([norm_pred_lines[i] for i in range(pred_idx, pred_idx + step)])
-            dist = distance(norm_gt_lines[gt_idx], matched_line) / max(len(matched_line), len(norm_gt_lines[gt_idx]))
+            dist = Levenshtein.distance(norm_gt_lines[gt_idx], matched_line) / max(len(matched_line), len(norm_gt_lines[gt_idx]))
             merged_dist.append(dist)
 
         # 如果 merged_dist 为空，则跳过当前 gt_idx 或设置一个高成本值

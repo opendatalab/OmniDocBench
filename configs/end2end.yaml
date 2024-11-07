@@ -3,7 +3,7 @@ end2end_eval:
     text_block:
       metric:
         - Edit_dist
-        - BLEU
+        # - BLEU
         # - METEOR
       # group:
         # - text_language: text_en
@@ -26,8 +26,8 @@ end2end_eval:
   dataset:
     dataset_name: end2end_dataset
     ground_truth:
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1103.json
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1105.json
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1103_subset.json
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1106.json
     prediction:
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/mineru
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/nougat

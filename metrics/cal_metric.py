@@ -2,7 +2,8 @@
 # import random
 import json
 import time
-from rapidfuzz.distance import Levenshtein
+# from rapidfuzz.distance import Levenshtein
+import Levenshtein
 from .table_metric import TEDS
 import evaluate
 import random

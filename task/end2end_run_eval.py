@@ -13,6 +13,8 @@ class End2EndEval():
         page_info = {}
         if os.path.isdir(page_info_path):
             md_flag = True
+        else:
+            md_flag = False
         if not md_flag:
             with open(page_info_path, 'r') as f:
                 pages = json.load(f)
