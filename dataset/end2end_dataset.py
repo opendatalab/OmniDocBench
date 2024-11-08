@@ -14,6 +14,7 @@ from tqdm import tqdm
 # from utils.data_preprocess import timed_function, timed_function_single
 from func_timeout import FunctionTimedOut, func_timeout
 from loguru import logger
+import time
 
 @DATASET_REGISTRY.register("end2end_dataset")
 class End2EndDataset():
@@ -25,6 +26,9 @@ class End2EndDataset():
 
         with open(gt_path, 'r') as f:
             gt_samples = json.load(f)
+
+        # specific_files=['docstructbench_enbook-zlib-o.O-17208435.pdf_57.jpg']  # 单个文件debug
+        # gt_samples = [sample for sample in gt_samples if os.path.basename(sample["page_info"]["image_path"]) in specific_files]
 
         filtered_gt_samples = []
         if filtered_types:
@@ -156,6 +160,7 @@ class End2EndDataset():
         html_table_match = []
         latex_table_match = []
         order_match = []
+        save_time = time.time()
 
         process_bar = tqdm(gt_samples, ascii=True, ncols=140)
         for sample in process_bar:
@@ -175,7 +180,7 @@ class End2EndDataset():
             process_bar.set_description(f'Processing {os.path.basename(pred_path)}')
             pred_content = read_md_file(pred_path)
 
-            result = self.process_get_matched_elements(sample, pred_content, img_name)
+            result = self.process_get_matched_elements(sample, pred_content, img_name, save_time)
             # result = timed_function_single(self.process_get_matched_elements, sample, pred_content, img_name, timeout=25)
             # try:
             #     result = func_timeout(
@@ -238,7 +243,7 @@ class End2EndDataset():
         return matched_samples_all
 
 
-    def process_get_matched_elements(self, sample, pred_content, img_name):
+    def process_get_matched_elements(self, sample, pred_content, img_name, save_time):
         if self.match_method == 'simple_match':   # add match choice
             match_gt2pred = match_gt2pred_simple
             # match_gt2pred_textblock = match_gt2pred_textblock_simple
@@ -280,11 +285,11 @@ class End2EndDataset():
             # plain_text_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_text_list, pred_dataset['text_all'], 'text', img_name, timeout=15, print_msg=img_name)
             try:
                 plain_text_match_s = func_timeout(
-                    15, match_gt2pred, args=(gt_text_list, pred_dataset['text_all'], 'text', img_name)
+                    60, match_gt2pred, args=(gt_text_list, pred_dataset['text_all'], 'text', img_name)
                 )
             except FunctionTimedOut as e1:
                 logger.exception(e1)
-                with open('timeout.log', 'a') as f:
+                with open(f'timeout_{save_time}.log', 'a') as f:
                     f.write(str(e1))
                     f.write('\n')
                 plain_text_match_s = match_gt2pred_simple(gt_text_list, pred_dataset['text_all'], 'text', img_name)

@@ -9,6 +9,7 @@ __all__ = [
     "End2EndDataset",
     "DetectionDataset",
     "Md2MdDataset",
+    "OmiDocBenchSingleModuleDataset",
 ]
 
 print('DATASET_REGISTRY: ', DATASET_REGISTRY.list_items())

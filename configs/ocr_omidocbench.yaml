@@ -1,0 +1,11 @@
+recogition_eval: # Text
+  metrics:
+    - Edit_dist
+    # - BLEU
+  dataset:
+    dataset_name: omidocbench_single_module_dataset
+    ground_truth:
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/OCR_result/docparse_1106_GOT.json
+      data_key: text
+    prediction:
+      data_key: got_pred

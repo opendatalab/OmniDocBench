@@ -10,6 +10,7 @@ import subprocess
 from tqdm import tqdm
 from bs4 import BeautifulSoup
 from utils.ocr_utils import get_text_for_block
+import pdb
 
 
 @DATASET_REGISTRY.register("recogition_text_dataset")
@@ -41,6 +42,40 @@ class RecognitionTextDataset():
                 'pred': pred_text,
                 'img_id': img_name
             })
+        return samples
+
+@DATASET_REGISTRY.register("omidocbench_single_module_dataset")
+class OmiDocBenchSingleModuleDataset():
+    # 按照text block的粒度进行评测，不考虑bbox的一一匹配
+    def __init__(self, cfg_task):
+        gt_key = cfg_task['dataset']['ground_truth']['data_key']
+        pred_file = cfg_task['dataset']['ground_truth']['data_path']
+        pred_key = cfg_task['dataset']['prediction']['data_key']
+        self.samples = self.load_data(pred_file, pred_key, gt_key)
+
+    def load_data(self, pred_file, pred_key, gt_key):
+        samples = []
+        with open(pred_file, 'r') as f:
+            preds = json.load(f)
+        
+        for pred in preds:
+            img_name = os.path.basename(pred['page_info']['image_path'])
+            for i, ann in enumerate(pred['layout_dets']):
+                if not ann.get(gt_key):
+                    continue
+                if not ann.get(pred_key):
+                    print(f'Cannot find pred for {img_name}. ann is {ann}')
+                    pdb.set_trace()
+                    continue
+                else:
+                    gt_text = ann[gt_key]
+                    pred_text = ann[pred_key]
+                samples.append({
+                    "gt": gt_text,
+                    "gt_attribute": [ann['attribute']],
+                    'pred': pred_text,
+                    'img_id': img_name + '_' + str(i)
+                })
         return samples
 
 @DATASET_REGISTRY.register("recogition_formula_dataset")
