@@ -11,7 +11,7 @@ from utils.read_files import save_paired_result
 from registry.registry import METRIC_REGISTRY
 from collections import defaultdict
 import pdb
-
+import copy
 
 def get_groups(samples, group_info):
     group_samples = defaultdict(list)
@@ -189,6 +189,11 @@ class call_CDM():
     def __init__(self, samples):
         self.samples = samples
     def evaluate(self, group_info=[]):
+        cdm_samples = copy.deepcopy(self.samples)
+        for i, sample in enumerate(cdm_samples):
+            sample['image_name'] = sample['img_id']
+            sample['img_id'] = str(i)
         time_stap = time.time()
         with open(f'result/{time_stap}_formula.json', 'w', encoding='utf-8') as f:
-            json.dump(self.samples, f, indent=4, ensure_ascii=False)
+            json.dump(cdm_samples, f, indent=4, ensure_ascii=False)
+        return self.samples, False

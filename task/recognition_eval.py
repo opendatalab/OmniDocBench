@@ -41,7 +41,7 @@ class RecognitionBaseEval():
             group_result = get_full_labels_results(samples)
             page_result = get_page_split(samples, page_info)
         result_all = {
-            'all': result,
+            'all': p_scores,
             'group':  group_result,
             'page': page_result}
 

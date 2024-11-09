@@ -180,22 +180,22 @@ class End2EndDataset():
             process_bar.set_description(f'Processing {os.path.basename(pred_path)}')
             pred_content = read_md_file(pred_path)
 
-            result = self.process_get_matched_elements(sample, pred_content, img_name, save_time)
+            # result = self.process_get_matched_elements(sample, pred_content, img_name, save_time)
             # result = timed_function_single(self.process_get_matched_elements, sample, pred_content, img_name, timeout=25)
-            # try:
-            #     result = func_timeout(
-            #         30, self.process_get_matched_elements, args=(sample, pred_content, img_name)
-            #     )
-            # except FunctionTimedOut as e1:
-            #     logger.exception(e1)
-            #     print(f'Time out for {os.path.basename(pred_path)}, it will be skipped.')
-            #     with open('new_timeout.log', 'a') as f:
-            #         f.write(str(e1))
-            #         f.write('\n')
-            #     continue
-            # except Exception as e:
-            #     print(str(e))
-            #     continue
+            try:
+                result = func_timeout(
+                    180, self.process_get_matched_elements, args=(sample, pred_content, img_name, save_time)
+                )
+            except FunctionTimedOut as e1:
+                logger.exception(e1)
+                print(f'Time out for {os.path.basename(pred_path)}, it will be skipped.')
+                with open(f'page_timeout_{save_time}.log', 'a') as f:
+                    f.write(str(e1))
+                    f.write('\n')
+                continue
+            except Exception as e:
+                print(str(e))
+                continue
             # if result:
             [plain_text_match_clean, formated_display_formula, latex_table_match_s, html_table_match_s, order_match_single] = result
             # else:
@@ -272,7 +272,7 @@ class End2EndDataset():
                                                 'header', 'footer', 'page_footnote'])
 
         # print('-------------!!text_all: ', text_all)
-        formated_display_formula = []
+        display_formula_match_s = []
         plain_text_match_clean = []
         latex_table_match_s = []
         html_table_match_s = []
@@ -328,8 +328,8 @@ class End2EndDataset():
             if not display_formula_match_s:
                 # print(f'Time out for display_formula_match of {img_name}. The display_formula_match will be empty.')
                 print(f'No display_formula_match of {img_name}. The display_formula_match will be empty.')
-            else:
-                formated_display_formula = self.formula_format(display_formula_match_s, img_name)
+            # else:
+                # formated_display_formula = self.formula_format(display_formula_match_s, img_name)
                 # print('display_formula_match_s: ', display_formula_match_s)
                 # print('-'*10)
       
@@ -353,13 +353,13 @@ class End2EndDataset():
 
         # 阅读顺序的处理
         order_match_s = []
-        for mateches in [plain_text_match_clean, formated_display_formula]:
+        for mateches in [plain_text_match_clean, display_formula_match_s]:
             if mateches:
                 order_match_s.extend(mateches)
         if order_match_s:
             order_match_single = self.get_order_paired(order_match_s, img_name)
             
-        return [plain_text_match_clean, formated_display_formula, latex_table_match_s, html_table_match_s, order_match_single]       
+        return [plain_text_match_clean, display_formula_match_s, latex_table_match_s, html_table_match_s, order_match_single]       
     
 
 @DATASET_REGISTRY.register("recogition_end2end_base_dataset")

@@ -1,0 +1,15 @@
+recogition_eval: # Text
+  metrics:
+    - Edit_dist
+    - CDM
+    # - BLEU
+  dataset:
+    dataset_name: omidocbench_single_module_dataset
+    ground_truth:
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/Formula_result/docparse_1107_formula_pix2tex.json
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/Formula_result/docparse_1107_formula_GOT.json
+      data_key: latex
+      category_filter: ['equation_isolated']
+    prediction:
+      # data_key: pix2tex_pred
+      data_key: got_pred

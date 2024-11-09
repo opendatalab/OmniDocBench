@@ -51,6 +51,7 @@ class OmiDocBenchSingleModuleDataset():
         gt_key = cfg_task['dataset']['ground_truth']['data_key']
         pred_file = cfg_task['dataset']['ground_truth']['data_path']
         pred_key = cfg_task['dataset']['prediction']['data_key']
+        self.category_filter = cfg_task['dataset']['ground_truth'].get('category_filter', [])
         self.samples = self.load_data(pred_file, pred_key, gt_key)
 
     def load_data(self, pred_file, pred_key, gt_key):
@@ -63,6 +64,9 @@ class OmiDocBenchSingleModuleDataset():
             for i, ann in enumerate(pred['layout_dets']):
                 if not ann.get(gt_key):
                     continue
+                if self.category_filter:
+                    if ann['category_type'] not in self.category_filter:
+                        continue
                 if not ann.get(pred_key):
                     print(f'Cannot find pred for {img_name}. ann is {ann}')
                     pdb.set_trace()
@@ -74,7 +78,7 @@ class OmiDocBenchSingleModuleDataset():
                     "gt": gt_text,
                     "gt_attribute": [ann['attribute']],
                     'pred': pred_text,
-                    'img_id': img_name + '_' + str(i)
+                    'img_id': img_name
                 })
         return samples
 

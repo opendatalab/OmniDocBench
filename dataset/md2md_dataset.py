@@ -102,7 +102,7 @@ class Md2MdDataset():
             # print('pred_title_list: ', pred_title_list)      
 
             # print('-------------!!text_all: ', text_all)
-            formated_display_formula = []
+            display_formula_match_s = []
             plain_text_match_clean = []
             if gt_dataset['text_all']:
                 # print('gt_text_list: ', gt_text_list)
@@ -133,10 +133,10 @@ class Md2MdDataset():
             if gt_dataset.get('equation_isolated'):
                 # print('gt_display_list: ', gt_display_list)
                 display_formula_match_s = match_gt2pred(gt_dataset['equation_isolated'], pred_dataset['equation_isolated'], 'formula', img_name)
-                formated_display_formula = self.formula_format(display_formula_match_s, img_name)
+                # formated_display_formula = self.formula_format(display_formula_match_s, img_name)
                 # print('display_formula_match_s: ', display_formula_match_s)
                 # print('-'*10)
-                display_formula_match.extend(formated_display_formula)
+                display_formula_match.extend(display_formula_match_s)
             if gt_dataset.get('latex_table') and pred_dataset.get('latex_table'): # 这里默认模型不会同时随机输出latex或html，而是二选一; 注意，GT的markdown里的table格式需要跟Pred一致
                 # print('gt_table_list', gt_table_list)
                 table_match_s = match_gt2pred(gt_dataset['latex_table'], pred_dataset['latex_table'], 'latex_table', img_name)  
@@ -154,7 +154,7 @@ class Md2MdDataset():
 
             # 阅读顺序的处理
             order_match_s = []
-            for mateches in [plain_text_match_clean, formated_display_formula]:
+            for mateches in [plain_text_match_clean, display_formula_match_s]:
                 if mateches:
                     order_match_s.extend(mateches)
             if order_match_s:
@@ -167,15 +167,15 @@ class Md2MdDataset():
             table_match = html_table_match
             table_format = 'html'
 
-        # 提取匹配数据检查
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/plain_text_match.json', 'w', encoding='utf-8') as f:
-            json.dump(plain_text_match, f, indent=4, ensure_ascii=False)
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/table_match.json', 'w', encoding='utf-8') as f:
-            json.dump(table_match, f, indent=4, ensure_ascii=False)
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/order_match.json', 'w', encoding='utf-8') as f:
-            json.dump(order_match, f, indent=4, ensure_ascii=False)
-        with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/display_match.json', 'w', encoding='utf-8') as f:
-            json.dump(display_formula_match, f, indent=4, ensure_ascii=False)
+        # # 提取匹配数据检查
+        # with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/plain_text_match.json', 'w', encoding='utf-8') as f:
+        #     json.dump(plain_text_match, f, indent=4, ensure_ascii=False)
+        # with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/table_match.json', 'w', encoding='utf-8') as f:
+        #     json.dump(table_match, f, indent=4, ensure_ascii=False)
+        # with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/order_match.json', 'w', encoding='utf-8') as f:
+        #     json.dump(order_match, f, indent=4, ensure_ascii=False)
+        # with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/display_match.json', 'w', encoding='utf-8') as f:
+        #     json.dump(display_formula_match, f, indent=4, ensure_ascii=False)
 
         matched_samples_all = {
             'text_block': DATASET_REGISTRY.get('recogition_end2end_base_dataset')(plain_text_match),
