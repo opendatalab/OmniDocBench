@@ -412,21 +412,61 @@ def extract_tex_table(content):
 
     return all_tables, all_positions
 
-def extract_html_table(content):
-    soup = BeautifulSoup(content, 'html.parser')
-    all_tables = soup.find_all('table')
-    tables = []
-    positions = []
+# def extract_html_table(content):
+#     soup = BeautifulSoup(content, 'html.parser')
+#     all_tables = soup.find_all('table')
+#     tables = []
+#     positions = []
     
-    for table in all_tables:
-        if table.find_parent('table') is None:
-            table_str = str(table)
-            start_pos = content.find(table_str)
-            end_pos = start_pos + len(table_str)
+#     for table in all_tables:
+#         if table.find_parent('table') is None:
+#             table_str = str(table)
+#             start_pos = content.find(table_str)
+#             end_pos = start_pos + len(table_str)
             
-            tables.append(table_str)
-            positions.append((start_pos, end_pos))
-    return tables, positions
+#             tables.append(table_str)
+#             positions.append((start_pos, end_pos))
+#     return tables, positions
+
+def extract_html_table(text):
+    begin_pattern = r'<table(?:[^>]*)>'
+    end_pattern = r'</table>'
+
+    tabulars = []
+    positions = []
+    current_pos = 0
+    stack = []
+    
+    while current_pos < len(text):
+        begin_match = re.search(begin_pattern, text[current_pos:])
+        end_match = re.search(end_pattern, text[current_pos:])
+        
+        if not begin_match and not end_match:
+            break
+            
+        if begin_match and (not end_match or begin_match.start() < end_match.start()):
+            stack.append(current_pos + begin_match.start())
+            current_pos += begin_match.start() + len(end_pattern)
+        elif end_match:
+            if stack:
+                start_pos = stack.pop()
+                if not stack:
+                    end_pos = current_pos + end_match.start() + len(end_pattern)
+                    tabular_code = text[start_pos:end_pos]
+                    tabulars.append(tabular_code)
+                    positions.append((start_pos, end_pos))
+            current_pos += end_match.start() + len(end_pattern)
+        else:
+            current_pos += 1
+    
+    if stack:
+        new_start = stack[0] + len(begin_pattern)
+        new_tabulars, new_positions = extract_html_table(text[new_start:])
+        new_positions = [(start + new_start, end + new_start) for start, end in new_positions]
+        tabulars.extend(new_tabulars)
+        positions.extend(new_positions)
+
+    return tabulars, positions
 
 
 def extract_node_content(node):
