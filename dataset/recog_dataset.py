@@ -179,7 +179,7 @@ class RecognitionTableDataset():
             else:
                 raise ValueError(f'Invalid table format: {self.pred_table_format}')
 
-            img_id = references[img]["anno_id"]
+            img_id = references[img]["page_image_name"]
             if self.pred_table_format == 'latex':
                 p = self.process_table_latex(p)
                 r = self.process_table_latex(r)
@@ -193,7 +193,8 @@ class RecognitionTableDataset():
             samples.append({
                 'gt': p,
                 'pred': r,
-                'img_id': img_id
+                'img_id': img_id,
+                'gt_attribute': [references[img]['attribute']],
             })
         
         if self.pred_table_format == 'latex2html':
