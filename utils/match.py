@@ -4,7 +4,7 @@ import numpy as np
 import re
 import sys
 import pdb
-from utils.data_preprocess import textblock_with_norm_formula, normalized_formula, textblock2unicode
+from utils.data_preprocess import textblock_with_norm_formula, normalized_formula, textblock2unicode, clean_string
 
 # def get_norm_text_lines(lines):
 #     norm_lines = []
@@ -56,8 +56,8 @@ def get_gt_pred_lines(gt_items, pred_items, line_type):
     elif line_type == 'text':
         # norm_gt_lines = [textblock_with_norm_formula(_) for _ in gt_lines]
         # norm_pred_lines = [textblock_with_norm_formula(_) for _ in pred_lines]
-        norm_gt_lines = [textblock2unicode(_) for _ in gt_lines]
-        norm_pred_lines = [textblock2unicode(_) for _ in pred_lines]
+        norm_gt_lines = [clean_string(textblock2unicode(_)) for _ in gt_lines]
+        norm_pred_lines = [clean_string(textblock2unicode(_)) for _ in pred_lines]
         # norm_gt_lines = get_norm_text_lines(gt_lines)
         # norm_pred_lines = get_norm_text_lines(pred_lines)
     else:
@@ -147,7 +147,6 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
             'edit': 1,
             'img_id': img_name
         })
-    
     return match_list
 
 

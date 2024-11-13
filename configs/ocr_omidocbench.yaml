@@ -5,7 +5,20 @@ recogition_eval: # Text
   dataset:
     dataset_name: omidocbench_single_module_dataset
     ground_truth:
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/OCR_result/docparse_1106_GOT.json
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/OCR_result/docparse_1106_ocr_GOT.json
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/OCR_result/check-1107-processed_paddle.json
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/OCR_result/check-1107-processed_tesseract.json
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/OCR_result/docparse_1107_ocr_tesseract_clean.json
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/OCR_result/docparse_1107_internvl.json
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/OCR_result/check-1107-processed_surya.json
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/OCR_result/docparse1110_ocr_qwenvl.json
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/OCR_result/docparse_1107_mathpix_ocr.json
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/OCR_result/docparse_1107_ocr_gpt4o.json
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/OCR_result/docparse1022_ocr_qwenvl_checked.json
       data_key: text
     prediction:
-      data_key: got_pred
+      # data_key: got_pred
+      # data_key: internvl_pred
+      data_key: qwenvl_pred
+      # data_key: pred
+    category_type: text

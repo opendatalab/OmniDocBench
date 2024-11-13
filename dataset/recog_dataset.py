@@ -11,6 +11,7 @@ from tqdm import tqdm
 from bs4 import BeautifulSoup
 from utils.ocr_utils import get_text_for_block
 import pdb
+from utils.data_preprocess import clean_string, normalized_formula, textblock2unicode
 
 
 @DATASET_REGISTRY.register("recogition_text_dataset")
@@ -52,13 +53,14 @@ class OmiDocBenchSingleModuleDataset():
         pred_file = cfg_task['dataset']['ground_truth']['data_path']
         pred_key = cfg_task['dataset']['prediction']['data_key']
         self.category_filter = cfg_task['dataset']['ground_truth'].get('category_filter', [])
+        self.category_type = cfg_task['dataset'].get('category_type')
         self.samples = self.load_data(pred_file, pred_key, gt_key)
 
     def load_data(self, pred_file, pred_key, gt_key):
         samples = []
         with open(pred_file, 'r') as f:
             preds = json.load(f)
-        
+        count = 0
         for pred in preds:
             img_name = os.path.basename(pred['page_info']['image_path'])
             for i, ann in enumerate(pred['layout_dets']):
@@ -68,18 +70,34 @@ class OmiDocBenchSingleModuleDataset():
                     if ann['category_type'] not in self.category_filter:
                         continue
                 if not ann.get(pred_key):
-                    print(f'Cannot find pred for {img_name}. ann is {ann}')
-                    pdb.set_trace()
+                    # print(f'Cannot find pred for {img_name}. ann is {ann}')
+                    # pdb.set_trace()
+                    count += 1
                     continue
                 else:
                     gt_text = ann[gt_key]
+                    norm_gt = gt_text
                     pred_text = ann[pred_key]
+                    norm_pred = pred_text
+                    if self.category_type:
+                        if self.category_type == 'text':
+                            norm_gt = clean_string(textblock2unicode(ann[gt_key]))
+                            norm_pred = clean_string(textblock2unicode(ann[pred_key]))
+                        elif self.category_type == 'formula':
+                            norm_gt = normalized_formula(ann[gt_key])
+                            norm_pred = normalized_formula(ann[pred_key])
                 samples.append({
                     "gt": gt_text,
+                    "norm_gt": norm_gt,
                     "gt_attribute": [ann['attribute']],
                     'pred': pred_text,
+                    "norm_pred": norm_pred,
                     'img_id': img_name
                 })
+        print(f'Cannot find pred for {count} samples.')
+        # with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/a_text_norm.json', 'w', encoding='utf-8') as f:
+        #     json.dump(samples, f, indent=4, ensure_ascii=False)
+        
         return samples
 
 @DATASET_REGISTRY.register("recogition_formula_dataset")
