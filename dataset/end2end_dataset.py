@@ -27,7 +27,7 @@ class End2EndDataset():
         with open(gt_path, 'r') as f:
             gt_samples = json.load(f)
 
-        # specific_files=['docstructbench_enbook-zlib-o.O-17208435.pdf_57.jpg']  # 单个文件debug
+        # specific_files=['eastmoney_d09a006aa02ddc09299bbb9a1b5efa0d77408191f0c1ff1fca8c80bd6150f806.pdf_17.jpg']  # 单个文件debug
         # gt_samples = [sample for sample in gt_samples if os.path.basename(sample["page_info"]["image_path"]) in specific_files]
 
         filtered_gt_samples = []

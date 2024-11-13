@@ -8,6 +8,15 @@ def show_result(results):
         print(tabulate(score_table))
         print('='*100)
 
+def sort_nested_dict(d):
+    # 如果是字典，则递归排序
+    if isinstance(d, dict):
+        # 对当前字典进行排序
+        sorted_dict = {k: sort_nested_dict(v) for k, v in sorted(d.items())}
+        return sorted_dict
+    # 如果不是字典，直接返回
+    return d
+
 def get_full_labels_results(samples):
     if not samples:
         return {}
@@ -25,13 +34,15 @@ def get_full_labels_results(samples):
 
     print('----Anno Attribute---------------')
     result = {}
+    result['sample_count'] = {}
     for attribute in label_group_dict.keys():
         for metric, scores in label_group_dict[attribute].items():
             mean_score = sum(scores) / len(scores)
             if not result.get(metric):
                 result[metric] = {}
             result[metric][attribute] = mean_score
-
+            result['sample_count'][attribute] = len(scores)
+    result = sort_nested_dict(result)
     show_result(result)
     return result
 
@@ -55,11 +66,14 @@ def get_page_split(samples, page_info):
     
     print('----Page Attribute---------------')
     result = {}
+    result['sample_count'] = {}
     for metric in page_split_dict.keys():
         for attribute, scores in page_split_dict[metric].items():
             mean_score = sum(scores) / len(scores)
             if not result.get(metric):
                 result[metric] = {}
             result[metric][attribute] = mean_score
+            result['sample_count'][attribute] = len(scores)
+    result = sort_nested_dict(result)
     show_result(result)
     return result

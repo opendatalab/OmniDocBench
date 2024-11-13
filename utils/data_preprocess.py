@@ -145,8 +145,8 @@ def normalized_formula(text):
                    '\\textbf', '\\text', '\\boldmath', '\\boldsymbol', '\\operatorname', '\\bm',
                    '\\symbfit', '\\mathbfcal', '\\symbf', '\\scriptscriptstyle', '\\notag',
                    '\\setlength', '\\coloneqq', '\\space', '\\thickspace', '\\thinspace', '\\medspace', '\\nobreakspace', '\\negmedspace',
-                   '\\quad', '\\qquad', '\\enspace', '\\substackw',
-                   '\\left', '\\right', '{', '}', ' ']
+                   '\\quad', '\\qquad', '\\enspace', '\\substackw', ' ']
+                #    '\\left', '\\right', '{', '}', ' ']
     
     # delimiter_filter
     pattern = re.compile(r"\\\[(.+?)(?<!\\)\\\]")
@@ -305,3 +305,10 @@ def inline_filter(text):
             text = text.replace(match.group(0), content)
 
     return text, inline_array
+
+# 文本OCR质检处理：
+def clean_string(input_string):
+    # 使用正则表达式保留中文、英文和数字
+    input_string = input_string.replace('\t', '').replace('\n', '').replace('/t', '').replace('/n', '')
+    cleaned_string = re.sub(r'[^\w\u4e00-\u9fff]', '', input_string)
+    return cleaned_string
