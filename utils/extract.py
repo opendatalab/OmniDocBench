@@ -61,9 +61,12 @@ display_reg = re.compile(
     r'\\begin{align\*?}(.*?)\\end{align\*?}|'
     r'\\begin{gather\*?}(.*?)\\end{gather\*?}|'
     r'\$\$(.*?)\$\$|'
-    r'\\\[(.*?)\\\]',
+    r'\\\[(.*?)\\\]|'
+    r'\$(.*?)\$|'
+    r'\\\((.*?)\\\)',  
     re.DOTALL
 )
+
 # inline_reg = re.compile(
 #     r'(?<!\$)\$(?!\$)(.*?)(?<!\$)\$(?!\$)|'
 #     r'\\\((.*?)\\\)',
@@ -197,7 +200,7 @@ def md_tex_filter(content):
             single_line = ''.join(matched.split())
             position = [match.start(), match.end()]
             # replace $$ with \[\]
-            dollar_pattern = re.compile(r'\$\$(.*?)\$\$', re.DOTALL)
+            dollar_pattern = re.compile(r'\$\$(.*?)\$\$|\$(.*?)\$|\\\((.*?)\\\)', re.DOTALL)
             single_line = re.sub(dollar_pattern, r'\\[\1\\]', single_line)
             # print('single_line: ', single_line)
             # content = content.replace(matched, ' '*len(matched))
