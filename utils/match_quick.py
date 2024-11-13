@@ -744,8 +744,7 @@ def convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines):
 
     return converted_results
 
-from scipy.optimize import linear_sum_assignment
-import Levenshtein
+
 
 # if __name__ == "__main__":
 #     file_name='merge_split_example.txt'
