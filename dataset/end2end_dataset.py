@@ -27,7 +27,7 @@ class End2EndDataset():
         with open(gt_path, 'r') as f:
             gt_samples = json.load(f)
 
-        # specific_files=['eastmoney_d09a006aa02ddc09299bbb9a1b5efa0d77408191f0c1ff1fca8c80bd6150f806.pdf_17.jpg']  # 单个文件debug
+        # specific_files=['yanbaopptmerge_yanbaoPPT_1090.jpg']  # 单个文件debug
         # gt_samples = [sample for sample in gt_samples if os.path.basename(sample["page_info"]["image_path"]) in specific_files]
 
         filtered_gt_samples = []
@@ -184,7 +184,7 @@ class End2EndDataset():
             # result = timed_function_single(self.process_get_matched_elements, sample, pred_content, img_name, timeout=25)
             try:
                 result = func_timeout(
-                    180, self.process_get_matched_elements, args=(sample, pred_content, img_name, save_time)
+                    300, self.process_get_matched_elements, args=(sample, pred_content, img_name, save_time)
                 )
             except FunctionTimedOut as e1:
                 logger.exception(e1)
@@ -285,7 +285,7 @@ class End2EndDataset():
             # plain_text_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_text_list, pred_dataset['text_all'], 'text', img_name, timeout=15, print_msg=img_name)
             try:
                 plain_text_match_s = func_timeout(
-                    60, match_gt2pred, args=(gt_text_list, pred_dataset['text_all'], 'text', img_name)
+                    300, match_gt2pred, args=(gt_text_list, pred_dataset['text_all'], 'text', img_name)
                 )
             except FunctionTimedOut as e1:
                 logger.exception(e1)
