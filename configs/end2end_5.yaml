@@ -29,16 +29,16 @@ end2end_eval:
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1103_subset.json
       data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/ocr-main-1113.json
     prediction:
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/GOT
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/gpt4o
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/internvl76b
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/marker
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/mathpix1108
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/nougat
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/mineru1111_docyolo
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/mineru1111_layoutlm
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/QwenVL_htmltable_full
-    match_method: no_split
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/GOT
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/gpt4o
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/internvl76b
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/marker
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/mathpix1108
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/nougat
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/mineru1111_docyolo
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/mineru1111_layoutlm
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/QwenVL_htmltable_full
+    # match_method: no_split
     # match_method: simple_match
     # filter: 
     #   language: english

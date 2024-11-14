@@ -17,6 +17,16 @@ from utils.data_preprocess import textblock_with_norm_formula, normalized_formul
 #             norm_lines.append(line)
 #     return norm_lines
 
+def get_pred_category_type(pred_idx, pred_items):
+        if pred_idx != -1:
+            if pred_items[pred_idx].get('fine_category_type'):
+                pred_pred_category_type = pred_items[pred_idx]['fine_category_type']
+            else:
+                pred_pred_category_type = pred_items[pred_idx]['category_type']
+        else:
+            pred_pred_category_type = ""
+        return pred_pred_category_type
+
 def compute_edit_distance_matrix_new(gt_lines, matched_lines):
     distance_matrix = np.zeros((len(gt_lines), len(matched_lines)))
     # print('gt len: ', len(gt_lines))
@@ -73,12 +83,52 @@ def get_gt_pred_lines(gt_items, pred_items, line_type):
 def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
 
     gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines = get_gt_pred_lines(gt_items, pred_items, line_type)
-
+    
+    match_list = []
+    if not norm_gt_lines:
+        # print("One of the lists is empty. Returning an empty gt result.")
+        for pred_idx in range(len(norm_pred_lines)):
+            match_list.append({
+                'gt_idx': [-1],
+                'gt': "",
+                'pred_idx': [pred_idx],
+                'pred': pred_lines[pred_idx],
+                'gt_position': -1,
+                'pred_position': pred_items[pred_idx]['position'][0],
+                'norm_gt': "",
+                'norm_pred': norm_pred_lines[pred_idx],
+                'gt_category_type': "",
+                'pred_category_type': get_pred_category_type(pred_idx, pred_items),
+                'gt_attribute': [{}],
+                'edit': 1,
+                'img_id': img_name
+            })
+        return match_list
+    elif not norm_pred_lines:
+        # print("One of the lists is empty. Returning an empty pred result.")
+        for gt_idx in range(len(norm_gt_lines)):
+            match_list.append({
+                'gt_idx': [gt_idx],
+                'gt': gt_lines[gt_idx],
+                'pred_idx': [-1],
+                'pred': "",
+                'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]],
+                'pred_position': -1,
+                'norm_gt': norm_gt_lines[gt_idx],
+                'norm_pred': "",
+                'gt_category_type': gt_cat_list[gt_idx],
+                'pred_category_type': "",
+                'gt_attribute': [gt_items[gt_idx].get("attribute", {})],
+                'edit': 1,
+                'img_id': img_name
+            })
+        return match_list
+    
     cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
 
     row_ind, col_ind = linear_sum_assignment(cost_matrix)
 
-    match_list = []
+    
     for gt_idx in range(len(norm_gt_lines)):
         if gt_idx in row_ind:
             row_i = list(row_ind).index(gt_idx)

@@ -4,20 +4,10 @@ import Levenshtein
 # from modules.extract import inline_filter #end
 from collections import defaultdict
 import copy
-from utils.match import compute_edit_distance_matrix_new, get_gt_pred_lines
+from utils.match import compute_edit_distance_matrix_new, get_gt_pred_lines, get_pred_category_type
 import pdb
 import numpy as np
 import evaluate
-
-def get_pred_category_type(pred_idx, pred_items):
-        if pred_idx != -1:
-            if pred_items[pred_idx].get('fine_category_type'):
-                pred_pred_category_type = pred_items[pred_idx]['fine_category_type']
-            else:
-                pred_pred_category_type = pred_items[pred_idx]['category_type']
-        else:
-            pred_pred_category_type = ""
-        return pred_pred_category_type
 
 def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
 
@@ -117,10 +107,10 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         entry['pred_idx'] = [entry['pred_idx']] if isinstance(entry['pred_idx'], int) else entry['pred_idx']
         entry['gt_position'] = [gt_items[_].get('order') if gt_items[_].get('order') else gt_items[_].get('position', [-1])[0] for _ in entry['gt_idx']]
         entry['pred_position'] = pred_items[entry['pred_idx'][0]]['position'][0] if entry['pred_idx'] else -1
-        entry['gt'] = '\n'.join([gt_lines[_] for _ in entry['gt_idx']])
-        entry['pred'] = '\n'.join([pred_lines[_] for _ in entry['pred_idx']])
-        entry['norm_gt'] = '\n'.join([norm_gt_lines[_] for _ in entry['gt_idx']])
-        entry['norm_pred'] = '\n'.join([norm_pred_lines[_] for _ in entry['pred_idx']])
+        entry['gt'] = ''.join([gt_lines[_] for _ in entry['gt_idx']])
+        entry['pred'] = ''.join([pred_lines[_] for _ in entry['pred_idx']])
+        entry['norm_gt'] = ''.join([norm_gt_lines[_] for _ in entry['gt_idx']])
+        entry['norm_pred'] = ''.join([norm_pred_lines[_] for _ in entry['pred_idx']])
         entry['gt_category_type'] = gt_cat_list[entry['gt_idx'][0]]  # 用GT的第一个元素的类别
         entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], pred_items) if entry['pred_idx'] else "" # 用Pred的第一个元素的类别
         entry['gt_attribute'] = [gt_items[_].get("attribute", {}) for _ in entry['gt_idx']]  # 把gt的attribute加上，用于后续细粒度的精度统计
