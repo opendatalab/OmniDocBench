@@ -27,7 +27,7 @@ class End2EndDataset():
         with open(gt_path, 'r') as f:
             gt_samples = json.load(f)
 
-        # specific_files=['docstructbench_llm-raw-scihub-o.O-s001280000131.pdf_5.jpg']  # 单个文件debug
+        # specific_files=['yanbaopptmerge_PattPatelCh12.pdf_27.jpg', 'yanbaopptmerge_yanbaoPPT_1120.jpg', 'yanbaopptmerge_yanbaoPPT_120.jpg', 'docstructbench_llm-raw-scihub-o.O-chin.201023119.jpg']  # 单个文件debug
         # gt_samples = [sample for sample in gt_samples if os.path.basename(sample["page_info"]["image_path"]) in specific_files]
 
         filtered_gt_samples = []
@@ -269,9 +269,9 @@ class End2EndDataset():
         # print('-----------gt_page_elements: ', gt_page_elements['text_block'])
         
         # 文本相关的所有element，不涉及的类别有figure, table, table_mask, equation_isolated, equation_caption, equation_ignore, equation_inline, footnote_mark, page_number, abandon, list, text_mask, need_mask
-        text_all = self.get_page_elements_list(gt_page_elements, ['text_block', 'title', 'code_txt', 'code_txt_caption', 'list_merge', 'reference',
-                                                'figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption'
-                                                'header', 'footer', 'page_footnote'])
+        text_all = self.get_page_elements_list(gt_page_elements, ['text_block', 'title', 'code_txt', 'code_txt_caption', 'reference', 'equation_caption',
+                                                'figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption',
+                                                'header', 'footer', 'page_footnote', 'page_number'])
 
         # print('-------------!!text_all: ', text_all)
         display_formula_match_s = []
@@ -304,11 +304,12 @@ class End2EndDataset():
                 print(f'No text match of {img_name}. The plain text match will be empty.')
             else:
                 # print('plain_text_match_s: ', plain_text_match_s)
+                # pdb.set_trace()
                 # print('-'*10)
                 # print('inline_formula_match_s', inline_formula_match_s)
                 # print('-'*10)
                 # 文本类需要ignore的类别
-                plain_text_match_clean = self.filtered_out_ignore(plain_text_match_s, ['figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption', 'header', 'footer', 'page_footnote'])
+                plain_text_match_clean = self.filtered_out_ignore(plain_text_match_s, ['figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption', 'header', 'footer', 'page_footnote', 'page_number', 'equation_caption'])
                 
             # formated_inline_formula = self.formula_format(inline_formula_match_s, img_name)
             # inline_formula_match.extend(formated_inline_formula)
@@ -356,10 +357,14 @@ class End2EndDataset():
             # print('-'*10)
 
         # 阅读顺序的处理
-        order_match_s = []
-        for mateches in [plain_text_match_clean, display_formula_match_s]:
-            if mateches:
-                order_match_s.extend(mateches)
+        # order_match_s = []
+        # for mateches in [plain_text_match_clean, display_formula_match_s]:
+        #     if mateches:
+        #         order_match_s.extend(mateches)
+        order_match_s = plain_text_match_clean
+        # for mateches in [plain_text_match_clean, display_formula_match_s]:
+            # if mateches:
+            #     order_match_s.extend(mateches)
         if order_match_s:
             order_match_single = self.get_order_paired(order_match_s, img_name)
             

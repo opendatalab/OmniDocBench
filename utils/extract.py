@@ -332,12 +332,20 @@ def md_tex_filter(content):
             else:
                 # text = textblock_with_norm_formula(text)  # !! 如果文本段落里有行内公式，则跑一个normalize_formula, 目前latex2unicode报错
                 # text = textblock2unicode(text)
-                pred_all.append({
-                    'category_type': 'text_all',
-                    'position': position,
-                    'content': text,
-                    'fine_category_type': 'text_block'
-                })
+                text = re.sub(r'\\title\{(.*?)\}', r'\1', text)
+                text = re.sub(r'\\section\*?\{(.*?)\}', r'\1', text)
+                text = text.replace('\title', '')
+                text = text.replace('\title{', '')
+                text = text.replace('\title{}', '')
+                text = text.replace('\section*{', '')
+                text = text.strip()
+                if text:
+                    pred_all.append({
+                        'category_type': 'text_all',
+                        'position': position,
+                        'content': text,
+                        'fine_category_type': 'text_block'
+                    })
                 # if '$' in text:
                 #     for formula in re.findall(r'\$(.*?)\$', text):
                 #         formula_array.append(formula)
