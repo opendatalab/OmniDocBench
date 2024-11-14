@@ -166,14 +166,45 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
     #return converted_final_matches
 
 
+# def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, all_gt_indices, all_pred_indices):
+#     merged_results = []
+#     processed = set()  # 跟踪已经处理过的pred_idx
+#     # 处理已匹配的条目
+#     for entry in converted_results:
+#         pred_idx = tuple(entry['pred_idx']) if isinstance(entry['pred_idx'], list) else (entry['pred_idx'],)
+        
+#         if pred_idx not in processed:
+#             # 初始化合并条目
+#             merged_entry = {
+#                 'gt_idx': [entry['gt_idx']],
+#                 'gt': entry['gt'],
+#                 'pred_idx': entry['pred_idx'],
+#                 'pred': entry['pred'],
+#                 'edit': entry['edit']
+#             }
+
+#             # 找出所有具有相同pred_idx的entries
+#             for other_entry in converted_results:
+#                 other_pred_idx = tuple(other_entry['pred_idx']) if isinstance(other_entry['pred_idx'], list) else (other_entry['pred_idx'],)
+#                 if other_pred_idx == pred_idx and other_entry is not entry:
+#                     merged_entry['gt_idx'].append(other_entry['gt_idx'])
+#                     merged_entry['gt'] += other_entry['gt']
+#                     # 标记为已处理
+#                     processed.add(pred_idx)
+            
+#             merged_results.append(merged_entry)
+#             processed.add(pred_idx)
+#     return merged_results
+
 def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, all_gt_indices, all_pred_indices):
     merged_results = []
     processed = set()  # 跟踪已经处理过的pred_idx
+
     # 处理已匹配的条目
     for entry in converted_results:
         pred_idx = tuple(entry['pred_idx']) if isinstance(entry['pred_idx'], list) else (entry['pred_idx'],)
         
-        if pred_idx not in processed:
+        if pred_idx not in processed and pred_idx != (-1,):
             # 初始化合并条目
             merged_entry = {
                 'gt_idx': [entry['gt_idx']],
@@ -182,20 +213,19 @@ def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_l
                 'pred': entry['pred'],
                 'edit': entry['edit']
             }
-
+            
             # 找出所有具有相同pred_idx的entries
             for other_entry in converted_results:
                 other_pred_idx = tuple(other_entry['pred_idx']) if isinstance(other_entry['pred_idx'], list) else (other_entry['pred_idx'],)
                 if other_pred_idx == pred_idx and other_entry is not entry:
                     merged_entry['gt_idx'].append(other_entry['gt_idx'])
                     merged_entry['gt'] += other_entry['gt']
-                    # 标记为已处理
                     processed.add(pred_idx)
             
             merged_results.append(merged_entry)
             processed.add(pred_idx)
-    return merged_results
-
+        else:
+            merged_results.append(entry)
 
 def formula_format(formula_matches, img_name):
     formated_list = []
