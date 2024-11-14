@@ -309,6 +309,6 @@ def inline_filter(text):
 # 文本OCR质检处理：
 def clean_string(input_string):
     # 使用正则表达式保留中文、英文和数字
-    input_string = input_string.replace('\t', '').replace('\n', '').replace('/t', '').replace('/n', '')
+    input_string = input_string.replace('\\t', '').replace('\\n', '').replace('\t', '').replace('\n', '').replace('/t', '').replace('/n', '')
     cleaned_string = re.sub(r'[^\w\u4e00-\u9fff]', '', input_string)
     return cleaned_string

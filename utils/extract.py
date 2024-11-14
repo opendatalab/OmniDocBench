@@ -329,7 +329,7 @@ def md_tex_filter(content):
                     })
             else:
                 # text = textblock_with_norm_formula(text)  # !! 如果文本段落里有行内公式，则跑一个normalize_formula, 目前latex2unicode报错
-                text = textblock2unicode(text)
+                # text = textblock2unicode(text)
                 pred_all.append({
                     'category_type': 'text_all',
                     'position': position,
