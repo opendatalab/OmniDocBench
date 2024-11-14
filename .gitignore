@@ -1,4 +1,4 @@
-result/
+result*
 **/__pycache__/
 # check_data/
 **/.ipynb_checkpoints/

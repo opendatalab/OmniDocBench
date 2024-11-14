@@ -126,10 +126,12 @@ class End2EndDataset():
 
     def get_order_paired(self, order_match_s, img_name):
         matched = [(item['gt_position'], item['pred_position']) for item in order_match_s if (item['gt_position'][0] != -1 and item['pred_position'] != -1)]
+        gt_idx_all = [item['gt_position'] for item in order_match_s if (item['gt_position'][0] != -1)]
         # read_order_gt = [i[0] for i in sorted(matched, key=lambda x: x[0])]   # 以GT的idx来sort，获取GT排序的GT_idx
         # print(matched)
         read_order_pred = [i[0] for i in sorted(matched, key=lambda x: x[1])]  # 以pred的idx来sort，获取Pred排序的GT_idx
-        read_order_gt = sorted(read_order_pred) # 以GT的idx来sort，获取GT排序的GT_idx
+        # read_order_gt = sorted(read_order_pred) # 以GT的idx来sort，获取GT排序的GT_idx
+        read_order_gt = sorted(gt_idx_all) # 以所有GT的idx来sort，获取GT排序的GT_idx
         gt = sum(read_order_gt, []) # 转成一个一维list
         pred = sum(read_order_pred, [])
         if len(pred) > 0 or len(gt) > 0:
