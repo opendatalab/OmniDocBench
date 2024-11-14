@@ -82,8 +82,9 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             'edit': normalized_edit_distance,
             'img_id': img_name
         }]
-    
+ 
     cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
+        
     matched_col_idx, row_ind, cost_list = cal_final_match(cost_matrix, norm_gt_lines, norm_pred_lines)
     
     gt_lens_dict, pred_lens_dict = initialize_indices(norm_gt_lines, norm_pred_lines)
@@ -127,7 +128,6 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         #     entry['gt_attribute'] = [{}]
             
         # print('--------entry------', entry)
-        
     return merged_results
     # row_ind, col_ind = linear_sum_assignment(cost_matrix)
 
@@ -167,57 +167,34 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
 
 def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, all_gt_indices, all_pred_indices):
     merged_results = []
-    processed_gt_indices = set()
-    processed_pred_indices = set()  
     processed = set()  # 跟踪已经处理过的pred_idx
-
     # 处理已匹配的条目
     for entry in converted_results:
-        pred_idx_tuple = tuple(entry['pred_idx'])
+        pred_idx = tuple(entry['pred_idx']) if isinstance(entry['pred_idx'], list) else (entry['pred_idx'],)
         
-        if pred_idx_tuple not in processed:
+        if pred_idx not in processed:
+            # 初始化合并条目
             merged_entry = {
-                'gt_idx': [],
-                'gt': '',
+                'gt_idx': [entry['gt_idx']],
+                'gt': entry['gt'],
                 'pred_idx': entry['pred_idx'],
                 'pred': entry['pred'],
                 'edit': entry['edit']
             }
-            
+
             # 找出所有具有相同pred_idx的entries
             for other_entry in converted_results:
-                if tuple(other_entry['pred_idx']) == pred_idx_tuple:
+                other_pred_idx = tuple(other_entry['pred_idx']) if isinstance(other_entry['pred_idx'], list) else (other_entry['pred_idx'],)
+                if other_pred_idx == pred_idx and other_entry is not entry:
                     merged_entry['gt_idx'].append(other_entry['gt_idx'])
                     merged_entry['gt'] += other_entry['gt']
-                    
                     # 标记为已处理
-                    processed.add(tuple(other_entry['pred_idx']))
+                    processed.add(pred_idx)
             
             merged_results.append(merged_entry)
-
-    # # # 处理未匹配的条目（edit 为 1）
-    # unmatched_entries = [entry for entry in converted_results if entry['edit'] == 1]
-    # for entry in unmatched_entries:
-    #     if isinstance(entry['gt_idx'], list) and len(entry['gt_idx']) > 1:
-    #         # 拆分未匹配的gt_idx
-    #         for single_gt_idx in entry['gt_idx']:
-    #             if single_gt_idx not in processed_gt_indices:
-    #                 merged_results.append({
-    #                     'gt_idx': [single_gt_idx],
-    #                     'gt': norm_gt_lines[single_gt_idx],
-    #                     'pred_idx': entry['pred_idx'],
-    #                     'pred': entry['pred'],
-    #                     'edit': entry['edit']
-    #                 })
-    #                 processed_gt_indices.add(single_gt_idx)
-    #     else:
-    #         if entry['gt_idx'] not in processed_gt_indices:
-    #             merged_results.append(entry)
-    #             processed_gt_indices.add(entry['gt_idx'])
-
-    merged_results = [entry for entry in merged_results if not (isinstance(entry['gt_idx'], list) and len(entry['gt_idx']) > 1 and entry['edit'] == 1)]
-
+            processed.add(pred_idx)
     return merged_results
+
 
 def formula_format(formula_matches, img_name):
     formated_list = []
@@ -612,7 +589,10 @@ def recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_
     for pred_key, info in final_matches.items():
         gt_indices = sorted(set(info['gt_indices']))
 
-        # 如果gt_indices为空，保持edit_distance为1
+        if not gt_indices:
+            # 如果gt_indices为空，保持edit_distance为1
+            info['edit_distance'] = 1
+            continue
 
         if len(gt_indices) > 1:
             # 合并所有的gt内容到一个字符串
@@ -621,9 +601,15 @@ def recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_
             pred_content = norm_pred_lines[pred_key[0]] if isinstance(pred_key[0], int) else ''
 
             # 计算合并后gt内容与预测内容之间的编辑距离
-            edit_distance = Levenshtein.distance(merged_gt_content, pred_content)
-            # 归一化编辑距离
-            normalized_edit_distance = edit_distance / max(len(merged_gt_content), len(pred_content))
+            try:
+                edit_distance = Levenshtein.distance(merged_gt_content, pred_content)
+                # 归一化编辑距离
+                normalized_edit_distance = edit_distance / max(len(merged_gt_content), len(pred_content))
+            except ZeroDivisionError:
+                print("ZeroDivisionError occurred. Outputting norm_gt_lines and norm_pred_lines:")
+                print("norm_gt_lines:", norm_gt_lines)
+                print("norm_pred_lines:", norm_pred_lines)
+                normalized_edit_distance = 1  # 如果发生除零错误，设置编辑距离为1
 
             # 更新信息中的编辑距离
             info['edit_distance'] = normalized_edit_distance
@@ -635,11 +621,21 @@ def recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_
                 pred_content = ''.join(norm_pred_lines[pred_idx] for pred_idx in pred_key if isinstance(pred_idx, int))
             else:
                 pred_content = norm_pred_lines[pred_key[0]] if isinstance(pred_key[0], int) else ''
-            edit_distance = Levenshtein.distance(norm_gt_lines[gt_idx], pred_content)
-            normalized_edit_distance = edit_distance / max(len(norm_gt_lines[gt_idx]), len(pred_content))
+
+            try:
+                edit_distance = Levenshtein.distance(norm_gt_lines[gt_idx], pred_content)
+                # 归一化编辑距离
+                normalized_edit_distance = edit_distance / max(len(norm_gt_lines[gt_idx]), len(pred_content))
+            except ZeroDivisionError:
+                print("ZeroDivisionError occurred. Outputting norm_gt_lines and norm_pred_lines:")
+                print("norm_gt_lines:", norm_gt_lines)
+                print("norm_pred_lines:", norm_pred_lines)
+                normalized_edit_distance = 1  # 如果发生除零错误，设置编辑距离为1
+
             info['edit_distance'] = normalized_edit_distance
             info['pred_content'] = pred_content
-            
+        
+        
 def print_final_results(final_matches):
     print("Final Matches:")
     for pred_key, info in final_matches.items():
