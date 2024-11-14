@@ -202,7 +202,9 @@ def md_tex_filter(content):
             # replace $$ with \[\]
             dollar_pattern = re.compile(r'\$\$(.*?)\$\$|\$(.*?)\$|\\\((.*?)\\\)', re.DOTALL)
             sub_match = dollar_pattern.search(single_line)
-            if sub_match.group(1):
+            if sub_match is None:
+                pass
+            elif sub_match.group(1):
                 single_line = re.sub(dollar_pattern, r'\\[\1\\]', single_line)
                 content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
             else:
