@@ -37,7 +37,7 @@ def get_pred_category_type(pred_idx, pred_items):
 #         for j, matched_line in enumerate(matched_lines):
 #             distance_matrix[i][j] = Levenshtein.distance(gt_line, matched_line)/max(len(matched_line), len(gt_line))
 #     return distance_matrix
-        
+
 def compute_edit_distance_matrix_new(gt_lines, matched_lines):
     try:
         distance_matrix = np.zeros((len(gt_lines), len(matched_lines)))
@@ -49,7 +49,7 @@ def compute_edit_distance_matrix_new(gt_lines, matched_lines):
                     distance_matrix[i][j] = Levenshtein.distance(gt_line, matched_line) / max(len(matched_line), len(gt_line))
         return distance_matrix
     except ZeroDivisionError:
-        print("ZeroDivisionError occurred. Outputting norm_gt_lines and norm_pred_lines:")
+        #print("ZeroDivisionError occurred. Outputting norm_gt_lines and norm_pred_lines:")
         # print("norm_gt_lines:", gt_lines)
         # print("norm_pred_lines:", matched_lines)
         raise  
@@ -92,6 +92,7 @@ def get_gt_pred_lines(gt_items, pred_items, line_type):
     if line_type == 'latex_table':
         gt_lines = norm_html_lines
 
+    
     return gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines
 
 
