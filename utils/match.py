@@ -27,17 +27,32 @@ def get_pred_category_type(pred_idx, pred_items):
             pred_pred_category_type = ""
         return pred_pred_category_type
 
+# def compute_edit_distance_matrix_new(gt_lines, matched_lines):
+#     distance_matrix = np.zeros((len(gt_lines), len(matched_lines)))
+#     # print('gt len: ', len(gt_lines))
+#     # print('pred_len: ', len(matched_lines))
+#     # print('norm_gt_lines: ', gt_lines)
+#     # print('norm_pred_lines: ', matched_lines)
+#     for i, gt_line in enumerate(gt_lines):
+#         for j, matched_line in enumerate(matched_lines):
+#             distance_matrix[i][j] = Levenshtein.distance(gt_line, matched_line)/max(len(matched_line), len(gt_line))
+#     return distance_matrix
+        
 def compute_edit_distance_matrix_new(gt_lines, matched_lines):
-    distance_matrix = np.zeros((len(gt_lines), len(matched_lines)))
-    # print('gt len: ', len(gt_lines))
-    # print('pred_len: ', len(matched_lines))
-    # print('norm_gt_lines: ', gt_lines)
-    # print('norm_pred_lines: ', matched_lines)
-    for i, gt_line in enumerate(gt_lines):
-        for j, matched_line in enumerate(matched_lines):
-            distance_matrix[i][j] = Levenshtein.distance(gt_line, matched_line)/max(len(matched_line), len(gt_line))
-    return distance_matrix
-
+    try:
+        distance_matrix = np.zeros((len(gt_lines), len(matched_lines)))
+        for i, gt_line in enumerate(gt_lines):
+            for j, matched_line in enumerate(matched_lines):
+                if len(gt_line) == 0 and len(matched_line) == 0:
+                    distance_matrix[i][j] = 0  
+                else:
+                    distance_matrix[i][j] = Levenshtein.distance(gt_line, matched_line) / max(len(matched_line), len(gt_line))
+        return distance_matrix
+    except ZeroDivisionError:
+        print("ZeroDivisionError occurred. Outputting norm_gt_lines and norm_pred_lines:")
+        # print("norm_gt_lines:", gt_lines)
+        # print("norm_pred_lines:", matched_lines)
+        raise  
 
 def get_gt_pred_lines(gt_items, pred_items, line_type):
     norm_html_lines = []
