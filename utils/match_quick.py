@@ -12,6 +12,7 @@ import evaluate
 def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
 
     gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines= get_gt_pred_lines(gt_items, pred_items, line_type)
+    
 
     all_gt_indices = set(range(len(norm_gt_lines)))  
     #print('-----------all_gt_indices----------',all_gt_indices)
@@ -606,31 +607,29 @@ def recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_
                 # 归一化编辑距离
                 normalized_edit_distance = edit_distance / max(len(merged_gt_content), len(pred_content))
             except ZeroDivisionError:
-                print("ZeroDivisionError occurred. Outputting norm_gt_lines and norm_pred_lines:")
-                print("norm_gt_lines:", norm_gt_lines)
-                print("norm_pred_lines:", norm_pred_lines)
-                normalized_edit_distance = 1  # 如果发生除零错误，设置编辑距离为1
+                #print("ZeroDivisionError occurred. Outputting norm_gt_lines and norm_pred_lines:")
+                # print("norm_gt_lines:", norm_gt_lines)
+                # print("norm_pred_lines:", norm_pred_lines)
+                continue
+                normalized_edit_distance = 1 
 
-            # 更新信息中的编辑距离
             info['edit_distance'] = normalized_edit_distance
         else:
-            # 如果只有一个gt索引，则保持原样
             gt_idx = gt_indices[0]
             if len(pred_key) > 1:
-                # 合并多个预测内容
                 pred_content = ''.join(norm_pred_lines[pred_idx] for pred_idx in pred_key if isinstance(pred_idx, int))
             else:
                 pred_content = norm_pred_lines[pred_key[0]] if isinstance(pred_key[0], int) else ''
 
             try:
                 edit_distance = Levenshtein.distance(norm_gt_lines[gt_idx], pred_content)
-                # 归一化编辑距离
                 normalized_edit_distance = edit_distance / max(len(norm_gt_lines[gt_idx]), len(pred_content))
             except ZeroDivisionError:
                 print("ZeroDivisionError occurred. Outputting norm_gt_lines and norm_pred_lines:")
-                print("norm_gt_lines:", norm_gt_lines)
-                print("norm_pred_lines:", norm_pred_lines)
-                normalized_edit_distance = 1  # 如果发生除零错误，设置编辑距离为1
+                # print("norm_gt_lines:", norm_gt_lines)
+                # print("norm_pred_lines:", norm_pred_lines)
+                continue
+                #normalized_edit_distance = 1  
 
             info['edit_distance'] = normalized_edit_distance
             info['pred_content'] = pred_content
