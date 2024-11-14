@@ -128,6 +128,14 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         if entry['gt_idx'][0] == -1:
             entry['gt'] = ''
             entry['norm_gt'] = ''
+            entry['gt_position'] =[-1]
+            entry['gt_category_type'] = ""
+            entry['gt_attribute'] = [{}]
+        # elif entry['pred_idx'][0] == -1:
+        #     entry['gt_position'] =[-1]
+        #     entry['gt_category_type'] = "text_merge"
+        #     entry['gt_attribute'] = [{}]
+            
         # print('--------entry------', entry)
         
     return merged_results
@@ -743,7 +751,6 @@ def convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines):
             converted_results.append(result_entry)
 
     return converted_results
-
 
 
 # if __name__ == "__main__":
