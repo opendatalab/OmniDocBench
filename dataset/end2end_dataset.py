@@ -341,7 +341,7 @@ class End2EndDataset():
                 # latex_table_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_table_list, pred_dataset['latex_table'], 'latex_table', img_name, timeout=15, print_msg=img_name)
                 # if not latex_table_match_s:
                 #     print(f'Time out for table_match_s of {img_name}. The table_match_s will be empty.') 
-            elif pred_dataset['html_table']:   # 这里默认模型不会同时随机输出latex或html，而是二选一
+            if pred_dataset['html_table']:   # 这里默认模型不会同时随机输出latex或html，而是二选一
                 html_table_match_s = match_gt2pred_simple(gt_table_list, pred_dataset['html_table'], 'html_table', img_name) # Table不考虑截断合并
                 # html_table_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_table_list, pred_dataset['html_table'], 'html_table', img_name, timeout=15, print_msg=img_name)
                 # if not html_table_match_s:

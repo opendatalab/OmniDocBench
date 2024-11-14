@@ -56,10 +56,10 @@ def extract_tabular(text):
     return tabulars, positions
 
 # math reg
+    # r'\\begin{equation\*?}(.*?)\\end{equation\*?}|'
+    # r'\\begin{align\*?}(.*?)\\end{align\*?}|'
+    # r'\\begin{gather\*?}(.*?)\\end{gather\*?}|'
 display_reg = re.compile(
-    r'\\begin{equation\*?}(.*?)\\end{equation\*?}|'
-    r'\\begin{align\*?}(.*?)\\end{align\*?}|'
-    r'\\begin{gather\*?}(.*?)\\end{gather\*?}|'
     r'\$\$(.*?)\$\$|'
     r'\\\[(.*?)\\\]|'
     r'\$(.*?)\$|'
@@ -201,10 +201,15 @@ def md_tex_filter(content):
             position = [match.start(), match.end()]
             # replace $$ with \[\]
             dollar_pattern = re.compile(r'\$\$(.*?)\$\$|\$(.*?)\$|\\\((.*?)\\\)', re.DOTALL)
-            single_line = re.sub(dollar_pattern, r'\\[\1\\]', single_line)
+            sub_match = dollar_pattern.search(single_line)
+            if sub_match.group(1):
+                single_line = re.sub(dollar_pattern, r'\\[\1\\]', single_line)
+                content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
+            else:
+                single_line = re.sub(dollar_pattern, r'\\[\2\3\\]', single_line)
+            # single_line = re.sub(dollar_pattern, r'\\[\1\2\3\\]', single_line)
             # print('single_line: ', single_line)
             # content = content.replace(matched, ' '*len(matched))
-            content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
             pred_all.append({
                 'category_type': 'equation_isolated',
                 'position': position,
