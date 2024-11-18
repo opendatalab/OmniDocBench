@@ -224,8 +224,8 @@ def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_l
             
             merged_results.append(merged_entry)
             processed.add(pred_idx)
-        else:
-            merged_results.append(entry)
+            
+    return merged_results
 
 def formula_format(formula_matches, img_name):
     formated_list = []
