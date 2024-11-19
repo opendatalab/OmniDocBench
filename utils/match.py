@@ -93,63 +93,39 @@ def get_gt_pred_lines(gt_items, pred_items, line_type):
     if line_type == 'latex_table':
         gt_lines = norm_html_lines
     
-    try:
-        # 去除所有的空值
-        # pdb.set_trace()
-        # GT的空值
-        filtered_lists = [(a, b, c) for a, b, c in zip(gt_lines, norm_gt_lines, gt_cat_list) if a is not None and b is not None]
+    # 去除所有的空值
+    # pdb.set_trace()
+    # GT的空值
+    filtered_lists = [(a, b, c) for a, b, c in zip(gt_lines, norm_gt_lines, gt_cat_list) if a is not None and b is not None]
 
-        # 解压缩回三个列表
-        if filtered_lists:
-            gt_lines_c, norm_gt_lines_c, gt_cat_list_c = zip(*filtered_lists)
-
-            # 转换为列表
-            gt_lines_c = list(gt_lines_c)
-            norm_gt_lines_c = list(norm_gt_lines_c)
-            gt_cat_list_c = list(gt_cat_list_c)
-        else:
-            gt_lines_c = []
-            norm_gt_lines_c = []
-            gt_cat_list_c = []
-
-        # pred中的空值
-        filtered_lists = [(a, b) for a, b in zip(pred_lines, norm_pred_lines) if a is not None and b is not None]
-
-        # 解压缩回列表
-        if filtered_lists:
-            pred_lines_c, norm_pred_lines_c = zip(*filtered_lists)
-
-            # 转换为列表
-            pred_lines_c = list(pred_lines_c)
-            norm_pred_lines_c = list(norm_pred_lines_c)
-        else:
-            pred_lines_c = []
-            norm_pred_lines_c = []
-
-        return gt_lines_c, norm_gt_lines_c, gt_cat_list_c, pred_lines_c, norm_pred_lines_c
-    except:
-        pdb.set_trace()
-        filtered_lists = [(a, b, c) for a, b, c in zip(gt_lines, norm_gt_lines, gt_cat_list) if a is not None and b is not None]
-
-        # 解压缩回三个列表
+    # 解压缩回三个列表
+    if filtered_lists:
         gt_lines_c, norm_gt_lines_c, gt_cat_list_c = zip(*filtered_lists)
 
         # 转换为列表
         gt_lines_c = list(gt_lines_c)
         norm_gt_lines_c = list(norm_gt_lines_c)
         gt_cat_list_c = list(gt_cat_list_c)
+    else:
+        gt_lines_c = []
+        norm_gt_lines_c = []
+        gt_cat_list_c = []
 
-        # pred中的空值
-        filtered_lists = [
-            (a, b) for a, b in zip(pred_lines, norm_pred_lines) if a is not None and b is not None
-        ]
+    # pred中的空值
+    filtered_lists = [(a, b) for a, b in zip(pred_lines, norm_pred_lines) if a is not None and b is not None]
 
-        # 解压缩回列表
+    # 解压缩回列表
+    if filtered_lists:
         pred_lines_c, norm_pred_lines_c = zip(*filtered_lists)
 
         # 转换为列表
         pred_lines_c = list(pred_lines_c)
         norm_pred_lines_c = list(norm_pred_lines_c)
+    else:
+        pred_lines_c = []
+        norm_pred_lines_c = []
+
+    return gt_lines_c, norm_gt_lines_c, gt_cat_list_c, pred_lines_c, norm_pred_lines_c
     # return gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines
 
 

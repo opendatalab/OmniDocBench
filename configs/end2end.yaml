@@ -30,16 +30,13 @@ end2end_eval:
       data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/omnidocbench_1112.json
     prediction:
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/GOT
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/gpt4o
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/gpt4o_1114
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/internvl76b
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/marker
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/mathpix1108
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/nougat
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/mineru1111_docyolo
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/mineru1111_layoutlm
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/gpt4o
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/mineru1110_docyolo
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results/mineru1110_layoutlmv3
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/results_htmltable/mineru1111_layoutlm
     # match_method: no_split
     # match_method: simple_match
     # filter: 

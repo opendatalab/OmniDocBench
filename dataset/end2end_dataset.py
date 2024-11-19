@@ -131,8 +131,8 @@ class End2EndDataset():
         # print(matched)
         read_order_pred = [i[0] for i in sorted(matched, key=lambda x: x[1])]  # 以pred的idx来sort，获取Pred排序的GT_idx
         # read_order_gt = sorted(read_order_pred) # 以GT的idx来sort，获取GT排序的GT_idx
-        read_order_gt = sorted(gt_idx_all) # 以所有GT的idx来sort，获取GT排序的GT_idx
-        gt = sum(read_order_gt, []) # 转成一个一维list
+        read_order_gt = sum(gt_idx_all, []) # 转成一个一维list
+        gt = sorted(read_order_gt) # 以所有GT的idx来sort，获取GT排序的GT_idx
         pred = sum(read_order_pred, [])
         if len(pred) > 0 or len(gt) > 0:
             edit = Levenshtein.distance(gt, pred)/ max(len(pred), len(gt))
