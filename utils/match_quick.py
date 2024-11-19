@@ -195,7 +195,6 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
 #             merged_results.append(merged_entry)
 #             processed.add(pred_idx)
 #     return merged_results
-
 def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, all_gt_indices, all_pred_indices):
     merged_results = []
     processed_pred = set()  # 跟踪已经处理过的pred_idx
@@ -228,12 +227,20 @@ def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_l
             processed_pred.add(pred_idx)
             processed_gt.add(entry['gt_idx'])
 
-    # 处理edit为1的条目
+    # 处理未匹配的条目
     for entry in converted_results:
-        if entry['edit'] == 1 and entry['gt_idx'] not in processed_gt:
-            merged_results.append(entry)
-            processed_gt.add(entry['gt_idx'])
+        if entry['gt_idx'] not in processed_gt:
+            merged_results.append({
+                'gt_idx': [entry['gt_idx']],
+                'gt': entry['gt'],
+                'pred_idx': entry['pred_idx'],
+                'pred': entry['pred'],
+                'edit': entry['edit']
+            })
     return merged_results
+
+
+
 
 def formula_format(formula_matches, img_name):
     formated_list = []
