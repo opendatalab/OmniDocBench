@@ -14,7 +14,7 @@ import metrics
 
 def process_args(args):
     parser = argparse.ArgumentParser(description='Render latex formulas for comparison.')
-    parser.add_argument('--config', '-c', type=str, default='')
+    parser.add_argument('--config', '-c', type=str, default='./configs/end2end.yaml')
     parameters = parser.parse_args(args)
     return parameters
 

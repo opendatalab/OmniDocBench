@@ -8,6 +8,7 @@ from utils.match import compute_edit_distance_matrix_new, get_gt_pred_lines, get
 import pdb
 import numpy as np
 import evaluate
+from collections import Counter
 
 def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
 
@@ -33,7 +34,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
                 'gt': "",
                 'pred_idx': [pred_idx],
                 'pred': pred_lines[pred_idx],
-                'gt_position': -1,
+                'gt_position': [-1],
                 'pred_position': pred_items[pred_idx]['position'][0],
                 'norm_gt': "",
                 'norm_pred': norm_pred_lines[pred_idx],
@@ -104,17 +105,24 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
     #print('-----------  merged_results-----------',  merged_results)
     # for entry in converted_final_matches:
     #     print(entry)
+    
     for entry in merged_results:
         entry['gt_idx'] = [entry['gt_idx']] if isinstance(entry['gt_idx'], int) else entry['gt_idx']
         entry['pred_idx'] = [entry['pred_idx']] if isinstance(entry['pred_idx'], int) else entry['pred_idx']
         entry['gt_position'] = [gt_items[_].get('order') if gt_items[_].get('order') else gt_items[_].get('position', [-1])[0] for _ in entry['gt_idx']]
-        entry['pred_position'] = pred_items[entry['pred_idx'][0]]['position'][0] if entry['pred_idx'] else -1
+        entry['pred_position'] = pred_items[entry['pred_idx'][0]]['position'][0] if entry['pred_idx'][0] != -1 else -1  # 用的pred合并list第一个元素的位置
         entry['gt'] = ''.join([gt_lines[_] for _ in entry['gt_idx']])
         entry['pred'] = ''.join([pred_lines[_] for _ in entry['pred_idx']])
         entry['norm_gt'] = ''.join([norm_gt_lines[_] for _ in entry['gt_idx']])
         entry['norm_pred'] = ''.join([norm_pred_lines[_] for _ in entry['pred_idx']])
-        entry['gt_category_type'] = gt_cat_list[entry['gt_idx'][0]]  # 用GT的第一个元素的类别
-        entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], pred_items) if entry['pred_idx'] else "" # 用Pred的第一个元素的类别
+        # entry['gt_category_type'] = gt_cat_list[entry['gt_idx'][0]]  # 用GT的第一个元素的类别
+        ignore_type = ['figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption', 'header', 'footer', 'page_footnote', 'page_number', 'equation_caption']
+        gt_cagegory_clean = [gt_cat_list[_] for _ in entry['gt_idx'] if gt_cat_list[_] not in ignore_type] # 去除掉需要ignore的元素
+        if gt_cagegory_clean:
+            entry['gt_category_type'] = Counter(gt_cagegory_clean).most_common(1)[0][0] # 如果去掉了ignore类别以后，还有剩余类别，就用剩余类别里，GT出现次数最多的类别，如果次数一致，会选先出现的类别
+        else:
+            entry['gt_category_type'] = Counter([gt_cat_list[_] for _ in entry['gt_idx']]).most_common(1)[0][0] # 如果去掉了ignore以后没有别的类别了，说明只有ignore类，就用原始的gt category list里，GT出现次数最多的类别，如果次数一致，会选先出现的类别
+        entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], pred_items) # 用Pred的第一个元素的类别
         entry['gt_attribute'] = [gt_items[_].get("attribute", {}) for _ in entry['gt_idx']]  # 把gt的attribute加上，用于后续细粒度的精度统计
         entry['img_id'] = img_name
         if entry['gt_idx'][0] == -1:
@@ -123,11 +131,10 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             entry['gt_position'] =[-1]
             entry['gt_category_type'] = ""
             entry['gt_attribute'] = [{}]
-        # elif entry['pred_idx'][0] == -1:
-        #     entry['gt_position'] =[-1]
-        #     entry['gt_category_type'] = "text_merge"
-        #     entry['gt_attribute'] = [{}]
-            
+        elif entry['pred_idx'][0] == -1:
+            entry['pred'] = ""
+            entry['norm_pred'] = ""
+    # pdb.set_trace()   
         # print('--------entry------', entry)
     return merged_results
     # row_ind, col_ind = linear_sum_assignment(cost_matrix)

@@ -96,7 +96,7 @@ def get_gt_pred_lines(gt_items, pred_items, line_type):
     # 去除所有的空值
     # pdb.set_trace()
     # GT的空值
-    filtered_lists = [(a, b, c) for a, b, c in zip(gt_lines, norm_gt_lines, gt_cat_list) if a is not None and b is not None]
+    filtered_lists = [(a, b, c) for a, b, c in zip(gt_lines, norm_gt_lines, gt_cat_list) if a and b]
 
     # 解压缩回三个列表
     if filtered_lists:
@@ -112,7 +112,7 @@ def get_gt_pred_lines(gt_items, pred_items, line_type):
         gt_cat_list_c = []
 
     # pred中的空值
-    filtered_lists = [(a, b) for a, b in zip(pred_lines, norm_pred_lines) if a is not None and b is not None]
+    filtered_lists = [(a, b) for a, b in zip(pred_lines, norm_pred_lines) if a and b]
 
     # 解压缩回列表
     if filtered_lists:
@@ -134,26 +134,27 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
     gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines = get_gt_pred_lines(gt_items, pred_items, line_type)
     
     match_list = []
-    if not norm_gt_lines:
+    if not norm_gt_lines: # 没有匹配上的pred要合并成一个
         # print("One of the lists is empty. Returning an empty gt result.")
-        for pred_idx in range(len(norm_pred_lines)):
-            match_list.append({
-                'gt_idx': [-1],
-                'gt': "",
-                'pred_idx': [pred_idx],
-                'pred': pred_lines[pred_idx],
-                'gt_position': -1,
-                'pred_position': pred_items[pred_idx]['position'][0],
-                'norm_gt': "",
-                'norm_pred': norm_pred_lines[pred_idx],
-                'gt_category_type': "",
-                'pred_category_type': get_pred_category_type(pred_idx, pred_items),
-                'gt_attribute': [{}],
-                'edit': 1,
-                'img_id': img_name
-            })
+        # for pred_idx in range(len(norm_pred_lines)):
+        pred_idx_list = range(len(norm_pred_lines))
+        match_list.append({
+            'gt_idx': [-1],
+            'gt': "",
+            'pred_idx': pred_idx_list,
+            'pred': ''.join(pred_lines[_] for _ in pred_idx_list), 
+            'gt_position': [-1],
+            'pred_position': pred_items[pred_idx_list[0]]['position'][0],  # 取第一个pred的position
+            'norm_gt': "",
+            'norm_pred': ''.join(norm_pred_lines[_] for _ in pred_idx_list),
+            'gt_category_type': "",
+            'pred_category_type': get_pred_category_type(pred_idx_list[0], pred_items), # 取第一个pred的category
+            'gt_attribute': [{}],
+            'edit': 1,
+            'img_id': img_name
+        })
         return match_list
-    elif not norm_pred_lines:
+    elif not norm_pred_lines: # 没有匹配上的gt要分开单个
         # print("One of the lists is empty. Returning an empty pred result.")
         for gt_idx in range(len(norm_gt_lines)):
             match_list.append({
@@ -222,27 +223,29 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
         # print('-'*10)
         # [([0,1], 0),(2, 1), (1,2)] --> [0,2,1]/[0,1,2]
     
-    for pred_idx in range(len(norm_pred_lines)):  # 把没有任何匹配的pred也加上计算
-        if pred_idx in col_ind:
-            continue
+    pred_idx_list = [pred_idx for pred_idx in range(len(norm_pred_lines)) if pred_idx not in col_ind] # 把没有任何匹配的pred也加上计算，合成一个即可
+    # for pred_idx in range(len(norm_pred_lines)):  
+    #     if pred_idx in col_ind:
+    #         continue
         # print('gt_idx', gt_idx)
         # print('new gt: ', gt_line)
-        if pred_items[pred_idx].get('fine_category_type'):
-            pred_pred_category_type = pred_items[pred_idx]['fine_category_type']
+    if pred_idx_list: # 如果还有剩余的pred_idx的话
+        if pred_items[pred_idx_list[0]].get('fine_category_type'):  # 以第一个pred的类别作为最终显示类别
+            pred_pred_category_type = pred_items[pred_idx_list[0]]['fine_category_type']
         else:
-            pred_pred_category_type = pred_items[pred_idx]['category_type']
+            pred_pred_category_type = pred_items[pred_idx_list[0]]['category_type']
         match_list.append({
             'gt_idx': [-1],
             'gt': "",
-            'norm_gt': "",
-            'gt_category_type': "",
+            'pred_idx': pred_idx_list,
+            'pred': ''.join(pred_lines[_] for _ in pred_idx_list), 
             'gt_position': [-1],
+            'pred_position': pred_items[pred_idx_list[0]]['position'][0],  # 取第一个pred的position
+            'norm_gt': "",
+            'norm_pred': ''.join(norm_pred_lines[_] for _ in pred_idx_list),
+            'gt_category_type': "",
+            'pred_category_type': get_pred_category_type(pred_idx_list[0], pred_items), # 取第一个pred的category
             'gt_attribute': [{}],
-            'pred_idx': [pred_idx],
-            'pred': pred_lines[pred_idx],
-            'norm_pred': norm_pred_lines[pred_idx],
-            'pred_category_type': pred_pred_category_type,
-            'pred_position': pred_items[pred_idx]['position'][0],
             'edit': 1,
             'img_id': img_name
         })
