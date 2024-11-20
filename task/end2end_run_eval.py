@@ -29,7 +29,7 @@ class End2EndEval():
             samples = dataset.samples[element]
             for metric in metrics_list[element]['metric']:
                 metric_val = METRIC_REGISTRY.get(metric)
-                samples, result_s = metric_val(samples).evaluate(group_info)
+                samples, result_s = metric_val(samples).evaluate(group_info, f"{save_name}_{element}")
                 if result_s:
                     result.update(result_s)
             if result:

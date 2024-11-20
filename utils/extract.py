@@ -290,6 +290,13 @@ def md_tex_filter(content):
 
     # print('----------After delete extracted: \n', content)
 
+    # Remove latex style
+    content = re.sub(r'\\title\{(.*?)\}', r'\1', content)
+    content = re.sub(r'\\title\s*\{\s*(.*?)\s*\}', r'\1', content, flags=re.DOTALL)
+    content = re.sub(r'\\text\s*\{\s*(.*?)\s*\}', r'\1', content, flags=re.DOTALL)
+    content = re.sub(r'\\section\*?\{(.*?)\}', r'\1', content)
+    content = re.sub(r'\\section\*?\{\s*(.*?)\s*\}', r'\1', content, flags=re.DOTALL)
+
     # extract texts
     res = content.split('\n\n')
     if len(res) == 1:
@@ -332,12 +339,12 @@ def md_tex_filter(content):
             else:
                 # text = textblock_with_norm_formula(text)  # !! 如果文本段落里有行内公式，则跑一个normalize_formula, 目前latex2unicode报错
                 # text = textblock2unicode(text)
-                text = re.sub(r'\\title\{(.*?)\}', r'\1', text)
-                text = re.sub(r'\\section\*?\{(.*?)\}', r'\1', text)
-                text = text.replace('\title', '')
-                text = text.replace('\title{', '')
-                text = text.replace('\title{}', '')
-                text = text.replace('\section*{', '')
+                # text = re.sub(r'\\title\{(.*?)\}', r'\1', text)
+                # text = re.sub(r'\\section\*?\{(.*?)\}', r'\1', text)
+                # text = text.replace('\title', '')
+                # text = text.replace('\title{', '')
+                # text = text.replace('\title{}', '')
+                # text = text.replace('\section*{', '')
                 text = text.strip()
                 if text:
                     pred_all.append({

@@ -28,8 +28,9 @@ class End2EndDataset():
         with open(gt_path, 'r') as f:
             gt_samples = json.load(f)
 
-        # specific_files=['yanbaopptmerge_yanbaoPPT_1080.jpg']  # 单个文件debug
+        # specific_files=['eastmoney_7cae1642250a3dbabfef7624d3424ec6e162ae91c8de4acfa89a9779092b0189.pdf_16.jpg']  # 单个文件debug
         # gt_samples = [sample for sample in gt_samples if os.path.basename(sample["page_info"]["image_path"]) in specific_files]
+        # gt_samples = gt_samples[:5]
 
         filtered_gt_samples = []
         if filtered_types:
@@ -139,15 +140,14 @@ class End2EndDataset():
         pred = [x for x in pred if x != -1]
         if len(pred) > 0 or len(gt) > 0:
             edit = Levenshtein.distance(gt, pred)/ max(len(pred), len(gt))
+            return {
+                'gt': gt,  
+                'pred': pred,
+                'img_id': img_name,
+                'edit': edit
+            }
         else:
-            edit = 0
-        # pdb.set_trace()
-        return {
-            'gt': gt,  
-            'pred': pred,
-            'img_id': img_name,
-            'edit': edit
-        }
+            return {}  # 如果页面GT和pred都是空的，就返回空
 
     def formula_format(self, formula_matches, img_name):
         # formated_list = []
@@ -328,6 +328,7 @@ class End2EndDataset():
             # print('gt_display_list: ', gt_display_list)
             display_formula_match_s = match_gt2pred(gt_display_list, pred_dataset['equation_isolated'], 'formula', img_name)
             # display_formula_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_display_list, pred_dataset['equation_isolated'], 'formula', img_name, timeout=15, print_msg=img_name)
+            display_formula_match_s = [x for x in display_formula_match_s if x['gt_idx'] != [-1]]  # 把多余的pred直接去掉，因为pred里把行内公式也放进来一起匹配了
             if not display_formula_match_s:
                 # print(f'Time out for display_formula_match of {img_name}. The display_formula_match will be empty.')
                 print(f'No display_formula_match of {img_name}. The display_formula_match will be empty.')
@@ -341,13 +342,16 @@ class End2EndDataset():
             # print('gt_table_list', gt_table_list)
             if pred_dataset['latex_table']:
                 latex_table_match_s = match_gt2pred_simple(gt_table_list, pred_dataset['latex_table'], 'latex_table', img_name) # Table不考虑截断合并
+                latex_table_match_s = [x for x in latex_table_match_s if x['gt_idx'] != [-1]]  # 把多余的pred直接去掉
                 # latex_table_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_table_list, pred_dataset['latex_table'], 'latex_table', img_name, timeout=15, print_msg=img_name)
                 # if not latex_table_match_s:
                 #     print(f'Time out for table_match_s of {img_name}. The table_match_s will be empty.') 
             if pred_dataset['html_table']:   # 这里默认模型不会同时随机输出latex或html，而是二选一
                 html_table_match_s = match_gt2pred_simple(gt_table_list, pred_dataset['html_table'], 'html_table', img_name) # Table不考虑截断合并
+                html_table_match_s = [x for x in html_table_match_s if x['gt_idx'] != [-1]]  # 把多余的pred直接去掉
             else:
                 html_table_match_s = match_gt2pred_simple(gt_table_list, [], 'html_table', img_name) # Table不考虑截断合并
+                html_table_match_s = [x for x in html_table_match_s if x['gt_idx'] != [-1]]  # 把多余的pred直接去掉
                 # html_table_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_table_list, pred_dataset['html_table'], 'html_table', img_name, timeout=15, print_msg=img_name)
                 # if not html_table_match_s:
                 #     print(f'Time out for table_match_s of {img_name}. The table_match_s will be empty.')

@@ -125,13 +125,13 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], pred_items) # 用Pred的第一个元素的类别
         entry['gt_attribute'] = [gt_items[_].get("attribute", {}) for _ in entry['gt_idx']]  # 把gt的attribute加上，用于后续细粒度的精度统计
         entry['img_id'] = img_name
-        if entry['gt_idx'][0] == -1:
+        if entry['gt_idx'] == [-1]:
             entry['gt'] = ''
             entry['norm_gt'] = ''
-            entry['gt_position'] =[-1]
+            entry['gt_position'] = [-1]
             entry['gt_category_type'] = ""
             entry['gt_attribute'] = [{}]
-        elif entry['pred_idx'][0] == -1:
+        elif entry['pred_idx'] == [-1]:
             entry['pred'] = ""
             entry['norm_pred'] = ""
     # pdb.set_trace()   

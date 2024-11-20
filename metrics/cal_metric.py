@@ -12,6 +12,7 @@ from registry.registry import METRIC_REGISTRY
 from collections import defaultdict
 import pdb
 import copy
+import pandas as pd
 
 def get_groups(samples, group_info):
     group_samples = defaultdict(list)
@@ -34,7 +35,7 @@ def get_groups(samples, group_info):
 class call_TEDS():
     def __init__(self, samples):
         self.samples = samples
-    def evaluate(self, group_info=[]):
+    def evaluate(self, group_info=[], save_name='default'):
         teds = TEDS(structure_only=False)
         teds_structure_only = TEDS(structure_only=True)
         group_scores = defaultdict(list)
@@ -84,7 +85,7 @@ class call_TEDS():
 class call_BLEU():
     def __init__(self, samples):
         self.samples = samples
-    def evaluate(self, group_info=[]):
+    def evaluate(self, group_info=[], save_name='default'):
         group_samples = get_groups(self.samples, group_info)
         result = {}
         for group_name, samples in group_samples.items():
@@ -104,7 +105,7 @@ class call_BLEU():
 class call_METEOR():
     def __init__(self, samples):
         self.samples = samples
-    def evaluate(self, group_info=[]):
+    def evaluate(self, group_info=[], save_name='default'):
         group_samples = get_groups(self.samples, group_info)
         result = {}
         for group_name, samples in group_samples.items():
@@ -124,38 +125,56 @@ class call_METEOR():
 class call_Edit_dist():
     def __init__(self, samples):
         self.samples = samples
-    def evaluate(self, group_info=[]):
-        group_scores = defaultdict(list)
+    def evaluate(self, group_info=[], save_name='default'):
+        # group_scores = defaultdict(list) # 暂时废弃group逻辑
         samples = self.samples
         for sample in samples:
+            img_name = sample['img_id'] if sample['img_id'].endswith('.jpg') else '_'.join(sample['img_id'].split('_')[:-1])
+            sample['image_name'] = img_name
             gt = sample['norm_gt'] if sample.get('norm_gt') else sample['gt']
             pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
+            upper_len = max(len(pred), len(gt))
+            sample['upper_len'] = upper_len
             if len(pred) > 0 or len(gt) > 0:
-                normalized_edit_dist = Levenshtein.distance(pred, gt) / max(len(pred), len(gt))
+                edit_dist = Levenshtein.distance(pred, gt)
                 if not sample.get('metric'):
                     sample['metric'] = {}
-                sample['metric']['Edit_dist'] = normalized_edit_dist
-                group_scores['all'].append(normalized_edit_dist)
-                for group in group_info:
-                    select_flag = True
-                    for k, v in group.items():
-                        for gt_attribute in sample['gt_attribute']:   # gt_attribute是一个list，截断合并的gt都在里面
-                            if not gt_attribute:   # 如果没有GT属性，也不纳入计算
-                                select_flag = False
-                            elif gt_attribute[k] != v:  # 只要其中有一个gt的属性不符合标准，则不选中        
-                                select_flag = False
-                    if select_flag:
-                        group_scores[str(group)].append(normalized_edit_dist)
+                sample['metric']['Edit_dist'] = edit_dist / upper_len
+                sample['Edit_num'] = edit_dist
+                # group_scores['all'].append(normalized_edit_dist)  
+                # for group in group_info:
+                #     select_flag = True
+                #     for k, v in group.items():
+                #         for gt_attribute in sample['gt_attribute']:   # gt_attribute是一个list，截断合并的gt都在里面
+                #             if not gt_attribute:   # 如果没有GT属性，也不纳入计算
+                #                 select_flag = False
+                #             elif gt_attribute[k] != v:  # 只要其中有一个gt的属性不符合标准，则不选中        
+                #                 select_flag = False
+                #     if select_flag:
+                #         group_scores[str(group)].append(normalized_edit_dist)
 
-        result = {}
-        for group_name, scores in group_scores.items():
-            if len(scores) > 0:
-                result[group_name] = sum(scores) / len(scores)    # paired级别的norm的均值
-            else:
-                result[group_name] = 'NaN'
-                print(f'Warning: Empyty matched samples for {group_name}.')
+        # result = {}
+        # for group_name, scores in group_scores.items():
+        #     if len(scores) > 0:
+        #         result[group_name] = sum(scores) / len(scores)    # paired级别的norm的均值
+        #     else:
+        #         result[group_name] = 'NaN'
+        #         print(f'Warning: Empyty matched samples for {group_name}.')
+        if isinstance(samples, list):
+            saved_samples = samples
+        else:
+            saved_samples = samples.samples
+        
+        if not saved_samples:
+            return samples, {'Edit_dist': {'ALL_page_avg': 'NaN'}}
 
-        return samples, {'Edit_dist': result}
+        df = pd.DataFrame(saved_samples)
+        up_total_avg = df.groupby("image_name").apply(lambda x: x['Edit_num'].sum() / x['upper_len'].sum()) # 页面级别，累加edit，分母是每个sample里的max(gt, pred)的累加
+        per_img_score = up_total_avg.to_dict()
+        with open(f'/mnt/petrelfs/ouyanglinke/DocParseEval/result/{save_name}_per_page_edit.json', 'w') as f:
+            json.dump(per_img_score, f, indent=4)        
+
+        return samples, {'Edit_dist': {'ALL_page_avg': up_total_avg.mean()}}
     
 # @METRIC_REGISTRY.register("Move_dist")
 # class call_Move_dist():
@@ -188,12 +207,12 @@ class call_Edit_dist():
 class call_CDM():
     def __init__(self, samples):
         self.samples = samples
-    def evaluate(self, group_info=[]):
+    def evaluate(self, group_info=[], save_name='default'):
         cdm_samples = copy.deepcopy(self.samples)
         for i, sample in enumerate(cdm_samples):
             sample['image_name'] = sample['img_id']
             sample['img_id'] = str(i)
-        time_stap = time.time()
-        with open(f'result/{time_stap}_formula.json', 'w', encoding='utf-8') as f:
+        # time_stap = time.time()
+        with open(f'result/{save_name}_formula.json', 'w', encoding='utf-8') as f:
             json.dump(cdm_samples, f, indent=4, ensure_ascii=False)
         return self.samples, False

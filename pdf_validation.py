@@ -33,11 +33,10 @@ if __name__ == '__main__':
             f"Invalid loaded object type: {type(cfg).__name__}"
         )
 
-    # print(cfg['tasks'])
 
     for task in cfg.keys():
         if not cfg.get(task):
-            print('No config for task {task}')
+            print(f'No config for task {task}')
         dataset = cfg[task]['dataset']['dataset_name']
         # metrics_list = [METRIC_REGISTRY.get(i) for i in cfg[task]['metrics']] # TODO: 直接在主函数里实例化
         metrics_list = cfg[task]['metrics']  # 在task里再实例化
@@ -48,4 +47,5 @@ if __name__ == '__main__':
             save_name = os.path.basename(cfg[task]['dataset']['prediction']['data_path']) + '_' + cfg[task]['dataset'].get('match_method', 'quick_match')
         else:
             save_name = os.path.basename(cfg[task]['dataset']['ground_truth']['data_path']).split('.')[0]
+        print('!!!!!! Process: ', save_name)
         val_task(val_dataset, metrics_list, cfg[task]['dataset']['ground_truth']['data_path'], save_name)  # 按页面区分
