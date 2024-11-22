@@ -34,9 +34,15 @@ end2end_eval:
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/internvl76b_1114
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/marker
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/mathpix1108
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/nougat
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/nougat
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/mineru1110_docyolo
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/Qwenvl_1114
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/internvl_short_prompt
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/internvl_long_prompt
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/QwenVL_short_prompt
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/QwenVL_long_prompt
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/gpt4o_short_prompt
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/gpt4o_long_prompt
     # match_method: no_split
     # match_method: simple_match
     # filter: 

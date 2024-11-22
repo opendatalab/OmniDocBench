@@ -3,7 +3,7 @@ from registry.registry import EVAL_TASK_REGISTRY
 from registry.registry import METRIC_REGISTRY
 import os
 import json
-from metrics.result_show import show_result, get_full_labels_results, get_page_split
+from metrics.show_result import show_result, get_full_labels_results, get_page_split
 
 @EVAL_TASK_REGISTRY.register("recogition_eval")
 class RecognitionBaseEval():

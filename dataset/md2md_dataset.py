@@ -28,21 +28,27 @@ class Md2MdDataset():
     #     return self.samples_dict[image_name]
 
     def get_order_paired(self, order_match_s, img_name):
-        matched = [(item['gt_position'], item['pred_position']) for item in order_match_s if (item['gt_position'][0] != -1 and item['pred_position'] != -1)]
+        matched = [(item['gt_position'], item['pred_position']) for item in order_match_s if (item['gt_position'] != [""] and item['pred_position'] != "")]
+        gt_idx_all = [item['gt_position'] for item in order_match_s if (item['gt_position'] != [""])]
+        # read_order_gt = [i[0] for i in sorted(matched, key=lambda x: x[0])]   # 以GT的idx来sort，获取GT排序的GT_idx
+        # print(matched)
         read_order_pred = [i[0] for i in sorted(matched, key=lambda x: x[1])]  # 以pred的idx来sort，获取Pred排序的GT_idx
-        read_order_gt = sorted(read_order_pred) # 以GT的idx来sort，获取GT排序的GT_idx
-        gt = sum(read_order_gt, []) # 转成一个一维list
+        # read_order_gt = sorted(read_order_pred) # 以GT的idx来sort，获取GT排序的GT_idx
+        read_order_gt = sum(gt_idx_all, []) # 转成一个一维list
+        read_order_gt = [x for x in read_order_gt if x]  # 在截断合并中，有可能会合并进来一些舍弃类，这些在计算编辑距离的时候把它直接去掉
+        gt = sorted(read_order_gt) # 以所有GT的idx来sort，获取GT排序的GT_idx
         pred = sum(read_order_pred, [])
+        pred = [x for x in pred if x]
         if len(pred) > 0 or len(gt) > 0:
             edit = Levenshtein.distance(gt, pred)/ max(len(pred), len(gt))
+            return {
+                'gt': gt,  
+                'pred': pred,
+                'img_id': img_name,
+                'edit': edit
+            }
         else:
-            edit = 0
-        return {
-            'gt': gt,  
-            'pred': pred,
-            'img_id': img_name,
-            'edit': edit
-        }
+            return {}  # 如果页面GT和pred都是空的，就返回空
 
     def formula_format(self, formula_matches, img_name):
         # formated_list = []
@@ -136,13 +142,16 @@ class Md2MdDataset():
                 # formated_display_formula = self.formula_format(display_formula_match_s, img_name)
                 # print('display_formula_match_s: ', display_formula_match_s)
                 # print('-'*10)
+                display_formula_match_s = [x for x in display_formula_match_s if x['gt_idx'] != [""]]  # 把多余的pred直接去掉，因为pred里把行内公式也放进来一起匹配了
                 display_formula_match.extend(display_formula_match_s)
             if gt_dataset.get('latex_table') and pred_dataset.get('latex_table'): # 这里默认模型不会同时随机输出latex或html，而是二选一; 注意，GT的markdown里的table格式需要跟Pred一致
                 # print('gt_table_list', gt_table_list)
-                table_match_s = match_gt2pred(gt_dataset['latex_table'], pred_dataset['latex_table'], 'latex_table', img_name)  
+                table_match_s = match_gt2pred(gt_dataset['latex_table'], pred_dataset['latex_table'], 'latex_table', img_name)
+                table_match_s = [x for x in table_match_s if x['gt_idx'] != [""]]  # 把多余的pred直接去掉  
                 latex_table_match.extend(table_match_s)
             elif gt_dataset.get('html_table') and pred_dataset.get('html_table'):   
                 table_match_s = match_gt2pred(gt_dataset['html_table'], pred_dataset['html_table'], 'html_table', img_name)
+                table_match_s = [x for x in table_match_s if x['gt_idx'] != [""]]  # 把多余的pred直接去掉
                 html_table_match.extend(table_match_s)
                 # print('table_match_s: ', table_match_s)
                 # print('-'*10)
@@ -153,10 +162,11 @@ class Md2MdDataset():
                     print('Pred table is not empty. But gt is empty or its format is different from pred.')
 
             # 阅读顺序的处理
-            order_match_s = []
-            for mateches in [plain_text_match_clean, display_formula_match_s]:
-                if mateches:
-                    order_match_s.extend(mateches)
+            # order_match_s = []
+            # for mateches in [plain_text_match_clean, display_formula_match_s]:
+            #     if mateches:
+            #         order_match_s.extend(mateches)
+            order_match_s = plain_text_match_clean
             if order_match_s:
                 order_match.append(self.get_order_paired(order_match_s, img_name))
 

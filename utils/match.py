@@ -18,14 +18,23 @@ from utils.data_preprocess import textblock_with_norm_formula, normalized_formul
 #     return norm_lines
 
 def get_pred_category_type(pred_idx, pred_items):
-        if pred_idx != -1:
-            if pred_items[pred_idx].get('fine_category_type'):
-                pred_pred_category_type = pred_items[pred_idx]['fine_category_type']
-            else:
-                pred_pred_category_type = pred_items[pred_idx]['category_type']
-        else:
-            pred_pred_category_type = ""
-        return pred_pred_category_type
+    # if pred_idx:
+    if pred_items[pred_idx].get('fine_category_type'):
+        pred_pred_category_type = pred_items[pred_idx]['fine_category_type']
+    else:
+        pred_pred_category_type = pred_items[pred_idx]['category_type']
+    # else:
+    #     pred_pred_category_type = ""
+    return pred_pred_category_type
+
+# def get_gt_positions(gt_items, gt_idx_list):
+#     if 
+#     position_list = []
+#     for gt_idx in gt_idx_list:
+#         if gt_idx:
+#             if gt_items[_].get('order')
+#             position_list
+#     [ if gt_items[_].get('order') else gt_items[_].get('position', [""])[0] for _ in entry['gt_idx']]
 
 # def compute_edit_distance_matrix_new(gt_lines, matched_lines):
 #     distance_matrix = np.zeros((len(gt_lines), len(matched_lines)))
@@ -139,11 +148,11 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
         # for pred_idx in range(len(norm_pred_lines)):
         pred_idx_list = range(len(norm_pred_lines))
         match_list.append({
-            'gt_idx': [-1],
+            'gt_idx': [""],
             'gt': "",
             'pred_idx': pred_idx_list,
             'pred': ''.join(pred_lines[_] for _ in pred_idx_list), 
-            'gt_position': [-1],
+            'gt_position': [""],
             'pred_position': pred_items[pred_idx_list[0]]['position'][0],  # 取第一个pred的position
             'norm_gt': "",
             'norm_pred': ''.join(norm_pred_lines[_] for _ in pred_idx_list),
@@ -160,10 +169,10 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
             match_list.append({
                 'gt_idx': [gt_idx],
                 'gt': gt_lines[gt_idx],
-                'pred_idx': [-1],
+                'pred_idx': [""],
                 'pred': "",
-                'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]],
-                'pred_position': -1,
+                'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [""])[0]],
+                'pred_position': "",
                 'norm_gt': norm_gt_lines[gt_idx],
                 'norm_pred': "",
                 'gt_category_type': gt_cat_list[gt_idx],
@@ -191,14 +200,14 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
             #     print('! Not match')
         else:
             # print('No match pred')
-            pred_idx = -1
+            pred_idx = ""
             pred_line = ""
             norm_pred_line = ""
             edit = 1
         
         # print(type(gt_idx))
         # print(type(pred_idx))
-        if pred_idx != -1:
+        if pred_idx:
             if pred_items[pred_idx].get('fine_category_type'):
                 pred_pred_category_type = pred_items[pred_idx]['fine_category_type']
             else:
@@ -210,13 +219,13 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
             'gt': gt_lines[gt_idx],
             'norm_gt': norm_gt_lines[gt_idx],
             'gt_category_type': gt_cat_list[gt_idx],
-            'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]],
+            'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [""])[0]],
             'gt_attribute': [gt_items[gt_idx].get("attribute", {})],
             'pred_idx': [pred_idx],
             'pred': pred_line,
             'norm_pred': norm_pred_line,
             'pred_category_type': pred_pred_category_type,
-            'pred_position': pred_items[pred_idx]['position'][0] if pred_idx != -1 else -1,
+            'pred_position': pred_items[pred_idx]['position'][0] if pred_idx else "",
             'edit': edit,
             'img_id': img_name
         })
@@ -235,11 +244,11 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
         else:
             pred_pred_category_type = pred_items[pred_idx_list[0]]['category_type']
         match_list.append({
-            'gt_idx': [-1],
+            'gt_idx': [""],
             'gt': "",
             'pred_idx': pred_idx_list,
             'pred': ''.join(pred_lines[_] for _ in pred_idx_list), 
-            'gt_position': [-1],
+            'gt_position': [""],
             'pred_position': pred_items[pred_idx_list[0]]['position'][0],  # 取第一个pred的position
             'norm_gt': "",
             'norm_pred': ''.join(norm_pred_lines[_] for _ in pred_idx_list),
@@ -257,7 +266,7 @@ def match_gt2pred_no_split(gt_items, pred_items, line_type, img_name):
     gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines = get_gt_pred_lines(gt_items, pred_items, line_type)
     gt_line_with_position = []
     for gt_line, norm_gt_line, gt_item in zip(gt_lines, norm_gt_lines, gt_items):
-        gt_position = gt_item['order'] if gt_item.get('order') else gt_item.get('position', [-1])[0]
+        gt_position = gt_item['order'] if gt_item.get('order') else gt_item.get('position', [""])[0]
         gt_line_with_position.append((gt_position, gt_line, norm_gt_line))
     sorted_gt_lines = sorted(gt_line_with_position, key=lambda x: x[0])
     gt = '\n\n'.join([_[1] for _ in sorted_gt_lines])
@@ -268,17 +277,17 @@ def match_gt2pred_no_split(gt_items, pred_items, line_type, img_name):
     norm_pred = '\n\n'.join([_[2] for _ in sorted_pred_lines])
     # edit = Levenshtein.distance(norm_gt, norm_pred)/max(len(norm_gt), len(norm_pred))
     return [{
-            'gt_idx': [-1],
+            'gt_idx': [""],
             'gt': gt,
             'norm_gt': norm_gt,
             'gt_category_type': "text_merge",
-            'gt_position': [-1],
+            'gt_position': [""],
             'gt_attribute': [{}],
-            'pred_idx': [-1],
+            'pred_idx': [""],
             'pred': pred,
             'norm_pred': norm_pred,
             'pred_category_type': "text_merge",
-            'pred_position': -1,
+            'pred_position': "",
             # 'edit': edit,
             'img_id': img_name
         }]

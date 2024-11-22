@@ -28,7 +28,7 @@ class End2EndDataset():
         with open(gt_path, 'r') as f:
             gt_samples = json.load(f)
 
-        # specific_files=['eastmoney_7cae1642250a3dbabfef7624d3424ec6e162ae91c8de4acfa89a9779092b0189.pdf_16.jpg']  # 单个文件debug
+        # specific_files=['docstructbench_llm-raw-scihub-o.O-s00128-007-9171-1.pdf_2.jpg']  # 单个文件debug
         # gt_samples = [sample for sample in gt_samples if os.path.basename(sample["page_info"]["image_path"]) in specific_files]
         # gt_samples = gt_samples[:5]
 
@@ -127,17 +127,17 @@ class End2EndDataset():
         return filted_items
 
     def get_order_paired(self, order_match_s, img_name):
-        matched = [(item['gt_position'], item['pred_position']) for item in order_match_s if (item['gt_position'] != [-1] and item['pred_position'] != -1)]
-        gt_idx_all = [item['gt_position'] for item in order_match_s if (item['gt_position'] != [-1])]
+        matched = [(item['gt_position'], item['pred_position']) for item in order_match_s if (item['gt_position'] != [""] and item['pred_position'] != "")]
+        gt_idx_all = [item['gt_position'] for item in order_match_s if (item['gt_position'] != [""])]
         # read_order_gt = [i[0] for i in sorted(matched, key=lambda x: x[0])]   # 以GT的idx来sort，获取GT排序的GT_idx
         # print(matched)
         read_order_pred = [i[0] for i in sorted(matched, key=lambda x: x[1])]  # 以pred的idx来sort，获取Pred排序的GT_idx
         # read_order_gt = sorted(read_order_pred) # 以GT的idx来sort，获取GT排序的GT_idx
         read_order_gt = sum(gt_idx_all, []) # 转成一个一维list
+        read_order_gt = [x for x in read_order_gt if x]  # 在截断合并中，有可能会合并进来一些舍弃类，这些在计算编辑距离的时候把它直接去掉
         gt = sorted(read_order_gt) # 以所有GT的idx来sort，获取GT排序的GT_idx
         pred = sum(read_order_pred, [])
-        gt = [x for x in gt if x != -1]  # 在截断合并中，有可能会合并进来一些舍弃类，这些在计算编辑距离的时候把它直接去掉
-        pred = [x for x in pred if x != -1]
+        pred = [x for x in pred if x]
         if len(pred) > 0 or len(gt) > 0:
             edit = Levenshtein.distance(gt, pred)/ max(len(pred), len(gt))
             return {
@@ -328,7 +328,7 @@ class End2EndDataset():
             # print('gt_display_list: ', gt_display_list)
             display_formula_match_s = match_gt2pred(gt_display_list, pred_dataset['equation_isolated'], 'formula', img_name)
             # display_formula_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_display_list, pred_dataset['equation_isolated'], 'formula', img_name, timeout=15, print_msg=img_name)
-            display_formula_match_s = [x for x in display_formula_match_s if x['gt_idx'] != [-1]]  # 把多余的pred直接去掉，因为pred里把行内公式也放进来一起匹配了
+            display_formula_match_s = [x for x in display_formula_match_s if x['gt_idx'] != [""]]  # 把多余的pred直接去掉，因为pred里把行内公式也放进来一起匹配了
             if not display_formula_match_s:
                 # print(f'Time out for display_formula_match of {img_name}. The display_formula_match will be empty.')
                 print(f'No display_formula_match of {img_name}. The display_formula_match will be empty.')
@@ -342,16 +342,16 @@ class End2EndDataset():
             # print('gt_table_list', gt_table_list)
             if pred_dataset['latex_table']:
                 latex_table_match_s = match_gt2pred_simple(gt_table_list, pred_dataset['latex_table'], 'latex_table', img_name) # Table不考虑截断合并
-                latex_table_match_s = [x for x in latex_table_match_s if x['gt_idx'] != [-1]]  # 把多余的pred直接去掉
+                latex_table_match_s = [x for x in latex_table_match_s if x['gt_idx'] != [""]]  # 把多余的pred直接去掉
                 # latex_table_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_table_list, pred_dataset['latex_table'], 'latex_table', img_name, timeout=15, print_msg=img_name)
                 # if not latex_table_match_s:
                 #     print(f'Time out for table_match_s of {img_name}. The table_match_s will be empty.') 
             if pred_dataset['html_table']:   # 这里默认模型不会同时随机输出latex或html，而是二选一
                 html_table_match_s = match_gt2pred_simple(gt_table_list, pred_dataset['html_table'], 'html_table', img_name) # Table不考虑截断合并
-                html_table_match_s = [x for x in html_table_match_s if x['gt_idx'] != [-1]]  # 把多余的pred直接去掉
+                html_table_match_s = [x for x in html_table_match_s if x['gt_idx'] != [""]]  # 把多余的pred直接去掉
             else:
                 html_table_match_s = match_gt2pred_simple(gt_table_list, [], 'html_table', img_name) # Table不考虑截断合并
-                html_table_match_s = [x for x in html_table_match_s if x['gt_idx'] != [-1]]  # 把多余的pred直接去掉
+                html_table_match_s = [x for x in html_table_match_s if x['gt_idx'] != [""]]  # 把多余的pred直接去掉
                 # html_table_match_s = timed_function(match_gt2pred, match_gt2pred_no_split, gt_table_list, pred_dataset['html_table'], 'html_table', img_name, timeout=15, print_msg=img_name)
                 # if not html_table_match_s:
                 #     print(f'Time out for table_match_s of {img_name}. The table_match_s will be empty.')

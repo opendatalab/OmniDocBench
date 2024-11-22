@@ -1,6 +1,6 @@
 # from modules.cal_matrix import cal_text_matrix, cal_table_teds
 from registry.registry import EVAL_TASK_REGISTRY
-from metrics.result_show import show_result, get_full_labels_results, get_page_split
+from metrics.show_result import show_result, get_full_labels_results, get_page_split
 from registry.registry import METRIC_REGISTRY
 import json
 import os

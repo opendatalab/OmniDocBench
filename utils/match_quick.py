@@ -30,11 +30,11 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         # print("One of the lists is empty. Returning an empty gt result.")
         for pred_idx in range(len(norm_pred_lines)):
             match_list.append({
-                'gt_idx': [-1],
+                'gt_idx': [""],
                 'gt': "",
                 'pred_idx': [pred_idx],
                 'pred': pred_lines[pred_idx],
-                'gt_position': [-1],
+                'gt_position': "",
                 'pred_position': pred_items[pred_idx]['position'][0],
                 'norm_gt': "",
                 'norm_pred': norm_pred_lines[pred_idx],
@@ -52,10 +52,10 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             match_list.append({
                 'gt_idx': [gt_idx],
                 'gt': gt_lines[gt_idx],
-                'pred_idx': [-1],
+                'pred_idx': [""],
                 'pred': "",
-                'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [-1])[0]],
-                'pred_position': -1,
+                'gt_position': [gt_items[gt_idx].get('order') if gt_items[gt_idx].get('order') else gt_items[gt_idx].get('position', [""])[0]],
+                'pred_position': "",
                 'norm_gt': norm_gt_lines[gt_idx],
                 'norm_pred': "",
                 'gt_category_type': gt_cat_list[gt_idx],
@@ -74,7 +74,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             'gt': gt_lines[0],
             'pred_idx': [0],
             'pred': pred_lines[0],
-            'gt_position': [gt_items[0].get('order') if gt_items[0].get('order') else gt_items[0].get('position', [-1])[0]],
+            'gt_position': [gt_items[0].get('order') if gt_items[0].get('order') else gt_items[0].get('position', [""])[0]],
             'pred_position': pred_items[0]['position'][0],
             'norm_gt': norm_gt_lines[0],
             'norm_pred': norm_pred_lines[0],
@@ -101,39 +101,44 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
     
     converted_results = convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines)
     #print('----------- converted_results-----------', converted_results)
-    merged_results = merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, all_gt_indices, all_pred_indices)
+    merged_results = merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, gt_lines, pred_lines, all_gt_indices, all_pred_indices)
     #print('-----------  merged_results-----------',  merged_results)
     # for entry in converted_final_matches:
     #     print(entry)
-    
     for entry in merged_results:
-        entry['gt_idx'] = [entry['gt_idx']] if isinstance(entry['gt_idx'], int) else entry['gt_idx']
-        entry['pred_idx'] = [entry['pred_idx']] if isinstance(entry['pred_idx'], int) else entry['pred_idx']
-        entry['gt_position'] = [gt_items[_].get('order') if gt_items[_].get('order') else gt_items[_].get('position', [-1])[0] for _ in entry['gt_idx']]
-        entry['pred_position'] = pred_items[entry['pred_idx'][0]]['position'][0] if entry['pred_idx'][0] != -1 else -1  # 用的pred合并list第一个元素的位置
-        entry['gt'] = ''.join([gt_lines[_] for _ in entry['gt_idx']])
-        entry['pred'] = ''.join([pred_lines[_] for _ in entry['pred_idx']])
-        entry['norm_gt'] = ''.join([norm_gt_lines[_] for _ in entry['gt_idx']])
-        entry['norm_pred'] = ''.join([norm_pred_lines[_] for _ in entry['pred_idx']])
-        # entry['gt_category_type'] = gt_cat_list[entry['gt_idx'][0]]  # 用GT的第一个元素的类别
-        ignore_type = ['figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption', 'header', 'footer', 'page_footnote', 'page_number', 'equation_caption']
-        gt_cagegory_clean = [gt_cat_list[_] for _ in entry['gt_idx'] if gt_cat_list[_] not in ignore_type] # 去除掉需要ignore的元素
-        if gt_cagegory_clean:
-            entry['gt_category_type'] = Counter(gt_cagegory_clean).most_common(1)[0][0] # 如果去掉了ignore类别以后，还有剩余类别，就用剩余类别里，GT出现次数最多的类别，如果次数一致，会选先出现的类别
-        else:
-            entry['gt_category_type'] = Counter([gt_cat_list[_] for _ in entry['gt_idx']]).most_common(1)[0][0] # 如果去掉了ignore以后没有别的类别了，说明只有ignore类，就用原始的gt category list里，GT出现次数最多的类别，如果次数一致，会选先出现的类别
-        entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], pred_items) # 用Pred的第一个元素的类别
-        entry['gt_attribute'] = [gt_items[_].get("attribute", {}) for _ in entry['gt_idx']]  # 把gt的attribute加上，用于后续细粒度的精度统计
-        entry['img_id'] = img_name
-        if entry['gt_idx'] == [-1]:
-            entry['gt'] = ''
-            entry['norm_gt'] = ''
-            entry['gt_position'] = [-1]
-            entry['gt_category_type'] = ""
-            entry['gt_attribute'] = [{}]
-        elif entry['pred_idx'] == [-1]:
-            entry['pred'] = ""
-            entry['norm_pred'] = ""
+        # if entry['gt_idx'] == [""]:
+        #     entry['gt'] = ''
+        #     entry['norm_gt'] = ''
+        #     entry['gt_position'] = [""]
+        #     entry['gt_category_type'] = ""
+        #     entry['gt_attribute'] = [{}]
+
+        # elif entry['pred_idx'] == [""]:
+        #     entry['pred'] = ""
+        #     entry['norm_pred'] = ""
+        # else:
+            entry['gt_idx'] = [entry['gt_idx']] if not isinstance(entry['gt_idx'], list) else entry['gt_idx']
+            entry['pred_idx'] = [entry['pred_idx']] if not isinstance(entry['pred_idx'], list) else entry['pred_idx']
+            entry['gt_position'] = [gt_items[_].get('order') if gt_items[_].get('order') else gt_items[_].get('position', [""])[0] for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [""]
+            entry['pred_position'] = pred_items[entry['pred_idx'][0]]['position'][0] if entry['pred_idx'] != [""] else ""  # 用的pred合并list第一个元素的位置
+            entry['gt'] = ''.join([gt_lines[_] for _ in entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
+            entry['pred'] = ''.join([pred_lines[_] for _ in entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
+            entry['norm_gt'] = ''.join([norm_gt_lines[_] for _ in entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
+            entry['norm_pred'] = ''.join([norm_pred_lines[_] for _ in entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
+            # entry['gt_category_type'] = gt_cat_list[entry['gt_idx'][0]]  # 用GT的第一个元素的类别
+            if entry['gt_idx'] != [""]:
+                ignore_type = ['figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption', 'header', 'footer', 'page_footnote', 'page_number', 'equation_caption']
+                gt_cagegory_clean = [gt_cat_list[_] for _ in entry['gt_idx'] if gt_cat_list[_] not in ignore_type] # 去除掉需要ignore的元素
+                if gt_cagegory_clean:
+                    entry['gt_category_type'] = Counter(gt_cagegory_clean).most_common(1)[0][0] # 如果去掉了ignore类别以后，还有剩余类别，就用剩余类别里，GT出现次数最多的类别，如果次数一致，会选先出现的类别
+                else:
+                    entry['gt_category_type'] = Counter([gt_cat_list[_] for _ in entry['gt_idx']]).most_common(1)[0][0] # 如果去掉了ignore以后没有别的类别了，说明只有ignore类，就用原始的gt category list里，GT出现次数最多的类别，如果次数一致，会选先出现的类别
+            else:
+                entry['gt_category_type'] = ""
+            entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], pred_items) if entry['pred_idx'] != [""] else "" # 用Pred的第一个元素的类别
+            entry['gt_attribute'] = [gt_items[_].get("attribute", {}) for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [{}] # 把gt的attribute加上，用于后续细粒度的精度统计
+            entry['img_id'] = img_name
+        
     # pdb.set_trace()   
         # print('--------entry------', entry)
     return merged_results
@@ -202,7 +207,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
 #             merged_results.append(merged_entry)
 #             processed.add(pred_idx)
 #     return merged_results
-def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, all_gt_indices, all_pred_indices):
+def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, gt_lines, pred_lines, all_gt_indices, all_pred_indices):
     merged_results = []
     processed_pred = set()  # 跟踪已经处理过的pred_idx
     processed_gt = set()  # 跟踪已经处理过的gt_idx
@@ -211,7 +216,7 @@ def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_l
     for entry in converted_results:
         pred_idx = tuple(entry['pred_idx']) if isinstance(entry['pred_idx'], list) else (entry['pred_idx'],)
 
-        if pred_idx not in processed_pred and pred_idx != (-1,):
+        if pred_idx not in processed_pred and pred_idx != ("",):
             # 初始化合并条目
             merged_entry = {
                 'gt_idx': [entry['gt_idx']],
@@ -244,6 +249,16 @@ def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_l
                 'pred': entry['pred'],
                 'edit': entry['edit']
             })
+
+    for gt_idx in range(len(norm_gt_lines)):
+        if gt_idx not in processed_gt:
+            merged_results.append({
+                'gt_idx': [gt_idx],
+                'gt': gt_lines[gt_idx],
+                'pred_idx': [""],
+                'pred': "",
+                'edit': 1
+            })
     return merged_results
 
 
@@ -275,7 +290,7 @@ def merge_lists_with_sublists(main_list, sub_lists):
 def sub_pred_fuzzy_matching(gt, pred):
     
     min_d = float('inf')
-    pos = -1
+    # pos = -1
 
     gt_len = len(gt)
     pred_len = len(pred)
@@ -295,7 +310,7 @@ def sub_pred_fuzzy_matching(gt, pred):
 def sub_gt_fuzzy_matching(pred, gt):  
     
     min_d = float('inf')  
-    pos = -1  
+    pos = ""  
     matched_sub = ""  
   
     gt_len = len(gt)  
@@ -314,7 +329,7 @@ def sub_gt_fuzzy_matching(pred, gt):
         return min_d, pos, gt_len, matched_sub  
     else:  
         # 如果没有找到匹配，返回相应的信息  
-        return 1, -1, gt_len, "" 
+        return 1, "", gt_len, "" 
         
 def get_final_subset(subset_certain, subset_certain_cost):
     if not subset_certain or not subset_certain_cost:
@@ -470,7 +485,7 @@ def deal_with_truncated(cost_matrix, norm_gt_lines, norm_pred_lines):
         # 如果 merged_dist 为空，则跳过当前 gt_idx 或设置一个高成本值
         if not merged_dist:
             subset_certain = []
-            min_cost_idx = -1
+            min_cost_idx = ""
             min_cost = float('inf')
         else:
             min_cost = min(merged_dist)
@@ -768,7 +783,7 @@ def convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines):
         else:
             # 如果没有未匹配的gt_indices，但有未匹配的pred_indices
             result_entry = {
-                'gt_idx': -1,
+                'gt_idx': "",
                 'gt': '',
                 'pred_idx': list(unmatched_pred_indices),
                 'pred': ' '.join(norm_pred_lines[pred_idx] for pred_idx in unmatched_pred_indices),
@@ -781,7 +796,7 @@ def convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines):
             result_entry = {
                 'gt_idx': int(gt_idx),
                 'gt': norm_gt_lines[gt_idx],
-                'pred_idx': -1,
+                'pred_idx': "",
                 'pred': '',
                 'edit': 1
             }
