@@ -13,17 +13,8 @@ from collections import Counter
 def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
 
     gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines= get_gt_pred_lines(gt_items, pred_items, line_type)
-    
-
     all_gt_indices = set(range(len(norm_gt_lines)))  
-    #print('-----------all_gt_indices----------',all_gt_indices)
     all_pred_indices = set(range(len(norm_pred_lines)))  
-   # print('-----------all_pred_indices ---------',all_pred_indices )
-
-    # for i in range(len(norm_pred_lines)):
-    #     print('--------------norm_pred_lines{i}--------------',norm_pred_lines[i])
-    # for i in range(len(norm_gt_lines)):
-    #     print('--------------norm_gt_lines{i}--------------',norm_gt_lines[i])
     
     if not norm_gt_lines:
         match_list = []
@@ -86,37 +77,24 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
         }]
  
     cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
-        
+    
     matched_col_idx, row_ind, cost_list = cal_final_match(cost_matrix, norm_gt_lines, norm_pred_lines)
     
     gt_lens_dict, pred_lens_dict = initialize_indices(norm_gt_lines, norm_pred_lines)
-
+    
     matches, unmatched_gt_indices, unmatched_pred_indices = process_matches(matched_col_idx, row_ind, cost_list, norm_gt_lines, norm_pred_lines, pred_lines)
     
     matching_dict = fuzzy_match_unmatched_items(unmatched_gt_indices, norm_gt_lines, norm_pred_lines)
-    # print('----------- matching_dict-----------', final_matches)
+    
     final_matches = merge_matches(matches, matching_dict)
-    # print('----------- final_matches-----------', final_matches)
+    
     recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_pred_lines)
     
     converted_results = convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines)
-    #print('----------- converted_results-----------', converted_results)
+    
     merged_results = merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, gt_lines, pred_lines, all_gt_indices, all_pred_indices)
-    #print('-----------  merged_results-----------',  merged_results)
-    # for entry in converted_final_matches:
-    #     print(entry)
-    for entry in merged_results:
-        # if entry['gt_idx'] == [""]:
-        #     entry['gt'] = ''
-        #     entry['norm_gt'] = ''
-        #     entry['gt_position'] = [""]
-        #     entry['gt_category_type'] = ""
-        #     entry['gt_attribute'] = [{}]
 
-        # elif entry['pred_idx'] == [""]:
-        #     entry['pred'] = ""
-        #     entry['norm_pred'] = ""
-        # else:
+    for entry in merged_results:
             entry['gt_idx'] = [entry['gt_idx']] if not isinstance(entry['gt_idx'], list) else entry['gt_idx']
             entry['pred_idx'] = [entry['pred_idx']] if not isinstance(entry['pred_idx'], list) else entry['pred_idx']
             entry['gt_position'] = [gt_items[_].get('order') if gt_items[_].get('order') else gt_items[_].get('position', [""])[0] for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [""]
@@ -139,74 +117,9 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             entry['gt_attribute'] = [gt_items[_].get("attribute", {}) for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [{}] # 把gt的attribute加上，用于后续细粒度的精度统计
             entry['img_id'] = img_name
         
-    # pdb.set_trace()   
-        # print('--------entry------', entry)
     return merged_results
-    # row_ind, col_ind = linear_sum_assignment(cost_matrix)
-
-    
-    
-    # match_list = []
-    # for gt_idx in range(len(norm_gt_lines)):
-    #     gt_line = norm_gt_lines[gt_idx]
-    #     # print('gt_idx', gt_idx)
-    #     # print('new gt: ', gt_line)
-
-    #     if gt_idx in row_ind:
-    #         row_i = list(row_ind).index(gt_idx)
-    #         pred_idx = col_ind[row_i]
-    #         pred_line = norm_pred_lines[pred_idx]
-    #         edit = cost_matrix[gt_idx][pred_idx]
-    #         # print('edit_dist', edit)
-    #         # if edit > 0.7:
-    #         #     print('! Not match')
-    #     else:
-    #         # print('No match pred')
-    #         pred_idx = -1
-    #         pred_line = ""
-    #         edit = 1
-            
-    #     match_list.append({
-    #         'gt_idx': gt_idx,
-    #         'gt': gt_line,
-    #         'pred_idx': pred_idx,
-    #         'pred': pred_line,
-    #         'edit': edit
-    #     })
-    #     print('-'*10)
-
-    #return converted_final_matches
 
 
-# def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, all_gt_indices, all_pred_indices):
-#     merged_results = []
-#     processed = set()  # 跟踪已经处理过的pred_idx
-#     # 处理已匹配的条目
-#     for entry in converted_results:
-#         pred_idx = tuple(entry['pred_idx']) if isinstance(entry['pred_idx'], list) else (entry['pred_idx'],)
-        
-#         if pred_idx not in processed:
-#             # 初始化合并条目
-#             merged_entry = {
-#                 'gt_idx': [entry['gt_idx']],
-#                 'gt': entry['gt'],
-#                 'pred_idx': entry['pred_idx'],
-#                 'pred': entry['pred'],
-#                 'edit': entry['edit']
-#             }
-
-#             # 找出所有具有相同pred_idx的entries
-#             for other_entry in converted_results:
-#                 other_pred_idx = tuple(other_entry['pred_idx']) if isinstance(other_entry['pred_idx'], list) else (other_entry['pred_idx'],)
-#                 if other_pred_idx == pred_idx and other_entry is not entry:
-#                     merged_entry['gt_idx'].append(other_entry['gt_idx'])
-#                     merged_entry['gt'] += other_entry['gt']
-#                     # 标记为已处理
-#                     processed.add(pred_idx)
-            
-#             merged_results.append(merged_entry)
-#             processed.add(pred_idx)
-#     return merged_results
 def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, gt_lines, pred_lines, all_gt_indices, all_pred_indices):
     merged_results = []
     processed_pred = set()  # 跟踪已经处理过的pred_idx
@@ -287,49 +200,37 @@ def merge_lists_with_sublists(main_list, sub_lists):
         main_list_final.insert(pop_idx, sub_list)  # 把subset插回去
     return main_list_final   
 
-def sub_pred_fuzzy_matching(gt, pred):
-    
-    min_d = float('inf')
-    # pos = -1
 
-    gt_len = len(gt)
-    pred_len = len(pred)
 
-    if gt_len >= pred_len and pred_len > 0:
-        for i in range(gt_len - pred_len + 1):
-            sub = gt[i:i + pred_len]
-            dist = Levenshtein.distance(sub, pred)/pred_len
-            if dist < min_d:
-                min_d = dist
-                pos = i
-
-        return min_d
-    else:
-        return False
-        
-def sub_gt_fuzzy_matching(pred, gt):  
-    
+def sub_fuzzy_matching(longer,shorter,  is_pred=True):
     min_d = float('inf')  
-    pos = ""  
-    matched_sub = ""  
-  
-    gt_len = len(gt)  
-    pred_len = len(pred)  
-  
-    if pred_len >= gt_len and gt_len > 0:  
-        for i in range(pred_len - gt_len + 1):  
-            sub = pred[i:i + gt_len]  
-            dist = Levenshtein.distance(sub, gt)  /gt_len
-            if dist < min_d:  
-                min_d = dist  
-                pos = i  
-                matched_sub = sub  # 保存匹配到的子串  
-  
-        # 返回最小距离、匹配的位置、gt的长度和匹配的字段  
-        return min_d, pos, gt_len, matched_sub  
-    else:  
-        # 如果没有找到匹配，返回相应的信息  
-        return 1, "", gt_len, "" 
+    longer_len = len(longer)
+    shorter_len = len(shorter)
+    if not is_pred:
+        pos = ""  
+        matched_sub = ""  
+        
+    if longer_len >= shorter_len  and shorter_len  > 0:  
+        for i in range(longer_len - shorter_len + 1):
+            sub = longer[i:i + shorter_len]
+            dist = Levenshtein.distance(sub, shorter)/shorter_len
+            if dist < min_d:
+                if is_pred:
+                    min_d = dist
+                    pos = i
+                else:
+                    min_d = dist  
+                    pos = i  
+                    matched_sub = sub  # 保存匹配到的子串 
+        if is_pred:          
+            return min_d
+        else:
+            return min_d, pos, shorter_len, matched_sub  
+    else:
+        if is_pred:
+            return False
+        else:
+            return 1, "", shorter_len, ""
         
 def get_final_subset(subset_certain, subset_certain_cost):
     if not subset_certain or not subset_certain_cost:
@@ -426,14 +327,14 @@ def judge_pred_merge(gt_list, pred_list):
     
     else:
         for cur in pred_list[:-1]:
-            cur_fuzzy_dist = sub_pred_fuzzy_matching(gt_list[0], cur_pred)
+            cur_fuzzy_dist = sub_fuzzy_matching(gt_list[0], cur_pred)
             # print('cur_fuzzy_dist:', cur_fuzzy_dist)
             if cur_fuzzy_dist is False:
                 return merged_pred_flag, continue_flag
             if cur_fuzzy_dist > threshold:
                 return merged_pred_flag, continue_flag
         
-        add_fuzzy_dist = sub_pred_fuzzy_matching(gt_list[0], pred_list[-1])
+        add_fuzzy_dist = sub_fuzzy_matching(gt_list[0], pred_list[-1])
         # print("add fuzzy dist:", add_fuzzy_dist)
         if add_fuzzy_dist is False:
             return merged_pred_flag, continue_flag
@@ -530,22 +431,16 @@ def cal_move_dist(gt, pred):
 
 def cal_final_match(cost_matrix, norm_gt_lines, norm_pred_lines):
     min_indice = cost_matrix.argmax(axis=1)
-    # if len(set(min_indice)) == len(min_indice): # 说明没有重复
-    #     sorted_indice = sorted(min_indice)
-    #     move_dist = cal_move_dist(sorted_indice, min_indice)  # 计算公式顺序移动距离
-    #     if move_dist > 0.6:  # 设定一个公式顺序的编辑距离阈值，以免匹配得非常混乱的情况发生
-    #         print('The matching order is a mess, please check.')
-    #     else:
-    #         return min_indice,
-    # else:
-        #print('Start merging')
+    
     new_cost_matrix, final_norm_pred_lines, final_pred_idx_list = deal_with_truncated(cost_matrix, norm_gt_lines, norm_pred_lines) # deal_with_chunck
+    
     row_ind, col_ind = linear_sum_assignment(new_cost_matrix)
+    
     cost_list = []
     for r, c in zip(row_ind, col_ind):
         cost_list.append(new_cost_matrix[r][c])
     matched_col_idx = [final_pred_idx_list[i] for i in col_ind]
-        # cost_list = [new_cost_matrix[i][col_ind[i]] for i in range(len(row_ind))]
+
     return matched_col_idx, row_ind, cost_list
 
 def initialize_indices(norm_gt_lines, norm_pred_lines):
@@ -605,7 +500,7 @@ def fuzzy_match_unmatched_items(unmatched_gt_indices, norm_gt_lines, norm_pred_l
 
         for unmatched_gt_idx in unmatched_gt_indices:
             gt_content = norm_gt_lines[unmatched_gt_idx]
-            cur_fuzzy_dist_unmatch, cur_pos, gt_lens, matched_field = sub_gt_fuzzy_matching(pred_content, gt_content)
+            cur_fuzzy_dist_unmatch, cur_pos, gt_lens, matched_field = sub_fuzzy_matching(gt_content, pred_content,False)
             if cur_fuzzy_dist_unmatch < 0.4:
                 matching_indices.append(unmatched_gt_idx)
 
@@ -674,9 +569,6 @@ def recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_
                 # 归一化编辑距离
                 normalized_edit_distance = edit_distance / max(len(merged_gt_content), len(pred_content))
             except ZeroDivisionError:
-                #print("ZeroDivisionError occurred. Outputting norm_gt_lines and norm_pred_lines:")
-                # print("norm_gt_lines:", norm_gt_lines)
-                # print("norm_pred_lines:", norm_pred_lines)
                 continue
                 normalized_edit_distance = 1 
 
@@ -693,10 +585,7 @@ def recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_
                 normalized_edit_distance = edit_distance / max(len(norm_gt_lines[gt_idx]), len(pred_content))
             except ZeroDivisionError:
                 print("ZeroDivisionError occurred. Outputting norm_gt_lines and norm_pred_lines:")
-                # print("norm_gt_lines:", norm_gt_lines)
-                # print("norm_pred_lines:", norm_pred_lines)
                 continue
-                #normalized_edit_distance = 1  
 
             info['edit_distance'] = normalized_edit_distance
             info['pred_content'] = pred_content
@@ -804,31 +693,3 @@ def convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines):
 
     return converted_results
 
-
-# if __name__ == "__main__":
-#     file_name='merge_split_example.txt'
-#     with open(f"/mnt/petrelfs/zhujiawei/Projects/pdf_validation-add_fuzzy_match3/test_match/match_gt/{file_name}") as f:
-#         gts = f.readlines()
-#     with open(f"/mnt/petrelfs/zhujiawei/Projects/pdf_validation-add_fuzzy_match3/test_match/match_pred/{file_name}") as f:
-#         predications = f.readlines()
-#     norm_gt_lines = [normalized_formula(line) for line in gts]  
-#     norm_pred_lines = [normalized_formula(line) for line in predications]  
-#     cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
-    
-#     matched_col_idx, row_ind, cost_list = cal_final_match(cost_matrix, norm_gt_lines, norm_pred_lines)  
-#     #print('cost_matrix',cost_matrix)
-#     gt_lens_dict, pred_lens_dict = initialize_indices(norm_gt_lines, norm_pred_lines)
-#     matches, unmatched_gt_indices, unmatched_pred_indices = process_matches(
-#         matched_col_idx, row_ind, cost_list, norm_gt_lines, norm_pred_lines, predications)
-#     matching_dict = fuzzy_match_unmatched_items(unmatched_gt_indices, norm_gt_lines, norm_pred_lines)
-#     final_matches = merge_matches(matches, matching_dict)
-#     recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_pred_lines)
-    
-#     print_final_results(final_matches)
-#     converted_final_matches = convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines)
-#     merged_results = merge_duplicates(converted_final_matches, norm_gt_lines)
-    
-#     #merged_matches = merge_matching_results(converted_final_matches)
-#     for entry in merged_results:
-#         print(entry)
-    
