@@ -96,23 +96,23 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             entry['gt_idx'] = [entry['gt_idx']] if not isinstance(entry['gt_idx'], list) else entry['gt_idx']
             entry['pred_idx'] = [entry['pred_idx']] if not isinstance(entry['pred_idx'], list) else entry['pred_idx']
             entry['gt_position'] = [gt_items[_].get('order') if gt_items[_].get('order') else gt_items[_].get('position', [""])[0] for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [""]
-            entry['pred_position'] = pred_items[entry['pred_idx'][0]]['position'][0] if entry['pred_idx'] != [""] else ""  # 用的pred合并list第一个元素的位置
+            entry['pred_position'] = pred_items[entry['pred_idx'][0]]['position'][0] if entry['pred_idx'] != [""] else "" 
             entry['gt'] = ''.join([gt_lines[_] for _ in entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
             entry['pred'] = ''.join([pred_lines[_] for _ in entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
             entry['norm_gt'] = ''.join([norm_gt_lines[_] for _ in entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
             entry['norm_pred'] = ''.join([norm_pred_lines[_] for _ in entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
-            # entry['gt_category_type'] = gt_cat_list[entry['gt_idx'][0]]  # 用GT的第一个元素的类别
+
             if entry['gt_idx'] != [""]:
                 ignore_type = ['figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption', 'header', 'footer', 'page_footnote', 'page_number', 'equation_caption']
-                gt_cagegory_clean = [gt_cat_list[_] for _ in entry['gt_idx'] if gt_cat_list[_] not in ignore_type] # 去除掉需要ignore的元素
+                gt_cagegory_clean = [gt_cat_list[_] for _ in entry['gt_idx'] if gt_cat_list[_] not in ignore_type] 
                 if gt_cagegory_clean:
-                    entry['gt_category_type'] = Counter(gt_cagegory_clean).most_common(1)[0][0] # 如果去掉了ignore类别以后，还有剩余类别，就用剩余类别里，GT出现次数最多的类别，如果次数一致，会选先出现的类别
+                    entry['gt_category_type'] = Counter(gt_cagegory_clean).most_common(1)[0][0] 
                 else:
-                    entry['gt_category_type'] = Counter([gt_cat_list[_] for _ in entry['gt_idx']]).most_common(1)[0][0] # 如果去掉了ignore以后没有别的类别了，说明只有ignore类，就用原始的gt category list里，GT出现次数最多的类别，如果次数一致，会选先出现的类别
+                    entry['gt_category_type'] = Counter([gt_cat_list[_] for _ in entry['gt_idx']]).most_common(1)[0][0] 
             else:
                 entry['gt_category_type'] = ""
-            entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], pred_items) if entry['pred_idx'] != [""] else "" # 用Pred的第一个元素的类别
-            entry['gt_attribute'] = [gt_items[_].get("attribute", {}) for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [{}] # 把gt的attribute加上，用于后续细粒度的精度统计
+            entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], pred_items) if entry['pred_idx'] != [""] else ""
+            entry['gt_attribute'] = [gt_items[_].get("attribute", {}) for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [{}] 
             entry['img_id'] = img_name
         
     return merged_results
@@ -222,6 +222,7 @@ def sub_gt_fuzzy_matching(pred, gt):
     else:  
         return 1, "", gt_len, "" 
         
+        
 def get_final_subset(subset_certain, subset_certain_cost):
     if not subset_certain or not subset_certain_cost:
         return []  
@@ -249,7 +250,7 @@ def get_final_subset(subset_certain, subset_certain_cost):
 
     final_subset = []
     for _, group in group_list.items():
-        if len(group) == 1:
+        if len(group) == 1: 
             final_subset.append(group[0][0])
         else:
             path_dict = defaultdict(list)
@@ -294,39 +295,31 @@ def get_final_subset(subset_certain, subset_certain_cost):
 
     return final_subset
 
-def judge_pred_merge(gt_list, pred_list):
-    
-    threshold = 0.6
-    merged_pred_flag = False
-    continue_flag = False
-
+def judge_pred_merge(gt_list, pred_list, threshold=0.6):
     if len(pred_list) == 1:
-        return merged_pred_flag, continue_flag
-    
+        return False, False
+
     cur_pred = ' '.join(pred_list[:-1])
     merged_pred = ' '.join(pred_list)
-    cur_dist = Levenshtein_distance(gt_list[0], cur_pred)/max(len(gt_list[0]), len(cur_pred))
-    merged_dist = Levenshtein_distance(gt_list[0], merged_pred)/max(len(gt_list[0]), len(merged_pred))
-    if merged_dist > cur_dist:
-        return merged_pred_flag, continue_flag
     
-    else:
-        for cur in pred_list[:-1]:
-            cur_fuzzy_dist = sub_pred_fuzzy_matching(gt_list[0], cur_pred)
-            if cur_fuzzy_dist is False:
-                return merged_pred_flag, continue_flag
-            if cur_fuzzy_dist > threshold:
-                return merged_pred_flag, continue_flag
-        
-        add_fuzzy_dist = sub_pred_fuzzy_matching(gt_list[0], pred_list[-1])
-        if add_fuzzy_dist is False:
-            return merged_pred_flag, continue_flag
-        if add_fuzzy_dist < threshold:
-            merged_pred_flag = True
-        if len(merged_pred) <= len(gt_list[0]):
-            continue_flag = True
-        
-        return merged_pred_flag, continue_flag
+    cur_dist = Levenshtein.distance(gt_list[0], cur_pred) / max(len(gt_list[0]), len(cur_pred))
+    merged_dist = Levenshtein.distance(gt_list[0], merged_pred) / max(len(gt_list[0]), len(merged_pred))
+    
+    if merged_dist > cur_dist:
+        return False, False
+
+    cur_fuzzy_dists = [sub_pred_fuzzy_matching(gt_list[0], cur_pred) for cur_pred in pred_list[:-1]]
+    if any(dist is False or dist > threshold for dist in cur_fuzzy_dists):
+        return False, False
+
+    add_fuzzy_dist = sub_pred_fuzzy_matching(gt_list[0], pred_list[-1])
+    if add_fuzzy_dist is False:
+        return False, False
+
+    merged_pred_flag = add_fuzzy_dist < threshold
+    continue_flag = len(merged_pred) <= len(gt_list[0])
+
+    return merged_pred_flag, continue_flag
     
 def deal_with_truncated(cost_matrix, norm_gt_lines, norm_pred_lines):
     matched_first = np.argwhere(cost_matrix < 0.25)
