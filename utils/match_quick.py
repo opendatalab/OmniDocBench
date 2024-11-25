@@ -1,4 +1,5 @@
 from scipy.optimize import linear_sum_assignment
+# from rapidfuzz.distance import Levenshtein
 import Levenshtein
 from collections import defaultdict
 import copy
@@ -8,6 +9,7 @@ import numpy as np
 import evaluate
 from collections import Counter
 from Levenshtein import distance as Levenshtein_distance
+
 
 def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
 
@@ -54,7 +56,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             })
         return match_list
     elif len(norm_gt_lines) == 1 and len(norm_pred_lines) == 1:
-        edit_distance = Levenshtein.distance(norm_gt_lines[0], norm_pred_lines[0])
+        edit_distance = Levenshtein_distance(norm_gt_lines[0], norm_pred_lines[0])
         normalized_edit_distance = edit_distance / max(len(norm_gt_lines[0]), len(norm_pred_lines[0]))
         return [{
             'gt_idx': [0],
@@ -157,6 +159,8 @@ def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_l
     return merged_results
 
 
+
+
 def formula_format(formula_matches, img_name):
     return [
         {
@@ -178,36 +182,45 @@ def merge_lists_with_sublists(main_list, sub_lists):
     return main_list_final   
 
 
+def sub_pred_fuzzy_matching(gt, pred):
+    
+    min_d = float('inf')
+    # pos = -1
 
-def sub_fuzzy_matching(longer,shorter,  is_pred=True):
-    min_d = float('inf')  
-    longer_len = len(longer)
-    shorter_len = len(shorter)
-    if not is_pred:
-        pos = ""  
-        matched_sub = ""  
-        
-    if longer_len >= shorter_len  and shorter_len  > 0:  
-        for i in range(longer_len - shorter_len + 1):
-            sub = longer[i:i + shorter_len]
-            dist = Levenshtein.distance(sub, shorter)/shorter_len
+    gt_len = len(gt)
+    pred_len = len(pred)
+
+    if gt_len >= pred_len and pred_len > 0:
+        for i in range(gt_len - pred_len + 1):
+            sub = gt[i:i + pred_len]
+            dist = Levenshtein_distance(sub, pred)/pred_len
             if dist < min_d:
-                if is_pred:
-                    min_d = dist
-                    pos = i
-                else:
-                    min_d = dist  
-                    pos = i  
-                    matched_sub = sub  
-        if is_pred:          
-            return min_d
-        else:
-            return min_d, pos, shorter_len, matched_sub  
+                min_d = dist
+                pos = i
+
+        return min_d
     else:
-        if is_pred:
-            return False
-        else:
-            return 1, "", shorter_len, ""
+        return False
+        
+def sub_gt_fuzzy_matching(pred, gt):  
+    
+    min_d = float('inf')  
+    pos = ""  
+    matched_sub = ""  
+    gt_len = len(gt)  
+    pred_len = len(pred)  
+    
+    if pred_len >= gt_len and gt_len > 0:  
+        for i in range(pred_len - gt_len + 1):  
+            sub = pred[i:i + gt_len]  
+            dist = Levenshtein.distance(sub, gt)  /gt_len
+            if dist < min_d:  
+                min_d = dist  
+                pos = i  
+                matched_sub = sub  
+        return min_d, pos, gt_len, matched_sub  
+    else:  
+        return 1, "", gt_len, "" 
         
 def get_final_subset(subset_certain, subset_certain_cost):
     if not subset_certain or not subset_certain_cost:
@@ -236,7 +249,7 @@ def get_final_subset(subset_certain, subset_certain_cost):
 
     final_subset = []
     for _, group in group_list.items():
-        if len(group) == 1: 
+        if len(group) == 1:
             final_subset.append(group[0][0])
         else:
             path_dict = defaultdict(list)
@@ -281,32 +294,39 @@ def get_final_subset(subset_certain, subset_certain_cost):
 
     return final_subset
 
+def judge_pred_merge(gt_list, pred_list):
+    
+    threshold = 0.6
+    merged_pred_flag = False
+    continue_flag = False
 
-def judge_pred_merge(gt_list, pred_list, threshold=0.6):
     if len(pred_list) == 1:
-        return False, False
-
+        return merged_pred_flag, continue_flag
+    
     cur_pred = ' '.join(pred_list[:-1])
     merged_pred = ' '.join(pred_list)
-    
-    cur_dist = Levenshtein.distance(gt_list[0], cur_pred) / max(len(gt_list[0]), len(cur_pred))
-    merged_dist = Levenshtein.distance(gt_list[0], merged_pred) / max(len(gt_list[0]), len(merged_pred))
-    
+    cur_dist = Levenshtein_distance(gt_list[0], cur_pred)/max(len(gt_list[0]), len(cur_pred))
+    merged_dist = Levenshtein_distance(gt_list[0], merged_pred)/max(len(gt_list[0]), len(merged_pred))
     if merged_dist > cur_dist:
-        return False, False
-
-    cur_fuzzy_dists = [sub_fuzzy_matching(gt_list[0], cur_pred) for cur_pred in pred_list[:-1]]
-    if any(dist is False or dist > threshold for dist in cur_fuzzy_dists):
-        return False, False
-
-    add_fuzzy_dist = sub_fuzzy_matching(gt_list[0], pred_list[-1])
-    if add_fuzzy_dist is False:
-        return False, False
-
-    merged_pred_flag = add_fuzzy_dist < threshold
-    continue_flag = len(merged_pred) <= len(gt_list[0])
-
-    return merged_pred_flag, continue_flag
+        return merged_pred_flag, continue_flag
+    
+    else:
+        for cur in pred_list[:-1]:
+            cur_fuzzy_dist = sub_pred_fuzzy_matching(gt_list[0], cur_pred)
+            if cur_fuzzy_dist is False:
+                return merged_pred_flag, continue_flag
+            if cur_fuzzy_dist > threshold:
+                return merged_pred_flag, continue_flag
+        
+        add_fuzzy_dist = sub_pred_fuzzy_matching(gt_list[0], pred_list[-1])
+        if add_fuzzy_dist is False:
+            return merged_pred_flag, continue_flag
+        if add_fuzzy_dist < threshold:
+            merged_pred_flag = True
+        if len(merged_pred) <= len(gt_list[0]):
+            continue_flag = True
+        
+        return merged_pred_flag, continue_flag
     
 def deal_with_truncated(cost_matrix, norm_gt_lines, norm_pred_lines):
     matched_first = np.argwhere(cost_matrix < 0.25)
@@ -342,7 +362,7 @@ def deal_with_truncated(cost_matrix, norm_gt_lines, norm_pred_lines):
 
             check_merge_subset.append(list(range(pred_idx, pred_idx + step)))
             matched_line = ' '.join([norm_pred_lines[i] for i in range(pred_idx, pred_idx + step)])
-            dist = Levenshtein.distance(norm_gt_lines[gt_idx], matched_line) / max(len(matched_line), len(norm_gt_lines[gt_idx]))
+            dist = Levenshtein_distance(norm_gt_lines[gt_idx], matched_line) / max(len(matched_line), len(norm_gt_lines[gt_idx]))
             merged_dist.append(dist)
 
         if not merged_dist:
@@ -399,7 +419,9 @@ def cal_final_match(cost_matrix, norm_gt_lines, norm_pred_lines):
     return matched_col_idx, row_ind, cost_list
 
 def initialize_indices(norm_gt_lines, norm_pred_lines):
-    return {idx: len(gt_line) for idx, gt_line in enumerate(norm_gt_lines)}, {idx: len(pred_line) for idx, pred_line in enumerate(norm_pred_lines)}
+    gt_lens_dict = {idx: len(gt_line) for idx, gt_line in enumerate(norm_gt_lines)}
+    pred_lens_dict = {idx: len(pred_line) for idx, pred_line in enumerate(norm_pred_lines)}
+    return gt_lens_dict, pred_lens_dict
 
 def process_matches(matched_col_idx, row_ind, cost_list, norm_gt_lines, norm_pred_lines, pred_lines):
     matches = {}
@@ -453,7 +475,7 @@ def fuzzy_match_unmatched_items(unmatched_gt_indices, norm_gt_lines, norm_pred_l
 
         for unmatched_gt_idx in unmatched_gt_indices:
             gt_content = norm_gt_lines[unmatched_gt_idx]
-            cur_fuzzy_dist_unmatch, _, _, _ = sub_fuzzy_matching(gt_content, pred_content, False)
+            cur_fuzzy_dist_unmatch, cur_pos, gt_lens, matched_field = sub_gt_fuzzy_matching(pred_content, gt_content)
             if cur_fuzzy_dist_unmatch < 0.4:
                 matching_indices.append(unmatched_gt_idx)
 
@@ -464,7 +486,7 @@ def fuzzy_match_unmatched_items(unmatched_gt_indices, norm_gt_lines, norm_pred_l
 
 def merge_matches(matches, matching_dict):
     final_matches = {}
-    processed_gt_indices = set()
+    processed_gt_indices = set() 
 
     for gt_idx, match_info in matches.items():
         pred_indices = match_info['pred_indices']
@@ -499,6 +521,8 @@ def merge_matches(matches, matching_dict):
             processed_gt_indices.update(final_matches[pred_key]['gt_indices'])
 
     return final_matches
+    
+
 
 def recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_pred_lines):
     for pred_key, info in final_matches.items():
@@ -531,7 +555,8 @@ def recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_
 
             info['edit_distance'] = normalized_edit_distance
             info['pred_content'] = pred_content
-        
+
+
 def convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines):
     converted_results = []
 
