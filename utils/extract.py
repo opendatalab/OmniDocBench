@@ -203,20 +203,37 @@ def md_tex_filter(content):
             dollar_pattern = re.compile(r'\$\$(.*?)\$\$|\$(.*?)\$|\\\((.*?)\\\)', re.DOTALL)
             sub_match = dollar_pattern.search(single_line)
             if sub_match is None:
-                pass
+                # pass
+                # content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]
+                pred_all.append({
+                    'category_type': 'equation_isolated',
+                    'position': position,
+                    'content': single_line
+                })
             elif sub_match.group(1):
                 single_line = re.sub(dollar_pattern, r'\\[\1\\]', single_line)
                 content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
+                pred_all.append({
+                    'category_type': 'equation_isolated',
+                    'position': position,
+                    'content': single_line
+                })
             else:
                 single_line = re.sub(dollar_pattern, r'\\[\2\3\\]', single_line)
+                pred_all.append({
+                    'category_type': 'equation_isolated',
+                    'position': position,
+                    'content': single_line,
+                    'fine_category_type': 'equation_inline'
+                })
             # single_line = re.sub(dollar_pattern, r'\\[\1\2\3\\]', single_line)
             # print('single_line: ', single_line)
             # content = content.replace(matched, ' '*len(matched))
-            pred_all.append({
-                'category_type': 'equation_isolated',
-                'position': position,
-                'content': single_line
-            })
+            # pred_all.append({
+            #     'category_type': 'equation_isolated',
+            #     'position': position,
+            #     'content': single_line
+            # })
             # print('-----Found display formula: ', matched)
 
     # print('-------------After display: \n', content)

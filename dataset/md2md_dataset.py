@@ -142,7 +142,7 @@ class Md2MdDataset():
                 # formated_display_formula = self.formula_format(display_formula_match_s, img_name)
                 # print('display_formula_match_s: ', display_formula_match_s)
                 # print('-'*10)
-                display_formula_match_s = [x for x in display_formula_match_s if x['gt_idx'] != [""]]  # 把多余的pred直接去掉，因为pred里把行内公式也放进来一起匹配了
+                display_formula_match_s = [x for x in display_formula_match_s if x['gt_idx'] != [""] and x['gt_category_type'] != 'equation_inline']  # 把多余的pred直接去掉，因为pred里把行内公式也放进来一起匹配了，并且把GT为行内公式的也去掉
                 display_formula_match.extend(display_formula_match_s)
             if gt_dataset.get('latex_table') and pred_dataset.get('latex_table'): # 这里默认模型不会同时随机输出latex或html，而是二选一; 注意，GT的markdown里的table格式需要跟Pred一致
                 # print('gt_table_list', gt_table_list)
@@ -166,9 +166,9 @@ class Md2MdDataset():
             # for mateches in [plain_text_match_clean, display_formula_match_s]:
             #     if mateches:
             #         order_match_s.extend(mateches)
-            order_match_s = plain_text_match_clean
+            order_match_s = self.get_order_paired(plain_text_match_clean, img_name)
             if order_match_s:
-                order_match.append(self.get_order_paired(order_match_s, img_name))
+                order_match.append(order_match_s)
 
         if latex_table_match: # 这里默认模型不会同时随机输出latex或html，而是二选一
             table_match = latex_table_match

@@ -45,7 +45,7 @@ class RecognitionTextDataset():
             })
         return samples
 
-@DATASET_REGISTRY.register("omidocbench_single_module_dataset")
+@DATASET_REGISTRY.register("omnidocbench_single_module_dataset")
 class OmiDocBenchSingleModuleDataset():
     # 按照text block的粒度进行评测，不考虑bbox的一一匹配
     def __init__(self, cfg_task):

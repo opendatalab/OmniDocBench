@@ -3,12 +3,8 @@ end2end_eval:
     text_block:
       metric:
         - Edit_dist
-        # - BLEU
-        # - METEOR
-      # group:
-        # - text_language: text_en
-          # text_background: white
-        # - text_language: text_simplified_chinese
+        - BLEU
+        - METEOR
     display_formula:
       metric:
         - Edit_dist
@@ -17,9 +13,6 @@ end2end_eval:
       metric:
         - TEDS
         - Edit_dist
-      # group:
-      #   - with_span: True
-      #   - with_span: False
     reading_order:
       metric:
         - Edit_dist
@@ -41,8 +34,8 @@ end2end_eval:
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/internvl_long_prompt
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/QwenVL_short_prompt
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/QwenVL_long_prompt
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/gpt4o_short_prompt
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/gpt4o_long_prompt
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/gpt4o_short_prompt
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/gpt4o_long_prompt
     # match_method: no_split
     # match_method: simple_match
     # filter: 

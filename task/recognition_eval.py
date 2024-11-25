@@ -31,7 +31,7 @@ class RecognitionBaseEval():
 
         for metric in metrics_list:
             metric_val = METRIC_REGISTRY.get(metric)
-            samples, result = metric_val(samples).evaluate()
+            samples, result = metric_val(samples).evaluate({}, save_name)
             if result:
                 p_scores.update(result) 
         # score_table = [[k,v] for k,v in p_scores.items()]

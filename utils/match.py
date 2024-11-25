@@ -68,7 +68,10 @@ def get_gt_pred_lines(gt_items, pred_items, line_type):
     gt_lines = []
     gt_cat_list = []
     for item in gt_items:
-        gt_cat_list.append(item['category_type'])
+        if item.get('fine_category_type'):
+            gt_cat_list.append(item['fine_category_type'])
+        else:
+            gt_cat_list.append(item['category_type'])
         if item.get('content'):
             gt_lines.append(str(item['content']))
             norm_html_lines.append(str(item['content']))
@@ -207,13 +210,13 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
         
         # print(type(gt_idx))
         # print(type(pred_idx))
-        if pred_idx:
-            if pred_items[pred_idx].get('fine_category_type'):
-                pred_pred_category_type = pred_items[pred_idx]['fine_category_type']
-            else:
-                pred_pred_category_type = pred_items[pred_idx]['category_type']
-        else:
-            pred_pred_category_type = ""
+        # if pred_idx:
+        #     if pred_items[pred_idx].get('fine_category_type'):
+        #         pred_pred_category_type = pred_items[pred_idx]['fine_category_type']
+        #     else:
+        #         pred_pred_category_type = pred_items[pred_idx]['category_type']
+        # else:
+        #     pred_pred_category_type = ""
         match_list.append({
             'gt_idx': [gt_idx],
             'gt': gt_lines[gt_idx],
@@ -224,7 +227,7 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
             'pred_idx': [pred_idx],
             'pred': pred_line,
             'norm_pred': norm_pred_line,
-            'pred_category_type': pred_pred_category_type,
+            'pred_category_type': get_pred_category_type(pred_idx, pred_items) if pred_idx else "",
             'pred_position': pred_items[pred_idx]['position'][0] if pred_idx else "",
             'edit': edit,
             'img_id': img_name
@@ -238,11 +241,11 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
     #         continue
         # print('gt_idx', gt_idx)
         # print('new gt: ', gt_line)
-    if pred_idx_list: # 如果还有剩余的pred_idx的话
-        if pred_items[pred_idx_list[0]].get('fine_category_type'):  # 以第一个pred的类别作为最终显示类别
-            pred_pred_category_type = pred_items[pred_idx_list[0]]['fine_category_type']
-        else:
-            pred_pred_category_type = pred_items[pred_idx_list[0]]['category_type']
+    if pred_idx_list: # 如果还有剩余的pred_idx的话，就把所有的pred合并成一个
+        # if pred_items[pred_idx_list[0]].get('fine_category_type'):  # 以第一个pred的类别作为最终显示类别
+        #     pred_pred_category_type = pred_items[pred_idx_list[0]]['fine_category_type']
+        # else:
+        #     pred_pred_category_type = pred_items[pred_idx_list[0]]['category_type']
         match_list.append({
             'gt_idx': [""],
             'gt': "",

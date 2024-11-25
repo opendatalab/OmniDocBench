@@ -3,6 +3,7 @@ import json
 import os
 import numpy as np
 from registry.registry import DATASET_REGISTRY
+from collections import defaultdict
 
 @DATASET_REGISTRY.register("detection_dataset")
 class DetectionDataset():
@@ -102,6 +103,123 @@ class DetectionDataset():
                     L, R = min(L, R), max(L, R)
                     U, D = min(U, D), max(U, D)
                     bboxes.append([L, U, R, D])
+                    labels.append(label_classes.index(class_name))
+                    scores.append(item['score'])
+            
+            preds.append({
+                'img_id': idx,
+                'bboxes': np.array(bboxes),
+                'scores': np.array(scores),
+                'labels': np.array(labels),
+            })
+        
+        return gts, preds
+    
+@DATASET_REGISTRY.register("detection_dataset_simple_format")
+class DetectionDatasetSimpleFormat():
+    def __init__(self, cfg_task):
+        gt_path = cfg_task['dataset']['ground_truth']['data_path']
+        pred_path = cfg_task['dataset']['prediction']['data_path']
+        label_classes = cfg_task['categories'].get('eval_cat', [])
+        gt_cat_mapping = cfg_task['categories']['gt_cat_mapping']
+        pred_cat_mapping = cfg_task['categories']['pred_cat_mapping']
+        filtered_types = cfg_task['dataset'].get('filter')
+        labels = []
+        det_res = []
+        pred_dict = defaultdict(list)
+
+        with open(os.path.join(pred_path), 'r') as f:
+            preds_sample = json.load(f)
+        basename = os.path.basename(pred_path)[:-5]
+        for pred in preds_sample['results']:
+            pred_dict[pred["image_name"]+'.jpg'].append(pred)
+
+        pred_name2cat = {name: int(cat) for cat, name in preds_sample["categories"].items()}
+        pred_cat_mapping = {pred_name2cat[cat]:name for cat, name in pred_cat_mapping.items()}
+        if not label_classes:   # 如果没有写最终需要验证的集合，就计算gt和pred共有的类别
+            label_classes = list(set(list(gt_cat_mapping.values())) | set(list(pred_cat_mapping.values())))
+        
+        with open(os.path.join(gt_path), 'r') as f:
+            gt_sample = json.load(f)
+        basename = os.path.basename(gt_path)[:-5]
+
+        filtered_gt_samples = []
+        if filtered_types:
+            for gt_sample in gt_sample:
+                select_flag = True
+                for k, v in filtered_types.items():
+                    if gt_sample["page_info"]["page_attribute"][k] != v:
+                        select_flag = False
+                if select_flag:
+                    filtered_gt_samples.append(gt_sample)
+        else:
+            filtered_gt_samples = gt_sample
+
+        for gt in filtered_gt_samples:
+            page_num = gt['page_info']['page_no']
+            if gt['page_info'].get('image_path'):
+                sample_name = gt['page_info']['image_path']
+            else:
+                sample_name = f'{basename}_{page_num}'
+            if pred_dict.get(sample_name):
+                det_res.append(pred_dict[sample_name])
+                labels.append(gt)
+            else:
+                print(f'No matching prediction for {sample_name}. It wiil be skipped.')
+
+        gts, preds = self.reformat_gt_and_pred(labels, det_res, label_classes, gt_cat_mapping, pred_cat_mapping)
+        self.samples = {
+            'gts': gts,
+            'preds': preds
+        }
+        # print(self.samples)
+        meta={'CLASSES':tuple(label_classes)}
+        self.coco_det_metric = COCODetection(dataset_meta=meta, metric=['bbox'], classwise=True)
+        
+    def reformat_gt_and_pred(self, labels, det_res, label_classes, gt_cat_mapping, pred_cat_mapping):
+        preds = []
+        gts = []
+        
+        for idx, (ann, pred) in enumerate(zip(labels, det_res)):
+            gt_bboxes = []
+            gt_labels = []
+            for item in ann['layout_dets']:
+                if gt_cat_mapping.get(item['category_type']):
+                    class_name = gt_cat_mapping[item['category_type']]
+                else:
+                    class_name = item['category_type']
+
+                if class_name in label_classes:
+                    L = item['poly'][0]
+                    U = item['poly'][1]
+                    R = item['poly'][4]
+                    D = item['poly'][5]
+                    L, R = min(L, R), max(L, R)
+                    U, D = min(U, D), max(U, D)
+                    gt_bboxes.append([L, U, R, D])
+                    gt_labels.append(label_classes.index(class_name))
+            
+            gts.append({
+                'img_id': idx,
+                'width': ann['page_info']['width'],
+                'height': ann['page_info']['height'],
+                'bboxes': np.array(gt_bboxes),
+                'labels': np.array(gt_labels),
+                'ignore_flags': [False]*len(gt_labels),
+            })
+            
+            bboxes = []
+            labels = []
+            scores = []
+
+            for item in pred:
+                if pred_cat_mapping.get(item["category_id"]):
+                    class_name = pred_cat_mapping[item["category_id"]]
+                else:
+                    class_name = item["category_id"]
+
+                if class_name in label_classes:
+                    bboxes.append(item['bbox'])
                     labels.append(label_classes.index(class_name))
                     scores.append(item['score'])
             

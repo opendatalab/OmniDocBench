@@ -47,5 +47,8 @@ if __name__ == '__main__':
             save_name = os.path.basename(cfg[task]['dataset']['prediction']['data_path']) + '_' + cfg[task]['dataset'].get('match_method', 'quick_match')
         else:
             save_name = os.path.basename(cfg[task]['dataset']['ground_truth']['data_path']).split('.')[0]
-        print('!!!!!! Process: ', save_name)
-        val_task(val_dataset, metrics_list, cfg[task]['dataset']['ground_truth']['data_path'], save_name)  # 按页面区分
+        print('###### Process: ', save_name)
+        if cfg[task]['dataset']['ground_truth'].get('page_info'):
+            val_task(val_dataset, metrics_list, cfg[task]['dataset']['ground_truth']['page_info'], save_name)  # 按页面区分
+        else:
+            val_task(val_dataset, metrics_list, cfg[task]['dataset']['ground_truth']['data_path'], save_name)  # 按页面区分

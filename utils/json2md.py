@@ -4,6 +4,7 @@ import json
 import os
 from collections import defaultdict
 import langid
+import re
 def poly2bbox(poly):
     L = poly[0]
     U = poly[1]
@@ -15,20 +16,27 @@ def poly2bbox(poly):
     return bbox
 
 
-table_format = 'latex'
+table_format = 'html'
 
-save_path = r'D:\pdf-bench\正式标注任务\1112md'
+save_path = r'/mnt/petrelfs/ouyanglinke/CDM_match/benchmark/md1120'
 save_path_imgs = os.path.join(save_path, 'imgs')
 
 os.makedirs(save_path, exist_ok=True)
 os.makedirs(save_path_imgs, exist_ok=True)
 
 # with open('/mnt/petrelfs/ouyanglinke/CDM_match/demo_data_v2/demo_val_dataset.json', 'r') as f:
-with open(r'D:\pdf-bench\正式标注任务\ocr-main-1105-update\export\ocr-main-1105-update.json', 'r', encoding='utf-8') as f:
+with open(r'/mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/ocr-main-1120.json', 'r', encoding='utf-8') as f:
         samples = json.load(f)
 
 def text_norm(text):
-    return text.replace('/t', '\t').replace('/n', '\n')
+    after_text = replace_repeated_chars(text)
+    return after_text.replace('/t', '\t').replace('/n', '\n')
+
+# 标准化所有连续的字符
+def replace_repeated_chars(input_str):
+    input_str = re.sub(r'_{4,}', '____', input_str) # 下划线连续超过4个替换成4个
+    input_str = re.sub(r' {4,}', '    ', input_str)   # 空格连续超过4个替换成4个
+    return re.sub(r'([^a-zA-Z0-9])\1{10,}', r'\1\1\1\1', input_str) # 其他连续符号，除了数字和字母以外，超过10个的话就替换成4个
 
 def remove_unencodable_characters(s, encoding):
     return s.encode(encoding, errors='ignore').decode(encoding)
@@ -98,12 +106,11 @@ for sample in samples:
     annos = sorted(merged_annos, key=lambda x: x['order'])
     img_name = os.path.basename(sample['page_info']['image_path'])
     # img_path = os.path.join('/mnt/petrelfs/ouyanglinke/CDM_match/demo_data_v2/new_demo_images', img_name)
-    img_path = os.path.join(r'D:\pdf-bench\正式标注任务\image', img_name)
+    img_path = os.path.join(r'/mnt/hwfile/opendatalab/ouyanglinke/PDF_Formula/Docparse/image_masked', img_name)
     img = Image.open(img_path)
 
     # md_path = os.path.join('/mnt/petrelfs/ouyanglinke/CDM_match/demo_data_v2/md_old', os.path.basename(sample['page_info']['image_path'])[:-4] + '.md')
     md_path = os.path.join(save_path, os.path.basename(sample['page_info']['image_path'])[:-4] + '.md')
-
 
     with open(md_path, 'w', encoding='utf-8') as f:
         for i, anno in enumerate(annos):
@@ -122,13 +129,13 @@ for sample in samples:
                 f.write(item[table_format])
                 f.write(sep)
             elif item.get('text'):
+                print (item["category_type"])
                 if item["category_type"] == 'title':
+                    print ("title", item['text'])
                     f.write('# ' + text_norm(item['text'].strip('#').strip()))
                     f.write(sep)
-                if item["category_type"] == "equation_caption":
-                    pass
                 else:
-                    #print ("==err==", item["text"])
+                    print ("==err==", item["text"])
                     f.write(text_norm(item['text']))
                     f.write(sep)  
             elif item.get('html'):
