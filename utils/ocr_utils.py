@@ -168,14 +168,14 @@ def merge_para_with_text(para_block):
     return para_text
 
 def poly2bbox(poly):
-        L = poly[0]
-        U = poly[1]
-        R = poly[2]
-        D = poly[5]
-        L, R = min(L, R), max(L, R)
-        U, D = min(U, D), max(U, D)
-        bbox = [L, U, R, D]
-        return bbox
+    L = poly[0]
+    U = poly[1]
+    R = poly[2]
+    D = poly[5]
+    L, R = min(L, R), max(L, R)
+    U, D = min(U, D), max(U, D)
+    bbox = [L, U, R, D]
+    return bbox
 
 def normalize_format(block, pred_spans):
     spans = []

@@ -9,16 +9,17 @@ detection_eval:   # layout
       data_path: ./check_data/layout_det/pred.json
   categories:
     eval_cat:
-      - title              # Title
-      - text_block         # Text
-      - abandon            # Includes headers, footers, page numbers, and page annotations
-      - figure             # Image
-      - figure_caption     # Image caption
-      - table              # Table
-      - table_caption      # Table caption
-      - table_footnote     # Table footnote
-      - isolate_formula    # Display formula (this is a layout display formula, lower priority than 14)
-      - formula_caption    # Display formula label
+      block_level:
+        - title              # Title
+        - text_block         # Text
+        - abandon            # Includes headers, footers, page numbers, and page annotations
+        - figure             # Image
+        - figure_caption     # Image caption
+        - table              # Table
+        - table_caption      # Table caption
+        - table_footnote     # Table footnote
+        - isolate_formula    # Display formula (this is a layout display formula, lower priority than 14)
+        - formula_caption    # Display formula label
     gt_cat_mapping:    # 这个字段主要是用来统一不同的模型之间类别的conflict的
       formula_caption: text_block
       headers: abandon

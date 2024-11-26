@@ -4,13 +4,27 @@ detection_eval:   # layout
   dataset: 
     dataset_name: detection_dataset_simple_format
     ground_truth:
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/ocr-main-1114.json
-      data_path: /mnt/hwfile/opendatalab/zhaozhiyuan/OmniDocBench/docparse_1107.json
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/ocr-main-1114.json
+      # data_path: /mnt/hwfile/opendatalab/zhaozhiyuan/OmniDocBench/docparse_1107.json
     prediction:
       data_path: /mnt/petrelfs/ouyanglinke/DocParseEval/det_test/predictions.json
     filter: 
       data_source: exam_paper
   categories:
+    eval_cat:
+      block_level:
+        - title              # Title
+        - text               # Text
+        - abandon            # Includes headers, footers, page numbers, and page annotations
+        - figure             # Image
+        - figure_caption     # Image caption
+        - table              # Table
+        - table_caption      # Table caption
+        - table_footnote     # Table footnote
+        - isolate_formula    # Display formula (this is a layout display formula, lower priority than 14)
+        - formula_caption    # Display formula label
+      span_level:
+        - inline_formula     # inline formula
     gt_cat_mapping:    # 这个字段主要是用来统一不同的模型之间类别的conflict的
       figure_footnote: figure_footnote
       figure_caption: figure_caption 
