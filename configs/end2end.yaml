@@ -19,9 +19,9 @@ end2end_eval:
   dataset:
     dataset_name: end2end_dataset
     ground_truth:
-      data_path: ../demo_data/omnidocbench_demo/OmniDocBench_demo.json
+      data_path: ./demo_data/omnidocbench_demo/OmniDocBench_demo.json
     prediction:
-      data_path: ../demo_data/end2end
+      data_path: ./demo_data/end2end
     match_method: quick_match
     # filter: 
     #   language: english

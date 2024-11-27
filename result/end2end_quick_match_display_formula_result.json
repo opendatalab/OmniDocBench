@@ -1,0 +1,536 @@
+[
+    {
+        "gt_idx": [
+            0
+        ],
+        "gt": "$$\n\\left[ U ( x ), \\Pi^{U} ( y ) \\right]=\\delta( x-y )，\n$$",
+        "pred_idx": [
+            1,
+            2
+        ],
+        "pred": "\\[H\\]\\[[U(x),\\Pi^U(y)]=\\delta(x-y),\\]",
+        "edit": 0.425531914893617,
+        "gt_position": [
+            2
+        ],
+        "pred_position": 138,
+        "norm_gt": "$$\n\\left[u(x),\\pi^{u}(y)\\right]=\\delta(x-y)，\n$$",
+        "norm_pred": "h[u(x),\\pi^u(y)]=\\delta(x-y),",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_inline",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 47,
+        "metric": {
+            "Edit_dist": 0.425531914893617
+        },
+        "Edit_num": 20
+    },
+    {
+        "gt_idx": [
+            1
+        ],
+        "gt": "$$\n( \\Sigma, \\Sigma_{i} )=\\left(-\\partial_{k} \\Pi_{k}^{V}, \\varepsilon^{i j k} \\partial_{j} \\left( \\Pi_{k}^{B}-m V_{k} \\right)-\\mu^{2} B_{i} \\right).\n$$",
+        "pred_idx": [
+            4
+        ],
+        "pred": "\\[(\\Sigma,\\Sigma_i)=(-\\partial_k\\Pi_k^L,\\epsilon^{ijk}\\partial_j(\\Pi_k^B-mV_k)-\\mu^2B_i).\\tag{14}\\]",
+        "edit": 0.38405797101449274,
+        "gt_position": [
+            5
+        ],
+        "pred_position": 318,
+        "norm_gt": "$$\n(\\sigma,\\sigma_{i})=\\left(-\\partial_{k}\\pi_{k}^{v},\\varepsilon^{ijk}\\partial_{j}\\left(\\pi_{k}^{b}-mv_{k}\\right)-\\mu^{2}b_{i}\\right).\n$$",
+        "norm_pred": "(\\sigma,\\sigma_i)=(-\\partial_k\\pi_k^l,\\epsilon^{ijk}\\partial_j(\\pi_k^b-mv_k)-\\mu^2b_i)",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_isolated",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 138,
+        "metric": {
+            "Edit_dist": 0.38405797101449274
+        },
+        "Edit_num": 53
+    },
+    {
+        "gt_idx": [
+            2
+        ],
+        "gt": "$$\nT_{k} \\equiv\\mu^{2} \\varPi_{k}^{B}=0\n$$",
+        "pred_idx": [
+            12
+        ],
+        "pred": "\\[\\Pi_k\\equiv\\mu^2\\Pi_k^B=0\\]",
+        "edit": 0.45,
+        "gt_position": [
+            8
+        ],
+        "pred_position": 763,
+        "norm_gt": "$$\nt_{k}\\equiv\\mu^{2}\\varpi_{k}^{b}=0\n$$",
+        "norm_pred": "\\pi_k\\equiv\\mu^2\\pi_k^b=0",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_isolated",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 40,
+        "metric": {
+            "Edit_dist": 0.45
+        },
+        "Edit_num": 18
+    },
+    {
+        "gt_idx": [
+            3
+        ],
+        "gt": "$$\n\\left[ T_{k} ( x ), \\, \\varSigma_{i} ( y ) \\right]=\\mu^{4} \\delta_{i k} \\delta( x-y ).\n$$",
+        "pred_idx": [
+            14,
+            15
+        ],
+        "pred": "\\[\\Pi_k\\]\\[[T_k(x),\\Sigma(y)]=\\mu^4\\delta_{ik}\\delta(x-y).\\]",
+        "edit": 0.4025974025974026,
+        "gt_position": [
+            11
+        ],
+        "pred_position": 821,
+        "norm_gt": "$$\n\\left[t_{k}(x),\\,\\varsigma_{i}(y)\\right]=\\mu^{4}\\delta_{ik}\\delta(x-y).\n$$",
+        "norm_pred": "\\pi_k[t_k(x),\\sigma(y)]=\\mu^4\\delta_{ik}\\delta(x-y)",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_inline",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 77,
+        "metric": {
+            "Edit_dist": 0.38961038961038963
+        },
+        "Edit_num": 30
+    },
+    {
+        "gt_idx": [
+            4
+        ],
+        "gt": "$$\n\\left( \\gamma^{U}, \\gamma_{k}^{A}, \\gamma^{V} \\right)=\\left( U, A_{k}, \\partial_{k} V_{k} \\right)=0.\n$$",
+        "pred_idx": [
+            26,
+            27
+        ],
+        "pred": "\\[A_k\\]\\[(\\gamma^U,\\gamma_k^A,\\gamma^V)=(U,A_k,\\partial_kV_k)=0.\\]",
+        "edit": 0.44329896907216493,
+        "gt_position": [
+            14
+        ],
+        "pred_position": 1423,
+        "norm_gt": "$$\n\\left(\\gamma^{u},\\gamma_{k}^{a},\\gamma^{v}\\right)=\\left(u,a_{k},\\partial_{k}v_{k}\\right)=0.\n$$",
+        "norm_pred": "a_k(\\gamma^u,\\gamma_k^a,\\gamma^v)=(u,a_k,\\partial_kv_k)=0",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_inline",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 97,
+        "metric": {
+            "Edit_dist": 0.44329896907216493
+        },
+        "Edit_num": 43
+    },
+    {
+        "gt_idx": [
+            5
+        ],
+        "gt": "$$\nV_{i}^{T} \\equiv\\big( \\delta_{i j}-\\partial_{i} \\partial_{j} / \\partial^{2} \\big) V_{j}.\n$$",
+        "pred_idx": [
+            30
+        ],
+        "pred": "\\[V_i^T=(\\delta_{ij}-\\partial_i\\partial_j/\\partial^2)V_j.\\]",
+        "edit": 0.38372093023255816,
+        "gt_position": [
+            17
+        ],
+        "pred_position": 1747,
+        "norm_gt": "$$\nv_{i}^{t}\\equiv\\big(\\delta_{ij}-\\partial_{i}\\partial_{j}/\\partial^{2}\\big)v_{j}.\n$$",
+        "norm_pred": "v_i^t=(\\delta_{ij}-\\partial_i\\partial_j/\\partial^2)v_j",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_isolated",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 86,
+        "metric": {
+            "Edit_dist": 0.38372093023255816
+        },
+        "Edit_num": 33
+    },
+    {
+        "gt_idx": [
+            6
+        ],
+        "gt": "$$\n\\mathbf{\\nabla} \\times\\mathbf{V}^{L} \\equiv0 \\equiv\\mathbf{\\nabla} \\cdot\\mathbf{V}^{T}，\n$$",
+        "pred_idx": [
+            36
+        ],
+        "pred": "\\[\\nabla\\timesV^L\\equiv0\\equiv\\nabla\\cdotV^T,\\]",
+        "edit": 0.3114754098360656,
+        "gt_position": [
+            20
+        ],
+        "pred_position": 2081,
+        "norm_gt": "$$\n{\\nabla}\\times{v}^{l}\\equiv0\\equiv{\\nabla}\\cdot{v}^{t}，\n$$",
+        "norm_pred": "\\nabla\\timesv^l\\equiv0\\equiv\\nabla\\cdotv^t,",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_inline",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 61,
+        "metric": {
+            "Edit_dist": 0.3114754098360656
+        },
+        "Edit_num": 19
+    },
+    {
+        "gt_idx": [
+            7
+        ],
+        "gt": "$$\n\\begin{array} {l} {{{2 L=\\left( \\dot{\\mathbf{B}}^{L} \\right)^{2}-\\left( \\nabla\\cdot\\mathbf{B}^{L} \\right)^{2}+\\left[ \\dot{\\mathbf{B}}^{T}-\\nabla\\times\\mathbf{A}^{T} \\right]^{2}+\\left( \\dot{\\mathbf{V}}^{T} \\right)^{2}-\\left( \\nabla\\times\\mathbf{V}^{T} \\right)^{2}+\\left[ \\dot{\\mathbf{V}}^{L}-\\nabla U \\right]^{2}}}} \\\\ {{{\\ \\ \\ +2 m \\left[ \\mathbf{V}^{T} \\cdot\\left( \\nabla\\times\\mathbf{A}^{T} \\right)+\\mathbf{B}^{L} \\cdot\\dot{\\mathbf{V}}^{L}+\\mathbf{B}^{T} \\cdot\\dot{\\mathbf{V}}^{T}-\\mathbf{B}^{L} \\cdot\\nabla U \\right]+2 \\mu^{2} \\left[ \\mathbf{A}^{T} \\cdot\\mathbf{B}^{T}+\\mathbf{A}^{L} \\cdot\\mathbf{B}^{L} \\right]}}} \\\\ \\end{array}.\n$$",
+        "pred_idx": [
+            38
+        ],
+        "pred": "\\[2L=(\\dot{B}^L)^2-(\\nabla\\cdotB^L)^2+[\\dot{B}^T-\\nabla\\timesA^T]^2+(\\dot{V}^T)^2-(\\nabla\\timesV^T)^2+[\\dot{V}^L-\\nablaU]^2+2m[V^T\\cdot(\\nabla\\timesA^T)+B^L\\cdot\\dot{V}^L+B^T\\cdot\\dot{V}^T-B^L\\cdot\\nablaU]+2\\mu^2[A^T\\cdotB^T+A^L\\cdotB^L].\\]",
+        "edit": 0.4766146993318486,
+        "gt_position": [
+            23
+        ],
+        "pred_position": 2122,
+        "norm_gt": "$$\n{l}{{{2l=\\left(\\dot{{b}}^{l}\\right)^{2}-\\left(\\nabla\\cdot{b}^{l}\\right)^{2}+\\left[\\dot{{b}}^{t}-\\nabla\\times{a}^{t}\\right]^{2}+\\left(\\dot{{v}}^{t}\\right)^{2}-\\left(\\nabla\\times{v}^{t}\\right)^{2}+\\left[\\dot{{v}}^{l}-\\nablau\\right]^{2}}}}\\\\{{{\\\\\\+2m\\left[{v}^{t}\\cdot\\left(\\nabla\\times{a}^{t}\\right)+{b}^{l}\\cdot\\dot{{v}}^{l}+{b}^{t}\\cdot\\dot{{v}}^{t}-{b}^{l}\\cdot\\nablau\\right]+2\\mu^{2}\\left[{a}^{t}\\cdot{b}^{t}+{a}^{l}\\cdot{b}^{l}\\right]}}}\\\\.\n$$",
+        "norm_pred": "2l=(\\dot{b}^l)^2-(\\nabla\\cdotb^l)^2+[\\dot{b}^t-\\nabla\\timesa^t]^2+(\\dot{v}^t)^2-(\\nabla\\timesv^t)^2+[\\dot{v}^l-\\nablau]^2+2m[v^t\\cdot(\\nabla\\timesa^t)+b^l\\cdot\\dot{v}^l+b^t\\cdot\\dot{v}^t-b^l\\cdot\\nablau]+2\\mu^2[a^t\\cdotb^t+a^l\\cdotb^l]",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_inline",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 449,
+        "metric": {
+            "Edit_dist": 0.4766146993318486
+        },
+        "Edit_num": 214
+    },
+    {
+        "gt_idx": [
+            8
+        ],
+        "gt": "$$\n{\\bf B}^{L}=0={\\dot{\\bf V}}^{L}-\\nabla U，\n$$",
+        "pred_idx": [
+            39,
+            40,
+            41
+        ],
+        "pred": "\\[A^L\\]\\[U\\]\\[B^L=0=\\dot{V}^L-\\nablaU,\\]",
+        "edit": 0.4772727272727273,
+        "gt_position": [
+            26
+        ],
+        "pred_position": 2147,
+        "norm_gt": "$$\n{\\bfb}^{l}=0={\\dot{\\bfv}}^{l}-\\nablau，\n$$",
+        "norm_pred": "a^lub^l=0=\\dot{v}^l-\\nablau,",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_inline",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 44,
+        "metric": {
+            "Edit_dist": 0.4772727272727273
+        },
+        "Edit_num": 21
+    },
+    {
+        "gt_idx": [
+            9
+        ],
+        "gt": "$$\n2 L=\\left( {\\dot{\\mathbf{V}}}^{T} \\right)^{2}-\\left( \\nabla\\times\\mathbf{V}^{T} \\right)^{2}+\\left[ {\\dot{\\mathbf{B}}}^{T}-\\nabla\\times\\mathbf{A}^{T} \\right]^{2}+2 m \\mathbf{V}^{T} \\cdot\\left( \\nabla\\times\\mathbf{A}^{T} \\right)+2 m \\mathbf{B}^{T} \\cdot{\\dot{\\mathbf{V}}}^{T}+2 \\mu^{2} \\mathbf{A}^{T} \\cdot\\mathbf{B}^{T}.\n$$",
+        "pred_idx": [
+            43
+        ],
+        "pred": "\\[2L=(\\dot{V}^T)^2-(\\nabla\\timesV^T)^2+[\\dot{B}^T-\\nabla\\timesA^T]^2+2mV^T\\cdot(\\nabla\\timesA^T)+2mB^T\\cdot\\dot{V}^T+2\\mu^2A^T\\cdotB^T.\\]",
+        "edit": 0.4430379746835443,
+        "gt_position": [
+            29
+        ],
+        "pred_position": 2271,
+        "norm_gt": "$$\n2l=\\left({\\dot{{v}}}^{t}\\right)^{2}-\\left(\\nabla\\times{v}^{t}\\right)^{2}+\\left[{\\dot{{b}}}^{t}-\\nabla\\times{a}^{t}\\right]^{2}+2m{v}^{t}\\cdot\\left(\\nabla\\times{a}^{t}\\right)+2m{b}^{t}\\cdot{\\dot{{v}}}^{t}+2\\mu^{2}{a}^{t}\\cdot{b}^{t}.\n$$",
+        "norm_pred": "2l=(\\dot{v}^t)^2-(\\nabla\\timesv^t)^2+[\\dot{b}^t-\\nabla\\timesa^t]^2+2mv^t\\cdot(\\nabla\\timesa^t)+2mb^t\\cdot\\dot{v}^t+2\\mu^2a^t\\cdotb^t",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_isolated",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 237,
+        "metric": {
+            "Edit_dist": 0.4430379746835443
+        },
+        "Edit_num": 105
+    },
+    {
+        "gt_idx": [
+            10
+        ],
+        "gt": "$$\n\\mathbf{A}^{T} \\cdot\\mathbf{B}^{T}=-\\big( \\nabla\\times\\mathbf{A}^{T} \\big) \\cdot\\big( \\nabla^{2} \\big)^{-1} \\big( \\nabla\\times\\mathbf{B}^{T} \\big)，\n$$",
+        "pred_idx": [
+            44
+        ],
+        "pred": "\\[A^T\\cdotB^T=-(\\nabla\\timesA^T)\\cdot(\\nabla^2)^{-1}(\\nabla\\timesB^T),\\]",
+        "edit": 0.4224137931034483,
+        "gt_position": [
+            32
+        ],
+        "pred_position": 2565,
+        "norm_gt": "$$\n{a}^{t}\\cdot{b}^{t}=-\\big(\\nabla\\times{a}^{t}\\big)\\cdot\\big(\\nabla^{2}\\big)^{-1}\\big(\\nabla\\times{b}^{t}\\big)，\n$$",
+        "norm_pred": "a^t\\cdotb^t=-(\\nabla\\timesa^t)\\cdot(\\nabla^2)^{-1}(\\nabla\\timesb^t),",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_isolated",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 116,
+        "metric": {
+            "Edit_dist": 0.4224137931034483
+        },
+        "Edit_num": 49
+    },
+    {
+        "gt_idx": [
+            11
+        ],
+        "gt": "$$\n\\nabla\\times{\\bf A}^{T}=\\dot{{\\bf B}}^{T}-m {\\bf V}^{T}+\\mu^{2} \\big( \\nabla^{2} \\big)^{-1} \\big( \\nabla\\times{\\bf B}^{T} \\big).\n$$",
+        "pred_idx": [
+            47
+        ],
+        "pred": "\\[\\nabla\\timesA^T=\\dot{B}^T-mV^T+\\mu^2(\\nabla^2)^{-1}(\\nabla\\timesB^T).\\]",
+        "edit": 0.44715447154471544,
+        "gt_position": [
+            35
+        ],
+        "pred_position": 2654,
+        "norm_gt": "$$\n\\nabla\\times{\\bfa}^{t}=\\dot{{\\bfb}}^{t}-m{\\bfv}^{t}+\\mu^{2}\\big(\\nabla^{2}\\big)^{-1}\\big(\\nabla\\times{\\bfb}^{t}\\big).\n$$",
+        "norm_pred": "\\nabla\\timesa^t=\\dot{b}^t-mv^t+\\mu^2(\\nabla^2)^{-1}(\\nabla\\timesb^t)",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_isolated",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 123,
+        "metric": {
+            "Edit_dist": 0.44715447154471544
+        },
+        "Edit_num": 55
+    },
+    {
+        "gt_idx": [
+            0
+        ],
+        "gt": "$$\nB[u,v]=\\int_{U}\\sum_{i,j}a^{i j}u_{x_{i}}v_{x_{j}}\\,d x\\mathrm{~for~}u\\in H^{1}(U),v\\in H_{0}^{1}(U).\n$$",
+        "pred_idx": [
+            3
+        ],
+        "pred": "\\[B[u,v]=\\int_U\\sum_{i,j}a^{ij}u_{x_i}v_{x_j}\\,dx\\text{for}u\\inH^1(U),v\\inH^1_0(U).\\]",
+        "edit": 0.25,
+        "gt_position": [
+            5
+        ],
+        "pred_position": 523,
+        "norm_gt": "$$\nb[u,v]=\\int_{u}\\sum_{i,j}a^{ij}u_{x_{i}}v_{x_{j}}\\,dx{~for~}u\\inh^{1}(u),v\\inh_{0}^{1}(u).\n$$",
+        "norm_pred": "b[u,v]=\\int_u\\sum_{i,j}a^{ij}u_{x_i}v_{x_j}\\,dx{for}u\\inh^1(u),v\\inh^1_0(u)",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_isolated",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "jiaocaineedrop_Evans_PDE_Solution_Chapter_6_Second-Order_Elliptic_Equations.pdf_5.jpg",
+        "image_name": "jiaocaineedrop_Evans_PDE_Solution_Chapter_6_Second-Order_Elliptic_Equations.pdf_5.jpg",
+        "upper_len": 96,
+        "metric": {
+            "Edit_dist": 0.25
+        },
+        "Edit_num": 24
+    },
+    {
+        "gt_idx": [
+            2
+        ],
+        "gt": "$$\n\\begin{aligned} {{-a^{i j} w_{x_{i} x_{j}}}} & {{} {{}=\\frac{-a^{i j} u_{x_{i} x_{j}} v+a^{i j} v_{x_{i} x_{j}} u} {v^{2}}+\\frac{a^{i j} v_{x_{i}} u_{x_{j}}-a^{i j} u_{x_{i}} v_{x_{j}}} {v^{2}}-a^{i j} \\frac{2} {v} v_{x_{j}}  \\frac{v_{x_{i}} u-v u_{x_{i}}} {v^{2}}}} \n\\\\ {{}} & {{} {} {{}=\\frac{( L u-b^{i} u_{x_{i}}-c u ) v+(-L v+b^{i} v_{x_{i}}+c v ) u} {v^{2}}+0+a^{i j} \\frac{2} {v} v_{x_{j}} w_{x_{i}}, \\ \\mathrm{s i n c e} \\ a^{i j}-a^{j i}.}} \n\\\\ {{}} & {{} {} {{}=\\frac{L u} {v}-\\frac{u L v} {v^{2}}-b^{i} w_{x_{i}}+a^{i j} \\frac{2} {v} w_{x_{j}} w_{x_{i}}}} \\\\ \\end{aligned}\n$$",
+        "pred_idx": [
+            20,
+            21,
+            22
+        ],
+        "pred": "\\[-a^{ij}w_{x_ix_j}=-a^{ij}u_{x_ix_j}v+a^{ij}v_{x_ix_j}u+\\frac{a^{ij}v_{x_i}u_{x_j}-a^{ij}u_{x_i}v_{x_j}}{v^2}-a^{ij}\\frac{2}{v}v_{x_i}u_{x_j}-\\frac{vu_{x_i}}{v^2}\\]\\[=(Lu-b^iu_{x_i}-cw)v+(-Lu+b^iv_{x_i}+cv)u\\]\\[=\\frac{Lu}{v}-\\frac{uLv}{v^2}-b^iu_{x_i}+a^{ij}\\frac{2}{v}v_{x_j}w_{x_i},\\text{since}a^{ij}=a^{ji}.\\]",
+        "edit": 0.474468085106383,
+        "gt_position": [
+            10
+        ],
+        "pred_position": 1634,
+        "norm_gt": "$$\n{{-a^{ij}w_{x_{i}x_{j}}}}&{{}{{}=\\frac{-a^{ij}u_{x_{i}x_{j}}v+a^{ij}v_{x_{i}x_{j}}u}{v^{2}}+\\frac{a^{ij}v_{x_{i}}u_{x_{j}}-a^{ij}u_{x_{i}}v_{x_{j}}}{v^{2}}-a^{ij}\\frac{2}{v}v_{x_{j}}\\frac{v_{x_{i}}u-vu_{x_{i}}}{v^{2}}}}\n\\\\{{}}&{{}{}{{}=\\frac{(lu-b^{i}u_{x_{i}}-cu)v+(-lv+b^{i}v_{x_{i}}+cv)u}{v^{2}}+0+a^{ij}\\frac{2}{v}v_{x_{j}}w_{x_{i}},\\{since}\\a^{ij}-a^{ji}.}}\n\\\\{{}}&{{}{}{{}=\\frac{lu}{v}-\\frac{ulv}{v^{2}}-b^{i}w_{x_{i}}+a^{ij}\\frac{2}{v}w_{x_{j}}w_{x_{i}}}}\\\\\n$$",
+        "norm_pred": "-a^{ij}w_{x_ix_j}=-a^{ij}u_{x_ix_j}v+a^{ij}v_{x_ix_j}u+\\frac{a^{ij}v_{x_i}u_{x_j}-a^{ij}u_{x_i}v_{x_j}}{v^2}-a^{ij}\\frac{2}{v}v_{x_i}u_{x_j}-\\frac{vu_{x_i}}{v^2}=(lu-b^iu_{x_i}-cw)v+(-lu+b^iv_{x_i}+cv)u=\\frac{lu}{v}-\\frac{ulv}{v^2}-b^iu_{x_i}+a^{ij}\\frac{2}{v}v_{x_j}w_{x_i},{since}a^{ij}=a^{ji}",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_isolated",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "jiaocaineedrop_Evans_PDE_Solution_Chapter_6_Second-Order_Elliptic_Equations.pdf_5.jpg",
+        "image_name": "jiaocaineedrop_Evans_PDE_Solution_Chapter_6_Second-Order_Elliptic_Equations.pdf_5.jpg",
+        "upper_len": 470,
+        "metric": {
+            "Edit_dist": 0.474468085106383
+        },
+        "Edit_num": 223
+    },
+    {
+        "gt_idx": [
+            3
+        ],
+        "gt": "$$\nM w:=-a^{i j}w_{x_{i}x_{j}}+w_{x_{i}}\\big[b^{i}-a^{i j}\\frac{2}{v}v_{x_{j}}\\big]=\\frac{L u}{v}-\\frac{u L v}{v^{2}}\\leq0\\;\\;\\mathrm{on}\\;\\{x\\in\\bar{U}:u>0\\}\\subseteq U\n$$",
+        "pred_idx": [
+            23
+        ],
+        "pred": "\\[Mw:=-a^{ij}w_{x_ix_j}+w_{x_i}\\left[b^i-a^{ij}\\frac{2}{v}v_{x_j}\\right]=\\frac{Lu}{v}-\\frac{uLv}{v^2}\\leq0\\text{on}\\{x\\in\\bar{U}:u>0\\}\\subseteqU\\]",
+        "edit": 0.1962025316455696,
+        "gt_position": [
+            12
+        ],
+        "pred_position": 2042,
+        "norm_gt": "$$\nmw:=-a^{ij}w_{x_{i}x_{j}}+w_{x_{i}}\\big[b^{i}-a^{ij}\\frac{2}{v}v_{x_{j}}\\big]=\\frac{lu}{v}-\\frac{ulv}{v^{2}}\\leq0\\;\\;{on}\\;\\{x\\in\\bar{u}:u>0\\}\\subsetequ\n$$",
+        "norm_pred": "mw:=-a^{ij}w_{x_ix_j}+w_{x_i}\\left[b^i-a^{ij}\\frac{2}{v}v_{x_j}\\right]=\\frac{lu}{v}-\\frac{ulv}{v^2}\\leq0{on}\\{x\\in\\bar{u}:u>0\\}\\subsetequ",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_isolated",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "jiaocaineedrop_Evans_PDE_Solution_Chapter_6_Second-Order_Elliptic_Equations.pdf_5.jpg",
+        "image_name": "jiaocaineedrop_Evans_PDE_Solution_Chapter_6_Second-Order_Elliptic_Equations.pdf_5.jpg",
+        "upper_len": 158,
+        "metric": {
+            "Edit_dist": 0.1962025316455696
+        },
+        "Edit_num": 31
+    },
+    {
+        "gt_idx": [
+            4
+        ],
+        "gt": "$$\n0<\\frac{max}{u>0}\\omega=\\operatorname*{max}_{\\partial\\{u>0\\}}w=\\frac{0}{v}=0\n$$",
+        "pred_idx": [
+            27
+        ],
+        "pred": "\\[0<\\max_{\\{u>0\\}}w=\\max_{\\partial\\{u>0\\}}w=\\frac{0}{v}=0\\]",
+        "edit": 0.3333333333333333,
+        "gt_position": [
+            14
+        ],
+        "pred_position": 2420,
+        "norm_gt": "$$\n0<\\frac{max}{u>0}\\omega=*{max}_{\\partial\\{u>0\\}}w=\\frac{0}{v}=0\n$$",
+        "norm_pred": "0<\\max_{\\{u>0\\}}w=\\max_{\\partial\\{u>0\\}}w=\\frac{0}{v}=0",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_isolated",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "jiaocaineedrop_Evans_PDE_Solution_Chapter_6_Second-Order_Elliptic_Equations.pdf_5.jpg",
+        "image_name": "jiaocaineedrop_Evans_PDE_Solution_Chapter_6_Second-Order_Elliptic_Equations.pdf_5.jpg",
+        "upper_len": 69,
+        "metric": {
+            "Edit_dist": 0.3333333333333333
+        },
+        "Edit_num": 23
+    },
+    {
+        "gt_idx": [
+            1
+        ],
+        "gt": "$$\n\\begin{align}\nB\\left [ \\phi \\left ( u \\right ),v  \\right ] & = \\int_{U}^{} \\sum_{i,j}^{} a^{ij} \\left ( \\phi \\left ( u \\right )  \\right ) _{x_{i} }v_{x_{j} }dx  \n\\\\ & = \\int_{U}^{}\\sum_{i,j}^{} a^{ij}\\phi{}' \\left ( u \\right )u_{x_{i} }v_{x_{j} } dx,\\left ( \\phi{}'\\left ( u \\right ) is~bounded~since~u~is~bounded \\right )\n\\\\ & = \\int_{U}^{}\\sum_{i,j}^{} a^{ij}u_{x_{i} } \\left (\\phi {}' \\left ( u \\right ) v  \\right ) _{x_{j} }-\\sum_{i,j}^{}a_{ij}\\phi{}'' \\left ( u \\right ) u_{x_{i} }u_{x_{j}}v~dx\n\\\\\\le 0-\\int_{U}^{}\\phi {\\left ( u \\right ) }''  v\\left | Du \\right |^{2}dx\\le 0,~by~convexity~of~\\phi\\end{align}\n$$",
+        "pred_idx": [
+            8
+        ],
+        "pred": "\\[=\\int_U\\sum_{i,j}a^{ij}u_{x_i}(\\phi'(u)v)_{x_j}-\\sum_{i,j}a_{ij}\\phi''(u)u_{x_i}u_{x_j}v\\,dx\\]",
+        "edit": 1,
+        "gt_position": [
+            7
+        ],
+        "pred_position": 940,
+        "norm_gt": "$$\n\nb\\left[\\phi\\left(u\\right),v\\right]&=\\int_{u}^{}\\sum_{i,j}^{}a^{ij}\\left(\\phi\\left(u\\right)\\right)_{x_{i}}v_{x_{j}}dx\n\\\\&=\\int_{u}^{}\\sum_{i,j}^{}a^{ij}\\phi{}'\\left(u\\right)u_{x_{i}}v_{x_{j}}dx,\\left(\\phi{}'\\left(u\\right)is~bounded~since~u~is~bounded\\right)\n\\\\&=\\int_{u}^{}\\sum_{i,j}^{}a^{ij}u_{x_{i}}\\left(\\phi{}'\\left(u\\right)v\\right)_{x_{j}}-\\sum_{i,j}^{}a_{ij}\\phi{}''\\left(u\\right)u_{x_{i}}u_{x_{j}}v~dx\n\\\\\\le0-\\int_{u}^{}\\phi{\\left(u\\right)}''v\\left|du\\right|^{2}dx\\le0,~by~convexity~of~\\phi\n$$",
+        "norm_pred": "=\\int_u\\sum_{i,j}a^{ij}u_{x_i}(\\phi'(u)v)_{x_j}-\\sum_{i,j}a_{ij}\\phi''(u)u_{x_i}u_{x_j}v\\,dx",
+        "gt_category_type": "equation_isolated",
+        "pred_category_type": "equation_isolated",
+        "gt_attribute": [
+            {
+                "formula_type": "print"
+            }
+        ],
+        "img_id": "jiaocaineedrop_Evans_PDE_Solution_Chapter_6_Second-Order_Elliptic_Equations.pdf_5.jpg",
+        "image_name": "jiaocaineedrop_Evans_PDE_Solution_Chapter_6_Second-Order_Elliptic_Equations.pdf_5.jpg",
+        "upper_len": 503,
+        "metric": {
+            "Edit_dist": 0.8190854870775348
+        },
+        "Edit_num": 412
+    }
+]

@@ -48,7 +48,7 @@ python pdf_validation.py --config <config_path>
 
 我们推荐使用`end2end`的评测方式，因为该方式可以保留sample的类别和属性信息，从而帮助进行特殊类别ignore的操作，以及分属性的结果输出。
 
-`end2end`的评测可以对四个维度进行评测，包括:
+`end2end`的评测可以对四个维度进行评测，我们提供了一个end2end的评测结果示例在[result](./result)中，包括:
 - 文本段落
 - 行间公式
 - 表格
@@ -78,9 +78,9 @@ end2end_eval:          # 指定task名称，端到端评测通用该task
   dataset:                                       # 数据集配置
     dataset_name: end2end_dataset                # 数据集名称，无需修改
     ground_truth:
-      data_path: ../demo_data/omnidocbench_demo/OmniDocBench_demo.json  # OmniDocBench的路径
+      data_path: ./demo_data/omnidocbench_demo/OmniDocBench_demo.json  # OmniDocBench的路径
     prediction:
-      data_path: ../demo_data/end2end            # 模型对PDF页面解析markdown结果的文件夹路径
+      data_path: ./demo_data/end2end            # 模型对PDF页面解析markdown结果的文件夹路径
     match_method: quick_match                    # 匹配方式，可选有: no_split/no_split/quick_match
     filter:                                      # 页面级别的筛选
       language: english                          # 需要评测的页面属性以及对应标签
@@ -133,10 +133,10 @@ end2end_eval:          # 指定task名称，端到端评测通用该task
   dataset:                                               # 数据集配置
     dataset_name: md2md_dataset                          # 数据集名称，无需修改
     ground_truth:                                        # 针对ground truth的数据集配置
-      data_path: ../demo_data/omnidocbench_demo/mds      # OmniDocBench的markdown文件夹路径
-      page_info: ../demo_data/omnidocbench_demo/OmniDocBench_demo.json          # OmniDocBench的JSON文件路径，主要是用于获取页面级别的属性
+      data_path: ./demo_data/omnidocbench_demo/mds      # OmniDocBench的markdown文件夹路径
+      page_info: ./demo_data/omnidocbench_demo/OmniDocBench_demo.json          # OmniDocBench的JSON文件路径，主要是用于获取页面级别的属性
     prediction:                                          # 针对模型预测结果的配置
-      data_path: ../demo_data/end2end                    # 模型对PDF页面解析markdown结果的文件夹路径
+      data_path: ./demo_data/end2end                    # 模型对PDF页面解析markdown结果的文件夹路径
     match_method: quick_match                            # 匹配方式，可选有: no_split/no_split/quick_match
     filter:                                              # 页面级别的筛选
       language: english                                  # 需要评测的页面属性以及对应标签
@@ -333,9 +333,9 @@ detection_eval:   # 指定task名称，所有的检测相关的任务通用此ta
   dataset: 
     dataset_name: detection_dataset_simple_format       # 数据集名称，如果按照规定的输入格式则不需要修改
     ground_truth:
-      data_path: ../demo_data/omnidocbench_demo/OmniDocBench_demo.json               # OmniDocBench的JSON文件路径
+      data_path: ./demo_data/omnidocbench_demo/OmniDocBench_demo.json               # OmniDocBench的JSON文件路径
     prediction:
-      data_path: ../demo_data/detection/detection_prediction.json                    # 模型预测结果JSON文件路径
+      data_path: ./demo_data/detection/detection_prediction.json                    # 模型预测结果JSON文件路径
     filter:                                             # 页面级别的筛选
       data_source: exam_paper                           # 需要评测的页面属性以及对应标签
   categories:
@@ -413,9 +413,9 @@ detection_eval:   # 指定task名称，所有的检测相关的任务通用此ta
   dataset: 
     dataset_name: detection_dataset_simple_format       # 数据集名称，如果按照规定的输入格式则不需要修改
     ground_truth:
-      data_path: .../demo_data/omnidocbench_demo/OmniDocBench_demo.json               # OmniDocBench的JSON文件路径
+      data_path: ./demo_data/omnidocbench_demo/OmniDocBench_demo.json               # OmniDocBench的JSON文件路径
     prediction:
-      data_path: ../demo_data/detection/detection_prediction.json                     # 模型预测结果JSON文件路径
+      data_path: ./demo_data/detection/detection_prediction.json                     # 模型预测结果JSON文件路径
     filter:                                             # 页面级别的筛选
       data_source: exam_paper                           # 需要评测的页面属性以及对应标签
   categories:

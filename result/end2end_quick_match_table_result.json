@@ -1,0 +1,402 @@
+[
+    {
+        "gt_idx": [
+            0
+        ],
+        "gt": "<html><body><table  border=\"1\" ><tr><td rowspan=\"2\">PAHscompounds</td><td colspan=\"3\">%Recovery$\\pm$RSD</td></tr><tr><td>Soxtec</td><td>Soxhlet</td><td>PLE</td></tr><tr><td>NAP</td><td>68.3$\\pm$19.7</td><td>65.6$\\pm$1.4</td><td>60.0$\\pm$8.2</td></tr><tr><td>ACY</td><td>61.5$\\pm$5.6</td><td>79.6$\\pm$0.77</td><td>66.4$\\pm$5.2</td></tr><tr><td>ACE</td><td>65.3$\\pm$14.4</td><td>73.9$\\pm$2.2</td><td>74.8$\\pm$7.9</td></tr><tr><td>FLU</td><td>71.9$\\pm$22.7</td><td>82.5$\\pm$0.59</td><td>75.3$\\pm$17.5</td></tr><tr><td>PHE</td><td>84.7$\\pm$16.3</td><td>83.9$\\pm$1.8</td><td>88.2$\\pm$2.9</td></tr><tr><td>ANT</td><td>88.2$\\pm$11.1</td><td>91.8$\\pm$1.1</td><td>87.9$\\pm$7.6</td></tr><tr><td>FLT</td><td>63.2$\\pm$11.7</td><td>86.3$\\pm$2.7</td><td>86.4$\\pm$9.2</td></tr><tr><td>PYR</td><td>64.7$\\pm$17.6</td><td>90.2$\\pm$3.7</td><td>86.0$\\pm$12.3</td></tr><tr><td>BaA</td><td>90.5$\\pm$5.1</td><td>76.8$\\pm$5.5</td><td>88.6$\\pm$10.8</td></tr><tr><td>CHR</td><td>87.7$\\pm$8.9</td><td>71.7$\\pm$5.6</td><td>91.9$\\pm$8.4</td></tr><tr><td>BbF</td><td>88.0$\\pm$2.7</td><td>90.4$\\pm$2.9</td><td>93.4$\\pm$7.1</td></tr><tr><td>BkF</td><td>86.4$\\pm$2.8</td><td>89.7$\\pm$1.5</td><td>91.4$\\pm$8.8</td></tr><tr><td>BaP</td><td>86.3$\\pm$2.3</td><td>90.8$\\pm$1.5</td><td>84.8$\\pm$9.6</td></tr><tr><td>BPY</td><td>87.3$\\pm$4.9</td><td>91.2$\\pm$3.1</td><td>91.0$\\pm$4.5</td></tr><tr><td>DBA</td><td>84.6$\\pm$1.7</td><td>89.7$\\pm$7.0</td><td>82.4$\\pm$9.3</td></tr><tr><td>IND</td><td>84.6$\\pm$4.7</td><td>90.3$\\pm$2.2</td><td>85$\\pm$7.9</td></tr></table></body></html>",
+        "norm_gt": "<table>\n<thead>\n<tr>\n <th rowspan=\"2\">PAHs compounds</th>\n <th colspan=\"3\">% Recovery $ \\pm $ RSD</th>\n</tr>\n<tr>\n <th>Soxtec</th>\n <th>Soxhlet</th>\n <th>PLE</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n <td>NAP</td>\n <td>68.3 $ \\pm $ 19.7</td>\n <td>65.6 $ \\pm $ 1.4</td>\n <td>60.0 $ \\pm $ 8.2</td>\n</tr>\n<tr>\n <td>ACY</td>\n <td>61.5 $ \\pm $ 5.6</td>\n <td>79.6 $ \\pm $ 0.77</td>\n <td>66.4 $ \\pm $ 5.2</td>\n</tr>\n<tr>\n <td>ACE</td>\n <td>65.3 $ \\pm $ 14.4</td>\n <td>73.9 $ \\pm $ 2.2</td>\n <td>74.8 $ \\pm $ 7.9</td>\n</tr>\n<tr>\n <td>FLU</td>\n <td>71.9 $ \\pm $ 22.7</td>\n <td>82.5 $ \\pm $ 0.59</td>\n <td>75.3 $ \\pm $ 17.5</td>\n</tr>\n<tr>\n <td>PHE</td>\n <td>84.7 $ \\pm $ 16.3</td>\n <td>83.9 $ \\pm $ 1.8</td>\n <td>88.2 $ \\pm $ 2.9</td>\n</tr>\n<tr>\n <td>ANT</td>\n <td>88.2 $ \\pm $ 11.1</td>\n <td>91.8 $ \\pm $ 1.1</td>\n <td>87.9 $ \\pm $ 7.6</td>\n</tr>\n<tr>\n <td>FLT</td>\n <td>63.2 $ \\pm $ 11.7</td>\n <td>86.3 $ \\pm $ 2.7</td>\n <td>86.4 $ \\pm $ 9.2</td>\n</tr>\n<tr>\n <td>PYR</td>\n <td>64.7 $ \\pm $ 17.6</td>\n <td>90.2 $ \\pm $ 3.7</td>\n <td>86.0 $ \\pm $ 12.3</td>\n</tr>\n<tr>\n <td>BaA</td>\n <td>90.5 $ \\pm $ 5.1</td>\n <td>76.8 $ \\pm $ 5.5</td>\n <td>88.6 $ \\pm $ 10.8</td>\n</tr>\n<tr>\n <td>CHR</td>\n <td>87.7 $ \\pm $ 8.9</td>\n <td>71.7 $ \\pm $ 5.6</td>\n <td>91.9 $ \\pm $ 8.4</td>\n</tr>\n<tr>\n <td>BbF</td>\n <td>88.0 $ \\pm $ 2.7</td>\n <td>90.4 $ \\pm $ 2.9</td>\n <td>93.4 $ \\pm $ 7.1</td>\n</tr>\n<tr>\n <td>BkF</td>\n <td>86.4 $ \\pm $ 2.8</td>\n <td>89.7 $ \\pm $ 1.5</td>\n <td>91.4 $ \\pm $ 8.8</td>\n</tr>\n<tr>\n <td>BaP</td>\n <td>86.3 $ \\pm $ 2.3</td>\n <td>90.8 $ \\pm $ 1.5</td>\n <td>84.8 $ \\pm $ 9.6</td>\n</tr>\n<tr>\n <td>BPY</td>\n <td>87.3 $ \\pm $ 4.9</td>\n <td>91.2 $ \\pm $ 3.1</td>\n <td>91.0 $ \\pm $ 4.5</td>\n</tr>\n<tr>\n <td>DBA</td>\n <td>84.6 $ \\pm $ 1.7</td>\n <td>89.7 $ \\pm $ 7.0</td>\n <td>82.4 $ \\pm $ 9.3</td>\n</tr>\n<tr>\n <td>IND</td>\n <td>84.6 $ \\pm $ 4.7</td>\n <td>90.3 $ \\pm $ 2.2</td>\n <td>85 $\\pm$ 7.9</td>\n</tr>\n</tbody>\n</table>",
+        "gt_category_type": "table",
+        "gt_position": [
+            8
+        ],
+        "gt_attribute": [
+            {
+                "table_layout": "horizontal",
+                "with_span": true,
+                "line": "fewer_line",
+                "language": "table_en",
+                "include_equation": true,
+                "include_photo": false,
+                "include_background": false,
+                "with_structured_text": false
+            }
+        ],
+        "pred_idx": [
+            0
+        ],
+        "pred": "<html><body><table  border=\"1\" ><tr><td>PAHscompounds</td><td>%Recovery±RSD</td><td>Soxtec</td><td>Soxhlet</td><td>PLE</td></tr><tr><td>NAP</td><td>68.3±19.7</td><td>65.6±1.4</td><td>60.0±8.2</td></tr><tr><td>ACY</td><td>61.5±5.6</td><td>79.6±0.77</td><td>66.4±5.2</td></tr><tr><td>ACE</td><td>65.3±14.4</td><td>73.9±2.2</td><td>74.8±7.9</td></tr><tr><td>FLU</td><td>71.9±22.7</td><td>82.5±0.59</td><td>75.3±17.5</td></tr><tr><td>PHE</td><td>84.7±16.3</td><td>83.9±1.8</td><td>88.2±2.9</td></tr><tr><td>ANT</td><td>88.2±11.1</td><td>91.8±1.1</td><td>87.9±7.6</td></tr><tr><td>FLT</td><td>63.2±11.7</td><td>86.3±2.7</td><td>86.4±9.2</td></tr><tr><td>PYR</td><td>64.7±17.6</td><td>90.2±3.7</td><td>86.0±12.3</td></tr><tr><td>BaA</td><td>90.5±5.1</td><td>76.8±5.5</td><td>88.6±10.8</td></tr><tr><td>CHR</td><td>87.7±8.9</td><td>71.7±5.6</td><td>91.9±8.4</td></tr><tr><td>BbF</td><td>80.8±2.7</td><td>90.4±2.9</td><td>88.4±7.1</td></tr><tr><td>BkF</td><td>86.4±2.8</td><td>89.7±1.5</td><td>91.4±8.8</td></tr><tr><td>BaP</td><td>86.3±2.3</td><td>90.8±1.5</td><td>84.8±9.6</td></tr><tr><td>BPY</td><td>87.3±4.9</td><td>91.2±3.1</td><td>91.0±4.5</td></tr><tr><td>DBA</td><td>84.6±1.7</td><td>89.7±7.0</td><td>82.4±9.3</td></tr><tr><td>IND</td><td>84.6±4.7</td><td>90.3±2.2</td><td>85±7.9</td></tr></table></body></html>",
+        "norm_pred": "<table>\n<tr>\n  <th>PAHs compounds</th>\n  <th>% Recovery ± RSD</th>\n  <th>Soxtec</th>\n  <th>Soxhlet</th>\n  <th>PLE</th>\n</tr>\n<tr>\n  <td>NAP</td>\n  <td>68.3 ± 19.7</td>\n  <td>65.6 ± 1.4</td>\n  <td>60.0 ± 8.2</td>\n</tr>\n<tr>\n  <td>ACY</td>\n  <td>61.5 ± 5.6</td>\n  <td>79.6 ± 0.77</td>\n  <td>66.4 ± 5.2</td>\n</tr>\n<tr>\n  <td>ACE</td>\n  <td>65.3 ± 14.4</td>\n  <td>73.9 ± 2.2</td>\n  <td>74.8 ± 7.9</td>\n</tr>\n<tr>\n  <td>FLU</td>\n  <td>71.9 ± 22.7</td>\n  <td>82.5 ± 0.59</td>\n  <td>75.3 ± 17.5</td>\n</tr>\n<tr>\n  <td>PHE</td>\n  <td>84.7 ± 16.3</td>\n  <td>83.9 ± 1.8</td>\n  <td>88.2 ± 2.9</td>\n</tr>\n<tr>\n  <td>ANT</td>\n  <td>88.2 ± 11.1</td>\n  <td>91.8 ± 1.1</td>\n  <td>87.9 ± 7.6</td>\n</tr>\n<tr>\n  <td>FLT</td>\n  <td>63.2 ± 11.7</td>\n  <td>86.3 ± 2.7</td>\n  <td>86.4 ± 9.2</td>\n</tr>\n<tr>\n  <td>PYR</td>\n  <td>64.7 ± 17.6</td>\n  <td>90.2 ± 3.7</td>\n  <td>86.0 ± 12.3</td>\n</tr>\n<tr>\n  <td>BaA</td>\n  <td>90.5 ± 5.1</td>\n  <td>76.8 ± 5.5</td>\n  <td>88.6 ± 10.8</td>\n</tr>\n<tr>\n  <td>CHR</td>\n  <td>87.7 ± 8.9</td>\n  <td>71.7 ± 5.6</td>\n  <td>91.9 ± 8.4</td>\n</tr>\n<tr>\n  <td>BbF</td>\n  <td>80.8 ± 2.7</td>\n  <td>90.4 ± 2.9</td>\n  <td>88.4 ± 7.1</td>\n</tr>\n<tr>\n  <td>BkF</td>\n  <td>86.4 ± 2.8</td>\n  <td>89.7 ± 1.5</td>\n  <td>91.4 ± 8.8</td>\n</tr>\n<tr>\n  <td>BaP</td>\n  <td>86.3 ± 2.3</td>\n  <td>90.8 ± 1.5</td>\n  <td>84.8 ± 9.6</td>\n</tr>\n<tr>\n  <td>BPY</td>\n  <td>87.3 ± 4.9</td>\n  <td>91.2 ± 3.1</td>\n  <td>91.0 ± 4.5</td>\n</tr>\n<tr>\n  <td>DBA</td>\n  <td>84.6 ± 1.7</td>\n  <td>89.7 ± 7.0</td>\n  <td>82.4 ± 9.3</td>\n</tr>\n<tr>\n  <td>IND</td>\n  <td>84.6 ± 4.7</td>\n  <td>90.3 ± 2.2</td>\n  <td>85 ± 7.9</td>\n</tr>\n</table>",
+        "pred_category_type": "",
+        "pred_position": "",
+        "edit": 0.2527530152071316,
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.chroma.2005.05.085.pdf_4.jpg",
+        "metric": {
+            "TEDS": 0.7122752726201003,
+            "TEDS_structure_only": 0.9425287356321839,
+            "Edit_dist": 0.2527530152071316
+        },
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.chroma.2005.05.085.pdf_4.jpg",
+        "upper_len": 1907,
+        "Edit_num": 482
+    },
+    {
+        "gt_idx": [
+            0
+        ],
+        "gt": "<html><body><table  border=\"1\" ><tr><td colspan=\"2\" rowspan=\"2\"></td><td colspan=\"3\">美人蕉</td></tr><tr><td>不施肥</td><td>施苗木种植基质</td><td>施花木专用基质</td></tr><tr><td rowspan=\"4\">高度/cm</td><td>第一组</td><td>105~126</td><td>120~146</td><td>112~160</td></tr><tr><td>第二组</td><td>62~101</td><td>112~150</td><td>116~167</td></tr><tr><td>第三组</td><td>105~131</td><td>124~155</td><td>110~162</td></tr><tr><td>平均</td><td>90.7~119.3</td><td>118.7~150.3</td><td>112.7~163</td></tr><tr><td rowspan=\"4\">开花数/(朵/株)</td><td>第一组</td><td>19</td><td>20</td><td>23</td></tr><tr><td>第二组</td><td>19</td><td>23</td><td>26</td></tr><tr><td>第三组</td><td>17</td><td>23</td><td>27</td></tr><tr><td>平均</td><td>18</td><td>22</td><td>25</td></tr></table></body></html>",
+        "norm_gt": "<table>\n<thead>\n<tr>\n <th colspan=\"2\" rowspan=\"2\"></th>\n <th colspan=\"3\">美人蕉</th>\n</tr>\n<tr>\n <th>不施肥</th>\n <th>施苗木种植基质</th>\n <th>施花木专用基质</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n <td rowspan=\"4\">高度/cm</td>\n <td>第一组</td>\n <td>105~126</td>\n <td>120~146</td>\n <td>112～160</td>\n</tr>\n<tr>\n <td>第二组</td>\n <td>62~101</td>\n <td>112~150</td>\n <td>116~167</td>\n</tr>\n<tr>\n <td>第三组</td>\n <td>105~131</td>\n <td>124~155</td>\n <td>110~162</td>\n</tr>\n<tr>\n <td>平均</td>\n <td>90.7~119.3</td>\n <td>118.7~150.3</td>\n <td>112.7~163</td>\n</tr>\n<tr>\n <td rowspan=\"4\">开花数/（朵/株)</td>\n <td>第一组</td>\n <td>19</td>\n <td>20</td>\n <td>23 </td>\n</tr>\n<tr>\n <td>第二组</td>\n <td>19</td>\n <td>23</td>\n <td>26</td>\n</tr>\n<tr>\n <td>第三组</td>\n <td>17</td>\n <td>23</td>\n <td>27</td>\n</tr>\n<tr>\n <td>平均</td>\n <td>18</td>\n <td>22</td>\n <td>25</td>\n</tr>\n</tbody>\n</table>",
+        "gt_category_type": "table",
+        "gt_position": [
+            9
+        ],
+        "gt_attribute": [
+            {
+                "table_layout": "horizontal",
+                "with_span": true,
+                "line": "less_line",
+                "language": "table_simplified_chinese",
+                "include_equation": false,
+                "include_photo": false,
+                "include_background": false,
+                "with_structured_text": false
+            }
+        ],
+        "pred_idx": [
+            0
+        ],
+        "pred": "<html><body><table  border=\"1\" ><tr><td>参数</td><td>美人蕉</td><td>不施肥</td><td>施苗木种植基质</td><td>施花木专用基质</td></tr><tr><td>高度/cm</td><td>第一组</td><td>105~126</td><td>120~146</td><td>112~160</td></tr><tr><td></td><td>第二组</td><td>62~101</td><td>112~150</td><td>116~167</td></tr><tr><td></td><td>第三组</td><td>105~131</td><td>122~155</td><td>116~162</td></tr><tr><td></td><td>平均</td><td>90.7~119.3</td><td>118.7~150.3</td><td>112.7~163</td></tr><tr><td>开花数(/朵/株)</td><td>第一组</td><td>19</td><td>20</td><td>23</td></tr><tr><td></td><td>第二组</td><td>19</td><td>23</td><td>26</td></tr><tr><td></td><td>第三组</td><td>17</td><td>23</td><td>27</td></tr><tr><td></td><td>平均</td><td>18</td><td>22</td><td>25</td></tr></table></body></html>",
+        "norm_pred": "<table>\n  <tr>\n    <th>参数</th>\n    <th>美人蕉</th>\n    <th>不施肥</th>\n    <th>施苗木种植基质</th>\n    <th>施花木专用基质</th>\n  </tr>\n  <tr>\n    <td>高度/cm</td>\n    <td>第一组</td>\n    <td>105～126</td>\n    <td>120～146</td>\n    <td>112～160</td>\n  </tr>\n  <tr>\n    <td></td>\n    <td>第二组</td>\n    <td>62～101</td>\n    <td>112～150</td>\n    <td>116～167</td>\n  </tr>\n  <tr>\n    <td></td>\n    <td>第三组</td>\n    <td>105～131</td>\n    <td>122～155</td>\n    <td>116～162</td>\n  </tr>\n  <tr>\n    <td></td>\n    <td>平均</td>\n    <td>90.7～119.3</td>\n    <td>118.7～150.3</td>\n    <td>112.7～163</td>\n  </tr>\n  <tr>\n    <td>开花数(/朵/株)</td>\n    <td>第一组</td>\n    <td>19</td>\n    <td>20</td>\n    <td>23</td>\n  </tr>\n  <tr>\n    <td></td>\n    <td>第二组</td>\n    <td>19</td>\n    <td>23</td>\n    <td>26</td>\n  </tr>\n  <tr>\n    <td></td>\n    <td>第三组</td>\n    <td>17</td>\n    <td>23</td>\n    <td>27</td>\n  </tr>\n  <tr>\n    <td></td>\n    <td>平均</td>\n    <td>18</td>\n    <td>22</td>\n    <td>25</td>\n  </tr>\n</table>",
+        "pred_category_type": "",
+        "pred_position": "",
+        "edit": 0.3612565445026178,
+        "img_id": "docstructbench_dianzishu_zhongwenzaixian-o.O-61522235.pdf_170.jpg",
+        "metric": {
+            "TEDS": 0.753968253968254,
+            "TEDS_structure_only": 0.7592592592592593,
+            "Edit_dist": 0.3612565445026178
+        },
+        "image_name": "docstructbench_dianzishu_zhongwenzaixian-o.O-61522235.pdf_170.jpg",
+        "upper_len": 955,
+        "Edit_num": 345
+    },
+    {
+        "gt_idx": [
+            0
+        ],
+        "gt": "<html><body><table  border=\"1\" ><tr><td rowspan=\"2\">侵蚀沟道级别1</td><td colspan=\"3\">沟道数量/万条</td><td colspan=\"3\">沟道长度/万km</td><td colspan=\"3\">沟道面积/万km2</td></tr><tr><td>丘陵沟壑区</td><td>高原沟壑区</td><td>合计</td><td>丘陵沟壑区</td><td>高原沟壑区</td><td>合计</td><td>丘陵沟壑区</td><td>高原沟壑区</td><td>合计</td></tr><tr><td>合计</td><td>55.64</td><td>11.03</td><td>66.67</td><td>47.1</td><td>9.23</td><td>56.33</td><td>15.67</td><td>3.05</td><td>18.72</td></tr><tr><td>500(含)~1000m</td><td>43.31</td><td>8.66</td><td>51.97</td><td>29.76</td><td>5.97</td><td>35.73</td><td>8.43</td><td>1.73</td><td>10.16</td></tr><tr><td>1000m及以上</td><td>12.33</td><td>2.37</td><td>14.70</td><td>17.34</td><td>3.26</td><td>20.60</td><td>7.24</td><td>1.32</td><td>8.56</td></tr></table></body></html>",
+        "norm_gt": "<table>\n<thead>\n<tr>\n <th rowspan=\"2\">侵蚀沟道级别<sup>①</sup></th>\n <th colspan=\"3\">沟道数量/万条</th>\n <th colspan=\"3\">沟道长度/万km</th>\n <th colspan=\"3\">沟道面积/万km<sup>2</sup></th>\n</tr>\n<tr>\n <th>丘陵沟壑区</th>\n <th>高原沟壑区</th>\n <th>合计</th>\n <th>丘陵沟壑区</th>\n <th>高原沟壑区</th>\n <th>合计</th>\n <th>丘陵沟壑区</th>\n <th>高原沟壑区</th>\n <th>合计</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n <td>合计</td>\n <td>55.64</td>\n <td>11.03</td>\n <td>66.67</td>\n <td>47.1</td>\n <td>9.23</td>\n <td>56.33</td>\n <td>15.67</td>\n <td>3.05</td>\n <td>18.72</td>\n</tr>\n<tr>\n <td>500（含）～1000m</td>\n <td>43.31</td>\n <td>8.66</td>\n <td>51.97</td>\n <td>29.76</td>\n <td>5.97</td>\n <td>35.73</td>\n <td>8.43</td>\n <td>1.73</td>\n <td>10.16</td>\n</tr>\n<tr>\n <td>1000m及以上</td>\n <td>12.33</td>\n <td>2.37</td>\n <td>14.70</td>\n <td>17.34</td>\n <td>3.26</td>\n <td>20.60</td>\n <td>7.24</td>\n <td>1.32</td>\n <td>8.56</td>\n</tr>\n</tbody>\n</table>",
+        "gt_category_type": "table",
+        "gt_position": [
+            3
+        ],
+        "gt_attribute": [
+            {
+                "table_layout": "horizontal",
+                "with_span": true,
+                "line": "fewer_line",
+                "language": "table_simplified_chinese",
+                "include_equation": true,
+                "include_photo": false,
+                "include_background": false,
+                "with_structured_text": false
+            }
+        ],
+        "pred_idx": [
+            0
+        ],
+        "pred": "<html><body><table  border=\"1\" ><tr><td rowspan=\"2\">侵蚀沟道<br/>级别/%</td><td colspan=\"3\">沟道数量/万条</td><td colspan=\"3\">沟道长度/万km</td><td colspan=\"3\">沟道面积/万km2</td></tr><tr><td>丘陵沟壑区</td><td>高原沟壑区</td><td>合计</td><td>丘陵沟壑区</td><td>高原沟壑区</td><td>合计</td><td>丘陵沟壑区</td><td>高原沟壑区</td><td>合计</td></tr><tr><td>合计</td><td>55.64</td><td>11.03</td><td>66.67</td><td>47.1</td><td>9.23</td><td>56.33</td><td>15.67</td><td>3.05</td><td>18.72</td></tr><tr><td>500(含)~1000m</td><td>43.31</td><td>8.66</td><td>51.97</td><td>29.76</td><td>5.97</td><td>35.73</td><td>8.43</td><td>1.73</td><td>10.16</td></tr><tr><td>1000m及以上</td><td>12.33</td><td>2.37</td><td>14.70</td><td>17.34</td><td>3.26</td><td>20.6</td><td>7.24</td><td>1.32</td><td>8.56</td></tr></table></body></html>",
+        "norm_pred": "<table>\n    <tr>\n    <th rowspan=\"2\">侵蚀沟道<br> 级别 / %</th>\n    <th colspan=\"3\">沟道数量 / 万条</th>\n    <th colspan=\"3\">沟道长度 / 万 km</th>\n    <th colspan=\"3\">沟道面积 / 万 km²</th>\n    </tr>\n    <tr>\n    <th>丘陵沟壑区</th>\n    <th>高原沟壑区</th>\n    <th>合计</th>\n    <th>丘陵沟壑区</th>\n    <th>高原沟壑区</th>\n    <th>合计</th>\n    <th>丘陵沟壑区</th>\n    <th>高原沟壑区</th>\n    <th>合计</th>\n    </tr>\n    <tr>\n    <td>合计</td>\n    <td>55.64</td>\n    <td>11.03</td>\n    <td>66.67</td>\n    <td>47.1</td>\n    <td>9.23</td>\n    <td>56.33</td>\n    <td>15.67</td>\n    <td>3.05</td>\n    <td>18.72</td>\n    </tr>\n    <tr>\n    <td>500 （含）~1000m</td>\n    <td>43.31</td>\n    <td>8.66</td>\n    <td>51.97</td>\n    <td>29.76</td>\n    <td>5.97</td>\n    <td>35.73</td>\n    <td>8.43</td>\n    <td>1.73</td>\n    <td>10.16</td>\n    </tr>\n    <tr>\n    <td>1000m 及以上</td>\n    <td>12.33</td>\n    <td>2.37</td>\n    <td>14.70</td>\n    <td>17.34</td>\n    <td>3.26</td>\n    <td>20.6</td>\n    <td>7.24</td>\n    <td>1.32</td>\n    <td>8.56</td>\n    </tr>\n</table>",
+        "pred_category_type": "",
+        "pred_position": "",
+        "edit": 0.22525252525252526,
+        "img_id": "docstructbench_dianzishu_zhongwenzaixian-o.O-61520814.pdf_185.jpg",
+        "metric": {
+            "TEDS": 0.9877551020408163,
+            "TEDS_structure_only": 1.0,
+            "Edit_dist": 0.22525252525252526
+        },
+        "image_name": "docstructbench_dianzishu_zhongwenzaixian-o.O-61520814.pdf_185.jpg",
+        "upper_len": 990,
+        "Edit_num": 223
+    },
+    {
+        "gt_idx": [
+            0
+        ],
+        "gt": "<html><body><table  border=\"1\" ><tr><td colspan=\"2\">BirthdayMoney</td></tr><tr><td>ValueofBill</td><td>Numberofbills</td></tr><tr><td>$5</td><td>5</td></tr><tr><td>$10</td><td>3</td></tr><tr><td>$20</td><td>2</td></tr><tr><td>$50</td><td>1</td></tr></table></body></html>",
+        "norm_gt": "<table>\n<thead>\n<tr>\n <th colspan=\"2\">Birthday Money</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n <td>Value of Bill</td>\n <td>Number of bills</td>\n</tr>\n<tr>\n <td>$5</td>\n <td>5</td>\n</tr>\n<tr>\n <td>$10</td>\n <td>3</td>\n</tr>\n<tr>\n <td>$20</td>\n <td>2</td>\n</tr>\n<tr>\n <td>$50</td>\n <td>1</td>\n</tr>\n</tbody>\n</table>",
+        "gt_category_type": "table",
+        "gt_position": [
+            27
+        ],
+        "gt_attribute": [
+            {
+                "table_layout": "horizontal",
+                "with_span": true,
+                "line": "full_line",
+                "language": "table_simplified_chinese",
+                "include_equation": false,
+                "include_photo": false,
+                "include_background": true,
+                "with_structured_text": false
+            }
+        ],
+        "pred_idx": [
+            0
+        ],
+        "pred": "<html><body><table  border=\"1\" ><tr><td>ValueofBill</td><td>Numberofbills</td></tr><tr><td>$5</td><td>5</td></tr><tr><td>$10</td><td>3</td></tr><tr><td>$20</td><td>2</td></tr><tr><td>$50</td><td>1</td></tr></table></body></html>",
+        "norm_pred": "<table>\n    <tr>\n    <th>Value of Bill</th>\n    <th>Number of bills</th>\n    </tr>\n    <tr>\n    <td>$5</td>\n    <td>5</td>\n    </tr>\n    <tr>\n    <td>$10</td>\n    <td>3</td>\n    </tr>\n    <tr>\n    <td>$20</td>\n    <td>2</td>\n    </tr>\n    <tr>\n    <td>$50</td>\n    <td>1</td>\n    </tr>\n   </table>",
+        "pred_category_type": "",
+        "pred_position": "",
+        "edit": 0.4738562091503268,
+        "img_id": "jiaocaineedrop_Chapter9.pdf_46.jpg",
+        "metric": {
+            "TEDS": 0.8823529411764706,
+            "TEDS_structure_only": 0.8823529411764706,
+            "Edit_dist": 0.4738562091503268
+        },
+        "image_name": "jiaocaineedrop_Chapter9.pdf_46.jpg",
+        "upper_len": 306,
+        "Edit_num": 145
+    },
+    {
+        "gt_idx": [
+            0
+        ],
+        "gt": "<html><body><table  border=\"1\" ><tr><td>Whichpoem</td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td></tr><tr><td>describesaperson?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>tellsastory?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>describesanaspectofaseason?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>isaboutsport?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>isaboutthingsthatdon'tmakesense?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>isrecitedtoababy?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>describesariverscene?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>hasrhymingwordsattheendoflines?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>repeatswordsorphrases?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></table></body></html>",
+        "norm_gt": "<table>\n<thead>\n<tr>\n <th>Which poem</th>\n <th>A</th>\n <th>B</th>\n <th>C</th>\n <th>D</th>\n <th>E</th>\n <th>F</th>\n <th>G</th>\n <th>H</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n <td>describes a person?</td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n</tr>\n<tr>\n <td>tells a story?</td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n</tr>\n<tr>\n <td>describes an aspect of a season?</td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n</tr>\n<tr>\n <td>is about sport?</td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n</tr>\n<tr>\n <td>is about things that don't make sense?</td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n</tr>\n<tr>\n <td>is recited to a baby?</td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n</tr>\n<tr>\n <td>describes a river scene?</td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n</tr>\n<tr>\n <td>has rhyming words at the end of lines?</td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n</tr>\n<tr>\n <td>repeats words or phrases?</td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n <td></td>\n</tr>\n</tbody>\n</table>",
+        "gt_category_type": "table",
+        "gt_position": [
+            17
+        ],
+        "gt_attribute": [
+            {
+                "table_layout": "horizontal",
+                "with_span": false,
+                "line": "full_line",
+                "language": "table_en",
+                "include_equation": false,
+                "include_photo": false,
+                "include_background": true,
+                "with_structured_text": false
+            }
+        ],
+        "pred_idx": [
+            0
+        ],
+        "pred": "<html><body><table  border=\"1\" ><tr><td>Whichpoem</td><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td>F</td><td>G</td><td>H</td></tr><tr><td>describesaperson?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>tellsastory?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>describesanaspectofaseason?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>isaboutsport?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>isaboutthingsthatdon'tmakesense?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>isrecitedtoababy?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>describesariverscene?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>has<em>rhyming</em>wordsattheendoflines?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>repeatswordsorphrases?</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></table></body></html>",
+        "norm_pred": "<table>\n    <tr>\n    <th>Which poem</th>\n    <th>A</th>\n    <th>B</th>\n    <th>C</th>\n    <th>D</th>\n    <th>E</th>\n    <th>F</th>\n    <th>G</th>\n    <th>H</th>\n    </tr>\n    <tr>\n    <td>describes a person?</td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    </tr>\n    <tr>\n    <td>tells a story?</td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    </tr>\n    <tr>\n    <td>describes an aspect of a season?</td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    </tr>\n    <tr>\n    <td>is about sport?</td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    </tr>\n    <tr>\n    <td>is about things that don't make sense?</td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    </tr>\n    <tr>\n    <td>is recited to a baby?</td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    </tr>\n    <tr>\n    <td>describes a river scene?</td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    </tr>\n    <tr>\n    <td>has <em>rhyming</em> words at the end of lines?</td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    </tr>\n    <tr>\n    <td>repeats words or phrases?</td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    <td></td>\n    </tr>\n</table>",
+        "pred_category_type": "",
+        "pred_position": "",
+        "edit": 0.22047702152414195,
+        "img_id": "jiaocaineedrop_jiaocai_needrop_en_1898.jpg",
+        "metric": {
+            "TEDS": 0.9993999399939995,
+            "TEDS_structure_only": 1.0,
+            "Edit_dist": 0.22047702152414195
+        },
+        "image_name": "jiaocaineedrop_jiaocai_needrop_en_1898.jpg",
+        "upper_len": 1719,
+        "Edit_num": 379
+    },
+    {
+        "gt_idx": [
+            0
+        ],
+        "gt": "<html><body><table  border=\"1\" ><tr><td>空气质量级别</td><td>空气污染指数</td><td>空气质量状况</td></tr><tr><td>一级</td><td>1~50</td><td>优</td></tr><tr><td>二级</td><td>51~100</td><td>良</td></tr><tr><td>三级</td><td>100~200</td><td>轻度污染</td></tr><tr><td>四级</td><td>200~300</td><td>中度污染</td></tr><tr><td>五级</td><td>2300</td><td>重度污染</td></tr></table></body></html>",
+        "norm_gt": "<table>\n<thead>\n<tr>\n <th>空气质量级别</th>\n <th>空气污染指数</th>\n <th>空气质量状况</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n <td>一级</td>\n <td>1~50</td>\n <td>优</td>\n</tr>\n<tr>\n <td>二级</td>\n <td>51~100</td>\n <td>良</td>\n</tr>\n<tr>\n <td>三级</td>\n <td>100~200</td>\n <td>轻度污染</td>\n</tr>\n<tr>\n <td>四级</td>\n <td>200~300</td>\n <td>中度污染</td>\n</tr>\n<tr>\n <td>五级</td>\n <td>2300</td>\n <td>重度污染</td>\n</tr>\n</tbody>\n</table>",
+        "gt_category_type": "table",
+        "gt_position": [
+            18
+        ],
+        "gt_attribute": [
+            {
+                "table_layout": "horizontal",
+                "with_span": false,
+                "line": "full_line",
+                "language": "table_simplified_chinese",
+                "include_equation": false,
+                "include_photo": false,
+                "include_background": true,
+                "with_structured_text": false
+            }
+        ],
+        "pred_idx": [
+            0
+        ],
+        "pred": "<html><body><table  border=\"1\" ><tr><td>实验分值等级</td><td>实验成绩</td><td>空气质量状况</td></tr><tr><td>一级</td><td>\\(<50\\)</td><td>低</td></tr><tr><td>二级</td><td>\\(51\\sim100\\)</td><td>轻度污染</td></tr><tr><td>三级</td><td>\\(101\\sim200\\)</td><td>中度污染</td></tr><tr><td>四级</td><td>\\(>200\\)</td><td>重度污染</td></tr></table></body></html>",
+        "norm_pred": "<table>\n    <tr>\n    <td>实验分值等级</td>\n    <td>实验成绩</td>\n    <td>空气质量状况</td>\n    </tr>\n    <tr>\n    <td>一级</td>\n    <td>\\(< 50\\)</td>\n    <td>低</td>\n    </tr>\n    <tr>\n    <td>二级</td>\n    <td>\\(51 \\sim 100\\)</td>\n    <td>轻度污染</td>\n    </tr>\n    <tr>\n    <td>三级</td>\n    <td>\\(101 \\sim 200\\)</td>\n    <td>中度污染</td>\n    </tr>\n    <tr>\n    <td>四级</td>\n    <td>\\( > 200\\)</td>\n    <td>重度污染</td>\n    </tr>\n</table>",
+        "pred_category_type": "",
+        "pred_position": "",
+        "edit": 0.4864864864864865,
+        "img_id": "notes_1ba14cb325bc448f7201b20502ecf2b5_15.jpg",
+        "metric": {
+            "TEDS": 0.5271863553113552,
+            "TEDS_structure_only": 0.8333333333333334,
+            "Edit_dist": 0.4864864864864865
+        },
+        "image_name": "notes_1ba14cb325bc448f7201b20502ecf2b5_15.jpg",
+        "upper_len": 407,
+        "Edit_num": 198
+    },
+    {
+        "gt_idx": [
+            0
+        ],
+        "gt": "<html><body><table  border=\"1\" ><tr><td>1one</td><td>5five</td><td>9nine</td><td>13thirteen</td><td>17seventeen</td><td>30thirty</td></tr><tr><td>2two</td><td>6six</td><td>10ten</td><td>14fourteen</td><td>18eighteen</td><td>40forty</td></tr><tr><td>3three</td><td>7seven</td><td>11eleven</td><td>15fifteen</td><td>19nineteen</td><td>50fifty</td></tr><tr><td>4four</td><td>8eight</td><td>12twelve</td><td>16sixteen</td><td>20twenty</td><td>60sixty</td></tr></table></body></html>",
+        "norm_gt": "<table>\n<thead>\n<tr>\n <th>1 one</th>\n <th>5 five</th>\n <th>9 nine</th>\n <th>13 thirteen</th>\n <th>17 seventeen</th>\n <th>30 thirty</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n <td>2 two</td>\n <td>6 six</td>\n <td>10 ten</td>\n <td>14 fourteen</td>\n <td>18 eighteen</td>\n <td>40 forty</td>\n</tr>\n<tr>\n <td>3 three</td>\n <td>7 seven</td>\n <td>11 eleven</td>\n <td>15 fifteen</td>\n <td>19 nineteen</td>\n <td>50 fifty</td>\n</tr>\n<tr>\n <td>4 four</td>\n <td>8 eight</td>\n <td>12 twelve</td>\n <td>16 sixteen</td>\n <td>20 twenty</td>\n <td>60 sixty</td>\n</tr>\n</tbody>\n</table>",
+        "gt_category_type": "table",
+        "gt_position": [
+            15
+        ],
+        "gt_attribute": [
+            {
+                "table_layout": "horizontal",
+                "with_span": false,
+                "line": "full_line",
+                "language": "table_en",
+                "include_equation": false,
+                "include_photo": false,
+                "include_background": false,
+                "with_structured_text": false
+            }
+        ],
+        "pred_idx": [
+            0
+        ],
+        "pred": "<html><body><table  border=\"1\" ><tr><td colspan=\"1\" rowspan=\"1\">one</td><td colspan=\"1\" rowspan=\"1\">five</td><td colspan=\"1\" rowspan=\"1\">nine</td><td colspan=\"1\" rowspan=\"1\">13thirteen</td><td colspan=\"1\" rowspan=\"1\">17seventeen</td><td colspan=\"1\" rowspan=\"1\">30thirty</td></tr><tr><td colspan=\"1\" rowspan=\"1\">two</td><td colspan=\"1\" rowspan=\"1\">six</td><td colspan=\"1\" rowspan=\"1\">ten</td><td colspan=\"1\" rowspan=\"1\">14fourteen</td><td colspan=\"1\" rowspan=\"1\">18eighteen</td><td colspan=\"1\" rowspan=\"1\">40forty</td></tr><tr><td colspan=\"1\" rowspan=\"1\">three</td><td colspan=\"1\" rowspan=\"1\">seven</td><td colspan=\"1\" rowspan=\"1\">11eleven</td><td colspan=\"1\" rowspan=\"1\">15fifteen</td><td colspan=\"1\" rowspan=\"1\">19nineteen</td><td colspan=\"1\" rowspan=\"1\">50fifty</td></tr><tr><td colspan=\"1\" rowspan=\"1\">four</td><td colspan=\"1\" rowspan=\"1\">eight</td><td colspan=\"1\" rowspan=\"1\">12twelve</td><td colspan=\"1\" rowspan=\"1\">16sixteen</td><td colspan=\"1\" rowspan=\"1\">20twenty</td><td colspan=\"1\" rowspan=\"1\">60sixty</td></tr></table></body></html>",
+        "norm_pred": "<table border=\"1\" >\n    <tr>\n      <td colspan=\"1\" rowspan=\"1\">one</td>\n      <td colspan=\"1\" rowspan=\"1\">five</td>\n      <td colspan=\"1\" rowspan=\"1\">nine</td>\n      <td colspan=\"1\" rowspan=\"1\">13 thirteen</td>\n      <td colspan=\"1\" rowspan=\"1\">17 seventeen</td>\n      <td colspan=\"1\" rowspan=\"1\">30 thirty</td>\n    </tr>\n    <tr>\n      <td colspan=\"1\" rowspan=\"1\">two</td>\n      <td colspan=\"1\" rowspan=\"1\">six</td>\n      <td colspan=\"1\" rowspan=\"1\">ten</td>\n      <td colspan=\"1\" rowspan=\"1\">14 fourteen</td>\n      <td colspan=\"1\" rowspan=\"1\">18 eighteen</td>\n      <td colspan=\"1\" rowspan=\"1\">40 forty</td>\n    </tr>\n    <tr>\n      <td colspan=\"1\" rowspan=\"1\">three</td>\n      <td colspan=\"1\" rowspan=\"1\">seven</td>\n      <td colspan=\"1\" rowspan=\"1\">11 eleven</td>\n      <td colspan=\"1\" rowspan=\"1\">15 fifteen</td>\n      <td colspan=\"1\" rowspan=\"1\">19 nineteen</td>\n      <td colspan=\"1\" rowspan=\"1\">50 fifty</td>\n    </tr>\n    <tr>\n      <td colspan=\"1\" rowspan=\"1\">four</td>\n      <td colspan=\"1\" rowspan=\"1\">eight</td>\n      <td colspan=\"1\" rowspan=\"1\">12 twelve</td>\n      <td colspan=\"1\" rowspan=\"1\">16 sixteen</td>\n      <td colspan=\"1\" rowspan=\"1\">20 twenty</td>\n      <td colspan=\"1\" rowspan=\"1\">60 sixty</td>\n    </tr>\n</table>",
+        "pred_category_type": "",
+        "pred_position": "",
+        "edit": 0.612590799031477,
+        "img_id": "notes_f7f010b78016aeebd76e56d9283eb67f_49.jpg",
+        "metric": {
+            "TEDS": 0.9196428571428571,
+            "TEDS_structure_only": 1.0,
+            "Edit_dist": 0.612590799031477
+        },
+        "image_name": "notes_f7f010b78016aeebd76e56d9283eb67f_49.jpg",
+        "upper_len": 1239,
+        "Edit_num": 759
+    },
+    {
+        "gt_idx": [
+            0
+        ],
+        "gt": "<html><body><table  border=\"1\" ><tr><td>行业</td><td>银行</td></tr><tr><td>公司网址</td><td>www.csrcbank.com</td></tr><tr><td>大股东/持股</td><td>交通银行股份有限公司/9.01%</td></tr><tr><td>实际控制人</td><td></td></tr><tr><td>总股本(百万股)</td><td>2,741</td></tr><tr><td>流通A股(百万股)</td><td>2,643</td></tr><tr><td>流通B/H股(百万股)</td><td></td></tr><tr><td>总市值(元)</td><td></td></tr><tr><td>流通A股市值(元)</td><td>196</td></tr><tr><td>每股净资产(元)</td><td>189</td></tr><tr><td>资产负债率(%)</td><td>8.32</td></tr><tr><td>资产负债率(%)</td><td>92.1</td></tr></table></body></html>",
+        "norm_gt": "<table>\n<tr>\n <th>行业</th>\n <th>银行</th>\n</tr>\n<tr>\n <td>公司网址</td>\n <td>www.csrcbank.com</td>\n</tr>\n<tr>\n <td>大股东/持股</td>\n <td>交通银行股份有限公司/9.01％</td>\n</tr>\n<tr>\n <td>实际控制人</td>\n <td></td>\n</tr>\n<tr>\n <td>总股本(百万股)</td>\n <td>2,741</td>\n</tr>\n<tr>\n <td>流通A股(百万股)</td>\n <td>2,643</td>\n</tr>\n<tr>\n <td>流通B/H股(百万股)</td>\n <td></td>\n</tr>\n<tr>\n <td>总市值（元）</td>\n <td></td>\n</tr>\n<tr>\n <td>流通A股市值(元)</td>\n <td>196</td>\n</tr>\n<tr>\n <td>每股净资产(元)</td>\n <td>189</td>\n</tr>\n<tr>\n <td>资产负债率(%)</td>\n <td>8.32</td>\n</tr>\n<tr>\n <td>资产负债率(%)</td>\n <td>92.1</td>\n</tr>\n</table>",
+        "gt_category_type": "table",
+        "gt_position": [
+            6
+        ],
+        "gt_attribute": [
+            {
+                "table_layout": "horizontal",
+                "with_span": false,
+                "line": "fewer_line",
+                "language": "table_simplified_chinese",
+                "include_equation": false,
+                "include_photo": false,
+                "include_background": false,
+                "with_structured_text": false
+            }
+        ],
+        "pred_idx": [
+            0
+        ],
+        "pred": "<html><body><table  border=\"1\" ><tr><td>行业</td><td>银行</td></tr><tr><td>大类行业</td><td>www.csrcbank.com</td></tr><tr><td>小类行业</td><td>交通运输、仓储和邮政业9.01%</td></tr><tr><td>总股本(百万股)</td><td>2,741</td></tr><tr><td>流通A股(百万股)</td><td>2,643</td></tr><tr><td>流通B/H股(百万股)</td><td>-</td></tr><tr><td>总市值(百万元)</td><td>19,640</td></tr><tr><td>流通市值(百万元)</td><td>18,970</td></tr><tr><td>市净率(倍)</td><td>0.9</td></tr><tr><td>ROE(%)</td><td>9.2</td></tr></table></body></html>",
+        "norm_pred": "<table>\n    <tr>\n    <td>行业</td>\n    <td>银行</td>\n    </tr>\n    <tr>\n    <td>大类行业</td>\n    <td>www.csrcbank.com</td>\n    </tr>\n    <tr>\n    <td>小类行业</td>\n    <td>交通运输、仓储和邮政业9.01%</td>\n    </tr>\n    <tr>\n    <td>总股本 (百万股)</td>\n    <td>2,741</td>\n    </tr>\n    <tr>\n    <td>流通 A 股 (百万股)</td>\n    <td>2,643</td>\n    </tr>\n    <tr>\n    <td>流通 B/H 股 (百万股)</td>\n    <td>-</td>\n    </tr>\n    <tr>\n    <td>总市值 (百万元)</td>\n    <td>19,640</td>\n    </tr>\n    <tr>\n    <td>流通市值 (百万元)</td>\n    <td>18,970</td>\n    </tr>\n    <tr>\n    <td>市净率 (倍)</td>\n    <td>0.9</td>\n    </tr>\n    <tr>\n    <td>ROE (%)</td>\n    <td>9.2</td>\n    </tr>\n</table>",
+        "pred_category_type": "",
+        "pred_position": "",
+        "edit": 0.41148325358851673,
+        "img_id": "eastmoney_62b4149b1612ce28d20f26cd5c5b2e18f80b26fca6e4452e090376a2fe72eae3.pdf_0.jpg",
+        "metric": {
+            "TEDS": 0.601658950617284,
+            "TEDS_structure_only": 0.8333333333333334,
+            "Edit_dist": 0.41148325358851673
+        },
+        "image_name": "eastmoney_62b4149b1612ce28d20f26cd5c5b2e18f80b26fca6e4452e090376a2fe72eae3.pdf_0.jpg",
+        "upper_len": 627,
+        "Edit_num": 258
+    },
+    {
+        "gt_idx": [
+            1
+        ],
+        "gt": "<html><body><table  border=\"1\" ><tr><td></td><td>2021A</td><td>2022A</td><td>2023E</td><td>2024E</td><td>2025E</td></tr><tr><td>营业收入(百万元)</td><td>7,655</td><td>8,809</td><td>10,122</td><td>11,775</td><td>13,727</td></tr><tr><td>YOY(%)</td><td>16.3</td><td>15.1</td><td>14.9</td><td>16.3</td><td>16.6</td></tr><tr><td>归母净利润(百万元)</td><td>2,188</td><td>2,744</td><td>3,426</td><td>4,177</td><td>5,063</td></tr><tr><td>YOY(%)</td><td>21.4</td><td>25.4</td><td>24.8</td><td>21.9</td><td>21.2</td></tr><tr><td>ROE(%)</td><td>11.6</td><td>13.2</td><td>15.1</td><td>16.7</td><td>18.0</td></tr><tr><td>EPS(摊薄/元)</td><td>0.80</td><td>1.00</td><td>1.25</td><td>1.52</td><td>1.85</td></tr><tr><td>P/E(倍)</td><td>9.0</td><td>7.1</td><td>5.7</td><td>4.7</td><td>3.9</td></tr><tr><td>P/B(倍)</td><td>1.0</td><td>0.9</td><td>0.8</td><td>0.7</td><td>0.7</td></tr></table></body></html>",
+        "norm_gt": "<table>\n<thead>\n<tr>\n <th></th>\n <th>2021A</th>\n <th>2022A</th>\n <th>2023E</th>\n <th>2024E</th>\n <th>2025E</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n <td>营业收入(百万元)</td>\n <td>7,655</td>\n <td>8,809</td>\n <td>10,122</td>\n <td>11,775</td>\n <td>13,727</td>\n</tr>\n<tr>\n <td>YOY(%)</td>\n <td>16.3</td>\n <td>15.1</td>\n <td>14.9</td>\n <td>16.3</td>\n <td>16.6</td>\n</tr>\n<tr>\n <td>归母净利润(百万元)</td>\n <td>2,188</td>\n <td>2,744</td>\n <td>3,426</td>\n <td>4,177</td>\n <td>5,063</td>\n</tr>\n<tr>\n <td>YOY(%)</td>\n <td>21.4</td>\n <td>25.4</td>\n <td>24.8</td>\n <td>21.9</td>\n <td>21.2</td>\n</tr>\n<tr>\n <td>ROE(%)</td>\n <td>11.6</td>\n <td>13.2</td>\n <td>15.1</td>\n <td>16.7</td>\n <td>18.0</td>\n</tr>\n<tr>\n <td>EPS(摊薄/元)</td>\n <td>0.80</td>\n <td>1.00</td>\n <td>1.25</td>\n <td>1.52</td>\n <td>1.85</td>\n</tr>\n<tr>\n <td>P/E(倍)</td>\n <td>9.0</td>\n <td>7.1</td>\n <td>5.7</td>\n <td>4.7</td>\n <td>3.9</td>\n</tr>\n<tr>\n <td>P/B(倍)</td>\n <td>1.0</td>\n <td>0.9</td>\n <td>0.8</td>\n <td>0.7</td>\n <td>0.7</td>\n</tr>\n</tbody>\n</table>",
+        "gt_category_type": "table",
+        "gt_position": [
+            30
+        ],
+        "gt_attribute": [
+            {
+                "table_layout": "horizontal",
+                "with_span": false,
+                "line": "fewer_line",
+                "language": "table_simplified_chinese",
+                "include_equation": false,
+                "include_photo": false,
+                "include_background": true,
+                "with_structured_text": false
+            }
+        ],
+        "pred_idx": [
+            1
+        ],
+        "pred": "<html><body><table  border=\"1\" ><tr><td></td><td>2020A</td><td>2021A</td><td>2022A</td><td>2023E</td><td>2024E</td></tr><tr><td>营业收入(百万元)</td><td>7,655</td><td>8,809</td><td>10,122</td><td>11,775</td><td>13,727</td></tr><tr><td>YOY(%)</td><td>16.3</td><td>14.3</td><td>14.9</td><td>16.3</td><td>16.6</td></tr><tr><td>归母净利润(百万元)</td><td>2,188</td><td>2,744</td><td>3,426</td><td>4,177</td><td>5,063</td></tr><tr><td>YOY(%)</td><td>16.6</td><td>13.7</td><td>12.6</td><td>21.2</td><td>21.4</td></tr><tr><td>ROE(%)</td><td>11.6</td><td>11.1</td><td>11.2</td><td>12.1</td><td>11.8</td></tr><tr><td>总资产(亿元)</td><td>8,000</td><td></td><td>9,000</td><td></td><td>10,000</td></tr><tr><td>P/E(倍)</td><td>9.0</td><td></td><td>8.0</td><td></td><td>7.0</td></tr><tr><td>P/B(倍)</td><td>1.0</td></tr></table></body></html>",
+        "norm_pred": "<table>\n    <tr>\n    <th></th>\n    <th>2020A</th>\n    <th>2021A</th>\n    <th>2022A</th>\n    <th>2023E</th>\n    <th>2024E</th>\n    </tr>\n    <tr>\n    <td>营业收入 (百万元)</td>\n    <td>7,655</td>\n    <td>8,809</td>\n    <td>10,122</td>\n    <td>11,775</td>\n    <td>13,727</td>\n    </tr>\n    <tr>\n    <td>YOY(%)</td>\n    <td>16.3</td>\n    <td>14.3</td>\n    <td>14.9</td>\n    <td>16.3</td>\n    <td>16.6</td>\n    </tr>\n    <tr>\n    <td>归母净利润 (百万元)</td>\n    <td>2,188</td>\n    <td>2,744</td>\n    <td>3,426</td>\n    <td>4,177</td>\n    <td>5,063</td>\n    </tr>\n    <tr>\n    <td>YOY(%)</td>\n    <td>16.6</td>\n    <td>13.7</td>\n    <td>12.6</td>\n    <td>21.2</td>\n    <td>21.4</td>\n    </tr>\n    <tr>\n    <td>ROE(%)</td>\n    <td>11.6</td>\n    <td>11.1</td>\n    <td>11.2</td>\n    <td>12.1</td>\n    <td>11.8</td>\n    </tr>\n    <tr>\n    <td>总资产 (亿元)</td>\n    <td>8,000</td>\n    <td></td>\n    <td>9,000</td>\n    <td></td>\n    <td>10,000</td>\n    </tr>\n    <tr>\n    <td>P/E（倍）</td>\n    <td>9.0</td>\n    <td></td>\n    <td>8.0</td>\n    <td></td>\n    <td>7.0</td>\n    </tr>\n    <tr>\n    <td>P/B(倍)</td>\n    <td>1.0</td>\n    </tr>\n</table>",
+        "pred_category_type": "html_table",
+        "pred_position": 2049,
+        "edit": 0.3210431654676259,
+        "img_id": "eastmoney_62b4149b1612ce28d20f26cd5c5b2e18f80b26fca6e4452e090376a2fe72eae3.pdf_0.jpg",
+        "metric": {
+            "TEDS": 0.6970899470899471,
+            "TEDS_structure_only": 0.9365079365079365,
+            "Edit_dist": 0.3210431654676259
+        },
+        "image_name": "eastmoney_62b4149b1612ce28d20f26cd5c5b2e18f80b26fca6e4452e090376a2fe72eae3.pdf_0.jpg",
+        "upper_len": 1112,
+        "Edit_num": 357
+    },
+    {
+        "gt_idx": [
+            0
+        ],
+        "gt": "<html><body><table  border=\"1\" ><tr><td colspan=\"2\">投资建议评级标准</td><td>评级</td><td>说明</td></tr><tr><td rowspan=\"7\">以报告发布日后的12个月内公司股价(或行业指数)相对同期基准指数的涨跌幅为基准。其中:A股以沪深300指数为基准;新三板以三板成指或三板做市指数为基准;港股以恒生指数为基准;美股以纳斯达克综合指数或标普500指数为基准。</td><td rowspan=\"4\">公司评级</td><td>推荐</td><td>相对基准指数涨幅15%以上</td></tr><tr><td>谨慎推荐</td><td>相对基准指数涨幅5%~15%之间</td></tr><tr><td>中性</td><td>相对基准指数涨幅-5%~5%之间</td></tr><tr><td>回避</td><td>相对基准指数跌幅5%以上</td></tr><tr><td rowspan=\"3\">行业评级</td><td>推荐</td><td>相对基准指数涨幅5%以上</td></tr><tr><td>中性</td><td>相对基准指数涨幅-5%~5%之间</td></tr><tr><td>回避</td><td>相对基准指数跌幅5%以上</td></tr></table></body></html>",
+        "norm_gt": "<table>\n<thead>\n<tr>\n <th colspan=\"2\">投资建议评级标准</th>\n <th>评级</th>\n <th>说明</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n <td rowspan=\"7\">以报告发布日后的12个月内公司股价（或行业 指数）相对同期基准指数的涨跌幅为基准。其 中：A股以沪深300指数为基准；新三板以三 板成指或三板做市指数为基准；港股以恒生指 数为基准；美股以纳斯达克综合指数或标普500指数为基准。</td>\n <td rowspan=\"4\">公司评级</td>\n <td>推荐</td>\n <td>相对基准指数涨幅15%以上</td>\n</tr>\n<tr>\n <td>谨慎推荐</td>\n <td>相对基准指数涨幅5%~15%之间</td>\n</tr>\n<tr>\n <td>中性</td>\n <td>相对基准指数涨幅-5%~5%之间</td>\n</tr>\n<tr>\n <td>回避</td>\n <td>相对基准指数跌幅5%以上</td>\n</tr>\n<tr>\n <td rowspan=\"3\"> 行业评级</td>\n <td>推荐</td>\n <td>相对基准指数涨幅5%以上</td>\n</tr>\n<tr>\n <td>中性</td>\n <td>相对基准指数涨幅-5%~5%之间</td>\n</tr>\n<tr>\n <td>回避</td>\n <td>相对基准指数跌幅5%以上</td>\n</tr>\n</tbody>\n</table>",
+        "gt_category_type": "table",
+        "gt_position": [
+            4
+        ],
+        "gt_attribute": [
+            {
+                "table_layout": "horizontal",
+                "with_span": true,
+                "line": "fewer_line",
+                "language": "table_simplified_chinese",
+                "include_equation": false,
+                "include_photo": false,
+                "include_background": true,
+                "with_structured_text": false
+            }
+        ],
+        "pred_idx": [
+            0
+        ],
+        "pred": "<html><body><table  border=\"1\" ><tr><td colspan=\"2\"></td><td>评级</td><td>说明</td></tr><tr><td rowspan=\"3\">公司评级</td><td>推荐</td><td>相对基准指数涨幅15%以上</td></tr><tr><td>谨慎推荐</td><td>相对基准指数涨幅5%~15%之间</td></tr><tr><td>中性</td><td>相对基准指数涨幅-5%~5%之间</td></tr><tr><td>回避</td><td>相对基准指数跌幅5%以上</td></tr><tr><td rowspan=\"3\">行业评级</td><td>推荐</td><td>相对基准指数涨幅5%以上</td></tr><tr><td>中性</td><td>相对基准指数涨幅-5%~5%之间</td></tr><tr><td>回避</td><td>相对基准指数跌幅5%以上</td></tr></table></body></html>",
+        "norm_pred": "<table>\n  <tr>\n    <td colspan=\"2\"></td>\n    <td>评级</td>\n    <td>说明</td>\n  </tr>\n  <tr>\n    <td rowspan=\"3\">公司评级</td>\n    <td>推荐</td>\n    <td>相对基准指数涨幅 15%以上</td>\n  </tr>\n  <tr>\n    <td>谨慎推荐</td>\n    <td>相对基准指数涨幅 5%～15%之间</td>\n  </tr>\n  <tr>\n    <td>中性</td>\n    <td>相对基准指数涨幅 -5%～5%之间</td>\n  </tr>\n  <tr>\n    <td>回避</td>\n    <td>相对基准指数跌幅 5%以上</td>\n  </tr>\n  <tr>\n    <td rowspan=\"3\">行业评级</td>\n    <td>推荐</td>\n    <td>相对基准指数涨幅 5%以上</td>\n  </tr>\n  <tr>\n    <td>中性</td>\n    <td>相对基准指数涨幅 -5%～5%之间</td>\n  </tr>\n  <tr>\n    <td>回避</td>\n    <td>相对基准指数跌幅 5%以上</td>\n  </tr>\n</table>",
+        "pred_category_type": "",
+        "pred_position": "",
+        "edit": 0.41896024464831805,
+        "img_id": "yanbaopptmerge_0c79d327060dbf9f1582d03c235dadb039533a19091d2c0d24f2ad95d267f79b.pdf_2.jpg",
+        "metric": {
+            "TEDS": 0.8928571428571429,
+            "TEDS_structure_only": 0.9285714285714286,
+            "Edit_dist": 0.41896024464831805
+        },
+        "image_name": "yanbaopptmerge_0c79d327060dbf9f1582d03c235dadb039533a19091d2c0d24f2ad95d267f79b.pdf_2.jpg",
+        "upper_len": 654,
+        "Edit_num": 274
+    }
+]

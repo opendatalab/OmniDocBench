@@ -5,7 +5,7 @@ recogition_eval:
   dataset:
     dataset_name: omidocbench_single_module_dataset
     ground_truth:
-      data_path: ../demo_data/recognition/OmniDocBench_demo_text_ocr.json
+      data_path: ./demo_data/recognition/OmniDocBench_demo_text_ocr.json
       data_key: text
     prediction:
       data_key: pred

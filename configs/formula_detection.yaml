@@ -4,9 +4,9 @@ detection_eval:
   dataset: 
     dataset_name: detection_dataset_simple_format
     ground_truth:
-      data_path: ../demo_data/omnidocbench_demo/OmniDocBench_demo.json
+      data_path: ./demo_data/omnidocbench_demo/OmniDocBench_demo.json
     prediction:
-      data_path: ../demo_data/detection/prediction.json
+      data_path: ./demo_data/detection/prediction.json
     filter: 
       data_source: exam_paper
   categories:

@@ -1,0 +1,657 @@
+[
+    {
+        "gt": [
+            1,
+            2,
+            3,
+            4
+        ],
+        "pred": [
+            1,
+            2,
+            3,
+            4
+        ],
+        "img_id": "yanbaopptmerge_SE05.pdf_7.jpg",
+        "edit": 0.0,
+        "image_name": "yanbaopptmerge_SE05.pdf_7.jpg",
+        "upper_len": 4,
+        "metric": {
+            "Edit_dist": 0.0
+        },
+        "Edit_num": 0
+    },
+    {
+        "gt": [
+            1,
+            2
+        ],
+        "pred": [
+            1,
+            2
+        ],
+        "img_id": "yanbaopptmerge_yanbaoPPT_145.jpg",
+        "edit": 0.0,
+        "image_name": "yanbaopptmerge_yanbaoPPT_145.jpg",
+        "upper_len": 2,
+        "metric": {
+            "Edit_dist": 0.0
+        },
+        "Edit_num": 0
+    },
+    {
+        "gt": [
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17
+        ],
+        "pred": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.chroma.2005.05.085.pdf_4.jpg",
+        "edit": 0.125,
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.chroma.2005.05.085.pdf_4.jpg",
+        "upper_len": 16,
+        "metric": {
+            "Edit_dist": 0.125
+        },
+        "Edit_num": 2
+    },
+    {
+        "gt": [
+            1,
+            4,
+            7,
+            10,
+            13,
+            16,
+            19,
+            22,
+            24,
+            25,
+            28,
+            31,
+            34
+        ],
+        "pred": [
+            1,
+            4,
+            7,
+            24,
+            10,
+            13,
+            16,
+            19,
+            22,
+            25,
+            28,
+            31,
+            34
+        ],
+        "img_id": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "edit": 0.15384615384615385,
+        "image_name": "docstructbench_llm-raw-scihub-o.O-j.physletb.2004.06.101.pdf_3.jpg",
+        "upper_len": 13,
+        "metric": {
+            "Edit_dist": 0.15384615384615385
+        },
+        "Edit_num": 2
+    },
+    {
+        "gt": [
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+        ],
+        "pred": [
+            1,
+            7,
+            5,
+            6
+        ],
+        "img_id": "docstructbench_dianzishu_zhongwenzaixian-o.O-60599898.pdf_30.jpg",
+        "edit": 0.5,
+        "image_name": "docstructbench_dianzishu_zhongwenzaixian-o.O-60599898.pdf_30.jpg",
+        "upper_len": 6,
+        "metric": {
+            "Edit_dist": 0.5
+        },
+        "Edit_num": 3
+    },
+    {
+        "gt": [
+            6,
+            7,
+            10
+        ],
+        "pred": [
+            6,
+            7,
+            10
+        ],
+        "img_id": "docstructbench_dianzishu_zhongwenzaixian-o.O-61522235.pdf_170.jpg",
+        "edit": 0.0,
+        "image_name": "docstructbench_dianzishu_zhongwenzaixian-o.O-61522235.pdf_170.jpg",
+        "upper_len": 3,
+        "metric": {
+            "Edit_dist": 0.0
+        },
+        "Edit_num": 0
+    },
+    {
+        "gt": [
+            1,
+            5,
+            7,
+            8,
+            9
+        ],
+        "pred": [
+            1,
+            5,
+            7,
+            8
+        ],
+        "img_id": "docstructbench_dianzishu_zhongwenzaixian-o.O-61520814.pdf_185.jpg",
+        "edit": 0.2,
+        "image_name": "docstructbench_dianzishu_zhongwenzaixian-o.O-61520814.pdf_185.jpg",
+        "upper_len": 5,
+        "metric": {
+            "Edit_dist": 0.2
+        },
+        "Edit_num": 1
+    },
+    {
+        "gt": [
+            1,
+            2,
+            3
+        ],
+        "pred": [
+            1,
+            2,
+            3
+        ],
+        "img_id": "docstructbench_dianzishu_zhongwenzaixian-o.O-61569294.pdf_128.jpg",
+        "edit": 0.0,
+        "image_name": "docstructbench_dianzishu_zhongwenzaixian-o.O-61569294.pdf_128.jpg",
+        "upper_len": 3,
+        "metric": {
+            "Edit_dist": 0.0
+        },
+        "Edit_num": 0
+    },
+    {
+        "gt": [
+            1,
+            2,
+            3,
+            4,
+            8,
+            13,
+            15,
+            15,
+            18,
+            22,
+            26,
+            28,
+            31
+        ],
+        "pred": [
+            1,
+            2,
+            3,
+            4,
+            8,
+            13,
+            18,
+            22,
+            26,
+            28,
+            31
+        ],
+        "img_id": "jiaocaineedrop_Chapter9.pdf_46.jpg",
+        "edit": 0.15384615384615385,
+        "image_name": "jiaocaineedrop_Chapter9.pdf_46.jpg",
+        "upper_len": 13,
+        "metric": {
+            "Edit_dist": 0.15384615384615385
+        },
+        "Edit_num": 2
+    },
+    {
+        "gt": [
+            1,
+            2,
+            3,
+            4,
+            6,
+            8,
+            9,
+            11,
+            13,
+            15
+        ],
+        "pred": [
+            1,
+            2,
+            3,
+            4,
+            6,
+            8,
+            9,
+            11,
+            13,
+            15
+        ],
+        "img_id": "jiaocaineedrop_Evans_PDE_Solution_Chapter_6_Second-Order_Elliptic_Equations.pdf_5.jpg",
+        "edit": 0.0,
+        "image_name": "jiaocaineedrop_Evans_PDE_Solution_Chapter_6_Second-Order_Elliptic_Equations.pdf_5.jpg",
+        "upper_len": 10,
+        "metric": {
+            "Edit_dist": 0.0
+        },
+        "Edit_num": 0
+    },
+    {
+        "gt": [
+            1,
+            2,
+            3,
+            7,
+            8,
+            13,
+            14
+        ],
+        "pred": [
+            1,
+            2,
+            3,
+            7,
+            8,
+            13,
+            14
+        ],
+        "img_id": "jiaocaineedrop_jiaocai_needrop_en_1898.jpg",
+        "edit": 0.0,
+        "image_name": "jiaocaineedrop_jiaocai_needrop_en_1898.jpg",
+        "upper_len": 7,
+        "metric": {
+            "Edit_dist": 0.0
+        },
+        "Edit_num": 0
+    },
+    {
+        "gt": [
+            1,
+            2,
+            3,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            38,
+            41,
+            45
+        ],
+        "pred": [
+            1,
+            2,
+            3,
+            7,
+            6,
+            34,
+            9,
+            15,
+            11,
+            28,
+            29,
+            31,
+            32,
+            33,
+            38,
+            18,
+            12
+        ],
+        "img_id": "jiaocaineedrop_jiaocai_needrop_en_3361.jpg",
+        "edit": 0.6071428571428571,
+        "image_name": "jiaocaineedrop_jiaocai_needrop_en_3361.jpg",
+        "upper_len": 28,
+        "metric": {
+            "Edit_dist": 0.6071428571428571
+        },
+        "Edit_num": 17
+    },
+    {
+        "gt": [
+            1,
+            2,
+            3,
+            4,
+            8,
+            9
+        ],
+        "pred": [
+            1,
+            2,
+            3,
+            4,
+            8,
+            9
+        ],
+        "img_id": "notes_1ba14cb325bc448f7201b20502ecf2b5_15.jpg",
+        "edit": 0.0,
+        "image_name": "notes_1ba14cb325bc448f7201b20502ecf2b5_15.jpg",
+        "upper_len": 6,
+        "metric": {
+            "Edit_dist": 0.0
+        },
+        "Edit_num": 0
+    },
+    {
+        "gt": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+        ],
+        "pred": [
+            1,
+            2,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+        ],
+        "img_id": "notes_f7f010b78016aeebd76e56d9283eb67f_49.jpg",
+        "edit": 0.07692307692307693,
+        "image_name": "notes_f7f010b78016aeebd76e56d9283eb67f_49.jpg",
+        "upper_len": 13,
+        "metric": {
+            "Edit_dist": 0.07692307692307693
+        },
+        "Edit_num": 1
+    },
+    {
+        "gt": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            74,
+            75,
+            76,
+            77,
+            79,
+            80
+        ],
+        "pred": [],
+        "img_id": "newspaper_1cddf9d22ca549f3a86cf1512a3110cc_1.jpg",
+        "edit": 1.0,
+        "image_name": "newspaper_1cddf9d22ca549f3a86cf1512a3110cc_1.jpg",
+        "upper_len": 73,
+        "metric": {
+            "Edit_dist": 1.0
+        },
+        "Edit_num": 73
+    },
+    {
+        "gt": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            20,
+            21,
+            27,
+            28
+        ],
+        "pred": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            20,
+            21,
+            27,
+            28
+        ],
+        "img_id": "newspaper_5e266dfd9c498cab274e12a7b4a75755_4.jpg",
+        "edit": 0.0,
+        "image_name": "newspaper_5e266dfd9c498cab274e12a7b4a75755_4.jpg",
+        "upper_len": 22,
+        "metric": {
+            "Edit_dist": 0.0
+        },
+        "Edit_num": 0
+    },
+    {
+        "gt": [
+            1,
+            2,
+            3,
+            4,
+            9,
+            10,
+            11,
+            12,
+            14,
+            17,
+            21,
+            24,
+            25,
+            26,
+            27
+        ],
+        "pred": [
+            1,
+            2,
+            3,
+            4,
+            26,
+            27,
+            9,
+            24,
+            14,
+            21
+        ],
+        "img_id": "eastmoney_62b4149b1612ce28d20f26cd5c5b2e18f80b26fca6e4452e090376a2fe72eae3.pdf_0.jpg",
+        "edit": 0.6,
+        "image_name": "eastmoney_62b4149b1612ce28d20f26cd5c5b2e18f80b26fca6e4452e090376a2fe72eae3.pdf_0.jpg",
+        "upper_len": 15,
+        "metric": {
+            "Edit_dist": 0.6
+        },
+        "Edit_num": 9
+    },
+    {
+        "gt": [
+            1,
+            2,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+        ],
+        "pred": [
+            1,
+            2,
+            11,
+            5,
+            6,
+            7,
+            12,
+            13,
+            14,
+            15
+        ],
+        "img_id": "yanbaopptmerge_0c79d327060dbf9f1582d03c235dadb039533a19091d2c0d24f2ad95d267f79b.pdf_2.jpg",
+        "edit": 0.38461538461538464,
+        "image_name": "yanbaopptmerge_0c79d327060dbf9f1582d03c235dadb039533a19091d2c0d24f2ad95d267f79b.pdf_2.jpg",
+        "upper_len": 13,
+        "metric": {
+            "Edit_dist": 0.38461538461538464
+        },
+        "Edit_num": 5
+    }
+]
