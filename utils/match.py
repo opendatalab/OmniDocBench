@@ -270,7 +270,8 @@ def match_gt2pred_no_split(gt_items, pred_items, line_type, img_name):
     gt_line_with_position = []
     for gt_line, norm_gt_line, gt_item in zip(gt_lines, norm_gt_lines, gt_items):
         gt_position = gt_item['order'] if gt_item.get('order') else gt_item.get('position', [""])[0]
-        gt_line_with_position.append((gt_position, gt_line, norm_gt_line))
+        if gt_position:
+            gt_line_with_position.append((gt_position, gt_line, norm_gt_line))
     sorted_gt_lines = sorted(gt_line_with_position, key=lambda x: x[0])
     gt = '\n\n'.join([_[1] for _ in sorted_gt_lines])
     norm_gt = '\n\n'.join([_[2] for _ in sorted_gt_lines])
@@ -279,21 +280,24 @@ def match_gt2pred_no_split(gt_items, pred_items, line_type, img_name):
     pred = '\n\n'.join([_[1] for _ in sorted_pred_lines])
     norm_pred = '\n\n'.join([_[2] for _ in sorted_pred_lines])
     # edit = Levenshtein.distance(norm_gt, norm_pred)/max(len(norm_gt), len(norm_pred))
-    return [{
-            'gt_idx': [""],
-            'gt': gt,
-            'norm_gt': norm_gt,
-            'gt_category_type': "text_merge",
-            'gt_position': [""],
-            'gt_attribute': [{}],
-            'pred_idx': [""],
-            'pred': pred,
-            'norm_pred': norm_pred,
-            'pred_category_type': "text_merge",
-            'pred_position': "",
-            # 'edit': edit,
-            'img_id': img_name
-        }]
+    if norm_gt or norm_pred:
+        return [{
+                'gt_idx': [0],
+                'gt': gt,
+                'norm_gt': norm_gt,
+                'gt_category_type': "text_merge",
+                'gt_position': [""],
+                'gt_attribute': [{}],
+                'pred_idx': [0],
+                'pred': pred,
+                'norm_pred': norm_pred,
+                'pred_category_type': "text_merge",
+                'pred_position': "",
+                # 'edit': edit,
+                'img_id': img_name
+            }]
+    else:
+        return []
 
 # def match_gt2pred_textblock_simple(gt_items, pred_lines, img_name):   # 仅存档，不再单独提取inline formula
 #     text_inline_match_s = match_gt2pred_simple(gt_items, pred_lines, 'text', img_name)

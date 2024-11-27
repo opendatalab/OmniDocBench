@@ -3,15 +3,15 @@ end2end_eval:
     text_block:
       metric:
         - Edit_dist
-        - BLEU
-        - METEOR
+        # - BLEU
+        # - METEOR
     display_formula:
       metric:
         - Edit_dist
         # - CDM
     table:
       metric:
-        - TEDS
+        # - TEDS
         - Edit_dist
     reading_order:
       metric:
@@ -20,23 +20,23 @@ end2end_eval:
     dataset_name: end2end_dataset
     ground_truth:
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/docparse_1103_subset.json
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/ocr-main-1114.json
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/ocr-main-1120.json
     prediction:
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/GOT
+      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/Qwenvl_1114
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/QwenVL_short_prompt
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/gpt4o_1114
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/gpt4o_short_prompt
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/internvl76b_1114
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/internvl_short_prompt
+      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/GOT
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/marker
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/mathpix1108
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/nougat
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/mineru1110_docyolo
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result_htmltable_1114/Qwenvl_1114
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/internvl_short_prompt
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/internvl_long_prompt
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/QwenVL_short_prompt
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/QwenVL_long_prompt
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/gpt4o_short_prompt
       # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/gpt4o_long_prompt
-    # match_method: no_split
+    match_method: no_split
     # match_method: simple_match
     # filter: 
     #   language: english

@@ -21,6 +21,10 @@ Currently supported metrics include:
 
 xxx
 
+## Installation
+
+
+
 ## How to use
 
 All evaluation inputs are organized through config files. We provide templates for each task in the [configs](./configs) directory.
@@ -40,6 +44,8 @@ There are two methods for end-to-end evaluation:
 - `md2md`: This method uses OmniDocBench's markdown format as Ground Truth. Refer to the config file: [md2md](./configs/md2md.yaml).
 
 We recommend using the `end2end` method because it preserves the sample's category and attribute information, allowing for operations like ignoring specific categories and outputting results by attribute.
+
+Here is the 
 
 In addition, the config allows you to choose different matching methods for end-to-end evaluation. There are three matching methods:
 
