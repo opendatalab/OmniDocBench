@@ -1,13 +1,12 @@
-detection_eval:   # layout
+detection_eval:
   metrics:
     - COCODet
   dataset: 
     dataset_name: detection_dataset_simple_format
     ground_truth:
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/ocr-main-1114.json
-      data_path: /mnt/hwfile/opendatalab/zhaozhiyuan/OmniDocBench/docparse_1107.json
+      data_path: ../demo_data/omnidocbench_demo/OmniDocBench_demo.json
     prediction:
-      data_path: /mnt/petrelfs/ouyanglinke/DocParseEval/det_test/predictions.json
+      data_path: ../demo_data/detection/prediction.json
     filter: 
       data_source: exam_paper
   categories:
@@ -16,7 +15,7 @@ detection_eval:   # layout
         - isolate_formula    # Display formula (this is a layout display formula, lower priority than 14)
       span_level:
         - inline_formula     # inline formula
-    gt_cat_mapping:    # 这个字段主要是用来统一不同的模型之间类别的conflict的
+    gt_cat_mapping:    
       equation_isolated: isolate_formula
       equation_inline: inline_formula
     pred_cat_mapping:

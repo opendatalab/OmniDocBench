@@ -2,16 +2,18 @@ detection_eval:   # layout
   metrics:
     - COCODet
   dataset: 
-    dataset_name: detection_dataset
+    dataset_name: detection_dataset_simple_format
     ground_truth:
-      data_path: ./check_data/layout_det/gt.json
+      data_path: ../demo_data/omnidocbench_demo/OmniDocBench_demo.json
     prediction:
-      data_path: ./check_data/layout_det/pred.json
+      data_path: ../demo_data/detection/prediction.json
+    # filter: 
+    #   data_source: exam_paper
   categories:
     eval_cat:
       block_level:
         - title              # Title
-        - text_block         # Text
+        - text               # Text
         - abandon            # Includes headers, footers, page numbers, and page annotations
         - figure             # Image
         - figure_caption     # Image caption
@@ -20,19 +22,33 @@ detection_eval:   # layout
         - table_footnote     # Table footnote
         - isolate_formula    # Display formula (this is a layout display formula, lower priority than 14)
         - formula_caption    # Display formula label
-    gt_cat_mapping:    # 这个字段主要是用来统一不同的模型之间类别的conflict的
-      formula_caption: text_block
-      headers: abandon
-      footers: abandon
-      page_numbers: abandon
+      span_level:
+        - inline_formula     # inline formula
+    gt_cat_mapping:    
+      figure_footnote: figure_footnote
+      figure_caption: figure_caption 
+      page_number: abandon 
+      header: abandon 
       page_footnote: abandon
-      code_text: text_block
-      list: text_block
+      table_footnote: table_footnote 
+      code_txt: figure 
+      equation_caption: formula_caption 
+      equation_isolated: isolate_formula
+      table: table 
+      refernece: text 
+      table_caption: table_caption 
+      figure: figure 
+      title: title 
+      text_block: text 
+      footer: abandon
     pred_cat_mapping:
-      formula_caption: text_block
-      headers: abandon
-      footers: abandon
-      page_numbers: abandon
-      page_footnote: abandon
-      code_text: text_block
-      list: text_block
+      title : title
+      plain text: text
+      abandon: abandon
+      figure: figure
+      figure_caption: figure_caption
+      table: table
+      table_caption: table_caption
+      table_footnote: table_footnote
+      isolate_formula: isolate_formula
+      formula_caption: formula_caption

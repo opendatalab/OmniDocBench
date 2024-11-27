@@ -22,6 +22,12 @@ OmniDocBench主要是针对PDF页面内容解析提出的评测集，具有丰�
 
 xxx
 
+## 安装
+
+```bash
+conda create --name omnidocbench python=3.8 --file requirements.txt
+```
+
 ## 评测使用
 
 所有的评测的输入都是通过config文件进行配置的，我们在[configs](./configs)路径下提供了各个任务的模板。
@@ -72,9 +78,9 @@ end2end_eval:          # 指定task名称，端到端评测通用该task
   dataset:                                       # 数据集配置
     dataset_name: end2end_dataset                # 数据集名称，无需修改
     ground_truth:
-      data_path: ./benchmark/ocr-main-1120.json  # OmniDocBench的路径
+      data_path: ../demo_data/omnidocbench_demo/OmniDocBench_demo.json  # OmniDocBench的路径
     prediction:
-      data_path: ./benchmark/result/Qwenvl_1114  # 模型对PDF页面解析markdown结果的文件夹路径
+      data_path: ../demo_data/end2end            # 模型对PDF页面解析markdown结果的文件夹路径
     match_method: quick_match                    # 匹配方式，可选有: no_split/no_split/quick_match
     filter:                                      # 页面级别的筛选
       language: english                          # 需要评测的页面属性以及对应标签
@@ -127,10 +133,10 @@ end2end_eval:          # 指定task名称，端到端评测通用该task
   dataset:                                               # 数据集配置
     dataset_name: md2md_dataset                          # 数据集名称，无需修改
     ground_truth:                                        # 针对ground truth的数据集配置
-      data_path: ./benchmark/md1120                      # OmniDocBench的markdown文件夹路径
-      page_info: ./benchmark/ocr-main-1114.json          # OmniDocBench的JSON文件路径，主要是用于获取页面级别的属性
+      data_path: ../demo_data/omnidocbench_demo/mds      # OmniDocBench的markdown文件夹路径
+      page_info: ../demo_data/omnidocbench_demo/OmniDocBench_demo.json          # OmniDocBench的JSON文件路径，主要是用于获取页面级别的属性
     prediction:                                          # 针对模型预测结果的配置
-      data_path: ./benchmark/result/gpt4o_long_prompt    # 模型对PDF页面解析markdown结果的文件夹路径
+      data_path: ../demo_data/end2end                    # 模型对PDF页面解析markdown结果的文件夹路径
     match_method: quick_match                            # 匹配方式，可选有: no_split/no_split/quick_match
     filter:                                              # 页面级别的筛选
       language: english                                  # 需要评测的页面属性以及对应标签
@@ -146,7 +152,7 @@ end2end_eval:          # 指定task名称，端到端评测通用该task
 
 OmniDocBench包含每个PDF页面的公式的bounding box信息以及对应的公式识别标注，因此可以作为公式识别评测的benchmark。公式包括行间公式`equation_isolated`和行内公式`equation_inline`，本repo目前提供的例子是行间公式的评测。
 
-公式识别评测可以参考[formula_omidocbench](./configs/formula_omidocbench.yaml)进行配置。 `formula_omidocbench.yaml`的配置文件如下：
+公式识别评测可以参考[formula_recognition](./configs/formula_recognition.yaml)进行配置。 `formula_recognition.yaml`的配置文件如下：
 
 ```YAML
 recogition_eval:      # 指定task名称，所有的识别相关的任务通用此task
@@ -156,7 +162,7 @@ recogition_eval:      # 指定task名称，所有的识别相关的任务通用�
   dataset:                                                                   # 数据集配置
     dataset_name: omnidocbench_single_module_dataset                         # 数据集名称，如果按照规定的输入格式则不需要修改
     ground_truth:                                                            # 针对ground truth的数据集配置
-      data_path: ./Formula_result/docparse1107_formula_qwenvl_checked.json   # 同时包含ground truth和模型prediction结果的JSON文件
+      data_path: ./demo_data/recognition/OmniDocBench_demo_formula.json      # 同时包含ground truth和模型prediction结果的JSON文件
       data_key: latex                                                        # 存储Ground Truth的字段名，对于OmniDocBench来说，公式的识别结果存储在latex这个字段中
       category_filter: ['equation_isolated']                                 # 用于评测的类别，在公式识别中，评测的category_name是equation_isolated
     prediction:                                                              # 针对模型预测结果的配置
@@ -166,7 +172,7 @@ recogition_eval:      # 指定task名称，所有的识别相关的任务通用�
 
 `metrics`部分，除了已支持的metric以外，还支持导出[CDM](https://github.com/opendatalab/UniMERNet/tree/main/cdm)评测所需的格式，只需要在metric中配置CDM字段，即可将输出整理为CDM的输入格式，并存储在[result](./result)中。
 
-`dataset`的部分，输入的`ground_truth`的`data_path`中的数据格式与OmniDocBench保持一致，仅对应的公式sample下新增一个自定义字段保存模型的prediction结果。通过`dataset`下的`prediction`字段下的`data_key`对存储了prediction信息的字段进行指定，比如`pred`。关于更多OmniDocBench的文件结构细节请参考`评测集介绍`小节：
+`dataset`的部分，输入的`ground_truth`的`data_path`中的数据格式与OmniDocBench保持一致，仅对应的公式sample下新增一个自定义字段保存模型的prediction结果。通过`dataset`下的`prediction`字段下的`data_key`对存储了prediction信息的字段进行指定，比如`pred`。关于更多OmniDocBench的文件结构细节请参考`评测集介绍`小节。模型结果的输入格式可以参考[OmniDocBench_demo_formula](./demo_data/recognition/OmniDocBench_demo_formula.json)，其格式为：
 
 ```JSON
 [{
@@ -215,7 +221,7 @@ def poly2bbox(poly):
 
 question = "<image>\nPlease convert this cropped image directly into latex."
 
-with open('./docparse_1107.json', 'r') as f:
+with open('./demo_data/omnidocbench_demo/OmniDocBench_demo.json', 'r') as f:
     samples = json.load(f)
     
 for sample in samples:
@@ -236,7 +242,7 @@ for sample in samples:
         response = model.chat(im, question)  # 需要根据模型修改传入图片的方式
         anno['pred'] = response              # 直接在对应的annotation下新增字段存储模型的infer结果
 
-with open('./docparse_1107_formula_internvl.json', 'w', encoding='utf-8') as f:
+with open('./demo_data/recognition/OmniDocBench_demo_formula.json', 'w', encoding='utf-8') as f:
     json.dump(samples, f, ensure_ascii=False)
 ```
 
@@ -244,7 +250,7 @@ with open('./docparse_1107_formula_internvl.json', 'w', encoding='utf-8') as f:
 
 OmniDocBench包含每个PDF页面的所有文字的bounding box信息以及对应的文字识别标注，因此可以作为OCR评测的benchmark。文本的标注包含block_level的标注和span_level的标注，都可以用于评测。本repo目前提供的例子是block_level的评测，即文本段落级别的OCR评测。
 
-文字OCR评测可以参考[ocr_omidocbench](./configs/ocr_omidocbench.yaml)进行配置。 `formula_omidocbench.yaml`的配置文件如下：
+文字OCR评测可以参考[ocr](./configs/ocr.yaml)进行配置。 `ocr.yaml`的配置文件如下：
 
 ```YAML
 recogition_eval:      # 指定task名称，所有的识别相关的任务通用此task
@@ -255,14 +261,14 @@ recogition_eval:      # 指定task名称，所有的识别相关的任务通用�
   dataset:                                                                   # 数据集配置
     dataset_name: omnidocbench_single_module_dataset                         # 数据集名称，如果按照规定的输入格式则不需要修改
     ground_truth:                                                            # 针对ground truth的数据集配置
-      data_path: ./Formula_result/docparse1107_text_qwenvl_checked.json      # 同时包含ground truth和模型prediction结果的JSON文件
+      data_path: ./demo_data/recognition/OmniDocBench_demo_text_ocr.json     # 同时包含ground truth和模型prediction结果的JSON文件
       data_key: text                                                         # 存储Ground Truth的字段名，对于OmniDocBench来说，文本识别结果存储在text这个字段中，所有block level只要包含text字段的annotations都会参与评测
     prediction:                                                              # 针对模型预测结果的配置
       data_key: pred                                                         # 存储模型预测结果的字段名，这个是用户自定义的
     category_type: text                                                      # category_type主要是用于数据预处理策略的选择，可选项有：formula/text
 ```
 
-`dataset`的部分，输入的`ground_truth`的`data_path`中的数据格式与OmniDocBench保持一致，仅对应的含有text字段的sample下新增一个自定义字段保存模型的prediction结果。通过`dataset`下的`prediction`字段下的`data_key`对存储了prediction信息的字段进行指定，比如`pred`。数据集的输入格式可以参考`公式识别评测`部分提供的样例。
+`dataset`的部分，输入的`ground_truth`的`data_path`中的数据格式与OmniDocBench保持一致，仅对应的含有text字段的sample下新增一个自定义字段保存模型的prediction结果。通过`dataset`下的`prediction`字段下的`data_key`对存储了prediction信息的字段进行指定，比如`pred`。数据集的输入格式可以参考[OmniDocBench_demo_text_ocr](./demo_data/recognition/OmniDocBench_demo_text_ocr.json)，各个字段含义可以参考`公式识别评测`部分提供的样例。
 
 在此提供一个模型infer的脚本供参考：
 
@@ -283,7 +289,7 @@ def poly2bbox(poly):
 
 question = "<image>\nPlease convert this cropped image directly into latex."
 
-with open('./docparse_1107.json', 'r') as f:
+with open('./demo_data/omnidocbench_demo/OmniDocBench_demo.json', 'r') as f:
     samples = json.load(f)
     
 for sample in samples:
@@ -304,7 +310,7 @@ for sample in samples:
         response = model.chat(im, question)  # 需要根据模型修改传入图片的方式
         anno['pred'] = response              # 直接在对应的annotation下新增字段存储模型的infer结果
 
-with open('./docparse_1107_formula_internvl.json', 'w', encoding='utf-8') as f:
+with open('./demo_data/recognition/OmniDocBench_demo_text_ocr.json', 'w', encoding='utf-8') as f:
     json.dump(samples, f, ensure_ascii=False)
 ```
 
@@ -316,9 +322,10 @@ xxx
 
 OmniDocBench包含每个PDF页面的所有文档组件的bounding box信息，因此可以作为Layout检测任务评测的benchmark。
 
-Layout检测可以参考[layout_detection](./configs/layout_detection.yaml)进行配置，输入的格式支持与OmniDocBench同格式（参考[omni_det](./check_data/layout_omni/pred.json)），也可以使用精简格式（config文件参考[layout_detection_simple](./configs/layout_detection_simple.yaml)，数据格式参考[simple_det](./check_data/layout_simple/predictions.json)）。
+Layout检测config文件参考[layout_detection](./configs/layout_detection.yaml)，数据格式参考[detection_prediction](./demo_data/detection/detection_prediction.json)。
 
-以下我们以精简格式为例进行展示。`layout_detection_simple.yaml`的配置文件如下：
+以下我们以精简格式为例进行展示。`layout_detection.yaml`的配置文件如下：
+
 ```YAML
 detection_eval:   # 指定task名称，所有的检测相关的任务通用此task
   metrics:
@@ -326,9 +333,9 @@ detection_eval:   # 指定task名称，所有的检测相关的任务通用此ta
   dataset: 
     dataset_name: detection_dataset_simple_format       # 数据集名称，如果按照规定的输入格式则不需要修改
     ground_truth:
-      data_path: ./ocr-main-1114.json                   # OmniDocBench的JSON文件路径
+      data_path: ../demo_data/omnidocbench_demo/OmniDocBench_demo.json               # OmniDocBench的JSON文件路径
     prediction:
-      data_path: ./predictions.json                     # 模型预测结果JSON文件路径
+      data_path: ../demo_data/detection/detection_prediction.json                    # 模型预测结果JSON文件路径
     filter:                                             # 页面级别的筛选
       data_source: exam_paper                           # 需要评测的页面属性以及对应标签
   categories:
@@ -377,6 +384,7 @@ detection_eval:   # 指定task名称，所有的检测相关的任务通用此ta
 使用filter字段可以对数据集进行筛选，比如将`dataset`下设置`filter`字段为`data_source: exam_paper`即筛选数据类型为exam_paper的页面。更多页面属性请参考“评测集介绍”部分。如果希望全量评测，请注释掉`filter`相关字段。
 
 `dataset`部分`prediction`的`data_path`中传入的是模型的prediction，其数据格式为：
+
 ```JSON
 {
     "results": [
@@ -405,9 +413,9 @@ detection_eval:   # 指定task名称，所有的检测相关的任务通用此ta
   dataset: 
     dataset_name: detection_dataset_simple_format       # 数据集名称，如果按照规定的输入格式则不需要修改
     ground_truth:
-      data_path: ./ocr-main-1114.json                   # OmniDocBench的JSON文件路径
+      data_path: .../demo_data/omnidocbench_demo/OmniDocBench_demo.json               # OmniDocBench的JSON文件路径
     prediction:
-      data_path: ./predictions.json                     # 模型预测结果JSON文件路径
+      data_path: ../demo_data/detection/detection_prediction.json                     # 模型预测结果JSON文件路径
     filter:                                             # 页面级别的筛选
       data_source: exam_paper                           # 需要评测的页面属性以及对应标签
   categories:

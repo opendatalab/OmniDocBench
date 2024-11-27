@@ -1,9 +1,14 @@
-result*
 **/__pycache__/
 # check_data/
 **/.ipynb_checkpoints/
+.ipynb_checkpoints
 **log
 debug.py
+test.py
+run_cal_metric.py
 output/
-result_old/
+old_results
 det_test
+old_configs
+check_data
+trace

@@ -3,8 +3,8 @@ end2end_eval:
     text_block:
       metric:
         - Edit_dist
-        # - METEOR
-        # - BLEU
+        - METEOR
+        - BLEU
     display_formula:
       metric:
         - Edit_dist
@@ -16,16 +16,12 @@ end2end_eval:
     reading_order:
       metric:
         - Edit_dist
-      # - Move_dist
   dataset:
     dataset_name: md2md_dataset
     ground_truth:
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/md1120
-      page_info: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/ocr-main-1114.json
-      # data_path: /mnt/petrelfs/ouyanglinke/CDM_match/test_data/gt
+      data_path: ../demo_data/omnidocbench_demo/mds
+      page_info: ../demo_data/omnidocbench_demo/OmniDocBench_demo.json
     prediction:
-      data_path: /mnt/petrelfs/ouyanglinke/CDM_match/benchmark/result1120/gpt4o_long_prompt
-    match_method: simple_match
-    # match_method: no_split
-    # match_method: quick_match
-    # match_method: full_match
+      data_path: ../demo_data/end2end
+    match_method: quick_match
+    

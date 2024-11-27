@@ -1,0 +1,11 @@
+- **Human Factors**
+
+  - the process molds to the needs of the people and team, not the other way around
+  - key traits must exist among the people on an agile team and the team itself:
+    - Competence.
+    - Common focus.
+    - Collaboration.
+    - Decision-making ability.
+    - Fuzzy problem-solving ability.
+    - Mutual trust and respect.
+    - Self-organization.

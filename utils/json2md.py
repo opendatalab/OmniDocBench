@@ -18,14 +18,14 @@ def poly2bbox(poly):
 
 table_format = 'html'
 
-save_path = r'/mnt/petrelfs/ouyanglinke/CDM_match/benchmark/md1120'
+save_path = r'/mnt/petrelfs/ouyanglinke/DocParseEval/demo_data/end2end/mds'
 save_path_imgs = os.path.join(save_path, 'imgs')
 
 os.makedirs(save_path, exist_ok=True)
 os.makedirs(save_path_imgs, exist_ok=True)
 
 # with open('/mnt/petrelfs/ouyanglinke/CDM_match/demo_data_v2/demo_val_dataset.json', 'r') as f:
-with open(r'/mnt/petrelfs/ouyanglinke/CDM_match/benchmark/middle/ocr-main-1120.json', 'r', encoding='utf-8') as f:
+with open(r'/mnt/petrelfs/ouyanglinke/DocParseEval/demo_data/end2end/OmniDocBench_demo.json', 'r', encoding='utf-8') as f:
         samples = json.load(f)
 
 def text_norm(text):
