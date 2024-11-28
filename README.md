@@ -1,10 +1,24 @@
 # OmniDocBench
 
+English | [简体中文](./README_zh-CN.md)
+
+[[Dataset (🤗Hugging Face)]]() | [[Dataset (🤗OpenDataLab)]]()
+
+**OmniDocBench** is a benchmark for evaluating diverse document parsing in real-world scenarios, featuring the following characteristics:
+
+**Diverse Document Types**: This benchmark includes 981 PDF pages, covering 9 document types, 4 layout types, and 3 language types. It encompasses a wide range of content, including academic papers, financial reports, newspapers, textbooks, and handwritten notes.
+
+**Rich Annotation Information**: It contains **localization information** for 15 block-level (such as text paragraphs, headings, tables, etc., totaling over 20k) and 4 span-level (such as text lines, inline formulas, subscripts, etc., totaling over 80k) document elements. Each element's region includes **recognition results** (text annotations, LaTeX annotations for formulas, and both LaTeX and HTML annotations for tables). OmniDocBench also provides annotations for the **reading order** of document components. Additionally, it includes various attribute tags at the page and block levels, with annotations for 5 **page attribute tags**, 3 **text attribute tags**, and 6 **table attribute tags**.
+
+**High Annotation Quality**: The data quality is high, achieved through manual screening, intelligent annotation, manual annotation, and comprehensive expert and large model quality checks.
+
+**Supporting Evaluation Code**: It includes end-to-end and single-module evaluation code to ensure fairness and accuracy in assessments.
+
 ![](https://github.com/user-attachments/assets/f3e53ba8-bb97-4ca9-b2e7-e2530865aaa9)
 
 ![](https://github.com/user-attachments/assets/ea389904-c130-410e-b05f-676882cc973c)
 
-OmniDocBench is a benchmark designed for Document Parsing, featuring rich annotations for evaluation across several dimensions:
+**OmniDocBench** is a benchmark designed for Document Parsing, featuring rich annotations for evaluation across several dimensions:
 - End-to-end evaluation: includes both end2end and md2md evaluation methods
 - Layout detection
 - Table recognition
@@ -16,6 +30,7 @@ Currently supported metrics include:
 - BLEU
 - METEOR
 - TEDS
+- COCODet (mAP, mAR, etc.)
 
 ## Download
 
@@ -23,7 +38,9 @@ xxx
 
 ## Installation
 
-
+```bash
+conda create --name omnidocbench python=3.8 --file requirements.txt
+```
 
 ## How to use
 
@@ -35,7 +52,7 @@ Once the config file is set up, simply pass it as a parameter and run the follow
 python pdf_validation.py --config <config_path>
 ```
 
-## End-to-End Evaluation
+## End-to-End Evaluation (Recommend)
 
 End-to-end evaluation assesses the accuracy of a model in Document Parsing. The model's output, which is the parsed result of the entire PDF page in Markdown, is used as the prediction.
 
@@ -45,7 +62,37 @@ There are two methods for end-to-end evaluation:
 
 We recommend using the `end2end` method because it preserves the sample's category and attribute information, allowing for operations like ignoring specific categories and outputting results by attribute.
 
-Here is the 
+Here is example of `end2end.yaml`:
+
+```YAML
+end2end_eval:          # Specify task name, applicable for end-to-end evaluation
+  metrics:             # Configure the metrics to be used
+    text_block:        # Configuration for text blocks
+      metric:
+        - Edit_dist    # Normalized Edit Distance
+        - BLEU         
+        - METEOR
+    display_formula:   # Configuration for inline formulas
+      metric:
+        - Edit_dist
+        - CDM          # Supports exporting format required for CDM evaluation, stored in results
+    table:             # Configuration for tables
+      metric:
+        - TEDS
+        - Edit_dist
+    reading_order:     # Configuration for reading order
+      metric:
+        - Edit_dist
+  dataset:                                       # Dataset configuration
+    dataset_name: end2end_dataset                # Dataset name, no need to modify
+    ground_truth:
+      data_path: ./demo_data/omnidocbench_demo/OmniDocBench_demo.json  # Path to OmniDocBench
+    prediction:
+      data_path: ./demo_data/end2end            # Path to folder with model's markdown results of PDF page parsing
+    match_method: quick_match                    # Matching method, options: no_split/no_split/quick_match
+    filter:                                      # Page-level filtering
+      language: english                          # Attributes and labels of pages to be evaluated
+```
 
 In addition, the config allows you to choose different matching methods for end-to-end evaluation. There are three matching methods:
 
