@@ -204,7 +204,7 @@ def md_tex_filter(content):
             sub_match = dollar_pattern.search(single_line)
             if sub_match is None:
                 # pass
-                # content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]
+                content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]
                 pred_all.append({
                     'category_type': 'equation_isolated',
                     'position': position,
