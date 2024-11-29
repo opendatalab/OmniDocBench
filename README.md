@@ -1091,14 +1091,14 @@ recogition_eval:      # Specify task name, common for all recognition-related ta
     - TEDS            # Tree Edit Distance based Similarity
     - Edit_dist       # Normalized Edit Distance
   dataset:                                                                   # Dataset configuration
-    dataset_name: omnidocbench_single_module_dataset                         # Dataset name, no need to modify if following the specified input format
-    ground_truth:                                                            # Ground truth dataset configuration
+    dataset_name: omnidocbench_single_module_dataset                         # Dataset name, no need to modify if following specified input format
+    ground_truth:                                                            # Configuration for ground truth dataset
       data_path: ./demo_data/recognition/OmniDocBench_demo_table.json        # JSON file containing both ground truth and model prediction results
       data_key: html                                                         # Field name storing Ground Truth, for OmniDocBench, table recognition results are stored in html and latex fields, change to latex when evaluating latex format tables
-      category_filter: table                                                 # Category used for evaluation, in formula recognition, the category_name is table
-    prediction:                                                              # Model prediction configuration
+      category_filter: table                                                 # Category for evaluation, in table recognition, the category_name is table
+    prediction:                                                              # Configuration for model prediction results
       data_key: pred                                                         # Field name storing model prediction results, this is user-defined
-    category_type: table                                                     # category_type is mainly used for selecting data preprocessing strategy
+    category_type: table                                                     # category_type is mainly used for data preprocessing strategy selection
 ```
 
 For the `dataset` section, the data format in the `ground_truth`'s `data_path` remains consistent with OmniDocBench, with only a custom field added under the corresponding table sample to store the model's prediction result. The field storing prediction information is specified through `data_key` under the `prediction` field in `dataset`, such as `pred`. For more details about OmniDocBench's file structure, please refer to the "Dataset Introduction" section. The input format for model results can be found in [OmniDocBench_demo_table](./demo_data/recognition/OmniDocBench_demo_table.json), which follows this format:
