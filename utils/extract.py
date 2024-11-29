@@ -109,17 +109,17 @@ def md_tex_filter(content):
     Input: 1 page md or tex content - String
     Output: text, display, inline, table, title, code - list
     '''
-    content = re.sub(img_pattern, '', content)  # 去除图片
-    content = remove_markdown_fences(content)   # 去除开头的markdown标记，若有
-    content = replace_repeated_chars(content) # 对所有连续字符做处理
+    content = re.sub(img_pattern, '', content)  # remove image
+    content = remove_markdown_fences(content)   # remove markdown fences
+    content = replace_repeated_chars(content) # replace all consecutive characters
     
     # # 使用正则表达式对unicode进行替换
     # special_unicode = ''.join(unicode_replacements.keys())
     # content = re.sub(f'[{special_unicode}]', replace_unicode, content)
 
-    # content = fullwidth_to_halfwidth(content)  # 全角转半角，TODO: GT也需要做这个操作
+    # content = fullwidth_to_halfwidth(content)  # fullwidth to halfwidth, TODO: GT also needs this operation
 
-    # # pylatexenc的unicode转latex
+    # # pylatexenc's unicode to latex
     # content = unicode_to_latex(content, unknown_char_warning=False)
     # markdown_table_content[i, j] = LatexNodes2Text().latex_to_text(content_str)
     # content_ori = copy.deepcopy(content)
@@ -127,7 +127,7 @@ def md_tex_filter(content):
     # print('--------------After pre_process: \n', content)
 
     pred_all = []
-    # 处理行内公式，添加到text_all中
+    # deal with inline formula
     # content_new, inline_array = inline_filter_unicode(content)
     # #print('------------inline_array----------------',inline_array)
     # for inline_item in inline_array:
@@ -140,7 +140,7 @@ def md_tex_filter(content):
     #         'fine_category_type': 'equation_inline'
     #     })
     
-    # 提取latex表格 
+    # extract latex table 
     latex_table_array, table_positions = extract_tex_table(content)
     for latex_table, position in zip(latex_table_array, table_positions):
         position = [position[0], position[0]+len(latex_table)]   # !!!
@@ -149,12 +149,12 @@ def md_tex_filter(content):
             'position': position,
             'content': latex_table
         })
-        content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
+        content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # replace latex table with space
 
     # print('--------After latex table: \n', content)
     # print('-------latex_table_array: \n', latex_table_array)
 
-    # 提取html表格
+    # extract html table  
     html_table_array, table_positions = extract_html_table(content)
     for html_table, position in zip(html_table_array, table_positions):
         position = [position[0], position[0]+len(html_table)]
@@ -163,7 +163,7 @@ def md_tex_filter(content):
             'position': position,
             'content': html_table
         })
-        content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
+        content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # replace html table with space
     # html_table_array = []
     # html_table_matches = html_table_reg.finditer(content)
     # if html_table_matches:
@@ -171,8 +171,8 @@ def md_tex_filter(content):
     #         matched = match.group(0)
     #         position = [match.start(), match.end()]
     #         html_table_array.append(matched.strip())
-    #         # content = content.replace(matched, ' '*len(matched)) # 替换成空格
-    #         content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
+    #         # content = content.replace(matched, ' '*len(matched)) # replace html table with space
+    #         content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # replace html table with space
     #         pred_all.append({
     #             'category_type': 'html_table',
     #             'position': position,
@@ -212,7 +212,7 @@ def md_tex_filter(content):
                 })
             elif sub_match.group(1):
                 single_line = re.sub(dollar_pattern, r'\\[\1\\]', single_line)
-                content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
+                content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # replace equation with space
                 pred_all.append({
                     'category_type': 'equation_isolated',
                     'position': position,
@@ -251,7 +251,7 @@ def md_tex_filter(content):
                 position = [match.start(), match.end()]
                 # content = content.replace(match, '')
                 # print('content after removing the md table:', content)
-                content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
+                content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # replace md table with space
                 pred_all.append({
                     'category_type': 'html_table',
                     'position': position,
@@ -268,7 +268,7 @@ def md_tex_filter(content):
             language = match.group(1)
             code = match.group(2).strip()
             # content = content.replace(match.group(0), '')
-            content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # 把表格的内容替换成空格
+            content = content[:position[0]] + ' '*(position[1]-position[0]) + content[position[1]:]  # replace code block with space
             pred_all.append({
                 'category_type': 'text_all',
                 'position': position,
@@ -279,7 +279,7 @@ def md_tex_filter(content):
 
     # print('-------After code block: \n', content)
 
-    # # extract titles：不提取标题了，因为有的模型没有给code block包起来，导致里面的注释全变成标题
+    # # Extract titles: Do not extract titles, as some models do not wrap code blocks, causing all comments to be treated as titles
     # title_matches = title_reg.finditer(content)
     # if title_matches:
     #     for match in title_matches:
@@ -300,7 +300,7 @@ def md_tex_filter(content):
     
     # print('----------After title: \n', content)
             
-    # # 按照位置顺序从后向前删除，以免影响未处理的起始位置
+    # # Delete extracted content
     # extracted_position = [_['position'] for _ in pred_all]
     # for start, end in sorted(extracted_position, reverse=True):
     #     content = content[:start] + content[end:]
@@ -317,7 +317,7 @@ def md_tex_filter(content):
     # extract texts
     res = content.split('\n\n')
     if len(res) == 1:
-        res = content.split('\n')  # 有的模型结果里没有双换行，只能用单换行来拆分
+        res = content.split('\n')  # some models do not use double newlines, so use single newlines to split
 
     content_position = 0
     for text in res:
@@ -326,7 +326,7 @@ def md_tex_filter(content):
         text = text.strip()
         text = text.strip('\n')
         # print('ori_text: ', text)
-        text = '\n'.join([_.strip() for _ in text.split('\n') if _.strip()])   # 以防有一些单换行的内容里有很多空格
+        text = '\n'.join([_.strip() for _ in text.split('\n') if _.strip()])   # avoid some single newline content with many spaces
         # print('after strip text: ', text)
 
         if text:  # Check if the stripped text is not empty
@@ -354,14 +354,6 @@ def md_tex_filter(content):
                         'content': text.strip(),
                     })
             else:
-                # text = textblock_with_norm_formula(text)  # !! 如果文本段落里有行内公式，则跑一个normalize_formula, 目前latex2unicode报错
-                # text = textblock2unicode(text)
-                # text = re.sub(r'\\title\{(.*?)\}', r'\1', text)
-                # text = re.sub(r'\\section\*?\{(.*?)\}', r'\1', text)
-                # text = text.replace('\title', '')
-                # text = text.replace('\title{', '')
-                # text = text.replace('\title{}', '')
-                # text = text.replace('\section*{', '')
                 text = text.strip()
                 if text:
                     pred_all.append({
@@ -512,19 +504,19 @@ def extract_html_table(text):
 
 
 def extract_node_content(node):
-    """ 递归提取LatexEnvironmentNode的内容，重建表格的LaTeX表示 """
+    """ Recursively extract content from LatexEnvironmentNode and rebuild LaTeX table representation """
     if isinstance(node, LatexCharsNode):
-        return node.chars  # 使用 chars 属性
+        return node.chars  # Use chars attribute
     elif isinstance(node, LatexGroupNode):
         return "{" + "".join(extract_node_content(n) for n in node.nodelist) + "}"
     elif isinstance(node, LatexMacroNode):
-        # 提取宏命令及其参数
+        # Extract macro command and its arguments
         macro_content = "\\" + node.macroname
         if node.nodeargs:
             macro_content += "".join([extract_node_content(arg) for arg in node.nodeargs])
         return macro_content
     elif isinstance(node, LatexEnvironmentNode):
-        # 提取环境，保留环境名和参数
+        # Extract environment, preserve environment name and arguments
         content = "\\begin{" + node.environmentname + "}"
         if node.nodeargd and node.nodeargd.argnlist:
             # content += "".join("{" + extract_node_content(arg) + "}" for arg in node.nodeargd)
@@ -534,28 +526,28 @@ def extract_node_content(node):
             content += "".join(extract_node_content(n) for n in node.nodelist)
         content += "\\end{" + node.environmentname + "}"
         return content
-    elif isinstance(node, LatexSpecialsNode):  # 修改为 LatexSpecialsNode
+    elif isinstance(node, LatexSpecialsNode):  # Changed to LatexSpecialsNode
         return node.specials_chars
     else:
         return ""
         
 def get_node_end_pos(node):
-    """递归确定节点的结束位置"""
+    """Recursively determine the end position of a node"""
     if hasattr(node, 'nodelist') and node.nodelist:
-        # 如果节点有子节点，则递归查找最后一个子节点的结束位置
+        # If the node has child nodes, recursively find the end position of the last child node
         return get_node_end_pos(node.nodelist[-1])
     elif hasattr(node, 'pos_end'):
-        # 如果节点有 pos_end 属性，直接返回
+        # If the node has pos_end attribute, return it directly
         return node.pos_end
     else:
-        # 如果没有子节点，则假设该节点结束于其内容的最后一个字符
+        # If there are no child nodes, assume the node ends at the last character of its content
         return node.pos + len(str(node))
 
 def remove_tex_table(content):
     tables, positions = extract_tex_table(content)
 
-    # 按照位置顺序从后向前删除，以免影响未处理的起始位置
+    # Delete in reverse order by position to avoid affecting unprocessed start positions
     for start, end in sorted(positions, reverse=True):
-        content = content[:start] + content[end:]  # 删除表格内容
+        content = content[:start] + content[end:]  # Remove table content
 
     return content

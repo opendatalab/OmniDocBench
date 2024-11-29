@@ -8,73 +8,26 @@ import uuid
 import html
 import os
 
-# def timed_function_single(func, *args, timeout=5, **kwargs):
-#     """
-#     在指定时间内执行函数，如果超时则触发其他逻辑。
-#     :param func: 被执行的函数
-#     :param timeout: 超时时间（秒）
-#     :param args: 函数的参数
-#     :param kwargs: 函数的关键字参数
-#     :return: 函数返回值或超时逻辑
-#     """
-#     with concurrent.futures.ThreadPoolExecutor() as executor:
-#         future = executor.submit(func, *args, **kwargs)
-#         try:
-#             return future.result(timeout=timeout)
-#         except concurrent.futures.TimeoutError:
-#             print(f"Function '{func.__name__}' timed out after {timeout} seconds.")
-#             return None
-
-# def timed_function(func, change_func, *args, timeout=5, print_msg="", **kwargs):
-#     """
-#     在指定时间内执行函数，如果超时则触发其他逻辑。
-#     :param func: 被执行的函数
-#     :param timeout: 超时时间（秒）
-#     :param args: 函数的参数
-#     :param kwargs: 函数的关键字参数
-#     :return: 函数返回值或超时逻辑
-#     """
-#     with concurrent.futures.ThreadPoolExecutor() as executor:
-#         future = executor.submit(func, *args, **kwargs)
-#         try:
-#             return future.result(timeout=timeout)
-#         except concurrent.futures.TimeoutError:
-#             print(f"Function '{func.__name__}' timed out after {timeout} seconds. The alternate Function '{change_func.__name__}' will be used.")
-#             print('Input is: ', print_msg)
-#             future = executor.submit(change_func, *args, **kwargs)
-#             try:
-#                 return future.result(timeout=timeout)
-#             except concurrent.futures.TimeoutError:
-#                 print(f"The alternate Function '{change_func.__name__}' timed out after {timeout} seconds. The result would be None.")
-#                 print('Input is: ', print_msg)
-#                 return None
-
 def remove_markdown_fences(content):
     content = re.sub(r'^```markdown\n?', '', content, flags=re.MULTILINE)
     content = re.sub(r'```\n?$', '', content, flags=re.MULTILINE)
     return content
 
-# # 标准化连续下划线和空格
-# def standardize_underscores(content):
-#     content = re.sub(r'_{5,}', '____', content) # 下划线
-#     content = re.sub(r'\s+', ' ', content)   # 空格
-#     return content
-
-# 标准化所有连续的字符
+# Standardize all consecutive characters
 def replace_repeated_chars(input_str):
-    input_str = re.sub(r'_{4,}', '____', input_str) # 下划线连续超过4个替换成4个
-    input_str = re.sub(r' {4,}', '    ', input_str)   # 空格连续超过4个替换成4个
-    return re.sub(r'([^a-zA-Z0-9])\1{10,}', r'\1\1\1\1', input_str) # 其他连续符号，除了数字和字母以外，超过10个的话就替换成4个
+    input_str = re.sub(r'_{4,}', '____', input_str) # Replace more than 4 consecutive underscores with 4 underscores
+    input_str = re.sub(r' {4,}', '    ', input_str)   # Replace more than 4 consecutive spaces with 4 spaces
+    return re.sub(r'([^a-zA-Z0-9])\1{10,}', r'\1\1\1\1', input_str) # For other consecutive symbols (except numbers and letters), replace more than 10 occurrences with 4
 
-# 特殊Unicode处理
+# Special Unicode handling
 def fullwidth_to_halfwidth(s):
     result = []
     for char in s:
         code = ord(char)
-        # 全角空格转换为半角空格
+        # Convert full-width space to half-width space
         if code == 0x3000:
             code = 0x0020
-        # 其他全角字符转换为半角字符
+        # Convert other full-width characters to half-width
         elif 0xFF01 <= code <= 0xFF5E:
             code -= 0xFEE0
         result.append(chr(code))
@@ -83,31 +36,31 @@ def fullwidth_to_halfwidth(s):
 def find_special_unicode(s):
     special_chars = {}
     for char in s:
-        if ord(char) > 127:  # 非 ASCII 字符
+        if ord(char) > 127:  # Non-ASCII characters
             # unicode_name = unicodedata.name(char, None)
             unicode_name = unicodedata.category(char)
             special_chars[char] = f'U+{ord(char):04X} ({unicode_name})'
     return special_chars
 
-# # 定义要替换的Unicode字符和替换后的内容的字典
+# # Define dictionary for Unicode character replacements
 # unicode_replacements = {
-#     "\u00A9": r"$\copyright$",  # 版权符号©替换为latex
-#     "\u00AE": r"$^\circledR$",  # 注册商标符号®替换为latex
-#     "\u2122": r"$^\text{TM}$",   # 商标符号™替换latex
-#     "\u2018": "'",             # 左单引号转直引号
-#     "\u2019": "'",             # 右单引号转直引号
-#     "\u201C": "\"",            # 左双引号转直双引号
-#     "\u201D": "\"",            # 右双引号转直双引号
-#     "\u2013": "-",             # 短破折号转连字符
-#     "\u2014": "-",             # 长破折号转连字符
-#     "\u2026": "...",           # Unicode 省略号转三个点
+#     "\u00A9": r"$\copyright$",  # Copyright symbol © to latex
+#     "\u00AE": r"$^\circledR$",  # Registered trademark ® to latex
+#     "\u2122": r"$^\text{TM}$",   # Trademark ™ to latex
+#     "\u2018": "'",             # Left single quote to straight quote
+#     "\u2019": "'",             # Right single quote to straight quote
+#     "\u201C": "\"",            # Left double quote to straight quote
+#     "\u201D": "\"",            # Right double quote to straight quote
+#     "\u2013": "-",             # En dash to hyphen
+#     "\u2014": "-",             # Em dash to hyphen
+#     "\u2026": "...",           # Unicode ellipsis to three dots
 #     "\u2103": r"$\textdegree C$",  # ℃
 #     "\u03B1": r"$\alpha$",         # α
 #     "\u03B2": r"$\beta$",          # β
 #     "\u03A3": r"$\Sigma$",         # Σ
 # }
 
-# # 使用正则表达式替换Unicode字符
+# # Use regex to replace Unicode characters
 # def replace_unicode(match):
 #     char = match.group(0)
 #     return unicode_replacements.get(char, char)
@@ -124,7 +77,7 @@ def textblock2unicode(text):
         position = [match.start(), match.end()]
         content = match.group(1) if match.group(1) is not None else match.group(2)
         # print('-------- content-------', content)
-        # 移除转义字符 \
+        # Remove escape characters \
         clean_content = re.sub(r'\\([\\_&%^])', '', content)
 
         try:
@@ -137,14 +90,14 @@ def textblock2unicode(text):
         except:
             continue
     
-    # 从原始文本中移除行内公式
+    # Remove inline formulas from original text
     for start, end, unicode_content in sorted(removal_positions, reverse=True):
         text = text[:start] + unicode_content.strip() + text[end:]
 
     return text
 
 def normalized_formula(text):
-    # 把数学公式做一下norm再匹配
+    # Normalize math formulas before matching
     filter_list = ['\\mathbf', '\\mathrm', '\\mathnormal', '\\mathit', '\\mathbb', '\\mathcal', '\\mathscr', '\\mathfrak', '\\mathsf', '\\mathtt', 
                    '\\textbf', '\\text', '\\boldmath', '\\boldsymbol', '\\operatorname', '\\bm',
                    '\\symbfit', '\\mathbfcal', '\\symbf', '\\scriptscriptstyle', '\\notag',
@@ -366,18 +319,18 @@ def textblock_with_norm_formula(text):
         norm_content = normalized_formula(content)
         removal_positions.append((position[0], position[1], norm_content))
     
-    # 从原始文本中移除行内公式
+    # Remove inline formulas from original text
     for start, end, norm_content in sorted(removal_positions, reverse=True):
         text = text[:start] + norm_content.strip() + text[end:]
 
     return text
 
 # def inline_filter_unicode(text):
-#     # 确保 text 是字符串类型
+#     # Ensure text is string type
 #     if not isinstance(text, str):
 #         text = str(text)
     
-#     # 将LaTeX内容转换为Unicode表示
+#     # Convert LaTeX content to Unicode representation
 #     text = LatexNodes2Text().latex_to_text(text)
     
 #     inline_array = []
@@ -387,7 +340,7 @@ def textblock_with_norm_formula(text):
 #         position = [match.start(), match.end()]
 #         content = match.group(1) if match.group(1) is not None else match.group(2)
         
-#         # 移除转义字符 \
+#         # Remove escape characters \
 #         clean_content = re.sub(r'\\([\\_&%^])', '', content)
 
 #         if any(char in clean_content for char in r'\^_'):
@@ -401,44 +354,44 @@ def textblock_with_norm_formula(text):
 #             # print('-----Found inline formula: ', match.group(0))
 #         else:
 #             text = text.replace(match.group(0), content)
-#         # # 添加到 inline_array 中
+#         # # Add to inline_array
 #         # inline_array.append({
 #         #     'category_type': 'equation_inline',
 #         #     'position': position,
 #         #     'content': content,
 #         # })
         
-#         # # 将匹配到的公式从原始文本中移除，这里可以选择是否替换为空格或直接移除
+#         # # Remove matched formula from original text, can choose to replace with spaces or remove directly
 #         # text = text[:position[0]] + ' '*(position[1]-position[0]) + text[position[1]:]
 
 #     return text, inline_array
 
 def inline_filter_unicode(text):
-    # 确保 text 是字符串类型
+    # Ensure text is string type
     if not isinstance(text, str):
         text = str(text)
     
-    # 替换行内公式的边界标识符
+    # Replace inline formula boundary markers
     #print('--------text-------',text)
     placeholder = '__INLINE_FORMULA_BOUNDARY__'
     text_copy = text.replace('$', placeholder).replace('\\(', placeholder).replace('\\)', placeholder)
     #print('--------text_copy-------',text_copy)
-    # 将LaTeX内容转换为Unicode表示
+    # Convert LaTeX content to Unicode representation
     text_copy = LatexNodes2Text().latex_to_text(text_copy)
     #print('--------text_copy---unicode----',text_copy)
-    # 恢复边界标识符
+    # Restore boundary markers
     text_copy = text_copy.replace(placeholder, '$')
     
     inline_array = []
     inline_matches = inline_reg.finditer(text_copy)
-    # 记录需要移除的行内公式及其位置
+    # Record positions of inline formulas to be removed
     removal_positions = []
     
     for match in inline_matches:
         position = [match.start(), match.end()]
         content = match.group(1) if match.group(1) is not None else match.group(2)
         print('-------- content-------', content)
-        # 移除转义字符 \
+        # Remove escape characters \
         clean_content = re.sub(r'\\([\\_&%^])', '', content)
 
         if any(char in clean_content for char in r'\^_'):
@@ -450,14 +403,14 @@ def inline_filter_unicode(text):
             })
             removal_positions.append((position[0], position[1]))
     
-    # 从原始文本中移除行内公式
+    # Remove inline formulas from original text
     for start, end in sorted(removal_positions, reverse=True):
         text = text[:start] + text[end:]
 
     return text, inline_array
 
 def inline_filter(text):
-    # 确保 text 是字符串类型
+    # Ensure text is string type
     if not isinstance(text, str):
         text = str(text)
     
@@ -469,7 +422,7 @@ def inline_filter(text):
         content = match.group(1) if match.group(1) is not None else match.group(2)
         # print('inline_content: ', content)
         
-        # 移除转义字符 \
+        # Remove escape characters \
         clean_content = re.sub(r'\\([\\_&%^])', '', content)
 
         if any(char in clean_content for char in r'\^_'):
@@ -486,9 +439,9 @@ def inline_filter(text):
 
     return text, inline_array
 
-# 文本OCR质检处理：
+# Text OCR quality check processing:
 def clean_string(input_string):
-    # 使用正则表达式保留中文、英文和数字
+    # Use regex to keep Chinese characters, English letters and numbers
     input_string = input_string.replace('\\t', '').replace('\\n', '').replace('\t', '').replace('\n', '').replace('/t', '').replace('/n', '')
     cleaned_string = re.sub(r'[^\w\u4e00-\u9fff]', '', input_string)
     return cleaned_string

@@ -12,7 +12,7 @@ detection_eval:
   categories:
     eval_cat:
       block_level:
-        - isolate_formula    # Display formula (this is a layout display formula, lower priority than 14)
+        - isolate_formula    # Display formula
       span_level:
         - inline_formula     # inline formula
     gt_cat_mapping:    

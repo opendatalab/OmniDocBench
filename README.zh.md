@@ -1448,13 +1448,22 @@ config中参数解释以及数据集格式请参考`Layout检测`小节，公式
 
 </details>
 
+## Tools
+
+我们在`tools`目录下提供了一些工具：
+- [json2md](./tools/json2md.py) 用于将JSON格式的OmniDocBench转换为Markdown格式；
+- [visualization](./tools/visualization.py) 用于可视化OmniDocBench的JSON文件；
+- [model_infer](./tools/model_infer)文件夹下提供了一些模型推理的脚本，包括：
+  - [mathpix_img2md.py](./tools/model_infer/mathpix_img2md.py) 用于调用mathpix的API将图片转换为Markdown格式；
+  - [internvl2_test_img2md.py](./tools/model_infer/internvl2_test_img2md.py) 用于调用InternVL2模型将图片转换为Markdown格式；
+
 ## LICENSE
 
 xxx
 
 ## Acknowledgement
 
-xxx
+- 感谢[整数科技](https://abaka.ai)提供的数据集标注
 
 ## Citation
 

@@ -365,7 +365,7 @@ def match_gt2pred_textblock_full(gt_lines, pred_lines):
     plain_text_match = []
     inline_formula_match = []
     for item in text_inline_match_s:
-        plaintext_gt, inline_gt_list = inline_filter(item['gt'])  # 这个后续最好是直接从span里提取出来
+        plaintext_gt, inline_gt_list = inline_filter(item['gt'])  # this should be extracted from span
         plaintext_pred, inline_pred_list = inline_filter(item['pred'])
         # print('inline_pred_list', inline_pred_list)
         # print('plaintext_pred: ', plaintext_pred)
