@@ -184,6 +184,12 @@ class End2EndDataset():
                             continue
 
             process_bar.set_description(f'Processing {os.path.basename(pred_path)}')
+            # if os.path.basename(pred_path) not in [
+            #   'yanbaopptmerge_yanbaoPPT_1465.md',
+            #   'yanbaopptmerge_yanbaoPPT_2460.md',
+            #   'docstructbench_llm-raw-scihub-o.O-chem.200700118.pdf_7.md',
+            # ]:
+            #     continue
             pred_content = read_md_file(pred_path)
 
             result = self.process_get_matched_elements(sample, pred_content, img_name, save_time) # 不走time out逻辑
@@ -286,13 +292,13 @@ class End2EndDataset():
             # plain_text_match_s = match_gt2pred(gt_text_list, pred_dataset['text_all'], 'text', img_name)  # 不走time out逻辑
             try:
                 plain_text_match_s = func_timeout(
-                    300, match_gt2pred, args=(gt_text_list, pred_dataset['text_all'], 'text', img_name)
+                    30, match_gt2pred, args=(gt_text_list, pred_dataset['text_all'], 'text', img_name)
                 )
             except FunctionTimedOut as e1:
-                logger.exception(e1)
-                with open(f'timeout_{save_time}.log', 'a') as f:
-                    f.write(str(e1))
-                    f.write('\n')
+                # logger.exception(e1)
+                # with open(f'timeout_{save_time}.log', 'a') as f:
+                #     f.write(str(e1))
+                #     f.write('\n')
                 print(f'Time out for plain text match of {img_name}, match_gt2pred_simple will be used.')
                 plain_text_match_s = match_gt2pred_simple(gt_text_list, pred_dataset['text_all'], 'text', img_name)
             except Exception as e:

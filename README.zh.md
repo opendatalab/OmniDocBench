@@ -961,6 +961,8 @@ with open('./demo_data/recognition/OmniDocBench_demo_text_ocr.json', 'w', encodi
 
 ### 表格识别评测
 
+OmniDocBench包含每个PDF页面的公式的bounding box信息以及对应的表格识别标注，因此可以作为表格识别评测的benchmark。表格识别的标注包含HTML和LaTex两种格式，本repo目前提供的例子是HTML格式的评测。
+
 <table style="width:100%; border-collapse: collapse;">
   <thead>
     <tr>
@@ -1075,6 +1077,109 @@ with open('./demo_data/recognition/OmniDocBench_demo_text_ocr.json', 'w', encodi
   </tbody>
 </table>
 <p>Component-level Table Recognition evaluation on OmniDocBench table subset. <i>(+/-)</i> means <i>with/without</i> special situation.</p>
+
+
+表格识别评测可以参考[table_recognition](./configs/table_recognition.yaml)进行配置。 
+
+**对于模型预测为LaTex格式的表格, 会使用[latexml](https://math.nist.gov/~BMiller/LaTeXML/)工具将latex转为html 再进行评测. 评测代码会自动进行格式转换,需要用户预先安装[latexml](https://math.nist.gov/~BMiller/LaTeXML/)**
+
+<details>
+  <summary>`table_recognition.yaml`的配置和字段解释</summary>
+
+`table_recognition.yaml`的配置文件如下：
+
+```YAML
+recogition_eval:      # 指定task名称，所有的识别相关的任务通用此task
+  metrics:            # 配置需要使用的metric
+    - TEDS            # Tree Edit Distance based Similarity
+    - Edit_dist       # Normalized Edit Distance
+  dataset:                                                                   # 数据集配置
+    dataset_name: omnidocbench_single_module_dataset                         # 数据集名称，如果按照规定的输入格式则不需要修改
+    ground_truth:                                                            # 针对ground truth的数据集配置
+      data_path: ./demo_data/recognition/OmniDocBench_demo_table.json      # 同时包含ground truth和模型prediction结果的JSON文件
+      data_key: html                                                        # 存储Ground Truth的字段名，对于OmniDocBench来说，公式的识别结果存储在latex这个字段中
+      category_filter: table                                 # 用于评测的类别，在公式识别中，评测的category_name是table
+    prediction:                                                              # 针对模型预测结果的配置
+      data_key: pred                                                         # 存储模型预测结果的字段名，这个是用户自定义的
+    category_type: table                                                   # category_type主要是用于数据预处理策略的选择
+```
+
+`dataset`的部分，输入的`ground_truth`的`data_path`中的数据格式与OmniDocBench保持一致，仅对应的表格sample下新增一个自定义字段保存模型的prediction结果。通过`dataset`下的`prediction`字段下的`data_key`对存储了prediction信息的字段进行指定，比如`pred`。关于更多OmniDocBench的文件结构细节请参考`评测集介绍`小节。模型结果的输入格式可以参考[OmniDocBench_demo_table](./demo_data/recognition/OmniDocBench_demo_table.json)，其格式为：
+
+```JSON
+[{
+    "layout_dets": [    // 页面元素列表
+        {
+            "category_type": "table",  // OmniDocBench类别名称
+            "poly": [    // OmniDocBench位置信息，分别是左上角、右上角、右下角、左下角的x,y坐标
+                136.0, 
+                781.0,
+                340.0,
+                781.0,
+                340.0,
+                806.0,
+                136.0,
+                806.0
+            ],
+            ...   // 其他OmniDocBench字段
+            "latex": "$xxx$",  // table的LaTeX标注会写在这里
+            "html": "$xxx$",  // table的HTML标注会写在这里
+            "pred": "$xxx$",   // !! 模型的prediction结果存储在这里，由用户自定义一个新增字段，存储在与ground truth同级
+            
+        ...
+    ],
+    "page_info": {...},        // OmniDocBench页面信息
+    "extra": {...}             // OmniDocBench标注间关系信息
+},
+...
+]
+```
+
+在此提供一个模型infer的脚本供参考：
+
+```PYTHON
+import os
+import json
+from PIL import Image
+
+def poly2bbox(poly):
+    L = poly[0]
+    U = poly[1]
+    R = poly[2]
+    D = poly[5]
+    L, R = min(L, R), max(L, R)
+    U, D = min(U, D), max(U, D)
+    bbox = [L, U, R, D]
+    return bbox
+
+question = "<image>\nPlease convert this cropped image directly into html format of table."
+
+with open('./demo_data/omnidocbench_demo/OmniDocBench_demo.json', 'r') as f:
+    samples = json.load(f)
+    
+for sample in samples:
+    img_name = os.path.basename(sample['page_info']['image_path'])
+    img_path = os.path.join('./demo_data/omnidocbench_demo/images', img_name)
+    img = Image.open(img_path)
+
+    if not os.path.exists(img_path):
+        print('No exist: ', img_name)
+        continue
+
+    for i, anno in enumerate(sample['layout_dets']):
+        if anno['category_type'] != 'table':   # 筛选出行间公式类别进行评测
+            continue
+
+        bbox = poly2bbox(anno['poly'])
+        im = img.crop(bbox).convert('RGB')
+        response = model.chat(im, question)  # 需要根据模型修改传入图片的方式
+        anno['pred'] = response              # 直接在对应的annotation下新增字段存储模型的infer结果
+
+with open('./demo_data/recognition/OmniDocBench_demo_table.json', 'w', encoding='utf-8') as f:
+    json.dump(samples, f, ensure_ascii=False)
+```
+
+</details>
 
 
 ### Layout检测

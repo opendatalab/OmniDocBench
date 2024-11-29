@@ -42,8 +42,10 @@ class call_TEDS():
         group_scores_structure_only = defaultdict(list)
         samples = self.samples
         for sample in samples:
-            score = teds.evaluate(sample['pred'], sample['gt'])
-            score_structure_only = teds_structure_only.evaluate(sample['pred'], sample['gt'])
+            gt = sample['norm_gt'] if sample.get('norm_gt') else sample['gt']
+            pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
+            score = teds.evaluate(pred, gt)
+            score_structure_only = teds_structure_only.evaluate(pred, gt)
             # print('TEDS score:', score)
             group_scores['all'].append(score)
             group_scores_structure_only['all'].append(score_structure_only)
