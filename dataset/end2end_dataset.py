@@ -6,6 +6,7 @@ from utils.match import match_gt2pred_simple, match_gt2pred_no_split
 from utils.match_quick import match_gt2pred_quick
 # from utils.match_full import match_gt2pred_full, match_gt2pred_textblock_full
 from utils.read_files import read_md_file
+from utils.data_preprocess import normalized_table
 from registry.registry import DATASET_REGISTRY
 from dataset.recog_dataset import *
 import pdb
@@ -333,28 +334,17 @@ class RecognitionEnd2EndTableDataset(RecognitionTableDataset):
 
     def normalize_data(self, samples):
         img_id = 0
-        
-        if self.pred_table_format == 'latex':
-            os.makedirs('./temp', exist_ok=True)
 
         for sample in samples:
             p = sample['pred']
             r = sample['gt']
-            if self.pred_table_format == 'latex':
-                if p:
-                    p = self.convert_latex_to_html(p, cache_dir='./temp')
-                # if r:
-                #     r = self.convert_latex_to_html(r)
-            _, p = self.process_table_html(p)
-            _, r = self.process_table_html(r)
+            p = normalized_table(p, self.pred_table_format)
+            r = normalized_table(r)
             # print('p:\n', p)
             # print('r:\n', r)
-            sample['gt'] = self.strcut_clean(self.clean_table(r))
-            sample['pred'] = self.strcut_clean(p)
+            sample['norm_gt'] = r
+            sample['norm_pred'] = p
             sample['img_id'] = sample['img_id'] if sample.get('img_id') else img_id
             img_id += 1
-
-        if self.pred_table_format == 'latex':
-            shutil.rmtree('./temp')
 
         return samples

@@ -1097,7 +1097,7 @@ recogition_eval:      # 指定task名称，所有的识别相关的任务通用�
     dataset_name: omnidocbench_single_module_dataset                         # 数据集名称，如果按照规定的输入格式则不需要修改
     ground_truth:                                                            # 针对ground truth的数据集配置
       data_path: ./demo_data/recognition/OmniDocBench_demo_table.json      # 同时包含ground truth和模型prediction结果的JSON文件
-      data_key: html                                                        # 存储Ground Truth的字段名，对于OmniDocBench来说，公式的识别结果存储在latex这个字段中
+      data_key: html                                                        # 存储Ground Truth的字段名，对于OmniDocBench来说，表格的识别结果存储在html和latex两个字段中, 评测latex格式表格时改为latex
       category_filter: table                                 # 用于评测的类别，在公式识别中，评测的category_name是table
     prediction:                                                              # 针对模型预测结果的配置
       data_key: pred                                                         # 存储模型预测结果的字段名，这个是用户自定义的
@@ -1463,6 +1463,8 @@ xxx
 
 ## Acknowledgement
 
+- [PubTabNet](https://github.com/ibm-aur-nlp/PubTabNet) TEDS指标计算
+- [latexml](https://github.com/brucemiller/LaTeXML) LaTeX to HTML转换工具.
 - 感谢[整数科技](https://abaka.ai)提供的数据集标注
 
 ## Citation
