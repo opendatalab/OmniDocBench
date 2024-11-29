@@ -12,3 +12,8 @@ det_test
 old_configs
 check_data
 trace
+old_demo_data
+old_run_cal_metric.py
+old_test.py
+old_tools
+old_trace

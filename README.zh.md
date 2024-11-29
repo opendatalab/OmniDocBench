@@ -8,7 +8,7 @@
 
 [English](./README.md) | 简体中文
 
-[[Dataset (🤗Hugging Face)]]() | [[Dataset (🤗OpenDataLab)]]()
+[[Dataset (🤗Hugging Face)]]() | [[Dataset (OpenDataLab)]]()
 
 **OmniDocBench**是一个针对真实场景下多样性文档解析评测集，具有以下特点：
 - **文档类型多样**：该评测集涉及981个PDF页面，涵盖9种文档类型、4种排版类型和3种语言类型。覆盖面广，包含学术文献、财报、报纸、教材、手写笔记等；
@@ -465,7 +465,7 @@ $^*$更多分属性评测结果在论文中展示。
 
 端到端评测分为两种方式：
 - `end2end`: 该方法是用OmniDocBench的JSON文件作为Ground Truth, config文件请参考：[end2end](./configs/end2end.yaml)
-- `md2md`: 该方法是用OmniDocBench的markdown格式作为Ground Truth。具体内容将在下一小节`markdown-to-markdown评测`中详述。
+- `md2md`: 该方法是用OmniDocBench的markdown格式作为Ground Truth。具体内容将在下一小节*markdown-to-markdown评测*中详述。
 
 我们推荐使用`end2end`的评测方式，因为该方式可以保留sample的类别和属性信息，从而帮助进行特殊类别ignore的操作，以及分属性的结果输出。
 
@@ -476,7 +476,7 @@ $^*$更多分属性评测结果在论文中展示。
 - 阅读顺序
 
 <details>
-  <summary>`end2end.yaml`的配置和字段解释</summary>
+  <summary>[end2end.yaml](./configs/end2end.yaml)的字段解释</summary>
 
 `end2end.yaml`的配置如下：
 
@@ -517,11 +517,11 @@ end2end_eval:          # 指定task名称，端到端评测通用该task
 在端到端的评测中，config里可以选择配置不同的匹配方式，一共有三种匹配方式：
 - `no_split`: 不对text block做拆分和匹配的操作，而是直接合并成一整个markdown进行计算，这种方式下，将不会输出分属性的结果，也不会输出阅读顺序的结果；
 - `no_split`: 不进行任何截断合并操作，仅对文本做双换行的段落分割后，直接与GT进行一对一匹配；
-- `quick_match`：在段落分割的基础上，加上截断合并的操作，减少段落分割差异对最终结果的影响，通过Adjacency Search Match的方式进行截断合并；
+- `quick_match`：在段落分割的基础上，加上截断合并的操作，减少段落分割差异对最终结果的影响，通过*Adjacency Search Match*的方式进行截断合并；
 
-我们推荐使用`quick_match`的方式以达到较好的匹配效果，但如果模型输出的段落分割较准确，也可以使用`simple_match`的方式，评测运行会更加迅速。匹配方法通过config中的dataset字段下的match_method字段进行配置。
+我们推荐使用`quick_match`的方式以达到较好的匹配效果，但如果模型输出的段落分割较准确，也可以使用`simple_match`的方式，评测运行会更加迅速。匹配方法通过`config`中的`dataset`字段下的`match_method`字段进行配置。
 
-使用`filter`字段可以对数据集进行筛选，比如将`dataset`下设置`filter`字段为`language: english`，将会仅评测页面语言为英文的页面。更多页面属性请参考“评测集介绍”部分。如果希望全量评测，请注释掉`filter`相关字段。
+使用`filter`字段可以对数据集进行筛选，比如将`dataset`下设置`filter`字段为`language: english`，将会仅评测页面语言为英文的页面。更多页面属性请参考*评测集介绍*部分。如果希望全量评测，请注释掉`filter`相关字段。
 
 </details>
 
@@ -537,7 +537,7 @@ markdown-to-markdown评测以模型输出的对整个PDF页面解析结果的Mar
 - 阅读顺序
 
 <details>
-  <summary>`md2md.yaml`的配置和字段解释</summary>
+  <summary>[md2md.yaml](./configs/md2md.yaml)的字段解释</summary>
 
 `md2md.yaml`的配置如下：
 
@@ -563,20 +563,20 @@ end2end_eval:          # 指定task名称，端到端评测通用该task
   dataset:                                               # 数据集配置
     dataset_name: md2md_dataset                          # 数据集名称，无需修改
     ground_truth:                                        # 针对ground truth的数据集配置
-      data_path: ./demo_data/omnidocbench_demo/mds      # OmniDocBench的markdown文件夹路径
+      data_path: ./demo_data/omnidocbench_demo/mds       # OmniDocBench的markdown文件夹路径
       page_info: ./demo_data/omnidocbench_demo/OmniDocBench_demo.json          # OmniDocBench的JSON文件路径，主要是用于获取页面级别的属性
     prediction:                                          # 针对模型预测结果的配置
-      data_path: ./demo_data/end2end                    # 模型对PDF页面解析markdown结果的文件夹路径
+      data_path: ./demo_data/end2end                     # 模型对PDF页面解析markdown结果的文件夹路径
     match_method: quick_match                            # 匹配方式，可选有: no_split/no_split/quick_match
     filter:                                              # 页面级别的筛选
       language: english                                  # 需要评测的页面属性以及对应标签
 ```
 
-`prediction`下的`data_path`输入的是模型对PDF页面解析结果的文件夹路径，路径中保存的是每个页面对应的markdown，文件名与图片名保持一致，仅将.jpg后缀替换成.md。
+`prediction`下的`data_path`输入的是模型对PDF页面解析结果的文件夹路径，路径中保存的是每个页面对应的markdown，文件名与图片名保持一致，仅将`.jpg`后缀替换成`.md`。
 
 `ground_truth`下的`data_path`输入的是OmniDocBench的markdown文件夹路径，与模型对PDF页面解析结果的markdown文件名一一对应。`ground_truth`下的`page_info`路径输入的是OmniDocBench的JSON文件路径，主要是用于获取页面级别的属性。如果不需要页面级别分属性的评测结果输出，也可以直接将该字段注释掉。但是，如果没有配置`ground_truth`下的`page_info`字段，就无法使用`filter`相关功能。
 
-除此之外的config中字段的解释请参考`端到端评测-end2end`小节。
+除此之外的config中字段的解释请参考*端到端评测-end2end*小节。
 
 </details>
 
@@ -652,7 +652,7 @@ OmniDocBench包含每个PDF页面的公式的bounding box信息以及对应的�
 公式识别评测可以参考[formula_recognition](./configs/formula_recognition.yaml)进行配置。 
 
 <details>
-  <summary>`formula_recognition.yaml`的配置和字段解释</summary>
+  <summary>[formula_recognition.yaml](./configs/formula_recognition.yaml)的字段解释</summary>
 
 `formula_recognition.yaml`的配置文件如下：
 
@@ -891,7 +891,7 @@ OmniDocBench包含每个PDF页面的所有文字的bounding box信息以及对�
 文字OCR评测可以参考[ocr](./configs/ocr.yaml)进行配置。 
 
 <details>
-  <summary>`ocr.yaml`的配置和字段解释</summary>
+  <summary>[ocr.yaml](./configs/ocr.yaml)的字段解释</summary>
 
 `ocr.yaml`的配置文件如下：
 
@@ -911,7 +911,7 @@ recogition_eval:      # 指定task名称，所有的识别相关的任务通用�
     category_type: text                                                      # category_type主要是用于数据预处理策略的选择，可选项有：formula/text
 ```
 
-`dataset`的部分，输入的`ground_truth`的`data_path`中的数据格式与OmniDocBench保持一致，仅对应的含有text字段的sample下新增一个自定义字段保存模型的prediction结果。通过`dataset`下的`prediction`字段下的`data_key`对存储了prediction信息的字段进行指定，比如`pred`。数据集的输入格式可以参考[OmniDocBench_demo_text_ocr](./demo_data/recognition/OmniDocBench_demo_text_ocr.json)，各个字段含义可以参考`公式识别评测`部分提供的样例。
+`dataset`的部分，输入的`ground_truth`的`data_path`中的数据格式与OmniDocBench保持一致，仅对应的含有text字段的sample下新增一个自定义字段保存模型的prediction结果。通过`dataset`下的`prediction`字段下的`data_key`对存储了prediction信息的字段进行指定，比如`pred`。数据集的输入格式可以参考[OmniDocBench_demo_text_ocr](./demo_data/recognition/OmniDocBench_demo_text_ocr.json)，各个字段含义可以参考*公式识别评测*部分提供的样例。
 
 在此提供一个模型infer的脚本供参考：
 
@@ -1084,7 +1084,7 @@ OmniDocBench包含每个PDF页面的公式的bounding box信息以及对应的�
 **对于模型预测为LaTex格式的表格, 会使用[latexml](https://math.nist.gov/~BMiller/LaTeXML/)工具将latex转为html 再进行评测. 评测代码会自动进行格式转换,需要用户预先安装[latexml](https://math.nist.gov/~BMiller/LaTeXML/)**
 
 <details>
-  <summary>`table_recognition.yaml`的配置和字段解释</summary>
+  <summary>[table_recognition.yaml](./configs/table_recognition.yaml)的字段解释</summary>
 
 `table_recognition.yaml`的配置文件如下：
 
@@ -1096,12 +1096,12 @@ recogition_eval:      # 指定task名称，所有的识别相关的任务通用�
   dataset:                                                                   # 数据集配置
     dataset_name: omnidocbench_single_module_dataset                         # 数据集名称，如果按照规定的输入格式则不需要修改
     ground_truth:                                                            # 针对ground truth的数据集配置
-      data_path: ./demo_data/recognition/OmniDocBench_demo_table.json      # 同时包含ground truth和模型prediction结果的JSON文件
-      data_key: html                                                        # 存储Ground Truth的字段名，对于OmniDocBench来说，表格的识别结果存储在html和latex两个字段中, 评测latex格式表格时改为latex
-      category_filter: table                                 # 用于评测的类别，在公式识别中，评测的category_name是table
+      data_path: ./demo_data/recognition/OmniDocBench_demo_table.json        # 同时包含ground truth和模型prediction结果的JSON文件
+      data_key: html                                                         # 存储Ground Truth的字段名，对于OmniDocBench来说，表格的识别结果存储在html和latex两个字段中, 评测latex格式表格时改为latex
+      category_filter: table                                                 # 用于评测的类别，在公式识别中，评测的category_name是table
     prediction:                                                              # 针对模型预测结果的配置
       data_key: pred                                                         # 存储模型预测结果的字段名，这个是用户自定义的
-    category_type: table                                                   # category_type主要是用于数据预处理策略的选择
+    category_type: table                                                     # category_type主要是用于数据预处理策略的选择
 ```
 
 `dataset`的部分，输入的`ground_truth`的`data_path`中的数据格式与OmniDocBench保持一致，仅对应的表格sample下新增一个自定义字段保存模型的prediction结果。通过`dataset`下的`prediction`字段下的`data_key`对存储了prediction信息的字段进行指定，比如`pred`。关于更多OmniDocBench的文件结构细节请参考`评测集介绍`小节。模型结果的输入格式可以参考[OmniDocBench_demo_table](./demo_data/recognition/OmniDocBench_demo_table.json)，其格式为：
@@ -1263,7 +1263,7 @@ OmniDocBench包含每个PDF页面的所有文档组件的bounding box信息，�
 Layout检测config文件参考[layout_detection](./configs/layout_detection.yaml)，数据格式参考[detection_prediction](./demo_data/detection/detection_prediction.json)。
 
 <details>
-  <summary>`layout_detection.yaml`的配置和字段解释</summary>
+  <summary>[layout_detection.yaml](./configs/layout_detection.yaml)的字段解释</summary>
 
 以下我们以精简格式为例进行展示。`layout_detection.yaml`的配置文件如下：
 
@@ -1414,7 +1414,7 @@ OmniDocBench包含每个PDF页面的公式的bounding box信息，因此可以�
 公式检测与Layout检测的格式基本一致。公式包含行内公式和行间公式。在本节提供一个config样例，可以同时评测行间公式和行内公式的检测结果。公式检测可以参考[formula_detection](./configs/formula_detection.yaml)进行配置。
 
 <details>
-  <summary>`formula_detection.yaml`的配置和字段解释</summary>
+  <summary>[formula_detection.yaml](./configs/formula_detection.yaml)的字段解释</summary>
 
 `formula_detection.yaml`的配置文件如下：
 
@@ -1453,9 +1453,10 @@ config中参数解释以及数据集格式请参考`Layout检测`小节，公式
 我们在`tools`目录下提供了一些工具：
 - [json2md](./tools/json2md.py) 用于将JSON格式的OmniDocBench转换为Markdown格式；
 - [visualization](./tools/visualization.py) 用于可视化OmniDocBench的JSON文件；
-- [model_infer](./tools/model_infer)文件夹下提供了一些模型推理的脚本，包括：
-  - [mathpix_img2md.py](./tools/model_infer/mathpix_img2md.py) 用于调用mathpix的API将图片转换为Markdown格式；
-  - [internvl2_test_img2md.py](./tools/model_infer/internvl2_test_img2md.py) 用于调用InternVL2模型将图片转换为Markdown格式；
+- [model_infer](./tools/model_infer)文件夹下提供了一些模型推理的脚本供参考，包括：
+  - [mathpix_img2md.py](./tools/model_infer/mathpix_img2md.py) 用于调用[mathpix](https://mathpix.com/)的API将图片转换为Markdown格式；
+  - [internvl2_test_img2md.py](./tools/model_infer/internvl2_test_img2md.py) 用于调用[InternVL2](https://github.com/OpenGVLab/InternVL)模型将图片转换为Markdown格式，请在配置了InternVL2模型环境后使用；
+  - [GOT_img2md.py](./tools/model_infer/GOT_img2md.py) 用于调用[GOT-OCR](https://github.com/Ucas-HaoranWei/GOT-OCR2.0)模型将图片转换为Markdown格式，请在配置了GOT-OCR模型环境后使用；
 
 ## LICENSE
 
@@ -1465,7 +1466,9 @@ xxx
 
 - [PubTabNet](https://github.com/ibm-aur-nlp/PubTabNet) TEDS指标计算
 - [latexml](https://github.com/brucemiller/LaTeXML) LaTeX to HTML转换工具.
+- [Tester](https://github.com/intsig-textin/markdown_tester) Markdown表格转HTML工具
 - 感谢[整数科技](https://abaka.ai)提供的数据集标注
+![](https://github.com/user-attachments/assets/4dc644cd-0edd-46de-a1c0-620067e1ab50)
 
 ## Citation
 
