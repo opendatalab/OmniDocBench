@@ -1098,7 +1098,7 @@ recogition_eval:      # 指定task名称，所有的识别相关的任务通用�
     ground_truth:                                                            # 针对ground truth的数据集配置
       data_path: ./demo_data/recognition/OmniDocBench_demo_table.json      # 同时包含ground truth和模型prediction结果的JSON文件
       data_key: html                                                        # 存储Ground Truth的字段名，对于OmniDocBench来说，表格的识别结果存储在html和latex两个字段中, 评测latex格式表格时改为latex
-      category_filter: table                                 # 用于评测的类别，在公式识别中，评测的category_name是table
+      category_filter: table                                                # 用于评测的类别，在表格识别中，评测的category_name是table
     prediction:                                                              # 针对模型预测结果的配置
       data_key: pred                                                         # 存储模型预测结果的字段名，这个是用户自定义的
     category_type: table                                                   # category_type主要是用于数据预处理策略的选择
@@ -1167,7 +1167,7 @@ for sample in samples:
         continue
 
     for i, anno in enumerate(sample['layout_dets']):
-        if anno['category_type'] != 'table':   # 筛选出行间公式类别进行评测
+        if anno['category_type'] != 'table':   # 筛选出表格类别进行评测
             continue
 
         bbox = poly2bbox(anno['poly'])

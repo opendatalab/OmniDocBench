@@ -167,12 +167,6 @@ class End2EndDataset():
                             continue
 
             process_bar.set_description(f'Processing {os.path.basename(pred_path)}')
-            # if os.path.basename(pred_path) not in [
-            #   'yanbaopptmerge_yanbaoPPT_1465.md',
-            #   'yanbaopptmerge_yanbaoPPT_2460.md',
-            #   'docstructbench_llm-raw-scihub-o.O-chem.200700118.pdf_7.md',
-            # ]:
-            #     continue
             pred_content = read_md_file(pred_path)
 
             result = self.process_get_matched_elements(sample, pred_content, img_name, save_time) # Don't use timeout logic
