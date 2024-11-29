@@ -11,12 +11,12 @@ def show_result(results):
         print('='*100)
 
 def sort_nested_dict(d):
-    # 如果是字典，则递归排序
+    # If it's a dictionary, recursively sort it
     if isinstance(d, dict):
-        # 对当前字典进行排序
+        # Sort the current dictionary
         sorted_dict = {k: sort_nested_dict(v) for k, v in sorted(d.items())}
         return sorted_dict
-    # 如果不是字典，直接返回
+    # If not a dictionary, return directly
     return d
 
 def get_full_labels_results(samples):
@@ -30,7 +30,7 @@ def get_full_labels_results(samples):
         for anno in sample["gt_attribute"]:
             for k,v in anno.items():
                 label_list.append(k+": "+str(v))
-        for label_name in list(set(label_list)):  # 目前如果有合并的情况的话，按合并后涉及到的所有label的set来算
+        for label_name in list(set(label_list)):  # Currently if there are merged cases, calculate based on the set of all labels involved after merging
             for metric, score in sample['metric'].items():
                 label_group_dict[label_name][metric].append(score)
 
@@ -48,7 +48,7 @@ def get_full_labels_results(samples):
     show_result(result)
     return result
 
-# def get_page_split(samples, page_info):
+# def get_page_split(samples, page_info):    # Sample level metric
 #     if not page_info:
 #         return {}
 #     page_split_dict = defaultdict(lambda: defaultdict(list)) 
@@ -61,7 +61,7 @@ def get_full_labels_results(samples):
 #             for k,v in page_info_s.items():
 #                 if isinstance(v, list): # special issue
 #                     for special_issue in v:
-#                         if 'table' not in special_issue:  # Table相关的特殊字段有重复
+#                         if 'table' not in special_issue:  # Table-related special fields have duplicates
 #                             page_split_dict[metric][special_issue].append(score)
 #                 else:
 #                     page_split_dict[metric][k+": "+str(v)].append(score)
@@ -80,7 +80,7 @@ def get_full_labels_results(samples):
 #     show_result(result)
 #     return result
 
-def get_page_split(samples, page_info):   # Page级别的metric
+def get_page_split(samples, page_info):   # Page level metric
     if not page_info:
         return {}
     result_list = defaultdict(list)
@@ -102,7 +102,7 @@ def get_page_split(samples, page_info):   # Page级别的metric
             for k,v in page_info_s.items():
                 if isinstance(v, list): # special issue
                     for special_issue in v:
-                        if 'table' not in special_issue:  # Table相关的特殊字段有重复
+                        if 'table' not in special_issue:  # Table-related special fields have duplicates
                             result_list[metric].append({
                                 'image_name': img_name,
                                 'metric': metric,
@@ -119,11 +119,11 @@ def get_page_split(samples, page_info):   # Page级别的metric
                         'upper_len': max(len(gt), len(pred))
                     })
     
-    # Page级别，跟sample级别的逻辑是一致的，只不过算累加的时候，只算页面内部的累加，页面之间只做mean操作
+    # Page level logic, accumulation is only done within pages, and mean operation is performed between pages
     result = {}
     if result_list.get('Edit_dist'):
         df = pd.DataFrame(result_list['Edit_dist'])
-        up_total_avg = df.groupby(["image_name", "attribute"]).apply(lambda x: (x["score"]*x['upper_len']).sum() / x['upper_len'].sum()).groupby('attribute').mean()  # 页面级别，累加edit，分母是每个sample里的max(gt, pred)的累加
+        up_total_avg = df.groupby(["image_name", "attribute"]).apply(lambda x: (x["score"]*x['upper_len']).sum() / x['upper_len'].sum()).groupby('attribute').mean()  # At page level, accumulate edits, denominator is sum of max(gt, pred) from each sample
         result['Edit_dist'] = up_total_avg.to_dict()
     for metric in result_list.keys():
         if metric == 'Edit_dist':

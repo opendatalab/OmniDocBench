@@ -16,7 +16,7 @@ from utils.data_preprocess import clean_string, normalized_formula, textblock2un
 
 @DATASET_REGISTRY.register("recogition_text_dataset")
 class RecognitionTextDataset():
-    # 按照text block的粒度进行评测，不考虑bbox的一一匹配
+    # Evaluate at text block granularity, without considering one-to-one bbox matching
     def __init__(self, cfg_task):
         gt_file = cfg_task['dataset']['ground_truth']['data_path']
         pred_folder = cfg_task['dataset']['prediction']['data_path']
@@ -47,7 +47,7 @@ class RecognitionTextDataset():
 
 @DATASET_REGISTRY.register("omnidocbench_single_module_dataset")
 class OmiDocBenchSingleModuleDataset():
-    # 按照text block的粒度进行评测，不考虑bbox的一一匹配
+    # Evaluate at text block granularity, without considering one-to-one bbox matching
     def __init__(self, cfg_task):
         gt_key = cfg_task['dataset']['ground_truth']['data_key']
         pred_file = cfg_task['dataset']['ground_truth']['data_path']
@@ -95,8 +95,6 @@ class OmiDocBenchSingleModuleDataset():
                     'img_id': img_name
                 })
         print(f'Cannot find pred for {count} samples.')
-        # with open('/mnt/petrelfs/ouyanglinke/DocParseEval/result/a_text_norm.json', 'w', encoding='utf-8') as f:
-        #     json.dump(samples, f, indent=4, ensure_ascii=False)
         
         return samples
 
@@ -131,7 +129,7 @@ class RecognitionFormulaDataset():
         if len(math_preds) != len(math_gts):
             raise ValueError("The number of prediction does not match the number of ground truth.")
 
-        norm_gts = [self.normalize_text(gt) for gt in math_gts]   # 公式的norm
+        norm_gts = [self.normalize_text(gt) for gt in math_gts]   # Formula normalization
         norm_preds = [self.normalize_text(pred) for pred in math_preds]
 
         samples = []
@@ -257,7 +255,7 @@ class RecognitionTableDataset():
                 th.name = 'td'
             thead_tags = soup.find_all('thead')
             for thead in thead_tags:
-                thead.unwrap()  # unwrap()会移除标签但保留其内容
+                thead.unwrap()  # unwrap() removes the tag but keeps its content
             math_tags = soup.find_all('math')
             for math_tag in math_tags:
                 alttext = math_tag.get('alttext', '')
@@ -338,7 +336,7 @@ class RecognitionTableDataset():
             ['\\\\hline', ''],
             [r'\\multicolumn\{1\}\{[^}]*\}\{((?:[^{}]|(?:\{[^{}]*\}))*)\}', r'\1']
         ]
-        pattern = r'\\begin\{tabular\}.*\\end\{tabular\}'  # 注意这里不用 .*?
+        pattern = r'\\begin\{tabular\}.*\\end\{tabular\}'  # Note: not using .*?
         matches = re.findall(pattern, latex_code, re.DOTALL)
         latex_code = ' '.join(matches)
 

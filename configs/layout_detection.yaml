@@ -20,7 +20,7 @@ detection_eval:   # layout
         - table              # Table
         - table_caption      # Table caption
         - table_footnote     # Table footnote
-        - isolate_formula    # Display formula (this is a layout display formula, lower priority than 14)
+        - isolate_formula    # Display formula
         - formula_caption    # Display formula label
       span_level:
         - inline_formula     # inline formula

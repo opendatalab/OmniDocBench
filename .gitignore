@@ -4,11 +4,12 @@
 .ipynb_checkpoints
 **log
 debug.py
-test.py
-run_cal_metric.py
+old_test.py
+old_run_cal_metric.py
 output/
-old_results
 det_test
 old_configs
-check_data
-trace
+old_results
+old_demo_data
+old_trace
+old_tools

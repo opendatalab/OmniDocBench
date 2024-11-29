@@ -5,7 +5,7 @@ import re
 
 
 def __is_overlaps_y_exceeds_threshold(bbox1, bbox2, overlap_ratio_threshold=0.8):
-    """检查两个bbox在y轴上是否有重叠，并且该重叠区域的高度占两个bbox高度更低的那个超过80%"""
+    """Check if two bboxes overlap on y-axis and if the overlap height exceeds 80% of the shorter bbox height"""
     _, y0_1, _, y1_1 = bbox1
     _, y0_2, _, y1_2 = bbox2
 
@@ -20,41 +20,41 @@ def merge_spans_to_line(spans):
     if len(spans) == 0:
         return []
     else:
-        # 按照y0坐标排序
+        # Sort by y0 coordinate
         spans.sort(key=lambda span: span['bbox'][1])
 
         lines = []
         current_line = [spans[0]]
         for span in spans[1:]:
-            # 如果当前的span类型为"interline_equation" 或者 当前行中已经有"interline_equation"
-            # image和table类型，同上
+            # If current span type is "interline_equation" or current line contains "interline_equation"
+            # Same for image and table types
             if span['type'] in ['interline_equation'] or any(
                     s['type'] in ['interline_equation'] for s in
                     current_line):
-                # 则开始新行
+                # Start a new line
                 lines.append(current_line)
                 current_line = [span]
                 continue
 
-            # 如果当前的span与当前行的最后一个span在y轴上重叠，则添加到当前行
+            # If current span overlaps with the last span in current line on y-axis, add to current line
             if __is_overlaps_y_exceeds_threshold(span['bbox'], current_line[-1]['bbox']):
                 current_line.append(span)
             else:
-                # 否则，开始新行
+                # Otherwise, start a new line
                 lines.append(current_line)
                 current_line = [span]
 
-        # 添加最后一行
+        # Add the last line
         if current_line:
             lines.append(current_line)
 
         return lines
     
-# 将每一个line中的span从左到右排序
+# Sort spans in each line from left to right
 def line_sort_spans_by_left_to_right(lines):
     line_objects = []
     for line in lines:
-        # 按照x0坐标排序
+        # Sort by x0 coordinate
         line.sort(key=lambda span: span['bbox'][0])
         line_bbox = [
             min(span['bbox'][0] for span in line),  # x0
@@ -69,7 +69,7 @@ def line_sort_spans_by_left_to_right(lines):
     return line_objects
 
 def fix_text_block(block):
-    # 文本block中的公式span都应该转换成行内type
+    # Formula spans in text block should be converted to inline type
     block_lines = merge_spans_to_line(block['spans'])
     sort_block_lines = line_sort_spans_by_left_to_right(block_lines)
     block['lines'] = sort_block_lines
@@ -94,8 +94,8 @@ def fix_text_block(block):
 
 def detect_lang(string):
     """
-    检查整个字符串是否包含中文
-    :param string: 需要检查的字符串
+    Check if the string contains Chinese characters
+    :param string: String to check
     :return: bool
     """
     
@@ -106,7 +106,7 @@ def detect_lang(string):
 
 def ocr_escape_special_markdown_char(content):
     """
-    转义正文里对markdown语法有特殊意义的字符
+    Escape special markdown characters in content
     """
     special_chars = ["*", "`", "~", "$"]
     for char in special_chars:
@@ -143,7 +143,7 @@ def merge_para_with_text(para_block):
                 content = span['content']
                 content = ocr_escape_special_markdown_char(content)
                 # language = detect_lang(content)
-                # if language == 'en':  # 只对英文长词进行分词处理，中文分词会丢失文本
+                # if language == 'en':  # Only split long words for English text, Chinese word splitting will lose text
                     # content = ocr_escape_special_markdown_char(split_long_words(content))
                 # else:
                 #     content = ocr_escape_special_markdown_char(content)
@@ -161,10 +161,10 @@ def merge_para_with_text(para_block):
                     content = f" $^{content_ori}$ "
 
             if content != '':
-                if 'zh' in line_lang:  # 遇到一些一个字一个span的文档，这种单字语言判断不准，需要用整行文本判断
-                    para_text += content.strip()  # 中文语境下，content间不需要空格分隔
+                if 'zh' in line_lang:  # For documents with one character per span, character-level language detection is inaccurate, need to detect language for whole line
+                    para_text += content.strip()  # In Chinese context, no space needed between contents
                 else:
-                    para_text += content.strip() + ' '  # 英文语境下 content间需要空格分隔
+                    para_text += content.strip() + ' '  # In English context, space needed between contents
     return para_text
 
 def poly2bbox(poly):
@@ -196,7 +196,7 @@ def normalize_format(block, pred_spans):
     return block_dict
 
 def get_text_for_block(gt, pred_spans):
-    '''对block进行fix操作'''
+    '''Fix operations for block'''
     block_with_spans = normalize_format(gt, pred_spans)
     para_block = fix_text_block(block_with_spans)
     pred_text = merge_para_with_text(para_block)
