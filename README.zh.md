@@ -1,3 +1,4 @@
+![](https://github.com/user-attachments/assets/de75c9c2-45eb-4b59-8144-32397c2f6b02)
 # OmniDocBench
 
 <!-- <p align="center">
@@ -29,10 +30,6 @@
 - METEOR
 - TEDS
 - COCODet (mAP, mAR, etc.)
-
-## 评测集下载
-
-xxx
 
 ## 评测集介绍
 
@@ -459,7 +456,7 @@ python pdf_validation.py --config <config_path>
   </tbody>
 </table>
 
-$^*$更多分属性评测结果在论文中展示。
+更多分属性评测结果在论文中展示。
 
 #### 端到端评测方法-end2end
 
@@ -476,7 +473,7 @@ $^*$更多分属性评测结果在论文中展示。
 - 阅读顺序
 
 <details>
-  <summary>[end2end.yaml](./configs/end2end.yaml)的字段解释</summary>
+  <summary>end2end.yaml的字段解释</summary>
 
 `end2end.yaml`的配置如下：
 
@@ -537,7 +534,7 @@ markdown-to-markdown评测以模型输出的对整个PDF页面解析结果的Mar
 - 阅读顺序
 
 <details>
-  <summary>[md2md.yaml](./configs/md2md.yaml)的字段解释</summary>
+  <summary>md2md.yaml的字段解释</summary>
 
 `md2md.yaml`的配置如下：
 
@@ -652,7 +649,7 @@ OmniDocBench包含每个PDF页面的公式的bounding box信息以及对应的�
 公式识别评测可以参考[formula_recognition](./configs/formula_recognition.yaml)进行配置。 
 
 <details>
-  <summary>[formula_recognition.yaml](./configs/formula_recognition.yaml)的字段解释</summary>
+  <summary>formula_recognition.yaml的字段解释</summary>
 
 `formula_recognition.yaml`的配置文件如下：
 
@@ -891,7 +888,7 @@ OmniDocBench包含每个PDF页面的所有文字的bounding box信息以及对�
 文字OCR评测可以参考[ocr](./configs/ocr.yaml)进行配置。 
 
 <details>
-  <summary>[ocr.yaml](./configs/ocr.yaml)的字段解释</summary>
+  <summary>ocr.yaml的字段解释</summary>
 
 `ocr.yaml`的配置文件如下：
 
@@ -1084,7 +1081,7 @@ OmniDocBench包含每个PDF页面的公式的bounding box信息以及对应的�
 **对于模型预测为LaTex格式的表格, 会使用[latexml](https://math.nist.gov/~BMiller/LaTeXML/)工具将latex转为html 再进行评测. 评测代码会自动进行格式转换,需要用户预先安装[latexml](https://math.nist.gov/~BMiller/LaTeXML/)**
 
 <details>
-  <summary>[table_recognition.yaml](./configs/table_recognition.yaml)的字段解释</summary>
+  <summary>table_recognition.yaml的字段解释</summary>
 
 `table_recognition.yaml`的配置文件如下：
 
@@ -1263,7 +1260,7 @@ OmniDocBench包含每个PDF页面的所有文档组件的bounding box信息，�
 Layout检测config文件参考[layout_detection](./configs/layout_detection.yaml)，数据格式参考[detection_prediction](./demo_data/detection/detection_prediction.json)。
 
 <details>
-  <summary>[layout_detection.yaml](./configs/layout_detection.yaml)的字段解释</summary>
+  <summary>layout_detection.yaml的字段解释</summary>
 
 以下我们以精简格式为例进行展示。`layout_detection.yaml`的配置文件如下：
 
@@ -1414,7 +1411,7 @@ OmniDocBench包含每个PDF页面的公式的bounding box信息，因此可以�
 公式检测与Layout检测的格式基本一致。公式包含行内公式和行间公式。在本节提供一个config样例，可以同时评测行间公式和行内公式的检测结果。公式检测可以参考[formula_detection](./configs/formula_detection.yaml)进行配置。
 
 <details>
-  <summary>[formula_detection.yaml](./configs/formula_detection.yaml)的字段解释</summary>
+  <summary>formula_detection.yaml的字段解释</summary>
 
 `formula_detection.yaml`的配置文件如下：
 
@@ -1458,17 +1455,13 @@ config中参数解释以及数据集格式请参考`Layout检测`小节，公式
   - [internvl2_test_img2md.py](./tools/model_infer/internvl2_test_img2md.py) 用于调用[InternVL2](https://github.com/OpenGVLab/InternVL)模型将图片转换为Markdown格式，请在配置了InternVL2模型环境后使用；
   - [GOT_img2md.py](./tools/model_infer/GOT_img2md.py) 用于调用[GOT-OCR](https://github.com/Ucas-HaoranWei/GOT-OCR2.0)模型将图片转换为Markdown格式，请在配置了GOT-OCR模型环境后使用；
 
-## LICENSE
-
-xxx
-
 ## Acknowledgement
 
+- 感谢[整数科技](https://abaka.ai)提供的高质量数据集标注
 - [PubTabNet](https://github.com/ibm-aur-nlp/PubTabNet) TEDS指标计算
 - [latexml](https://github.com/brucemiller/LaTeXML) LaTeX to HTML转换工具.
 - [Tester](https://github.com/intsig-textin/markdown_tester) Markdown表格转HTML工具
-- 感谢[整数科技](https://abaka.ai)提供的数据集标注
-![](https://github.com/user-attachments/assets/4dc644cd-0edd-46de-a1c0-620067e1ab50)
+
 
 ## Citation
 

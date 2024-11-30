@@ -1,3 +1,5 @@
+![](https://github.com/user-attachments/assets/de75c9c2-45eb-4b59-8144-32397c2f6b02)
+
 # OmniDocBench
 
 English | [简体中文](./README.zh.md)
@@ -23,10 +25,6 @@ Currently supported metrics include:
 - METEOR
 - TEDS
 - COCODet (mAP, mAR, etc.)
-
-## Download
-
-xxx
 
 ## Benchmark Introduction
 
@@ -456,7 +454,7 @@ End-to-end evaluation assesses the model's accuracy in parsing PDF page content.
   </tbody>
 </table>
 
-$^*$More detailed attribute-level evaluation results are shown in the paper.
+More detailed attribute-level evaluation results are shown in the paper.
 
 #### End-to-End Evaluation Method - end2end
 
@@ -473,7 +471,7 @@ The `end2end` evaluation can assess four dimensions. We provide an example of en
 - Reading order
 
 <details>
-  <summary>Field explanations for [end2end.yaml](./configs/end2end.yaml)</summary>
+  <summary>Field explanations for end2end.yaml</summary>
 
 The configuration of `end2end.yaml` is as follows:
 
@@ -534,7 +532,7 @@ The `md2md` evaluation can assess four dimensions:
 - Reading order
 
 <details>
-  <summary>Field explanations for [md2md.yaml](./configs/md2md.yaml)</summary>
+  <summary>Field explanations for md2md.yaml</summary>
 
 The configuration of `md2md.yaml` is as follows:
 
@@ -649,7 +647,7 @@ OmniDocBench contains bounding box information for formulas on each PDF page alo
 Formula recognition evaluation can be configured according to [formula_recognition](./configs/formula_recognition.yaml).
 
 <details>
-  <summary>Field explanations for [formula_recognition.yaml](./configs/formula_recognition.yaml)</summary>
+  <summary>Field explanations for formula_recognition.yaml</summary>
 
 The configuration of `formula_recognition.yaml` is as follows:
 
@@ -888,7 +886,7 @@ OmniDocBench contains bounding box information and corresponding text recognitio
 OCR text recognition evaluation can be configured according to [ocr](./configs/ocr.yaml). 
 
 <details>
-  <summary>The field explanation of [ocr.yaml](./configs/ocr.yaml)</summary>
+  <summary>The field explanation of ocr.yaml</summary>
 
 The configuration file for `ocr.yaml` is as follows:
 
@@ -1081,7 +1079,7 @@ Table recognition evaluation can be configured according to [table_recognition](
 **For tables predicted to be in LaTeX format, the [latexml](https://math.nist.gov/~BMiller/LaTeXML/) tool will be used to convert LaTeX to HTML before evaluation. The evaluation code will automatically perform format conversion, and users need to preinstall [latexml](https://math.nist.gov/~BMiller/LaTeXML/)**
 
 <details>
-  <summary>[table_recognition.yaml](./configs/table_recognition.yaml)的字段解释</summary>
+  <summary>The field explanation of table_recognition.yaml</summary>
 
 The configuration file for `table_recognition.yaml` is as follows:
 
@@ -1260,7 +1258,7 @@ OmniDocBench contains bounding box information for all document components on ea
 Layout detection config file reference [layout_detection](./configs/layout_detection.yaml), data format reference [detection_prediction](./demo_data/detection/detection_prediction.json).
 
 <details>
-  <summary>The field explanation of [layout_detection.yaml](./configs/layout_detection.yaml)</summary>
+  <summary>The field explanation of layout_detection.yaml</summary>
 
 Here is the configuration file for `layout_detection.yaml`:
 
@@ -1411,7 +1409,7 @@ OmniDocBench contains bounding box information for each formula on each PDF page
 The format for formula detection is essentially the same as layout detection. Formulas include both inline and display formulas. In this section, we provide a config example that can evaluate detection results for both display formulas and inline formulas simultaneously. Formula detection can be configured according to [formula_detection](./configs/formula_detection.yaml).
 
 <details>
-  <summary>The field explanation of [formula_detection.yaml](./configs/formula_detection.yaml)</summary>
+  <summary>The field explanation of formula_detection.yaml</summary>
 
 Here is the configuration file for `formula_detection.yaml`:
 
@@ -1461,11 +1459,11 @@ xxx
 
 ## Acknowledgement
 
+- Thank [Abaka AI](https://abaka.ai) for supporting the dataset annotation.
 - [PubTabNet](https://github.com/ibm-aur-nlp/PubTabNet) for TEDS metric calculation
 - [latexml](https://github.com/brucemiller/LaTeXML) LaTeX to HTML conversion tool
 - [Tester](https://github.com/intsig-textin/markdown_tester) Markdown table to HTML conversion tool
-- Thank [Abaka AI](https://abaka.ai) for supporting the dataset annotation.
-![](https://github.com/user-attachments/assets/4dc644cd-0edd-46de-a1c0-620067e1ab50)
+
 
 ## Citation
 
