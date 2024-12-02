@@ -9,7 +9,7 @@
 
 [English](./README.md) | 简体中文
 
-[[Dataset (🤗Hugging Face)]]() | [[Dataset (OpenDataLab)]]()
+[[Dataset (🤗Hugging Face)]](https://huggingface.co/datasets/opendatalab/OmniDocBench) | [[Dataset (OpenDataLab)]]()
 
 **OmniDocBench**是一个针对真实场景下多样性文档解析评测集，具有以下特点：
 - **文档类型多样**：该评测集涉及981个PDF页面，涵盖9种文档类型、4种排版类型和3种语言类型。覆盖面广，包含学术文献、财报、报纸、教材、手写笔记等；
@@ -1454,6 +1454,7 @@ config中参数解释以及数据集格式请参考`Layout检测`小节，公式
   - [mathpix_img2md.py](./tools/model_infer/mathpix_img2md.py) 用于调用[mathpix](https://mathpix.com/)的API将图片转换为Markdown格式；
   - [internvl2_test_img2md.py](./tools/model_infer/internvl2_test_img2md.py) 用于调用[InternVL2](https://github.com/OpenGVLab/InternVL)模型将图片转换为Markdown格式，请在配置了InternVL2模型环境后使用；
   - [GOT_img2md.py](./tools/model_infer/GOT_img2md.py) 用于调用[GOT-OCR](https://github.com/Ucas-HaoranWei/GOT-OCR2.0)模型将图片转换为Markdown格式，请在配置了GOT-OCR模型环境后使用；
+  - [Qwen2VL_img2md.py](./tools/model_infer/Qwen2VL_img2md.py) 用于调用[QwenVL](https://github.com/QwenLM/Qwen2-VL)模型将图片转换为Markdown格式，请在配置了QwenVL模型环境后使用；
 
 ## Acknowledgement
 

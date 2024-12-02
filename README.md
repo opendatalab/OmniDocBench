@@ -4,7 +4,7 @@
 
 English | [简体中文](./README.zh.md)
 
-[[Dataset (🤗Hugging Face)]]() | [[Dataset (OpenDataLab)]]()
+[[Dataset (🤗Hugging Face)]](https://huggingface.co/datasets/opendatalab/OmniDocBench) | [[Dataset (OpenDataLab)]]()
 
 **OmniDocBench** is a benchmark for evaluating diverse document parsing in real-world scenarios, featuring the following characteristics:
 - **Diverse Document Types**: This benchmark includes 981 PDF pages, covering 9 document types, 4 layout types, and 3 language types. It encompasses a wide range of content, including academic papers, financial reports, newspapers, textbooks, and handwritten notes.
@@ -1452,10 +1452,7 @@ We provide several tools in the `tools` directory:
   - [mathpix_img2md.py](./tools/model_infer/mathpix_img2md.py) for calling [mathpix](https://mathpix.com/) API to convert images to Markdown format;
   - [internvl2_test_img2md.py](./tools/model_infer/internvl2_test_img2md.py) for using [InternVL2](https://github.com/OpenGVLab/InternVL) model to convert images to Markdown format, please use after configuring the InternVL2 model environment;
   - [GOT_img2md.py](./tools/model_infer/GOT_img2md.py) for using [GOT-OCR](https://github.com/Ucas-HaoranWei/GOT-OCR2.0) model to convert images to Markdown format, please use after configuring the GOT-OCR model environment;
-
-## LICENSE
-
-xxx
+  - [Qwen2VL_img2md.py](./tools/model_infer/Qwen2VL_img2md.py) for using [QwenVL](https://github.com/QwenLM/Qwen2-VL) model to convert images to Markdown format, please use after configuring the QwenVL model environment;
 
 ## Acknowledgement
 
