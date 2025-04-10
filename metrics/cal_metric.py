@@ -125,7 +125,7 @@ class call_METEOR():
                 pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
                 predictions.append(gt)
                 references.append(pred)
-            meteor = evaluate.load('meteor', keep_in_memory=True, experiment_id=random.randint(1,int(1e8)))
+            meteor = evaluate.load('meteor', keep_in_memory=True, experiment_id=random.randint(1, int(1e8)))
             meteor_results = meteor.compute(predictions=predictions, references=references)
             result[group_name] = meteor_results['meteor']
         
