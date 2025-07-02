@@ -113,3 +113,5 @@ xxhash==3.5.0
 yarl==1.15.2
 zipp==3.20.2
 pycocotools==2.0.7
+PyMuPDF==1.24.11
+langid==1.1.6
