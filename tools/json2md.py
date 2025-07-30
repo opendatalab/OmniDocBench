@@ -19,13 +19,13 @@ def poly2bbox(poly):
 
 table_format = 'html'   # table format in markdown. optional: latex
 
-save_path = r'../demo_data/omnidocbench_demo/mds'
+save_path = r'../omnidocbench_data/mds'
 save_path_imgs = os.path.join(save_path, 'imgs')
 
 os.makedirs(save_path, exist_ok=True)
 os.makedirs(save_path_imgs, exist_ok=True)
 
-with open(r'../demo_data/omnidocbench_demo/OmniDocBench_demo.json', 'r', encoding='utf-8') as f:
+with open(r'../omnidocbench_data/OmniDocBench.json', 'r', encoding='utf-8') as f:
         samples = json.load(f)
 
 def text_norm(text):
@@ -96,7 +96,7 @@ for sample in samples:
 
     annos = sorted(merged_annos, key=lambda x: x['order'])
     img_name = os.path.basename(sample['page_info']['image_path'])
-    img_path = os.path.join(r'../demo_data/omnidocbench_demo/images', img_name)
+    img_path = os.path.join(r'../omnidocbench_data/images', img_name)
     img = Image.open(img_path)
 
     md_path = os.path.join(save_path, os.path.basename(sample['page_info']['image_path'])[:-4] + '.md')

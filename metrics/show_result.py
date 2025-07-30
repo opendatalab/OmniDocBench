@@ -29,19 +29,19 @@ def show_result_table(result):
         else:
             scale = 1
         try:
-            save_dict[category_type+'_'+metric+'_EN'] = result[category_type]["page"][metric].get("language: english", np.NaN) * scale
+            save_dict[category_type+'_'+metric+'_EN'] = result[category_type]["page"][metric].get("language: english", np.nan) * scale
         except:
             print(f'{category_type} {metric} is not found')
             save_dict[category_type+'_'+metric+'_EN'] = '-'
         try:
-            save_dict[category_type+'_'+metric+'_CH'] = result[category_type]["page"][metric].get("language: simplified_chinese",np.NaN) * scale
+            save_dict[category_type+'_'+metric+'_CH'] = result[category_type]["page"][metric].get("language: simplified_chinese",np.nan) * scale
         except:
             print(f'{category_type} {metric} is not found')
             save_dict[category_type+'_'+metric+'_CH'] = '-'
         
         if metric == "Edit_dist":
-            en_overall.append(result[category_type]["page"][metric].get("language: english", np.NaN))
-            ch_overall.append(result[category_type]["page"][metric].get("language: simplified_chinese",np.NaN))
+            en_overall.append(result[category_type]["page"][metric].get("language: english", np.nan))
+            ch_overall.append(result[category_type]["page"][metric].get("language: simplified_chinese",np.nan))
     
     if use_show_result:
         show_result(result)
@@ -59,7 +59,7 @@ def show_result_table(result):
     print('【PDF types】')
     pdf_types_result = result['text_block']["page"]["Edit_dist"]
     types_sorted = ["data_source: book", "data_source: PPT2PDF", "data_source: research_report", "data_source: colorful_textbook", "data_source: exam_paper", "data_source: magazine", "data_source: academic_literature", "data_source: note", "data_source: newspaper", "ALL"]
-    score_table = [[k, pdf_types_result.get(k, np.NaN)] for k in types_sorted]
+    score_table = [[k, pdf_types_result.get(k, np.nan)] for k in types_sorted]
     print(tabulate(score_table))
     print('\n')
 
@@ -67,7 +67,7 @@ def show_result_table(result):
     layout_result_mean = result['reading_order']["page"]["Edit_dist"]
     layout_result_var = result['text_block']["page"]["Edit_dist_var"]
     layout_types = ["layout: single_column", "layout: double_column", "layout: three_column", "layout: other_layout"]
-    score_table = [[k, layout_result_mean.get(k, np.NaN), layout_result_var.get(k, np.NaN)] for k in layout_types]
+    score_table = [[k, layout_result_mean.get(k, np.nan), layout_result_var.get(k, np.nan)] for k in layout_types]
     print(tabulate(score_table, headers=['Layout', 'Mean', 'Var']))
     print('\n')
 
@@ -75,7 +75,7 @@ def show_result_table(result):
     try:
         text_attribute_result = result['text_block']["group"]["Edit_dist"]
         text_attribute_types = ["text_language: text_english", "text_language: text_simplified_chinese", "text_language: text_en_ch_mixed", "text_background: white", "text_background: single_colored", "text_background: multi_colored"]
-        score_table = [[k, text_attribute_result.get(k, np.NaN)] for k in text_attribute_types]
+        score_table = [[k, text_attribute_result.get(k, np.nan)] for k in text_attribute_types]
         print(tabulate(score_table))
         print('\n')
     except:
@@ -88,7 +88,7 @@ def show_result_table(result):
         table_attribute_result = result['table']["group"]["TEDS"]
         table_attribute_types = ["language: table_en", "language: table_simplified_chinese", "language: table_en_ch_mixed", "line: full_line", "line: less_line", "line: fewer_line", "line: wireless_line", 
                             "with_span: True", "with_span: False", "include_equation: True", "include_equation: False", "include_background: True", "include_background: False", "table_layout: vertical", "table_layout: horizontal"]
-        score_table = [[k, table_attribute_result.get(k, np.NaN)] for k in table_attribute_types]
+        score_table = [[k, table_attribute_result.get(k, np.nan)] for k in table_attribute_types]
         print(tabulate(score_table))
         print('\n')
     except:

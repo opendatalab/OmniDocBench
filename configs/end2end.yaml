@@ -19,9 +19,10 @@ end2end_eval:
   dataset:
     dataset_name: end2end_dataset
     ground_truth:
-      data_path: ./demo_data/omnidocbench_demo/OmniDocBench_demo.json
+      data_path: ./tools/model_infer/OmniDocBench_dataset/OmniDocBench.json
     prediction:
-      data_path: ./demo_data/end2end
+      #change this to your GPT-corrected results folder
+      data_path: ./demo_data/microsoft_ocr_results_gpt_processed/run_2025-07-30_10-43-01/corrected_gpt
     match_method: quick_match
     # filter: 
     #   language: english

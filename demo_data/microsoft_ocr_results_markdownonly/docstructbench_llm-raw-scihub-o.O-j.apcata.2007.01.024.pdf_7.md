@@ -1,0 +1,102 @@
+<!-- PageNumber="33" -->
+<!-- PageHeader="J.R. Sohn, S.H. Lee / Applied Catalysis A: General 321 (2007) 27-34" -->
+
+(Table 1). As listed in Table 2, the addition of NiSO4 to TiO2-
+ZrO2 also caused the acidity of NiSO4/TiO2-ZrO2 to increase
+considerably compared to TiO2-ZrO2, because the addition of
+NiSO4 to TiO2-ZrO2 generates new acid sites by the inductive
+effect of sulfate species bonded to TiO2-ZrO2 [17,35,47].
+Namely, the number of acid sites for 20NiSO4/TiO2 and
+20NiSO4/ZrO2 is 172 and 215 μmol/g, respectively, while
+that of acid sites for $2 0 \mathrm { N i S O } _ { 4 } / 2 5 \mathrm { T i O } _ { 2 } - 7 5 \mathrm { Z } \mathrm { r } \mathrm { O } _ { 2 } , 2 0 \mathrm { N } \mathrm { i } \mathrm { S } \mathrm { O } _ { 4 } /$
+$5 0 T i O _ { 2 } - 5 0 Z r O _ { 2 }$ , and 20NiSO4/75TiO2-25ZrO2 is 261, 356,
+and 320 μmol/g, respectively, showing a maximum acidity
+for $2 0 N i S O _ { 4 } / 5 0 T i O _ { 2 } - 5 0 Z r O _ { 2 }$ .
+
+We examined the effect of TiO2-ZrO2 composition on the
+catalytic activity for ethylene dimerization. The catalytic
+activities for several catalysts against reaction time are plotted
+in Fig. 10. It is clear that the catalytic activities of three NiSO4
+catalysts supported on binary oxide $T i O _ { 2 } - Z r O _ { 2 } \left( 2 . 6 - 3 . 7 m m o l / \right.$
+g 5 min) are remarkably higher than those of NiSO4 catalysts
+supported on single oxide, 20NiSO4/TiO2 and 20NiSO4/ZrO2.
+This can be explained if the number of acid sites of TiO2-ZrO2
+supported catalysts is considerably larger than these of TiO2- or
+ZrO2-supported catalysts, 20NiSO4/TiO2 or 20NiSO4/ZrO2, as
+seen in Table 2. It has been reported that the catalytic activity
+for ethylene dimerization is closely correlated with the acidity
+of the catalyst [4,10,35]. Therefore, we conclude that the effect
+of TiO2-ZrO2 composition is related to an increase in the
+number of surface acidic sites and to the increased surface area
+of TiO2-ZrO2-supported catalysts. Within supported NiSO4
+catalysts, the catalytic activity for ethylene dimerization is in
+the order: $2 0 \mathrm { N i S O } _ { 4 } / 5 0 \mathrm { T i } \mathrm { O } _ { 2 } - 5 0 \mathrm { Z } \mathrm { r } \mathrm { O } _ { 2 } > 2 0 \mathrm { N } \mathrm { i } \mathrm { S } \mathrm { O } _ { 4 } / 7 5 \mathrm { T } \mathrm { i } \mathrm { O } _ { 2 } -$
+$2 5 Z r O _ { 2 } > 2 0 N i S O _ { 4 } / 2 5 T i O _ { 2 } - 7 5 Z r O _ { 2 } > 2 0 N i S O _ { 4 } /$
+$\mathrm { Z r O } _ { 2 } > 2 0 \mathrm { N i S O } _ { 4 } / \mathrm { T i O } _ { 2 }$ .
+
+
+Fig. 10. Catalytic activities of several catalysts against reaction time: (O)
+20NiSO4/50TiO2-50ZrO2; (▲) 20NiSO4/75TiO2-25ZrO2; () 20NiSO4/
+25TiO2-75ZrO2; (O) 20NiSO4/ZrO2; (△) 20NiSO4/TiO2; (□) TiO2-ZrO2.
+
+![6.0 5.0 Catalytic activities, mmol/g 4.0 3.0 2.0 1.0 0.0 0 10 20 30 40 50 60 Reaction Time, min](figures/1.1)
+
+
+# 3.6. Correlation between catalytic activity and acidity
+
+As mentioned above, the active site responsible for
+dimerization is suggested to consist of a low valent nickel
+ion and an acid, as observed in the nickel-containing catalyst
+[4,17,18]. The term 'low valent nickel' originated from the fact
+that the NiO-SiO2 catalyst was drastically poisoned by carbon
+monoxide, since a low valent nickel is favorable to chemisorb
+carbon monoxide [47,48]. Previously, from the results of IR of
+CO adsorbed on NiSO4/y-Al2O3 and XPS to identify low valent
+nickel species, we reported that the active sites responsible for
+ethylene dimerization consist of a low-valent nickel, Ni+ and an
+acid [47]. Also, it was reported that the adsorption site of CO,
+that is, a low-valent nickel is responsible for the adsorption site
+of ethylene. Therefore, it is concluded that a low-valent nickel,
+Ni+, plays the role of an adsorption site for ethylene, while
+acidic sites are responsible for the formation of reaction
+intermediates, such as ethyl cations [4,47]. Kazansky et al.
+concluded that Ni+ ions in NiCa-Y zeolite are responsible for
+the catalytic activity, using EPR spectroscopy to identify low
+valent nickel species [15]. Therefore, the nickel species should
+be active sites for ethylene dimerization. In fact, TiO2-ZrO2
+without NiSO4 is inactive for ethylene dimerization, as shown
+in Fig. 10.
+
+It is known that for ethylene dimerization the variations in
+catalytic activities are closely correlated to the acidity values
+of catalyst [3,35]. The acidity values of several samples after
+evacuation at 400 °C are listed in Table 2 together with their
+surface areas. Table 2 shows that the catalytic activities
+substantially run parallel to the acidity values. The catalytic
+activities of 20NiSO4/TiO2, 20NiSO4/ZrO2, and NiSO4/TiO2-
+ZrO2 were examined; the results are shown as a function of
+acidity in Fig. 11, where catalysts were evacuated at 500 ℃
+for 1 h before reaction. It is confirmed that the catalytic
+activity gives a maximum at $2 0 N i S O _ { 4 } / 5 0 T i O _ { 2 } - Z r O _ { 2 }$ . This
+seems to be correlated to the specific surface area and to the
+acidity of the catalysts. The acidity of catalysts calcined at
+500 ℃ was determined by the amount of NH3 irreversibly
+adsorbed at 230 ℃ [3,4,6,9,38]. As shown in Fig. 11, the
+higher the acidity, the higher the catalytic activity. In this way
+it is demonstrated that the catalytic activity of supported
+NiSO4 catalysts essentially runs parallel to the acidity. Good
+correlations have been found in many cases between the
+acidity and the catalytic activities of solid acids. It has been
+reported that the catalytic activity values of nickel-containing
+catalysts in ethylene dimerization as well as in butene
+isomerization are closely correlated with the acidity of the
+catalysts [3,4,6,35]. Up to now, a correlation between
+catalytic activity for ethylene dimerization and acidity has
+been studied using supported NiSO4 [9,35,47], where only
+one kind of support material such as Al2O3, TiO2-ZrO2, and
+Al2O3-ZrO2 was used. However, in this work we used
+different supports: TiO2, ZrO2 and three kinds of TiO2-ZrO2.
+In this case of NiSO4 supported on different materials, there
+was also a correlation between catalytic activity for ethylene
+dimerization and acidity, regardless of the kind of support
+(TiO2, ZrO2, and TiO2-ZrO2).

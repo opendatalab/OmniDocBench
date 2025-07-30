@@ -1,0 +1,95 @@
+<!-- PageNumber="288" -->
+<!-- PageHeader="C.R. Mehta et al. / International Journal of Industrial Ergonomics 37 (2007) 283-289" -->
+
+due to comparatively more comfortable posture of the
+subjects for force application. The thigh muscles were in
+more relaxed state when the leg was extended forward and
+thus subjects were able to produce more force. Further, in
+elongated leg position, the subjects could get better
+backrest support as the direction of force application
+became more in line with upper leg.
+
+The leg strength reduced by 10.9%, 10.2% and 5.9% for
+right leg and 11.9%, 8.6% and 7.8% for left leg when
+horizontal distance between SRP and foot pedal was
+increased from 50% to 55%, 45% to 50% and 35% to 45%
+at corresponding vertical distances of 13%, 19% and
+25% below SRP. This reduction in leg strength was
+mainly due to thigh compression and reduction in backrest
+support. The reduction in leg strength was also due to bio-
+mechanically uncomfortable posture of the subjects for
+force application.
+
+From the results of the study, it was observed that the
+greatest leg strength was in the upper farthest pedal
+location (55% in front of SRP and 10% below SRP)
+and it was 655 and 613 N for right and left legs,
+respectively. It may be concluded that maximum leg
+strength was achieved when the leg was in almost elongated
+position i.e. when the knee angle was in between 135° and
+145°. At lower knee angles i.e. when the pedal was placed
+closer to SRP, the force in the direction of lower leg
+reduced because only a small component of force generated
+through the back support contributed to the leg strength.
+On the other hand, when the pedal was placed farther from
+the SRP beyond the upper farthest pedal location, the leg
+strength again reduced because of loss of support from the
+backrest.
+
+
+# 3.4. Design recommendations
+
+The leg reach envelope for the fifth percentile male
+tractor operator is shown in Fig. 4, which shows that the
+operator could reach 810 mm in front and 370 mm below
+the SRP. The superimposed leg strength values show that
+the highest leg strength of 626 N for right leg and 573 N for
+left leg were observed when the pedal was located at point
+'a'. Similarly, the right and left leg strength values of 602
+and 553 N, respectively, were observed at point 'b'. But the
+driving postures for both these locations of foot pedal were
+not comfortable for pedal operation because the leg was in
+completely elongated position and there was no scope for
+pressing a pedal without losing the back support. The next
+highest leg strength values were observed at points 'e', 'f'
+and 'j'. Considering the maximum pedal displacement of
+90 mm (ISO/TC 23/SC3/N525, 1997) for actual pedal
+operation, these positions are inappropriate since the pedal
+goes beyond the optimum reach area when in fully
+depressed position. Point 'i' having the mean leg strength
+values of 417 and 381 N for right and left legs, respectively,
+can be considered as an appropriate location for foot pedal.
+The location of foot pedal at this position corresponds to
+40% in front of SRP and 19% below SRP. At this
+location of foot pedal, the leg strength was about 33% lower
+than the highest leg strength values obtained at point 'a'.
+Therefore, the optimum location for the brake and clutch
+pedals was obtained at 623 mm in front and 296 mm below
+SRP, and 200 mm lateral from midline.
+
+Snook (1978) reported that the values of acceptable push
+force exerted once in every 5 min was about 85% of the
+force which could be exerted for once in 8h. Therefore, the
+maximum limit for the application of force is proposed as
+85% of maximum strength for frequently operated pedal
+controls in the study.
+
+In general, the control pedals on Indian tractors are
+located at 35-45% in front of SRP and more than 19% 
+below SRP (Yadav, 1995; Tiwari, 2001). The maximum
+strength values obtained in the study at the pedal locations
+described by the above ranges of horizontal and vertical
+distances were obtained. The fifth percentile values of
+strength for right and left legs were calculated as 389 and
+330 N, respectively. Considering the clutch and brake
+pedals as frequently operated controls, the maximum
+allowable force limit should not be more than 85% of the
+above values. Therefore, the maximum allowable force
+comes to about 330 and 280 N for right and left legs,
+
+
+Fig. 4. Leg reach envelope for the fifth percentile subject with superimposed strength values: where, a (626, 573 N); b (602, 553 N); c (406, 349 N); d (444,
+388 N); e (479, 434 N); f (517, 462 N); g (358, 324 N); h (375, 337 N); i (417, 381 N); j (446, 389 N); k (339, 327 N); l (363, 334 N); m (407, 354 N). The first
+and second values in parentheses refer to right and left leg strength values, respectively.
+
+![600 Vertical distance, mm 500 SRP 400 av 300 k d b h ◇ e 200 0 100 0 0 100 200 300 400 500 600 700 800 900 Horizontal distance, mm](figures/1.1)

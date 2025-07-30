@@ -1,0 +1,100 @@
+that is relatively flat for $h v \ll k T$ and which ap-
+proaches zero for $h v \gg k T$ .
+
+In spite of early convictions by some investigators
+that the zero-point energy term in Eq. (1) would not
+have any experimental correlate, this has not been the
+case. Indeed, the zero-point term has proved impor-
+tant in explaining $\mathrm { X }$ -ray scattering in solids [4]; under-
+standing of the Lamb shift between the $s$ and $p$ levels
+in hydrogen [5,6]; predicting the Casimir effect [7-9];
+understanding the origin of van der Waals forces [7];
+interpretation of the Aharonov-Bohm effect [10,11];
+explaining Compton scattering [5]; and predicting the
+spectrum of noise in electrical circuits [12-15]. It is
+this latter effect that concerns us here.
+
+Koch et al. [13] measured the frequency spectrum
+of current fluctuations in Josephson junctions. At low
+temperatures and high frequencies the experimental
+spectrum is dominated by zero-point fluctuations, con-
+firming the physical relevance of the zero-point term
+in Eq. (1) up to frequencies of the order $v _ { \max } = 6 \times$
+$10 ^ { 11 } \mathrm { Hz }$ . Here we reanalyze their experimental results
+in light of recent astronomical estimates of dark en-
+ergy density in the universe [16-19].
+
+Our hypothesis is that the signature of zero-point
+fluctuations measured by Koch et al. imply a non-
+vanishing vacuum energy density in the universe. This
+vacuum energy would have large scale gravitational
+effects, and cannot exceed the measured dark energy
+density of the universe as determined in astronomi-
+cal measurements [16,17]. On this basis we predict a
+cutoff frequency $\left( v _ { c } \right)$ for the zero-point fluctuations in
+Josephson junction experiments, which is only slightly
+larger than the maximum frequency $v _ { \mathrm { max } }$ reached in
+Koch et al.'s 1982 experiment. Future experiments,
+based on Josephson junctions that operate in the THz
+region [20,21], could thus help to clarify whether this
+cutoff exists and whether the dark energy of the uni-
+verse is related to the vacuum fluctuations that play
+a role in the Josephson junction experiments.
+
+
+# 2. Estimating a cutoff frequency for zero-point fluctuations
+
+If Planck [1] and Nernst [3] had used the relation
+$\rho \left( v , T \right) = 8 \pi h v ^ { 2 } \bar { U } \left( v , T \right) / c ^ { 3 }$ , then instead of Eq. (2)
+
+they would have obtained
+
+$$\rho \left( v , T \right) = \frac { 8 \pi v ^ { 2 } } { c ^ { 3 } } \left[ \frac { 1 } { 2 } h v + \frac { h v } { \mathrm { e x p } \left( h v / k T \right) - 1 } \right]$$
+$$= \frac { 4 \pi h v ^ { 3 } } { c ^ { 3 } } \left[ 1 + \frac { 2 } { \exp \left( h v / k T \right) - 1 } \right]$$
+$$= \frac { 4 \pi h v ^ { 3 } } { c ^ { 3 } } \coth \left( \frac { h v } { k T } \right) .$$
+(3)
+
+Eq. (3), which is correct from the perspective of quan-
+tum electrodynamics [22], predicts that if all frequen-
+cies $\nu$ are taken into account then there should be an
+infinite energy per unit volume since
+
+$$\lim _ { v \rightarrow \infty } \int _ { 0 } ^ { v _ { c } } \rho \left( v , T \right) d v$$
+
+diverges. To avoid this one could introduce a cutoff
+frequency $v _ { c } < \infty$ .
+
+Split the total energy density into
+
+$$\rho \left( v , T \right) = \rho _ { \mathrm { v a c } } \left( v \right) + \rho _ { \mathrm { r a d } } \left( v , T \right) ,$$
+(4)
+
+where
+
+$$\rho _ { v a c } \left( v \right) = \frac { 4 \pi h v ^ { 3 } } { c ^ { 3 } }$$
+(5)
+
+is due to zero-point fluctuations, and
+
+$$\rho _ { \mathrm { r a d } } \left( v , T \right) = \frac { 8 \pi h v ^ { 3 } } { c ^ { 3 } } \frac { 1 } { \exp \left( h v / k T \right) - 1 }$$
+(6)
+
+corresponds to the radiation energy density generated
+by photons of energy $h \nu$ . Integration of (5) up to $v _ { c }$
+yields
+
+$$\int _ { 0 } ^ { v _ { c } } \rho _ { v a c } \left( v \right) d v = \frac { 4 \pi h } { c ^ { 3 } } \int _ { 0 } ^ { v _ { c } } v ^ { 3 } d v = \frac { \pi h } { c ^ { 3 } } v _ { c } ^ { 4 } ,$$
+(7)
+
+while integration of (6) over all frequencies yields the
+well-known Stefan-Boltzmann law
+
+$$\int _ { 0 } ^ { \infty } \rho _ { r a d } \left( v , T \right) d v = \frac { \pi ^ { 2 } k ^ { 4 } } { 15 \hbar ^ { 3 } c ^ { 3 } } T ^ { 4 } .$$
+(8)
+
+Suppose Eq. (5) is valid only up to a cutoff fre-
+quency $\nu _ { \mathcal{C} }$ , due to new but as yet unknown physics.
+How might we determine $\nu _ { C } ^ { \prime }$ We propose using es-
+timates of the dark energy density to place an upper
+limit on the value calculated from Eq. (7).
+```

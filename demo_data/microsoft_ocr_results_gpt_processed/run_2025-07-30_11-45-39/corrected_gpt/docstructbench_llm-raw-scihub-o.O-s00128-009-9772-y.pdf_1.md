@@ -1,0 +1,80 @@
+<!-- PageHeader="Bull Environ Contam Toxicol (2009) 83:818-821 DOI 10.1007/s00128-009-9772-y" -->
+
+
+# Determination of Pesticide Residues in Honey Samples
+
+Irani Mukherjee
+
+Received: 11 July 2008/ Accepted: 5 May 2009/Published online: 23 June 2009
+© Springer Science+Business Media, LLC 2009
+
+Abstract Protocol for the determination of pesticides
+residues in honey samples have been standardized using a
+simple technique of liquid-liquid extraction. The method is
+sensitive to detect low levels of pesticides in honey. Honey
+sample was fortified with pesticides, namely, cypermethrin,
+fenvalerate, alphamethrin, lambda-cyhalothrin, endosulfan
+(α, β and sulfate) and chlorpyrifos. The method of
+extraction and clean up was optimized and validated in the
+laboratory. The method was applied to screen six samples
+of honey locally available for pesticides residues. Recov-
+eries ranged from 60% to 90.6% with RSDs from 2% to
+10%. Low recoveries were recorded for $\alpha$ and $\beta$ -endo-
+sulfan in the range of 60%-71%. The LOQs, varied from
+0.05 to 1.0 mg kg-1.
+
+Keywords Honey . Pesticides residue analysis .
+GLC
+
+Pesticides play a beneficial role in agriculture, because they
+help to combat the variety of pest that destroy crops, even
+though small amounts of pesticide residues remain in the
+food supply, constituting a potential risk for the human
+health, because of their sub-acute and chronic toxicity. The
+most widely used pesticides are organophosphorus and
+carbamates, which have almost completely replaced orga-
+nochlorine pesticides. The extensive distribution of these
+groups of pesticides causes bees that have been fed on
+contaminated blossom to transfer pesticide residues into
+honey and finally to the consumer. Organochlorine
+
+pesticides, like DDT and BHC have been restricted or
+banned in India for use in agriculture since 1987-88 because
+of their persistence and bioaccumulation in the environ-
+ment. However, DDT is still used in malaria eradication
+programmes, and in human welfare and hygiene. These
+pesticides are still frequently found in soil, from which they
+continue to cycle through the environment, as soil is a
+potential source to the atmosphere by way of volatilization
+and to water, plants, and animals, by their movement via
+runoff. Different studies demonstrated the bioaccumulation
+of organochlorine from contaminated soil to aerial and root
+tissues of different plants and to organisms, which can bio-
+concentrate these fat-soluble pesticides at 10-1,000 times
+the level found in the surrounding environment. The pres-
+ence of pesticide residues in honey has impelled the need for
+setting up monitoring programs to determine the proper
+assessment of human exposure to pesticides making possi-
+ble to take policy decisions in the interest of health hazard.
+Different national regulations have established maximum
+concentrations of pesticide residues (MRLs) permitted in
+honey, but the lack of homogeneity causes problems in
+international marketing and trade. As an example, Germany,
+Italy, and Switzerland have set MRLs (Rissato et al. 2007)
+for amitraz, bromopropylate, coumaphos, cyamizole,
+flumetrine, and fluvalinate, which oscillate between 0.01
+and 0.1 mg kg-1 in Germany, between 5 and 500 mg kg-1
+in Switzerland, and are of 10 mg kg-1 in Italy. Up to now,
+maximum limits of pesticide residues in honey are not
+included in the Codex Alimentarius (1998). The European
+Union (EU 1996, 1999) legislation has regulated the MRLs
+for three acaricides: amitraz, coumaphos, and cyamizole,
+which are 0.2, 0.1, and 1 mg kg-1, respectively (EC 1990).
+The U. S. Environmental Protection Agency (FDA, USA
+2003) has established MRLs for amitraz (1 mg kg-1),
+coumaphos (0.1 mg kg-1), and fluvalinate (0.05 mg kg-1).
+
+<!-- PageFooter="I. Mukherjee (□)" -->
+<!-- PageFooter="Division of Agricultural Chemicals, Indian Agricultural Research Institute, New Delhi 110012, India e-mail: mukrj_irani@yahoo.com" -->
+<!-- PageFooter="Springer" -->
+```

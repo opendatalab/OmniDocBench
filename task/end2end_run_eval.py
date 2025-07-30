@@ -16,7 +16,7 @@ class End2EndEval():
         else:
             md_flag = False
         if not md_flag:
-            with open(page_info_path, 'r') as f:
+            with open(page_info_path, 'r', encoding='utf-8') as f:
                 pages = json.load(f)
             
             for page in pages:

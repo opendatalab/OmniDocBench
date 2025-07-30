@@ -1,0 +1,225 @@
+<!-- PageNumber="69428" -->
+<!-- PageHeader="Federal Register / Vol. 81, No. 194/Thursday, October 6, 2016/Rules and Regulations" -->
+
+
+# Finding
+
+Based on our review of the best
+available scientific and commercial
+information pertaining to the Act's five
+threat factors, we conclude that the
+Huachuca-Canelo population of the
+Arizona treefrog does not meet the
+significance criterion of the DPS Policy.
+as detailed above and, therefore, is not
+a valid DPS under our DPS Policy. As
+a result, we find that the Huachuca-
+Canelo population of the Arizona
+treefrog is not a listable entity under
+section 3(16) of the Act. Therefore, we
+find that listing the Huachuca-Canelo
+population of Arizona treefrog as an
+endangered or a threatened species is
+not warranted throughout all or a
+significant portion of its range at this
+time, and consequently, we are
+removing it from candidate status.
+
+As a result of the Service's 2011
+multidistrict litigation settlement with
+the Center for Biological Diversity and
+WildEarth Guardians, the Service is
+required to submit a proposed listing
+rule or a not-warranted 12-month
+finding to the Federal Register by
+September 30, 2016 (In re: Endangered
+Species Act Section 4 Deadline
+Litigation, No. 10-377 (EGS), MDL
+Docket No. 2165 (D.D.C. May 10, 2011)).
+for all 251 species that were included as
+candidate species in the Service's
+November 10, 2010, CNOR. This
+document satisfies the requirements of
+that settlement agreement for the
+Huachuca-Canelo population of the
+Arizona treefrog. A detailed discussion
+of the basis for this finding can be found
+in the species-specific assessment form
+for the Huachuca-Canelo population of
+the Arizona treefrog and other
+supporting documents (see ADDRESSES,
+above).
+
+
+# Arkansas Darter (Etheostoma cragini)
+
+
+## Previous Federal Actions
+
+The Arkansas darter was first
+identified as a candidate for listing
+under the Act in 1989 (54 FR 554;
+January 6, 1989), as a Category 2
+candidate species. Category 2 candidate
+species were identified as those taxa for
+which the Service possessed
+information indicating proposing to list
+the taxa was possibly appropriate, but
+for which conclusive data on biological
+vulnerability and threats sufficient to
+support a proposed listing rule was
+lacking. On February 28, 1996, the
+CNOR (61 FR 7596) discontinued
+recognition of Categories 1-3. Because
+listing the Arkansas darter was
+warranted but precluded, we assigned
+the species an LPN of 5. In 2002, we
+
+changed the LPN from 5 to 11 [67 FR
+40657; June 13, 2002).
+
+On May 11, 2004, the Service received
+a petition dated May 4, 2004, from the
+Center for Biological Diversity and
+others to list 225 species, including the
+Arkansas darter. The Service published
+a 12-month finding in the Federal
+Register on May 11, 2005, with a
+reaffirmed determination that listing
+was warranted but precluded and that
+the taxon had an LPN of 11 (70 FR
+24870). We have continued to evaluate
+the status of the candidate taxon
+through our annual CNOR and
+maintained the LPN of 11 for this
+species (see September 12, 2006 (71 FR
+53756), December 6, 2007 (72 FR
+69034), December 10, 2008 (73 FR
+75176), November 9, 2009 (74 FR
+57804), November 10, 2010 (75 FR
+69222), October 26, 2011 (76 FR 66370),
+November 21, 2012 (77 FR 69994),
+November 22, 2013 (78 FR 70104),
+December 5, 2014 (79 FR 72450), and
+December 24, 2015 (80 FR 80584)).
+
+
+## Background
+
+The Arkansas darter (Etheostoma
+crugini] is a small fish in the perch
+family native to the Arkansas River
+basin. The species occurs most often in
+sand- or pebble-bottomed pools of
+small, spring-fed streams and marshes,
+with cool water, and broad-leaved
+aquatic vegetation. Arkansas darters
+prefer flowing, spring-fed streams and
+pools in contact with groundwater
+sources. However, the species is very
+tolerant to periods of very poor water
+quality, including high water
+temperatures, low dissolved oxygen,
+high turbidity, and hyper-
+eutrophication.
+
+The Arkansas darter's range includes
+eastern Colorado, southwest and central
+Kansas, northwest and northeast
+Oklahoma, southwest Missouri, and
+northwest Arkansas. Recent surveys
+have expanded our knowledge of
+occupied Arkansas darter populations.
+We currently consider to be extant a
+total of 80 populations within 15
+metapopulations rangewide. This is
+more than we knew of for previous
+assessments of this species.
+
+
+## Summary of Status Review
+
+In completing our status review for
+the Arkansas darter, we reviewed the
+best available scientific and commercial
+information and compiled this
+information in the Species Status
+Assessment Report (SSA Report) for the
+Arkansas darter. In previous candidate
+assessments and findings for this
+species, the identified threats we
+considered were water depletion, water
+quality degradation, urbanization and
+
+development, confined-animal feeding
+operations, dams and reservoirs, salt
+cedar invasion, disease, and predation.
+Although localized negative effects have
+been observed, all of these stressors
+(other than water depletion) occur at a
+limited scale and scope, and the overall
+impact at the population and species
+level is minimal.
+
+Water depletion is the stressor with
+the largest potential impact to the
+Arkansas darter's viability, affecting
+approximately 25 percent of the
+geographic range, resulting mainly from
+groundwater withdrawals for
+agriculture. Seasonal low flows and
+intermittency of streams are common
+within the Great Plains portion of its
+range, and it appears the species is
+adapted to this phenomenon. However,
+the continued existence of the species in
+these areas is dependent on localized
+areas of refugia. Typically refugia exist
+where groundwater flows come to the
+surface and create permanent pools or
+small wetland areas along the stream
+course. When seasonal precipitation
+occurs and the streams become flowing
+systems, typically in the spring, the
+stream then provides habitat for
+spawning, rearing, and dispersal of
+young and adult individuals throughout
+the watershed. Climate change
+projections forecast minimal change in
+average annual precipitation in the
+Arkansas River basin and do not
+forecast reduced or diminished
+streamflow as a result of future changes
+in precipitation patterns. Therefore, we
+do not expect to see climate-change-
+driven decreased trends in precipitation
+and related stream flows.
+
+Water depletion results in decreased
+resiliency of populations affected in the
+portions of the range in southwestern
+Kansas, northwestern Oklahoma, and
+parts of Colorado, approximately 25
+percent of the range. However, the
+species has endured over 40 years of
+groundwater withdrawals in these areas,
+indicating continued resiliency of these
+populations. The large number of
+populations (80) spread across the
+multi-State range provides the Arkansas
+darter species with a high level of
+redundancy should a catastrophic event
+occur somewhere within its occupied
+range. Multiple populations and
+metapopulations currently occupying
+the unique ecological settings of the
+three unique physiogeographic areas.
+the same physiogeographic areas that
+this species was known to occupy
+historically, allow the species to
+maintain adaptive potential and the
+underlying genetic makeup to adapt to
+changing environmental conditions.
+
+Over the next 30 years, under our
+expected scenario, we are likely to see

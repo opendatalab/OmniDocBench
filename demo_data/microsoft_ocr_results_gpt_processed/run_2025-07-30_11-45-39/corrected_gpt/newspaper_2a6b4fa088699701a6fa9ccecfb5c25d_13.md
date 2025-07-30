@@ -1,0 +1,223 @@
+control crayfish, maintain habitat
+conditions by removing excess
+vegetation, and inform the public about
+the species.
+
+NPS and BLM authorities and
+regulatory mechanisms have
+successfully provided or facilitated
+conservation of the species (see
+"Conservation Actions Implemented,"
+above). NPS, BLM, BR, and the Service
+are signatories on the Conservation
+Agreement and actively involved in all
+actions of the Conservation Team. Each
+agency coordinates development of
+annual work plans and utilizes their
+authority to implement conservation
+actions that benefit the species. Federal
+authorities and regulatory mechanisms
+have successfully provided or facilitated
+conservation of the species.
+
+We did not find any stressors
+examined under the Act's threat factors
+A, B, C, and E to rise to the level of a
+threat that would cause us to determine
+listing of the relict leopard frog is
+warranted. Based on our review of the
+stressors combined with the beneficial
+effects that the various conservation
+efforts and regulatory mechanisms
+provided to the species, we find that the
+existing regulatory mechanisms [Factor
+D) are adequate to address the stressors
+currently impacting the relict leopard
+frog and its habitat.
+
+Regarding cumulative effects, there
+are potential stressors that may act
+together to affect relict leopard frogs at
+certain sites. Overgrowth of vegetation,
+nonnative plants and predators, and
+disease acting on small populations may
+adversely affect certain populations
+concurrently. Flash floods or wildfire
+may adversely affect a site at the same
+time as nonnative plants and predators.
+Reduced habitat connectivity adversely
+affects sites with small populations at
+the same time as overgrowth of
+vegetation, and nonnative plants and
+predators. Climate change may affect a
+site at the same time as grazing,
+wildfire, and flash floods. However,
+after evaluating the cumulative effects,
+we conclude that the magnitude of
+cumulative effects to the relict leopard
+frog is low to moderate. Most stressors
+adversely affect the relict leopard frog in
+a single geographic area due to the
+isolated distribution of most sites.
+Although individuals may be affected
+by cumulative effects in a single
+geographic area, there would not be
+population level effects to the species.
+
+Multiple stressors on relict leopard
+frogs may act synergistically,
+exacerbating effects greater than what
+may be observed by individual stressors.
+The effects of climate change may
+increase the number and frequency of
+wildfires and flash flood events. The
+
+presence of nonnative plants can make
+the effects of excess vegetation worse.
+Overgrowth of vegetation may reduce
+habitat for breeding, potentially making
+small populations smaller. Disease and
+nonnative predators such as bullfrogs,
+crayfish, and fishes may also exacerbate
+the effects of small populations by
+removing frogs. We determined that
+synergistic effects may occur, although
+they are expected to be low in
+magnitude. Most individual stressors
+adversely affect the relict leopard frog in
+a single geographic area, due to the
+isolated distribution of most sites.
+Although individuals may be affected
+by synergistic effects in a single
+geographic area, there would not likely
+be population-level effects to the
+species.
+
+To minimize or mitigate effects from
+stressors affecting the relict leopard frog,
+the Conservation Team will continue
+monitoring populations and
+reintroducing frogs to sites should they
+become greatly reduced in numbers or
+extirpated due to the effects of one or
+more stressors.
+
+
+# Finding
+
+Based on our review of the best
+available scientific and commercial
+information pertaining to the Act's five
+threat factors, we find that the stressors
+acting on the species and its habitat,
+either singly or in combination, are not
+of sufficient imminence, intensity, or
+magnitude to indicate that the relict
+leopard frog is in danger of extinction
+[an endangered species] throughout all
+of its range, or likely to become
+endangered within the foreseeable
+future (a threatened species) throughout
+all of its range.
+
+Populations of relict leopard frogs are
+improving due to past conservation
+actions and current efforts to re-
+establish and increase naturally-
+occurring and reintroduced populations.
+Current and ongoing habitat
+management, establishment of new
+sites, and restoration activities have
+made substantial progress since their
+inception and are continuing into the
+future. We have determined that the
+number of frogs and habitat conditions
+at individual sites change from year to
+year and may vary widely, but the
+rangewide status of the species is stable
+or increasing.
+
+After determining the species is not
+endangered or threatened throughout all
+of its range, we then conducted an
+analysis to determine if it was
+endangered or threatened throughout a
+significant portion of the species' range.
+To do this, we evaluated whether there
+was any portion of the species' range
+where threats were concentrated such
+
+that the species in that portion would be
+endangered or threatened, and that
+losing that portion of the range would
+cause the remainder of the species to be
+endangered or threatened. Once we
+determined that there was no
+geographic concentration of threats that
+would cause any portion of the species'
+range to be at greater risk of extinction,
+then we could conclude that no portion
+warranted further consideration.
+Therefore, we find that listing the relict
+leopard frog as an endangered or a
+threatened species throughout all of or
+a significant portion of its range under
+the Act is not warranted at this time.
+and, consequently, we are removing it
+from candidate status.
+
+As a result of the Service's 2011
+multidistrict litigation settlement with
+the Center for Biological Diversity and
+WildEarth Guardians, the Service is
+required to submit a proposed listing
+rule or a not-warranted 12-month
+finding to the Federal Register by
+September 30, 2016 (In re: Endangered
+Species Act Section 4 Deadline
+Litigation, No. 10-377 (EGS), MDL
+Docket No. 2165 (D.D.C. May 10, 2011)).
+for all 251 species that were included as
+candidate species in the Service's
+November 10, 2010, CNOR. This
+document satisfies the requirements of
+that settlement agreement for the relict
+leopard frog, and constitutes the
+Service's 12-month finding on the May
+8, 2002, petition to list the relict leopard
+frog as an endangered or threatened
+species. A detailed discussion of the
+basis for this finding, including the
+many effective conservation measures
+completed by the Conservation Team,
+can be found in the relict leopard frog's
+species-specific assessment form, SSA
+Report, and other supporting documents
+[see ADDRESSES, above).
+
+
+# Sicklefin Redhorse Sucker (Moxostoma sp.)
+
+
+## Previous Federal Actions
+
+The sicklefin redhorse sucker was
+originally made a candidate species in
+the May 11, 2005, CNOR (70 FR 24870).
+and it was included in the subsequent
+CNORs through 2015 (see September 12,
+2006 (71 FR 53756), December 6, 2007
+(72 FR 69034). December 10, 2008 (73
+FR 75176), November 9, 2009 (74 FR
+57804), November 10, 2010 (75 FR
+69222), October 26, 2011 (76 FR 66370).
+November 21, 2012 (77 FR 69994),
+November 22, 2013 (78 FR 70104), and
+December 5, 2014 (79 FR 72450)).
+
+On April 20, 2010, we received a
+petition from the Center for Biological
+Diversity, requesting that the Service list
+404 aquatic species as endangered or
+threatened species under the Act,
+```

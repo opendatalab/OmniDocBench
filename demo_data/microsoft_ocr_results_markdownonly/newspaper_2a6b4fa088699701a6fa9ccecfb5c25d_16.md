@@ -1,0 +1,218 @@
+<!-- PageNumber="69440" -->
+<!-- PageHeader="Federal Register/ Vol. 81, No. 194/Thursday, October 6, 2016/Rules and Regulations" -->
+
+Resources Commission, Duke Energy
+Carolinas, Eastern Band of Cherokee
+Indians, Tennessee Valley Authority,
+and Georgia Department of Natural
+Resources. A primary goal of the CCA is
+to expand the range of this species
+upstream of barrier dams to repopulate
+stream reaches that were formerly
+degraded, but currently appear suitable.
+Expanding the range of the sicklefin
+redhorse sucker into the upper sections
+of these watersheds will provide a
+greater variety of available habitat,
+allowing the species to more easily
+adjust to temporary effects of
+construction and landscape alteration.
+and providing more opportunities to use
+areas of refuge during periods of adverse
+conditions, such as periods of high
+temperature or increased flow.
+Accessibility to more suitable habitat
+will increase the number of available
+spawning sites, increasing the
+opportunities for successful
+recruitment, and will provide
+alternative spawning areas should some
+spawning sites become unsuitable.
+Successful reintroduction will increase
+the carrying capacity of the sicklefin
+redhorse sucker by providing the
+species with additional riverine habitat
+as well as access to additional reservoirs
+to serve as juvenile rearing habitat. The
+SSA Report for the sicklefin redhorse
+sucker noted that threats [i.e., factors
+affecting the species) could be
+exacerbated by climate change or
+interaction among the threats. However,
+the SSA Report's evaluation of all of the
+threats facing this species indicates that
+the existing populations are stable and
+are likely to remain stable in most of the
+plausible future scenarios. In addition,
+while populations are currently stable
+and likely to remain so, under the CCA's
+management framework, the parties will
+work collaboratively to address threats
+in a way that reduces the likelihood that
+they will negatively affect the future
+viability of the species.
+
+
+# Finding
+
+Based on our review of the best
+available scientific and commercial
+information pertaining to the Act's five
+threat factors, we find that the stressors
+acting on the species and its habitat,
+either singly or in combination, are not
+of sufficient imminence, intensity, or
+magnitude to indicate that the sicklefin
+redhorse sucker is in danger of
+extinction (an endangered species), or
+likely to become endangered within the
+foreseeable future (a threatened species),
+throughout all of its range. This finding
+is based on stability of existing
+populations, re-evaluation of threats
+that are likely to affect the populations
+in the future, and development of a CCA
+
+that ensures the continued participation
+by all stakeholders in a focused effort to
+address and mitigate potential threats
+while expanding the range and
+population health of the species.
+Additionally, we evaluated the current
+range of the sicklefin redhorse sucker to
+determine if there is any apparent
+geographic concentration of potential
+threats for the species. The current
+range of the species is relatively small
+and limited to two river systems in
+western North Carolina and
+northwestern Georgia. We examined
+potential threats from: (1) Hydroelectric
+operations, inadequate erosion/
+sedimentation control during
+agricultural, timbering, and construction
+activities: (2) runoff and discharge of
+organic and inorganic pollutants from
+industrial, municipal, agricultural, and
+other point and nonpoint sources; (3)
+habitat alterations associated with
+channelization and instream dredging/
+mining activities; (4) predation and
+habitat suitability impacts by nonnative
+species; (5) fragmentation and isolation
+of surviving populations; and (6) other
+natural and human-related factors that
+adversely modify the aquatic
+environment. We found no portions of
+the species' range where potential
+threats are significantly concentrated or
+substantially greater than in other
+portion of its range so as to suggest that
+the species may be in danger of
+extinction in a portion of its range.
+Therefore, we find that factors affecting
+the sicklefin redhorse sucker are
+essentially uniform throughout its
+range, indicating no portion of the range
+warrants further consideration of
+possible endangered or threatened
+status under the Act. Therefore, we find
+that listing the sicklefin redhorse sucker
+as an endangered or a threatened
+species under the Act is not warranted
+throughout all or a significant portion of
+its range at this time, and consequently
+we are removing it from candidate
+status.
+
+As a result of the Service's 2011
+multidistrict litigation settlement with
+the Center for Biological Diversity and
+WildEarth Guardians, the Service is
+required to submit a proposed listing
+rule or a not-warranted 12-month
+finding to the Federal Register by
+September 30, 2016 (In re: Endangered
+Species Act Section 4 Deadline
+Litigation, No. 10-377 (EGS), MDL
+Docket No. 2165 (D.D.C. May 10, 2011)].
+for all 251 species that were included as
+candidate species in the Service's
+November 10, 2010, CNOR. This
+document satisfies the requirements of
+that settlement agreement for the
+sicklefin redhorse sucker, and
+
+constitutes the Service's 12-month
+finding on the April 20, 2010, petition
+to list the sicklefin redhorse sucker as
+an endangered or threatened species. A
+detailed discussion of the basis for this
+finding, including the PECE policy
+analysis of the OCA, can be found in the
+sicklefin redhorse sucker's species-
+specific assessment form, SSA Report,
+and other supporting documents [see
+ADDRESSES, above).
+
+
+## Stephan's Riffle Beetle (Heterelmis stephani)
+
+
+### Previous Federal Actions
+
+Stephan's riffle beetle (Heterelmis
+stephani] was designated as a Category
+2 candidate in the notice published in
+the Federal Register on May 22, 1984,
+at 49 FR 21664. Category 2 candidate
+species were identified as those taxa for
+which the Service possessed
+information indicating proposing to list
+the taxa was possibly appropriate, but
+for which conclusive data on biological
+vulnerability and threats sufficient to
+support a proposed listing rule was
+lacking. The February 28, 1996, CNOR
+(61 FR 7596) discontinued recognition
+of categories, so this species was no
+longer considered a candidate species.
+In the June 13, 2002, CNOR (67 FR
+40657), Stephan's riffle beetle was
+designated as a candidate species as
+currently defined, with an LPN of 5. On
+May 11, 2004, we received a petition
+dated May 4, 2004, from the Center for
+Biological Diversity, requesting that 225
+plants and animals, including Stephan's
+riffle beetle, be listed as endangered
+species under the Act and critical
+habitat be designated. In response to the
+May 4, 2004, petition to list Stephan's
+riffle beetle as an endangered species,
+we published a warranted-but-
+precluded 12-month finding in the
+Federal Register on May 11, 2005 (70
+FR 24870). Subsequent warranted-but-
+precluded 12-month findings were
+published on September 12, 2006 (71 FR
+53756), December 6, 2007 (72 FR
+69034), December 10, 2008 (73 FR
+75176), November 9, 2009 (74 FR
+57804), November 10, 2010 (75 FR
+69222), October 26, 2011 (76 FR 66370).
+November 21, 2012 (77 FR 69994),
+November 22, 2013 (78 FR 70104),
+December 5, 2014 (79 FR 72450), and
+December 24, 2015 (80 FR 80584).
+
+
+### Background
+
+Stephan's riffle beetle is one of five
+known species in the genus Heterelmis
+found in the United States. Historically,
+Stephan's riffle beetle occurred in Santa
+Cruz and Pima Counties, Arizona, at
+two known locations: Bog Springs
+Campground and Sylvester Spring in

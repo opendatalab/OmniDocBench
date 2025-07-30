@@ -1,0 +1,17 @@
+# 河南省高三模拟考试数学参考答案（理科） 
+
+1. D 依题意可得 $m=2$, 则 $z_{1} \cdot z_{2}=(-1+2 \mathrm{i})(2+2 \mathrm{i})=-6+2 \mathrm{i}$.
+2. C 因为 $\boldsymbol{a}=2 \boldsymbol{b}, \boldsymbol{b}=-3 \boldsymbol{c}$, 所以 $\boldsymbol{a}$ 与 $\boldsymbol{b}$ 同向, $\boldsymbol{b}$ 与 $\boldsymbol{c}$ 反向, 所以 $\boldsymbol{a}$ 与 $\boldsymbol{c}$ 反向.
+3. C 因为 $A=\{x \mid-2 \leqslant x \leqslant 2\}, B=\{y \mid 0 \leqslant y<2\}$, 所以 $A \cap B=[0,2)$.
+4. D 这五个社团的总人数为 $\frac{8}{10 \%}=80, \frac{80}{2000}=4 \%$, A 错误, C 错误. 因为太极拳社团人数的占比为 $\frac{12}{8} \times 10 \%$ $=15 \%$, 所以脱口秀社团人数的占比为 $1-10 \%-15 \%-30 \%-25 \%=20 \%$, B 错误. 从这五个社团中任选一人, 其来自脱口秀社团或舞蹈社团的概率为 $25 \%-20 \%=45 \%$, D 正确.
+5. A 依题意可得圆雉的体积 $V=1 \times\left(\frac{2 \sqrt{3 \pi}}{3}\right)^{2}=\frac{4 \pi}{3} \mathrm{~cm}^{3}$,
+又 $V=\frac{1}{3} \pi \times 1^{2} \times h\left(\mathrm{~cm}^{3}\right)$ (其中 $h$ 为圆雉的高), 则 $h=4 \mathrm{~cm}$, 则圆雉的母线长为 $\sqrt{1^{2}+4^{2}}=\sqrt{17} \mathrm{~cm}$, 故圆雉的侧面积为 $\sqrt{17} \pi \mathrm{~cm}^{3}$.
+6. B 因为等比数列 $\left\{a_{n}+1\right\}$ 的公比 $q=\frac{a_{5}+1}{a_{2}+1}=\frac{27}{9}=3$, 所以 $a_{5}+1=\left(a_{2}+1\right) q^{3}=9 \times 3^{2}=243$, 即 $a_{5}=242$.
+7. A 由题意可知, $a<0, b>0, c>0, \frac{b}{c}=\frac{\log _{2} 2}{\log _{b} 4}=\frac{\log _{2} 2}{2 \log _{b} 2}=\frac{\log _{2} 6}{2 \log _{2} 3}=\log _{9} 6<1$, 则 $c>b$, 所以 $c>b>a$.
+8. C 当 $x \in\left[0, \frac{\pi}{12}\right]$ 时, 因为 $\omega>0$, 所以 $\omega x-\frac{\pi}{4} \in\left[-\frac{\pi}{4}, \frac{\pi}{12} \omega-\frac{\pi}{4}\right]$, 又 $y=\sin \left(\omega x-\frac{\pi}{4}\right)$ 在区间 $\left[0, \frac{\pi}{12}\right]$ 上不单调, 所以 $\frac{\pi}{12} \omega-\frac{\pi}{4}>\frac{\pi}{2}$, 即 $\omega>9$. 因为直线 $x=\frac{\pi}{12}$ 是曲线 $y=\sin \left(\omega x-\frac{\pi}{4}\right)(\omega>0)$ 的一条对称轴, 所以 $\frac{\pi}{12} \omega-$ $\frac{\pi}{4}=\frac{\pi}{2}+k \pi(k \in \mathbf{Z})$, 即 $\omega=9+12 k(k \in \mathbf{Z})$, 故 $\omega$ 的最小值为 21 .
+9. D 因为 $f(x-1)$ 为定义在 $\mathbf{R}$ 上的奇函数, 所以 $f(x)$ 的图象关于点 $(-1,0)$ 对称,且 $f(-1)=0$, 又 $f(1)=0$, 所以 $f(-3)=0$. 依题意可得, 当 $-3<x<-1$ 或 $x>1$ 时, $f(x)<0$. 所以 $f\left(2^{x}-\right.$ $5)<0$ 等价于 $-3<2^{x}-5<-1$ 或 $2^{x}-5>1$, 解得 $1<x<2$ 或 $x>\log _{2} 6$.
+10. B 如图, 连接 $F_{1} B, F_{1} A$, 则 $F_{1}, A, C$ 和 $F_{1}, B, D$ 都三点共线.设 $\left|F_{2} B\right|=x$, 则 $\left|F_{1} B\right|=x+2 a$.由 $\cos \angle F_{1} A B=\cos (\pi-\angle B A C)=\frac{4}{5}$, 得 $\tan \angle F_{1} A B=\frac{3}{4}$, 又 $A B \perp B D$, 则 $|A B|$ $=\frac{4}{3}\left|F_{1} B\right|,\left|F_{1} A\right|=\frac{5}{3}\left|F_{1} B\right|,\left|F_{2} A\right|=|A B|-\left|F_{2} B\right|$, 因此 $\left|F_{1} A\right|-\left|F_{2} A\right|=$ $\frac{4}{3} x+\frac{2}{3} a=2 a$, 即 $x=a$, 则 $\tan \angle F_{1} F_{2} B=3,(2 c)^{2}=(x+2 a)^{2}+x^{2}=10 a^{2}, c^{2}=$ $\frac{5}{2} a^{2}$, 故 $e=\frac{\sqrt{10}}{2}$.
+![img-0.jpeg](img-0.jpeg)
+11. A 易证 $A C \perp$ 平面 $B B_{1} D_{1} D, D E \subset$ 平面 $B B_{1} D_{1} D$, 所以恒有 $A C \perp D E$, 直线 $D E$ 与直线 $A C$ 所成角为 $90^{\circ}$, 所以(1) 是真命题. 点 $E$ 到直线 $A B$ 的距离与点 $E$ 到直线 $A_{1} B_{1}$ 的距离有关, 所以(2) 是假命题. 因为 $B_{1} D_{1} / / B D$, 所以 $B_{1} D_{1} / /$ 平面 $A_{1} B D$, 故点 $E$ 到平面 $A_{1} B D$ 的距离 $d$ 为定值, 则 $V_{E-A_{1} B D}=\frac{1}{3} d \cdot S_{\triangle A_{1} B D}$ 为定值, 所以(3)是真命题. 点 $E$ 在 $D_{1}$ 处和在 $B_{1} D_{1}$ 的中点处时, 三棱雉 $E-A_{1} B D$ 的外接球半径不同, 故其外接球的体积不是定值, 所以(4)是假命题.
+![img-1.jpeg](img-1.jpeg)
+12. B 不妨设切点为 $\left(x_{0},\left(x_{0}-1\right) \mathrm{e}^{x_{0}}\right)$, 因为 $f^{\prime}(x)=x \mathrm{e}^{x}$, 所以切线方程为 $y-\lambda=x_{0} \mathrm{e}^{x_{0}}(x-1)$, 则

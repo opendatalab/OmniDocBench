@@ -1,0 +1,14 @@
+# Additional requirements for Azure OpenAI postprocessing
+# Install with: pip install -r requirements_azure_openai.txt
+
+# Azure OpenAI client
+openai>=1.0.0
+
+# HTTP requests (already in requirements.txt but ensuring version)
+requests>=2.32.0
+
+# For environment variable loading
+python-dotenv>=1.0.0
+
+# Progress bars (already in requirements.txt)
+tqdm>=4.67.0

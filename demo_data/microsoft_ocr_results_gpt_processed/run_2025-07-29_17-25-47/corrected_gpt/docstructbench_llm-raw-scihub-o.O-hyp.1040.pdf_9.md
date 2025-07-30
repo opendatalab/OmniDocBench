@@ -1,0 +1,13 @@
+<!-- PageNumber="3455" -->
+<!-- PageHeader="ALTITUDINAL DISTRIBUTION OF SNOW ALGAE" -->
+
+Figure 4. Altitudinal change of the total cell volume biomass on Gulkana Glacier (1200-1800 m) and Yala Glacier in Himalayas (5100-5500 m, Yoshimura et al., 1997). Solid and open marks indicate ice and snow areas respectively. Error bar: standard deviation
+
+![10^1 Volume (mL m^{-2}) 0.1 Gulkana 0.01 Himalaya 0.001 1200 1300 1400 1500 1600 1700 1800 5100 5200 5300 5400 5500 Altitude (m a.s.l.)](figures/1.1)
+
+Concentration of the alga occurred at snow area S5, and the alga was completely dominant at snow areas S5 and S6. The alga observed on the ice area probably came from the upper snow area, washed down by meltwater and/or from snow that had covered the ice surface before it melted.
+
+The condition of the distribution of the four opportunists may be associated with physical or biological conditions on the glacier surface. The alga of Raphidonema has been found in eastern Europe and in the Antarctic, and one of the species of Raphidonema (Koliella) was reported as a shade-adapted species (Komárek et al., 1973). However, the distribution of Raphidonema on this glacier cannot be explained by the shade-light characteristics. The distribution of this alga (mainly at S4 and a little at S1) corresponded to the area where higher species diversity occurred relative to the other sites. The alga may prefer an area with high species diversity and may be able to survive in areas with keen species competition. The distribution of Oscillatoriacean 1 may be associated with the distribution of cryoconite holes. A cryoconite hole is a water-filled depression on the glacial ice surface, and is inhabited by many organisms, including algae, cyanobacteria, rotifers, and insects (e.g. Wharton et al., 1985). On Gulkana Glacier, cryoconite holes occurred mainly at sites S2 and S3. A larger amount of Oscillatoriacean 1 was observed at the bottom of cryoconite holes relative to the bare-ice surface (not quantified), suggesting that the cryoconite hole is a suitable habitat for this alga. The alga on the ice surface in the area may be derived from cryoconite holes. The conditions for Cyl. brébissonii and Oscillatoriacean 2, observed at only S1, were uncertain. Since cyanobacteria typically do not grow well at below pH 5, the pH condition of glacier surface may affect the distribution of cyanobacteria. Also, they may be associated with the amount of mineral particles present, since a larger concentration of mineral particles
+
+<!-- PageFooter="Copyright © 2001 John Wiley & Sons, Ltd." -->
+<!-- PageFooter="Hydrol. Process. 15, 3447-3459 (2001)" -->

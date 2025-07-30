@@ -25,7 +25,7 @@ class End2EndDataset():
         self.match_method = cfg_task['dataset'].get('match_method', 'quick_match')
         filtered_types = cfg_task['dataset'].get('filter')
 
-        with open(gt_path, 'r') as f:
+        with open(gt_path, 'r', encoding='utf-8') as f:
             gt_samples = json.load(f)
 
         filtered_gt_samples = []

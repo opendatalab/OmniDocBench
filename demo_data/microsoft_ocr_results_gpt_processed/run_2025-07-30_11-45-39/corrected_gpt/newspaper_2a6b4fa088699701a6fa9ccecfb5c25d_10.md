@@ -1,0 +1,231 @@
+<!-- PageNumber="69434" -->
+<!-- PageHeader="Federal Register / Vol. 81, No. 194/Thursday, October 6, 2016/Rules and Regulations" -->
+
+
+# Finding
+
+
+## Louisville Cave Beetle
+
+Based on our review of the best available
+scientific and commercial information
+pertaining to the Act's five threat factors
+and our review of the species' status, we
+conclude that the Louisville cave beetle
+is not subject to the degree of threats
+sufficient to indicate that it is in danger
+of extinction (an endangered species), or
+likely to become endangered within the
+foreseeable future (a threatened species),
+throughout all of its range.
+
+We evaluated the current range of the
+Louisville cave beetle to determine if
+there is any apparent geographic
+concentration of potential threats for
+this species. It has a relatively small
+range that is limited to four caves. We
+examined potential stressors including
+human visitation and disturbance,
+commercial and residential
+development, sources of water quality
+impairment, and small population size.
+We found no concentration of stressors
+that suggests that the species may be in
+danger of extinction in any portion of its
+range. Therefore, we find that listing the
+Louisville cave beetle as an endangered
+species or a threatened species under
+the Act throughout all or a significant
+portion of its range is not warranted at
+this time, and consequently we are
+removing it from candidate status.
+
+
+## Tatum Cave Beetle
+
+A review of the best available
+scientific and commercial information,
+leads us to believe that the Tatum Cave
+beetle is extinct, and, as such, it is not
+eligible for listing as an endangered
+species or a threatened species under
+the Act. Therefore, we did not further
+evaluate whether the Tatum Cave beetle
+is in danger of extinction throughout its
+range (an endangered species), likely to
+become in danger of extinction
+throughout its range in the foreseeable
+future (a threatened species), or whether
+the species is an endangered or
+threatened species in a significant
+portion of its range.
+
+Therefore, we find that listing the
+Louisville cave beetle and Tatum Cave
+beetle as endangered or threatened
+species under the Act throughout all or
+a significant portion of their respective
+ranges is not warranted at this time, and
+consequently we are removing both
+species from candidate status.
+
+As a result of the Service's 2011
+multidistrict litigation settlement with
+the Center for Biological Diversity and
+WildEarth Guardians, the Service is
+required to submit a proposed listing
+rule or a not-warranted 12-month
+finding to the Federal Register by
+September 30, 2016 (In re: Endangered
+
+Species Act Section 4 Deadline
+Litigation, No. 10-377 (EGS), MDL
+Docket No. 2165 (D.D.C. May 10, 2011)).
+for all 251 species that were included as
+candidate species in the Service's
+November 10, 2010, CNOR. This
+document satisfies the requirements of
+that settlement agreement for the
+Louisville cave beetle and Tatum Cave
+beetle, and constitutes the Service's 12-
+month finding on the May 11, 2004,
+petition to list the Louisville cave beetle
+and Tatum Cave beetles as endangered
+or threatened species under the Act. A
+detailed discussion of the basis for this
+finding can be found in the Louisville
+cave beetle's and Tatum Cave beetle's
+species-specific assessment form and
+other supporting documents (see
+ADDRESSES, above).
+
+
+# Relict Leopard Frog (Lithobates onca)
+
+
+## Previous Federal Actions
+
+On May 9, 2002, the Service received
+a petition from the Center for Biological
+Diversity and Southern Utah Wilderness
+Alliance (SUWA) seeking to list the
+relict leopard frog and designate critical
+habitat, under the authority of the Act.
+The petition identified information
+regarding the species' ecology, historical
+and current distribution, present status,
+and actual and potential causes of
+decline.
+
+Prior to receipt of the May 2002
+petition, the Service was involved in
+coordinated conservation efforts for the
+relict leopard frog among multiple
+partners and was aware of the species'
+status. On June 13, 2002, the Service's
+CNOR determined the species [as Rana
+onca) warranted listing but that listing
+was precluded by higher priorities;
+therefore, it became a candidate species
+with an LPN of 5 [67 FR 40657].
+
+In 2006, the species' LPN was lowered
+to 11, and remained at that LPN through
+the 2010 CNOR (see September 12, 2006
+(71 FR 53756). December 6, 2007 (72 FR
+69034), December 10, 2008 (73 FR
+75176), November 9, 2009 (74 FR
+57804), and November 10, 2010 (75 FR
+69222)). The lower priority ranking
+resulted from the development of the
+2005 Relict Leopard Frog Conservation
+Agreement and Strategy (Conservation
+Agreement) and implementation of
+conservation actions by the relict
+leopard frog Conservation Team
+(Conservation Team), which led to an
+overall reduction in most threats and an
+overall improvement in the species'
+status. On October 26, 2011 [76 FR
+66370), we changed the species' LPN to
+8, due in part to the discovery of chytrid
+fungus (Batrachochytrium
+dendrobatidis [Bd]] in relict leopard
+frogs in 2010, and we maintained an
+
+LPN of 8 for the species through the
+2015 CNOR (see November 21, 2012 (77
+FR 69994), November 22, 2013 (78 FR
+70104), December 5, 2014 (79 FR
+72450), and December 24, 2015 (80 FR
+80584)). In 2010, we recognized the
+scientific name of the relict leopard frog
+as Lithobates onca (see November 10,
+2010 (75 FR 69222)].
+
+
+## Background
+
+Relict leopard frogs are endemic to
+the Colorado, Virgin, Santa Clara, and
+Muddy Rivers and associated springs in
+Nevada, Arizona, and Utah. Relict
+leopard frogs appear to require habitat
+heterogeneity (consisting of diverse
+habitat types] in the aquatic and
+terrestrial environments. Relict leopard
+frogs historically occupied a variety of
+habitats including springs, streams, and
+wetlands characterized by clean, clear
+water with various depths, and cover
+such as submerged, emergent, and
+perimeter vegetation. Nonnative
+predators such as Louisiana red swamp
+crayfish (Procambarus clarki), American
+bullfrogs (Lithobates catesbeiana), and
+nonnative fish are associated with
+extirpation of relict leopard frogs.
+
+The relict leopard frog currently
+occurs at 8 natural sites-three in the
+Northshore Springs Complex (along the
+base of the Muddy Mountains near the
+Overton Arm area of Lake Mead) and
+five in the Black Canyon (below Lake
+Mead). Natural sites are those sites that
+support wild populations of relict
+leopard frogs that were not established
+through translocation effort.
+
+The Northshore Springs Complex and
+Black Canyon populations represent
+distinct relict leopard frog
+metapopulations, wherein each
+metapopulation consists of smaller,
+spatially separated populations that
+occasionally interact through the
+movement of individuals between them,
+but do not interact with the other
+metapopulation. Within the Northshore
+Springs Complex, dispersal of relict
+leopard frogs may be possible between
+Blue Point and Rogers Springs.
+Migration and dispersal among sites
+also appears likely in Black Canyon but
+not between the two metapopulations.
+
+In addition to natural sites, relict
+leopard frogs were introduced to 15
+sites, 11 of which are extant.
+Introduction sites are those established by
+deliberately translocating relict leopard
+frogs to suitable habitat within the
+assumed historical range. All extant
+natural and introduction sites occur on
+lands managed by the National Park
+Service (NPS), Bureau of Land
+Management (BLM), Bureau of
+Reclamation [BR], and the Service.
+There is low genetic variation within
+```

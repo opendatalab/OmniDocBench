@@ -1,0 +1,81 @@
+<!-- PageNumber="365" -->
+<!-- PageHeader="I. Balogh et al. / International Journal of Industrial Ergonomics 36 (2006) 353-365" -->
+
+Norlund, A., Pålsson, B., Ohlsson, K., Skerfving, S., 2000. Economic
+consequences of occupational disorders in women with repetitive
+industrial work. European Journal of Public Health 10, 127-132.
+
+NRC, 2001. Musculoskeletal Disorders and the Workplace. Low Back
+and Upper Extremities. National Research Council. National Acad-
+emy Press, Washington, DC, p. 492.
+
+Official Statistics of Sweden, 2000. Occupational Diseases and Occupa-
+tional Accidents 1998. National Board of Occupational Safety and
+Health, Stockholm, Sweden.
+
+Ohlsson, K., Attewell, R.G., Johnsson, B., Ahlm, A., Skerfving, S., 1994a.
+An assessment of neck and upper extremity disorders by questionnaire
+and clinical examination. Ergonomics 37, 891-897.
+
+Ohlsson, K., Hansson, G.-A., Balogh, I., Strömberg, U., Pålsson, B.,
+Nordander, C., Rylander, L., Skerfving, S., 1994b. Disorders of the
+neck and upper limbs in women in the fish processing industry.
+Occupational and Environmental Medicine 51, 826-832.
+
+Ohlsson, K., Attewell, R.G., Pålsson, B., Karlsson, B., Balogh, I.,
+Johnsson, B., Ahlm, A., Skerfving, S., 1995. Repetitive industrial work
+and neck and upper limb disorders in females. American Journal of
+Industrial Medicine 27, 731-747.
+
+Pålsson, B., Strömberg, U., Ohlsson, K., Skerfving, S., 1998. Absence
+attributed to incapacity and occupational disease/accidents among
+females and males workers in the fish-processing industry. Occupa-
+tional Medicine 48, 289-295.
+
+Persson, R., Garde, A.H., Hansen, A.M., Ørbæk, P., Ohlsson, K., 2003.
+The influence of production systems on self-reported arousal,
+sleepiness, physical exertion and fatigue-consequences of increasing
+mechanization. Stress and Health 19, 163-171.
+
+Roquelaure, Y., Mechali, S., Dano, C., Fanello, S., Benetti, F., Bureau,
+D., Mariel, J., Martin, Y.-H., Derriennic, F., Penneau-Fontbonne, D.,
+
+1997. Occupational and personal risk factors for carpel tunnel
+syndrome in industrial workers. Scandinavian Journal of Work,
+Environment & Health 23, 364-369.
+
+Sluiter, J.K., Rest, K.M., Frings-Dresen, M.H.W., 2001. Criteria
+document evaluating work-relatedness of upper extremity musculos-
+keletal disorders. Scandinavian Journal of Work, Environment &
+Health 27 (Suppl. 1), 1-102.
+
+Stål, M., Hansson, G.-A., Moritz, U., 2000. Upper extremity muscular
+load during machine milking. International Journal of Industrial
+Ergonomics 26, 9-17.
+
+Stål, M., Pinzke, S., Hansson, G.-H., Kolstrup, C., 2003. Highly repetitive
+work operations in a modern milking system. A case study of wrist
+positions and movements in a rotary system. Annals of Agricultural
+and Environmental Medicine 10, 67-72.
+
+Toomingas, A., 1998. Methods for evaluating work-related musculoske-
+letal neck and upper-extremity disorders in epidemiological studies.
+Doctoral Thesis, National Institute of Working Life, Stockholm.
+http://ebib.arbetslivsinstitutet.se/ah/1998/ah1998_06
+
+Unge Byström, J., Hansson, G.-A., Rylander, L., Ohlsson, K., Källrot,
+G., Skerfving, S., 2002. Physical workload on neck and upper limb
+using two CAD applications. Applied Ergonomics 33, 63-74.
+
+Viikari-Juntura, E., Riihimäki, H., 1999. New avenues in research on
+musculoskeletal disorders. Scandinavian Journal of Work Environ-
+ment & Health 25, 564-568.
+
+Westgaard, R.H., Winkel, J., 1996. Guidelines for occupational muscu-
+loskeletal load as a basis for intervention: a critical review. Applied
+Ergonomics 27, 79-88.
+
+Westgaard, R.H., Winkel, J., 1997. Ergonomic intervention research for
+improved musculoskeletal health: a critical review. International
+Journal of Industrial Ergonomics 20, 456-500.
+```
