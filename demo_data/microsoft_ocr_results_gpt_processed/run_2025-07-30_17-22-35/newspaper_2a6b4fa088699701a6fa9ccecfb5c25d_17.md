@@ -1,0 +1,222 @@
+<!-- PageNumber="69441" -->
+<!-- PageHeader="Federal Register / Vol. 81, No. 194/Thursday, October 6, 2016/Rules and Regulations" -->
+
+Madera Canyon. Stephan's riffle beetle
+is no longer found at the Bog Springs
+Campground location, as the habitat
+there no longer exists. Stephan's riffle
+beetle has not been collected or
+documented since 1993, despite the
+Service's surveying for the species at the
+one remaining known location,
+Sylvester Spring, and at numerous other
+nearby locations with potential habitat.
+Based on our review of the best
+available scientific and commercial
+information, we believe that the
+Stephan's riffle beetle is extinct.
+
+The preponderance of Stephan's riffle
+beetle specimens have been
+documented in artificial habitat created
+by a water tank's leaking pipeline and
+overflow at the Bog Springs
+Campground. Only two specimens have
+ever been documented from Sylvester
+Spring, the only relatively intact spring
+habitat remaining where the species was
+known to exist. Historically, Stephan's
+riffle beetle may have only occupied
+Sylvester and Bog Springs, and
+populations may have started declining
+when water from springs in Madera
+Canyon was first captured in concrete
+boxes and piped to divert water for
+domestic and recreational water
+supplies. Up until 1993, when
+Stephan's riffle beetle was last detected,
+the species appears to have existed only
+in extremely low numbers within
+Sylvester Spring, making it very
+difficult to detect, in contrast to the
+relatively large numbers collected in
+1979 at the Bog Springs Campground
+site. The species has not been
+documented as extant since 1993, 23
+years ago, when one individual was
+found at Sylvester Spring as part of a
+specific effort to survey for Stephan's
+riffle beetle in Madera Canyon.
+
+Beginning in 2012, the Service
+surveyed Sylvester Spring, the one
+remaining known population location
+for Stephan's riffle beetle, and seven
+other locations with potential habitat on
+multiple occasions. The most intensive
+survey efforts occurred at Sylvester
+Spring and Bog Springs, the water
+source for the extirpated Bog Springs
+Campground population. Three
+different survey methods were used in
+an effort to find the species, and no
+Stephan's riffle beetles were found.
+While Stephan's riffle beetle is small in
+size (and therefore difficult to find),
+adult beetles, if present, should be
+detected regardless of the time of year
+surveyed based on their life history
+(multi-year metamorphosis and
+relatively long life span). Therefore,
+based on the best available scientific
+and commercial information, the
+Service believes Stephan's riffle beetle
+to be extinct.
+
+
+# Summary of Status Review
+
+The SSA Report for Stephan's riffle
+beetle is a summary of the information
+assembled and reviewed by the Service
+and incorporates the best available
+scientific and commercial information
+for this species. Our analysis leads us to
+believe Stephan's riffle beetle is extinct.
+Species extinction is difficult, if not
+impossible, to prove, and the Service
+has no policy specifically defining the
+level of information necessary to
+conclude that a species should be
+considered extinct. For any species
+there is uncertainty in drawing a
+conclusion of extinction. For the
+Stephan's riffle beetle, we have carefully
+assessed the best scientific and
+commercial information available
+regarding the current status of the
+species. The biological information we
+reviewed and analyzed as the basis for
+our findings is documented in the SSA
+Report. Our analysis of this information
+found that there has been no
+confirmation of the existence of the
+Stephan's riffle beetle in more than 23
+years, despite multiple survey efforts
+since 2012 in known and potential
+habitat where other riffle beetles were
+documented, across multiple seasons,
+and using a variety of survey methods.
+The type locality consisting of a leaking
+pipeline to a water storage tank, where
+the largest number of Stephan's riffle
+beetle was collected, no longer exists.
+The Service surveyed the only
+remaining site at which Stephan's riffle
+beetle had been documented, Sylvester
+Spring, on numerous occasions with
+different survey methods. Despite these
+efforts, we have been unable to confirm
+the existence of the species.
+
+
+# Finding
+
+Our review of the best available
+scientific and commercial information
+leads us to believe that the Stephan's
+riffle beetle is extinct, and, as such, it is
+not eligible for listing as an endangered
+or threatened species under the Act.
+Although the Act does not directly
+address the situation of considering a
+species for listing where the best
+available information indicates that the
+species is likely already extinct, the
+purpose of the Act is to prevent species
+from becoming extinct. If we believe the
+species is already extinct, by definition,
+the species cannot be in danger of, or
+likely to become in danger of,
+
+extinction. Therefore, we did not further
+evaluate whether Stephan's riffle beetle
+is in danger of extinction throughout its
+range (an endangered species), is likely
+to become in danger of extinction
+throughout its range in the foreseeable
+future (a threatened species), or is an
+
+endangered or threatened species in a
+significant portion of its range. We find
+that listing Stephan's riffle beetle as an
+endangered or a threatened species
+under the Act is not warranted
+throughout all or a significant portion of
+its range, and consequently we are
+removing it from candidate status.
+
+As a result of the Service's 2011
+multidistrict litigation settlement with
+the Center for Biological Diversity and
+WildEarth Guardians, the Service is
+required to submit a proposed listing
+rule or a not-warranted 12-month
+finding to the Federal Register by
+September 30, 2016 (In re: Endangered
+Species Act Section 4 Deadline
+Litigation, No. 10-377 (EGS), MDL
+Docket No. 2165 (D.D.C. May 10, 2011)).
+for all 251 species that were included as
+candidate species in the Service's
+November 10, 2010, CNOR. This
+document satisfies the requirements of
+that settlement agreement for the
+Stephan's riffle beetle and constitutes
+the Service's 12-month finding on the
+May 4, 2004, petition to list the
+Stephan's riffle beetle as an endangered
+or threatened species. A detailed
+discussion of the basis for this finding
+can be found in the Stephan's riffle
+beetle's species-specific assessment
+form, SSA Report, and other supporting
+documents (see ADDRESSES, above).
+
+
+## New Information
+
+We request that you submit any new
+information concerning the taxonomy.
+biology, ecology, status of, or stressors
+to the Huachuca-Canelo population of
+the Arizona treefrog, the Arkansas
+darter, black mudalia, Highlands tiger
+beetle, Dichanthelium (=panicum)
+hirstif (Hirst Brothers' panic grass), two
+Kentucky cave beetles (Louisville cave
+beetle and Tatum Cave beetle), relict
+leopard frog, sicklefin redhorse sucker,
+and Stephan's riffle beetle to the
+appropriate person, as specified under
+FOR FURTHER INFORMATION CONTACT,
+whenever it becomes available. New
+information will help us monitor these
+species and encourage their
+conservation. We encourage local
+agencies and stakeholders to continue
+cooperative monitoring and
+conservation efforts for these species. If
+an emergency situation develops for any
+of these species, we will act to provide
+immediate protection.
+
+
+### References Cited
+
+Lists of the references cited in the
+petition findings are available on the
+Internet at http://www.regulations.gov
+and upon request from the appropriate
+person, as specified under FOR FURTHER
+INFORMATION CONTACT.

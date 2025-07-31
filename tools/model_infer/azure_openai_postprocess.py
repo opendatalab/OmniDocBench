@@ -19,7 +19,8 @@ def azure_openai_postprocess(markdown_text: str,
     url = f"{endpoint}/openai/deployments/{deployment_name}/chat/completions?api-version={api_version}"
     
     # Define the system prompt for OCR postprocessing
-    system_prompt = """You are a conservative OCR error corrector. Your ONLY job is to fix obvious OCR mistakes        
+    system_prompt = """You are a conservative OCR error corrector. Your ONLY job is to fix obvious OCR mistakes, 
+    not mistakes in the document        ,
     while preserving everything else exactly as is.
 
     CRITICAL RULES - DO NOT:

@@ -1,0 +1,27 @@
+Fig. 1. Reactor set-up for the culture filtration experiments.
+
+![FEED PUMP AIR/OXYGEN FRESH MEDIUM IN AIR FILTER LEVEL PROBE BAFFLE PLATE PRESSURE GAUGE CONTROLLER/TIMER FILTER DISC FILTRATION PUMP SPENT MEDIUM OUT BACKFLUSH FILTRATION CHAMBER](figures/1.1)
+
+
+# RESULTS AND DISCUSSION
+
+The pressure drop that drives the filtration process in FSTR is provided by means of a suction
+pump located down stream of the filter (Fig. 1). During the filtration process, flux is related to the pump
+suction head according to the pump characteristics. As the filter gradually gets clogged, the pump suction
+head increases and the flux decreases. The concept of using a rotating scraper unit placed immediately
+above the filter medium to reduce the filter cake thickness has been employed in many filtration devices.
+For example, Tiller and Cheng (1977) in their study of so-called "delayed cake filtration" for the filtration
+of clay slurry, the cake thickness was found equivalent to the clearance between the scraper and the filter
+(3 mm in this case) at low agitation speeds, while under high agitation speeds, liquid shear was high
+enough to decrease the cake thickness. A similar concept has been applicd in FSTR, where the impeller
+sits directly above the filter disk. Of course, the situation is more complex in this case, since the impeller
+also serves as a mixing and mass transfer device. To examine the impact of agitation on the filtration flux
+in FSTR, increases in pump suction head during filtration were measured at 100 and 200 rpm, with (0.4
+vvm) or without aeration. Agitation rates above 200 rpm were not tested due to possible shear damage on
+the Anchusa cells (Lei, 1994). The result of the filtration experiment without aeration is shown in Fig. 2.
+The cell concentration in the reactor was 35 g dry weight/L (PCV = 80%). Pump speed was set at a
+constant level that gave a water flux of 1.2 cm3/cm2·min. Surprisingly, a higher suction head was attained
+at 200 rpm than at 100 rpm. Immediately after the filtration was initiated, a very sharp increase in the
+suction head was observed, which was followed by a more gradual increase. During the early stages of
+
+<!-- PageNumber="261" -->

@@ -1,0 +1,225 @@
+<!-- PageNumber="69429" -->
+<!-- PageHeader="Federal Register / Vol. 81, No. 194/Thursday, October 6, 2016/Rules and Regulations" -->
+
+a continuation of similar levels of
+impact from the stressors affecting this
+species as we have in the past. We
+believe a continued rate of groundwater
+usage and continued rates of impact
+from other stressors over the next 30
+years would not likely result in
+significant effects to the occupied range
+of the Arkansas darter. Although we
+expect little change on a rangewide
+basis, we could see some range
+contraction in the western Cimarron and
+upper Rattlesnake Creek basin in Kansas
+and Oklahoma due to water depletion,
+as well as small portions of the Colorado
+range. Additionally, we could see range
+contraction in the eastern portion of the
+range (Arkansas, Kansas, Missouri, and
+Oklahoma) due to development effects.
+However, we do not expect to see a
+reduction in redundancy of the species
+overall (e.g., no the loss of entire
+populations).
+
+
+# Finding
+
+Based on our review of the best
+available scientific and commercial
+information pertaining to the Act's five
+threat factors, we find that the stressors
+acting on the species and its habitat,
+either singly or in combination, are not
+of sufficient imminence, intensity, or
+magnitude to indicate that the Arkansas
+darter is currently in danger of
+extinction (an endangered species), or
+likely to become endangered within the
+foreseeable future (a threatened species).
+In conclusion, we find that this species
+no longer warrants listing throughout its
+range.
+
+We evaluated the current range of the
+Arkansas darter to determine if there is
+any apparent geographic concentration
+of potential threats for the species.
+Groundwater withdrawals are currently
+impacting portions of the upper, central,
+and lower Arkansas River basins in
+Kansas, Oklahoma, and Colorado, an
+area representing approximately 25
+percent of geographic range of the
+Arkansas darter. Additional stressors
+outside of this area are generally low
+level, localized impacts not affecting
+entire populations. The 25 percent of
+the range affected by groundwater
+withdrawal does not meet the
+biologically based definition of
+"significant" (i.e., the loss of that
+portion clearly would not be expected to
+increase the vulnerability to extinction
+of the entire species). If that 25 percent
+of the range were lost, the species would
+still have approximately 75 percent of
+its geographic range in areas that are not
+expected to be subject to the negative
+effects of water depletion. Therefore, we
+determined that there are no significant
+portions of the species' range where the
+Arkansas darter meets the definition of
+
+an endangered or a threatened species
+and that the best available scientific and
+commercial information indicates this
+species is no longer in danger of
+extinction (endangered) or likely to
+become endangered within the
+foreseeable future (threatened)
+throughout all or a significant portion of
+its range.
+
+Arkansas darter populations appear to
+be resilient to threats identified in
+previous status assessments; these
+threats are now believed to have fewer
+impacts on the Arkansas darter than
+previously understood; the species is
+expected to maintain a high level of
+redundancy and representation into the
+future; we know of more currently-
+occupied populations then we have in
+previous assessments; and while
+groundwater withdrawals affecting
+water depletion are expected to
+continue in approximately 25 percent of
+the range, we do not expect to see a
+reduction in redundancy of the species
+overall (e.g., no loss of Arkansas darter
+populations). Therefore, we find that
+listing the Arkansas darter as an
+endangered or threatened species is not
+warranted at this time, and
+consequently we are removing it from
+candidate status.
+
+As a result of the Service's 2011
+multidistrict litigation settlement with
+the Center for Biological Diversity and
+WildEarth Guardians, the Service is
+required to submit a proposed listing
+rule or a not-warranted 12-month
+finding to the Federal Register by
+September 30, 2016 (In re: Endangered
+Species Act Section 4 Deadline
+Litigation, No. 10-377 (EGS), MDL
+Docket No. 2165 (D.D.C. May 10, 2011)).
+for all 251 species that were included as
+candidate species in the Service's
+November 10, 2010, CNOR. This
+document satisfies the requirements of
+that settlement agreement for the
+Arkansas darter, and constitutes the
+Service's 12-month finding on the May
+4, 2004, petition to list the Arkansas
+darter as an endangered or threatened
+species. A detailed discussion of the
+basis for this finding can be found in the
+Arkansas darter's species-specific
+assessment form, SSA Report, and other
+supporting documents (see ADDRESSES,
+above).
+
+
+# Black Mudalia (Elimia melanoides)
+
+
+## Previous Federal Actions
+
+The Service first identified black
+mudalia as a candidate for listing in the
+September 12, 2006, CNOR and
+assigned an LPN of 2 based on
+imminent, high-magnitude threats (71
+FR 53756). In the December 6, 2007,
+CNOR, we concluded that the threats
+
+were at the time moderate in magnitude
+and changed the LPN to 8 (72 FR
+69034). We retained the LPN of 8 in all
+subsequent CNORs (see December 10,
+2008 (73 FR 75176), November 9, 2009
+(74 FR 57804), November 10, 2010 (75
+FR 69222), October 26, 2011 [76 FR
+66370), November 21, 2012 (77 FR
+69994), November 22, 2013 (78 FR
+70104), December 5, 2014 (79 FR
+72450), and December 24, 2015 (80 FR
+80584)).
+
+On April 20, 2010, we received a
+petition from the Center for Biological
+Diversity requesting that the Service list
+404 species, including black mudalia, as
+endangered or threatened. No new
+information regarding black mudalia
+was presented in the petition, and on
+September 27, 2011, we published a 90-
+day finding (76 FR 59836).
+
+
+## Background
+
+The species formerly described as the
+black mudalia is a small species of
+aquatic snail growing to 13 millimeters
+(mm) (0.5 inches (in)) in length and
+belongs to the aquatic snail family of
+Pleuroceridae. The species formerly
+described as the black mudalia was
+found clinging to clean gravel, cobble,
+boulders, and/or logs in flowing water
+on shoals and riffles within five streams
+in the Locust Fork drainage in Jefferson
+and Blount Counties, Alabama.
+
+
+## Summary of Status Review
+
+The following summary is based on
+our review of the best available
+scientific and commercial information.
+No new information was provided in
+the petition we received on April 20,
+2010. The species was described from
+"rivers in North Alabama" by T.A.
+Conrad as Anculosotus melanoides, but
+he failed to provide a specific type of
+locality. For the second half of the 20th
+century, the black mudalia was
+considered to be extinct. However, in
+2003, Dr. Russell Minton published a
+paper on the apparent rediscovery of the
+species, with a re-description of what he
+believed was Conrad's black mudalia.
+He designated an individual from the
+upper Black Warrior Basin as the
+neotype-a biological specimen that is
+selected as the type specimen when the
+holotype (a single specimen chosen for
+designation of a new species], lectotype
+(a specimen chosen from syntypes to
+designate types of species), or any
+syntypes (any one specimen of a series
+used to designate a species when the
+holotype has not been selected) have
+been lost or destroyed-and restricted
+the type locality to one site on the Little
+Warrior River in Blount County,
+Alabama; however, the neotype is
+currently unavailable for study.

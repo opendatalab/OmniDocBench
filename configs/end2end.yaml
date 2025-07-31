@@ -22,7 +22,7 @@ end2end_eval:
       data_path: ./tools/model_infer/OmniDocBench_dataset/OmniDocBench.json
     prediction:
       #change this to your GPT-corrected results folder
-      data_path: ./demo_data/microsoft_ocr_results_gpt_processed/run_2025-07-30_10-43-01/corrected_gpt
+      data_path: ./demo_data/microsoft_ocr_results_gpt_processed/run_2025-07-30_17-22-35
     match_method: quick_match
     # filter: 
     #   language: english
