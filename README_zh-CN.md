@@ -53,6 +53,7 @@ OmniDocBench
 - [引用](#引用)
 
 ## 更新
+[2025/07/30] 新增了MinerU2.0-2505-0.9B、Marker-1.7.1、PaddleOCR_PPv3、MonkeyOCR-pro-1.2、Dolphin、Nanonets-OCR-s、OCRFlux-3B、Qwen2.5-VL-7B、InternVL3-76B模型的评测；更新了MinerU版本。
 
 [2025/03/27] 新增了Pix2Text、Unstructured、OpenParse、Gemini2.0-flash、Gemini2.5-pro、Mistral OCR、OLMOCR、Qwen2.5-VL-72B模型的评测；
 
@@ -399,22 +400,22 @@ result/
   </thead>
   <tbody>
     <tr>
-      <td rowspan="7">Pipeline Tools</td>
-      <td>MinerU-0.9.3</sup></td>
+      <td rowspan="8">Pipeline Tools</td>
+      <td>MinerU-pipeline-2.1.1</sup></td>
+      <td>0.162</td>
+      <td>0.244</td>
+      <td>0.072</td>
+      <td><strong>0.111</strong></td>
+      <td>0.313</td>
+      <td>0.581</td>
+      <td>79.2</td>
+      <td>48.8</td>
+      <td>77.4</td>
+      <td>79.5</td>
+      <td>0.166</td>
       <td>0.15</td>
-      <td>0.357</td>
-      <td>0.061</td>
-      <td>0.215</td>
-      <td>0.278</td>
-      <td>0.577</td>
-      <td>57.3</td>
-      <td>42.9</td>
-      <td>78.6</td>
-      <td>62.1</td>
-      <td>0.18</td>
-      <td>0.344</td>
-      <td>0.079</td>
-      <td>0.292</td>
+      <td>0.097</td>
+      <td>0.136</td>
     </tr>
     <tr>
       <td>Marker-1.2.3</sup></td>
@@ -434,15 +435,32 @@ result/
       <td>0.34</td>
     </tr>
     <tr>
+      <td>Marker-1.7.1</sup></td>
+      <td>0.296</td>
+      <td>0.497</td>
+      <td>0.085</td>
+      <td>0.293</td>
+      <td>0.374</td>
+      <td>0.688</td>
+      <td>79.0</td>
+      <td>36.7</td>
+      <td>67.6</td>
+      <td>54.0</td>
+      <td>0.609</td>
+      <td>0.678</td>
+      <td>0.116</td>
+      <td>0.329</td>
+    </tr>
+    <tr>
       <td>Mathpix</sup></td>
       <td>0.191</td>
-      <td>0.365</td>
+      <td>0.364</td>
       <td>0.105</td>
-      <td>0.384</td>
+      <td>0.381</td>
       <td>0.306</td>
       <td>0.454</td>
-      <td>62.7</td>
-      <td>62.1</td>
+      <td><u>82.7</u></td>
+      <td>64.6</td>
       <td>77.0</td>
       <td>67.1</td>
       <td>0.243</td>
@@ -473,7 +491,7 @@ result/
       <td>0.528</td>
       <td>0.138</td>
       <td>0.356</td>
-      <td><strong>0.276</strong></td>
+      <td><u>0.276</u></td>
       <td>0.611</td>
       <td>78.4</td>
       <td>39.6</td>
@@ -519,7 +537,92 @@ result/
       <td>0.641</td>
     </tr>
     <tr>
-      <td rowspan="5">Expert VLMs</td>
+      <td rowspan="10">Expert VLMs</td>
+      <td>MinerU2.0-2505-0.9B</sup></td>
+      <td><strong>0.133</strong></td>
+      <td>0.238</td>
+      <td><strong>0.045</strong></td>
+      <td><u>0.115</u></td>
+      <td><strong>0.273</strong></td>
+      <td>0.506</td>
+      <td>79.0</td>
+      <td>50.8</td>
+      <td><u>82.1</u></td>
+      <td><u>83.4</u></td>
+      <td><u>0.15</u></td>
+      <td>0.209</td>
+      <td><u>0.066</u></td>
+      <td><u>0.122</u></td>
+    </tr>
+    <tr>
+      <td>MonkeyOCR-pro-1.2B</sup></td>
+      <td>0.154</td>
+      <td>0.263</td>
+      <td>0.062</td>
+      <td>0.179</td>
+      <td>0.295</td>
+      <td>0.464</td>
+      <td><strong>83.8</strong></td>
+      <td>58.6</td>
+      <td>77.7</td>
+      <td>79.9</td>
+      <td>0.164</td>
+      <td><u>0.168</u></td>
+      <td>0.094</td>
+      <td>0.243</td>
+    </tr>
+    <tr>
+      <td>Dolphin</sup></td>
+      <td>0.356</td>
+      <td>0.44</td>
+      <td>0.352</td>
+      <td>0.44</td>
+      <td>0.465</td>
+      <td>0.604</td>
+      <td>61.6</td>
+      <td>40.4</td>
+      <td>70.2</td>
+      <td>56.8</td>
+      <td>0.258</td>
+      <td>0.367</td>
+      <td>0.35</td>
+      <td>0.351</td>
+    </tr>
+    <tr>
+      <td>Nanonets-OCR-s</sup></td>
+      <td>0.283</td>
+      <td>0.295</td>
+      <td>0.134</td>
+      <td>0.231</td>
+      <td>0.518</td>
+      <td>0.546</td>
+      <td>63.2</td>
+      <td>52.0</td>
+      <td>76.8</td>
+      <td>79.4</td>
+      <td>0.343</td>
+      <td>0.201</td>
+      <td>0.135</td>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <td>OCRFlux-3B</sup></td>
+      <td>0.238</td>
+      <td>0.349</td>
+      <td>0.112</td>
+      <td>0.256</td>
+      <td>0.447</td>
+      <td>0.716</td>
+      <td>60.2</td>
+      <td>31.9</td>
+      <td>69.0</td>
+      <td>80.0</td>
+      <td>0.269</td>
+      <td>0.162</td>
+      <td>0.126</td>
+      <td>0.263</td>
+    </tr>
+    <tr>
       <td>GOT-OCR</sup></td>
       <td>0.287</td>
       <td>0.411</td>
@@ -605,7 +708,7 @@ result/
       <td>0.522</td>
     </tr>
     <tr>
-      <td rowspan="8">General VLMs</td>
+      <td rowspan="9">General VLMs</td>
     <tr>
       <td>Gemini2.0-flash</td>
       <td>0.191</td>
@@ -625,12 +728,12 @@ result/
     </tr>
     <tr>
       <td>Gemini2.5-Pro</td>
-      <td><strong>0.148</strong></td>
+      <td><u>0.148</u></td>
       <td><strong>0.212</strong></td>
-      <td><strong>0.055</strong></td>
-      <td><strong>0.168</strong></td>
+      <td><u>0.055</u></td>
+      <td>0.168</td>
       <td>0.356</td>
-      <td>0.439</td>
+      <td><u>0.439</u></td>
       <td>80.0</td>
       <td><strong>69.4</strong></td>
       <td><strong>85.8</strong></td>
@@ -665,7 +768,7 @@ result/
       <td>0.218</td>
       <td>0.404</td>
       <td>0.487</td>
-      <td><strong>82.2</strong></td>
+      <td>82.2</td>
       <td>61.2</td>
       <td>76.8</td>
       <td>76.4</td>
@@ -675,17 +778,34 @@ result/
       <td>0.193</td>
     </tr>
     <tr>
+      <td>Qwen2.5-VL-7B</td>
+      <td>0.316</td>
+      <td>0.399</td>
+      <td>0.151</td>
+      <td>0.243</td>
+      <td>0.376</td>
+      <td>0.5</td>
+      <td>75.3</td>
+      <td>57.3</td>
+      <td>71.1</td>
+      <td>71.3</td>
+      <td>0.598</td>
+      <td>0.627</td>
+      <td>0.138</td>
+      <td>0.226</td>
+    </tr>    
+    <tr>
       <td>Qwen2.5-VL-72B</td>
       <td>0.214</td>
-      <td>0.261</td>
+      <td><u>0.261</u></td>
       <td>0.092</td>
       <td>0.18</td>
       <td>0.315</td>
       <td><strong>0.434</strong></td>
-      <td>68.8</td>
-      <td>62.5</td>
-      <td>82.9</td>
-      <td>83.9</td>
+      <td>81.4</td>
+      <td><u>64.1</u></td>
+      <td>81.4</td>
+      <td>83.0</td>
       <td>0.341</td>
       <td>0.262</td>
       <td>0.106</td>
@@ -707,6 +827,23 @@ result/
       <td>0.555</td>
       <td>0.317</td>
       <td>0.228</td>
+    </tr>
+    <tr>
+      <td>InternVL3-78B</sup></td>
+      <td>0.218</td>
+      <td>0.296</td>
+      <td>0.117</td>
+      <td>0.21</td>
+      <td>0.38</td>
+      <td>0.533</td>
+      <td>79.2</td>
+      <td>58.8</td>
+      <td>69.0</td>
+      <td>73.9</td>
+      <td>0.279</td>
+      <td>0.282</td>
+      <td>0.095</td>
+      <td>0.161</td>
     </tr>
   </tbody>
 </table>
@@ -1033,27 +1170,27 @@ OmniDocBench包含每个PDF页面的所有文字的bounding box信息以及对�
   </thead>
   <tbody>
     <tr>
-      <td rowspan="7" style="text-align: center;"><strong>Pipeline Tools<br>&<br>Expert Vision<br>Models</strong></td>
+      <td rowspan="7" style="text-align: center;">Pipeline Tools<br>&<br>Expert Vision<br>Models</td>
       <td>PaddleOCR</td>
       <td>0.071</td>
-      <td><strong>0.055</strong></td>
+      <td><b>0.055</b></td>
       <td><u>0.118</u></td>
-      <td><strong>0.060</strong></td>
-      <td><strong>0.038</strong></td>
+      <td><b>0.060</b></td>
+      <td><b>0.038</b></td>
       <td><u>0.085</u></td>
-      <td><strong>0.060</strong></td>
-      <td><strong>0.015</strong></td>
+      <td><b>0.060</b></td>
+      <td><b>0.015</b></td>
       <td><u>0.285</u></td>
-      <td><strong>0.021</strong></td>
+      <td><b>0.021</b></td>
     </tr>
     <tr>
       <td>OpenOCR</td>
       <td>0.07</td>
       <td><u>0.068</u></td>
-      <td><strong>0.106</strong></td>
+      <td><b>0.106</b></td>
       <td><u>0.069</u></td>
       <td>0.058</td>
-      <td><strong>0.081</strong></td>
+      <td><b>0.081</b></td>
       <td><u>0.069</u></td>
       <td><u>0.038</u></td>
       <td>0.891</td>
@@ -1108,7 +1245,7 @@ OmniDocBench包含每个PDF页面的所有文字的bounding box信息以及对�
       <td>0.166</td>
       <td>0.180</td>
       <td><u>0.038</u></td>
-      <td><strong>0.185</strong></td>
+      <td><b>0.185</b></td>
       <td>0.638</td>
     </tr>
     <tr>
@@ -1125,7 +1262,7 @@ OmniDocBench包含每个PDF页面的所有文字的bounding box信息以及对�
       <td>0.097</td>
     </tr>
     <tr>
-      <td rowspan="3" style="text-align: center;"><strong>Vision Language<br>Models</strong></td>
+      <td rowspan="3" style="text-align: center;">Vision Language<br>Models</td>
       <td>Qwen2-VL-72B</td>
       <td>0.072</td>
       <td>0.274</td>
@@ -1153,9 +1290,9 @@ OmniDocBench包含每个PDF页面的所有文字的bounding box信息以及对�
     </tr>
     <tr>
       <td>GPT4o</td>
-      <td><strong>0.020</strong></td>
+      <td><b>0.020</b></td>
       <td>0.224</td>
-      <td><u>0.125</u></td>
+      <td>0.125</td>
       <td>0.167</td>
       <td>0.140</td>
       <td>0.220</td>
@@ -1269,7 +1406,7 @@ OmniDocBench包含每个PDF页面的公式的bounding box信息以及对应的�
   </thead>
   <tbody>
     <tr>
-      <td rowspan="2" style="text-align: center;"><strong>OCR-based Models</strong></td>
+      <td rowspan="2" style="text-align: center;">OCR-based Models</td>
       <td>PaddleOCR</td>
       <td><u>76.8</u></td>
       <td>71.8</td>
@@ -1280,27 +1417,27 @@ OmniDocBench包含每个PDF页面的公式的bounding box信息以及对应的�
       <td>74.5</td>
       <td><u>70.6/75.2</u></td>
       <td><u>71.3/74.1</u></td>
-      <td>72.7/74.0</td>
+      <td><u>72.7/74.0</u></td>
       <td>23.3/74.6</td>
       <td>73.6</td>
     </tr>
     <tr>
       <td>RapidTable</td>
-      <td><strong>80.0</strong></td>
-      <td><strong>83.2</strong></td>
-      <td><strong>91.2</strong></td>
-      <td><strong>83.0</strong></td>
-      <td><strong>79.7</strong></td>
-      <td><strong>83.4</strong></td>
+      <td><b>80.0</b></td>
+      <td><b>83.2</b></td>
+      <td><b>91.2</b></td>
+      <td><b>83.0</b></td>
+      <td><b>79.7</b></td>
+      <td><b>83.4</b></td>
       <td>78.4</td>
-      <td><strong>77.1/85.4</strong></td>
-      <td><strong>76.7/83.9</strong></td>
-      <td><strong>77.6/84.9</strong></td>
+      <td><b>77.1/85.4</b></td>
+      <td><b>76.7/83.9</b></td>
+      <td><b>77.6/84.9</b></td>
       <td><u>25.2/83.7</u></td>
-      <td><strong>82.5</strong></td>
+      <td><b>82.5</b></td>
     </tr>
     <tr>
-      <td rowspan="2" style="text-align: center;"><strong>Expert VLMs</strong></td>
+      <td rowspan="2" style="text-align: center;">Expert VLMs</td>
       <td>StructEqTable</td>
       <td>72.8</td>
       <td><u>75.9</u></td>
@@ -1308,11 +1445,11 @@ OmniDocBench包含每个PDF页面的公式的bounding box信息以及对应的�
       <td>72.9</td>
       <td><u>76.2</u></td>
       <td>76.9</td>
-      <td><strong>88</strong></td>
+      <td><b>88</b></td>
       <td>64.5/81</td>
       <td>69.2/76.6</td>
-      <td><u>72.8/76.4</u></td>
-      <td><strong>30.5/76.2</strong></td>
+      <td>72.8/76.4</td>
+      <td><b>30.5/76.2</b></td>
       <td><u>75.8</u></td>
     </tr>
     <tr>
@@ -1331,7 +1468,7 @@ OmniDocBench包含每个PDF页面的公式的bounding box信息以及对应的�
       <td>74.9</td>
     </tr>
     <tr>
-      <td rowspan="2" style="text-align: center;"><strong>General VLMs</strong></td>
+      <td rowspan="2" style="text-align: center;">General VLMs</td>
       <td>Qwen2-VL-7B</td>
       <td>70.2</td>
       <td>70.7</td>
@@ -1737,17 +1874,22 @@ config中参数解释以及数据集格式请参考`Layout检测`小节，公式
     <tr>
       <td>MinerU</td>
       <td><a href="https://mineru.org.cn/">MinerU</a></td>
-      <td>0.9.3</td>
+      <td>2.1.2</td>
     </tr>
     <tr>
       <td>Marker</td>
       <td><a href="https://github.com/VikParuchuri/marker">Marker</a></td>
-      <td>1.2.3</td>
+      <td>1.7.1</td>
     </tr>
     <tr>
       <td>Mathpix</td>
       <td><a href="https://mathpix.com/">Mathpix</a></td>
       <td>———</td>
+    </tr>
+    <tr>
+      <td>Docling</td>
+      <td><a href="https://ds4sd.github.io/docling/">Docling</a></td>
+      <td>2.14.0</td>
     </tr>
     <tr>
       <td>Pix2Text</td>
@@ -1765,9 +1907,29 @@ config中参数解释以及数据集格式请参考`Layout检测`小节，公式
       <td>0.7.0</td>
     </tr>
     <tr>
-      <td>Docling</td>
-      <td><a href="https://ds4sd.github.io/docling/">Docling</a></td>
-      <td>2.14.0</td>
+      <td>MinerU2.0-2505-0.9B</td>
+      <td><a href="https://github.com/opendatalab/MinerU">MinerU</a></td>
+      <td><a href="https://huggingface.co/opendatalab/MinerU2.0-2505-0.9B">MinerU2.0-2505-0.9B</a></td>
+    </tr>
+    <tr>
+      <td>MonkeyOCR-pro-1.2B</td>
+      <td><a href="https://github.com/Yuliang-Liu/MonkeyOCR">MonkeyOCR</a></td>
+      <td><a href="https://huggingface.co/echo840/MonkeyOCR-pro-1.2B">HuggingFace MonkeyOCR-pro-1.2B</a></td>
+    </tr>
+    <tr>
+      <td>Dolphin</td>
+      <td><a href="https://github.com/bytedance/Dolphin">Dolphin</a></td>
+      <td><a href="https://huggingface.co/ByteDance/Dolphin">HuggingFace Dolphin</a></td>
+    </tr>
+    <tr>
+      <td>Nanonets-OCR-s</td>
+      <td><a href="https://nanonets.com/research/nanonets-ocr-s/">Nanonets-OCR-s</a></td>
+      <td><a href="https://huggingface.co/nanonets/Nanonets-OCR-s">HuggingFace Nanonets-OCR-s</a></td>
+    </tr>
+    <tr>
+      <td>OCRFlux</td>
+      <td><a href="https://github.com/chatdoc-com/OCRFlux">OCRFlux</a></td>
+      <td><a href="https://huggingface.co/ChatDOC/OCRFlux-3B">HuggingFace OCRFlux-3B</a></td>
     </tr>
     <tr>
       <td>Mistral OCR</td>
@@ -1815,6 +1977,11 @@ config中参数解释以及数据集格式请参考`Layout检测`小节，公式
       <td><a href="https://huggingface.co/Qwen/Qwen2-VL-72B-Instruct">Hugging Face Qwen2-VL-72B-Instruct</a>
       </td>
     <tr>
+      <td>Qwen2.5-VL-7B</td>
+      <td><a href="https://github.com/QwenLM/Qwen2.5">Qwen2.5-VL</a></td>
+      <td><a href="https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct">Hugging Face Qwen2.5-VL-7B-Instruct</a>    </td>
+    </tr>
+    <tr>
       <td>Qwen2.5-VL-72B</td>
       <td><a href="https://github.com/QwenLM/Qwen2.5">Qwen2.5-VL</a></td>
       <td><a href="https://huggingface.co/Qwen/Qwen2.5-VL-72B-Instruct">Hugging Face Qwen2.5-VL-72B-Instruct</a>    </td>
@@ -1823,6 +1990,11 @@ config中参数解释以及数据集格式请参考`Layout检测`小节，公式
       <td>InternVL2-Llama3-76B</td>
       <td><a href="https://github.com/OpenGVLab/InternVL">InternVL</a></td>
       <td><a href="https://huggingface.co/OpenGVLab/InternVL2-Llama3-76B">Hugging Face InternVL2-Llama3-76B</a></td>
+    </tr>
+    <tr>
+      <td>InternVL3-78B</td>
+      <td><a href="https://github.com/OpenGVLab/InternVL">InternVL</a></td>
+      <td><a href="https://huggingface.co/OpenGVLab/InternVL3-78B">Hugging Face InternVL3-78B</a></td>
     </tr>
   </tbody>
 </table>
