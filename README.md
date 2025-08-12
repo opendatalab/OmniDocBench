@@ -463,20 +463,20 @@ End-to-end evaluation assesses the model's accuracy in parsing PDF page content.
     </tr>
     <tr>
       <td>PaddleOCR PP-StructureV3</sup></td>
-      <td>0.152</td>
-      <td>0.223</td>
-      <td>0.073</td>
-      <td>0.136</td>
+      <td>0.145</td>
+      <td>0.206</td>
+      <td>0.058</td>
+      <td>0.088</td>
       <td>0.295</td>
       <td>0.535</td>
-      <td>81.8</td>
-      <td>52.1</td>
-      <td>76.1</td>
-      <td>82.7</td>
-      <td>0.162</td>
-      <td>0.111</td>
-      <td>0.077</td>
-      <td>0.11</td>
+      <td>-</td>
+      <td>-</td>
+      <td>77.2</td>
+      <td>83.9</td>
+      <td>0.159</td>
+      <td>0.109</td>
+      <td>0.069</td>
+      <td>0.091</td>
     </tr>
     <tr>
       <td>Mathpix</sup></td>
