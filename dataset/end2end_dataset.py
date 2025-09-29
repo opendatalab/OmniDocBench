@@ -61,9 +61,12 @@ class End2EndDataset():
                 truncated_all[relation["target_anno_id"]] = ""
                 exist_flag = False
                 for merge_list in related_truncated:
-                    if relation["source_anno_id"] in merge_list or relation["target_anno_id"] in merge_list:  # Consider cases where three text blocks may need to be merged
-                        merge_list.append(relation["source_anno_id"])
-                        merge_list.append(relation["target_anno_id"])
+                    # Consider cases where three text blocks may need to be merged
+                    if relation["source_anno_id"] in merge_list or relation["target_anno_id"] in merge_list:
+                        if relation["source_anno_id"] not in merge_list:
+                            merge_list.append(relation["source_anno_id"])
+                        if relation["target_anno_id"] not in merge_list:
+                            merge_list.append(relation["target_anno_id"])
                         exist_flag = True
                 if not exist_flag:
                     related_truncated.append([relation["source_anno_id"], relation["target_anno_id"]])       
