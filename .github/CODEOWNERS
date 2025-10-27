@@ -1,0 +1,3 @@
+# Code owners for FIFA team repositories
+# Auto-assigns @invofox/fifa as reviewers on all pull requests
+* @invofox/fifa
