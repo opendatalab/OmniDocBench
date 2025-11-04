@@ -34,6 +34,7 @@ OmniDocBench
 - [评测集介绍](#评测集介绍)
 - [评测](#评测)
   - [环境配置和运行](#环境配置和运行)
+    - [使用docker](#使用docker)
   - [端到端评测](#端到端评测)
     - [端到端评测方法-end2end](#端到端评测方法-end2end)
     - [端到端评测方法-md2md](#端到端评测方法-md2md)
@@ -51,6 +52,9 @@ OmniDocBench
 - [引用](#引用)
 
 ## 更新
+
+[2025/11/04] 增加docker运行环境，包含评测环境和CDM环境。
+
 [2025/10/28] 更新PaddleOCR-VL, Qwen3-VL-235B-A22B-Instruct, Deepseek-OCR, Dolphin-1.5模型评测结果。
 
 [2025/09/25] **重大版本更新**：从版本**v1.0** 更新到 **v1.5**
@@ -373,6 +377,21 @@ result/
 
 </details>
 
+#### 使用docker
+
+拉取docker镜像
+```
+docker pull sunyuefeng/omnidocbench-env:v1.5
+```
+运行docker镜像（需要挂载评测数据&评测代码目录）
+```
+docker run -it -v /your/path/to/OmniDocBench:/your/OmniDocBench/path/in/docker --name omnidocbench-env sunyuefeng/omnidocbench-env:v1.5 /bin/bash
+```
+所有的依赖都已经安装在镜像中，可以直接运行`pdf_validation.py`：
+```
+cd /your/OmniDocBench/path/in/docker
+python pdf_validation.py --config <config_path>
+```
 
 ### 端到端评测
 

@@ -38,6 +38,7 @@ Currently supported metrics include:
   - [Attribute Labels](#attribute-labels)
 - [Evaluation](#evaluation)
   - [Environment Setup and Running](#environment-setup-and-running)
+    - [Using Docker](#using-docker)
   - [End-to-End Evaluation](#end-to-end-evaluation)
     - [End-to-End Evaluation Method - end2end](#end-to-end-evaluation-method---end2end)
     - [End-to-end Evaluation Method - md2md](#end-to-end-evaluation-method---md2md)
@@ -59,6 +60,8 @@ Currently supported metrics include:
 - [Citation](#citation)
 
 ## Updates
+
+[2025/11/04] Add a Docker runtime environment, including the evaluation environment and the CDM environment. 
 
 [2025/10/28] Update PaddleOCR-VL, Qwen3-VL-235B-A22B-Instruct, Deepseek-OCR, Dolphin-1.5 model evaluation.
 
@@ -387,6 +390,22 @@ The `<model_name>_<match_method>_<element>_per_page_edit.json` file contains the
 The `<model_name>_<match_method>_<element>_result.json` file contains the matched pairs of ground truth and predictions for each element.
 
 </details>
+
+#### Using docker
+
+pull the docker images
+```
+docker pull sunyuefeng/omnidocbench-env:v1.5
+```
+run the container interactively（mount your data and OmniDocBench code）
+```
+docker run -it -v /your/path/to/OmniDocBench:/your/OmniDocBench/path/in/docker --name omnidocbench-env sunyuefeng/omnidocbench-env:v1.5 /bin/bash
+```
+All dependencies are already installed. You can run `pdf_validation.py`:
+```
+cd /your/OmniDocBench/path/in/docker
+python pdf_validation.py --config <config_path>
+```
 
 ### End-to-End Evaluation
 
