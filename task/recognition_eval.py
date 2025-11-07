@@ -27,7 +27,7 @@ class RecognitionBaseEval():
                     no_page_flag = True
                     break
                 img_path = os.path.basename(page['page_info']['image_path'])
-                page_info[img_path] = page['page_info']['page_attribute']
+                page_info[img_path[:-4]] = page['page_info']['page_attribute']
 
         for metric in metrics_list:
             metric_val = METRIC_REGISTRY.get(metric)
