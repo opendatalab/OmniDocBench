@@ -433,12 +433,12 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td rowspan="15"><strong>Specialized</strong><br><strong>VLMs</strong></td>
             <td>PaddleOCR-VL</td>
             <td>0.9B</td>
-            <td><strong>91.93</strong></td>
-            <td><strong>0.039</strong></td>
-            <td><strong>88.67</strong></td>
-            <td><strong>91.01</strong></td>
-            <td><strong>94.85</strong></td>
-            <td><ins>0.048</ins></td>
+            <td><strong>92.86</strong></td>
+            <td><strong>0.035</strong></td>
+            <td><strong>91.22</strong></td>
+            <td><strong>90.89</strong></td>
+            <td><strong>94.76</strong></td>
+            <td><strong>0.043</strong></td>
         </tr>
             <td>MinerU2.5</td>
             <td>1.2B</td>
@@ -447,7 +447,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td><ins>88.46</ins></td>
             <td><ins>88.22</ins></td>
             <td><ins>92.38</ins></td>
-            <td><strong>0.044</strong></td>
+            <td><ins>0.044</ins></td>
         </tr>
         <tr>
             <td>MonkeyOCR-pro-3B</td>
