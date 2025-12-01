@@ -416,7 +416,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
     </thead>
     <tbody>
         <tr>
-            <td rowspan="15"><strong>Specialized</strong><br><strong>VLMs</strong></td>
+            <td rowspan="16"><strong>Specialized</strong><br><strong>VLMs</strong></td>
             <td>PaddleOCR-VL</td>
             <td>0.9B</td>
             <td><strong>92.86</strong></td>
@@ -444,6 +444,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>86.78</td>
             <td>90.63</td>
             <td>0.128</td>
+        </tr>
+        <tr>
+            <td>OCRVerse</td>
+            <td>4B</td>
+            <td>88.56</td>
+            <td>0.058</td>
+            <td>86.91</td>
+            <td>84.55</td>
+            <td>88.45</td>
+            <td>0.071</td>
         </tr>
         <tr>
             <td>dots.ocr</td>
@@ -1840,6 +1850,11 @@ config中参数解释以及数据集格式请参考`Layout检测`小节，公式
       <td>Dolphin-1.5</td>
       <td><a href="https://github.com/bytedance/Dolphin">Dolphin</a></td>
       <td><a href="https://huggingface.co/ByteDance/Dolphin-1.5">Hugging Face Dolphin-1.5</a></td>
+    </tr>
+    <tr>
+      <td>OCRVerse</td>
+      <td><a href="https://github.com/DocTron-hub/OCRVerse">OCRVerse</a></td>
+      <td><a href="https://huggingface.co/DocTron/OCRVerse-text">Hugging Face OCRVerse-text</a></td>
     </tr>
   </tbody>
 </table>

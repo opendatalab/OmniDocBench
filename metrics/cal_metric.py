@@ -44,7 +44,7 @@ class call_TEDS():
         group_scores_structure_only = defaultdict(list)
         samples = self.samples
         per_table_score = {}
-        for sample in samples:
+        for idx, sample in enumerate(samples):
             gt = sample['norm_gt'] if sample.get('norm_gt') else sample['gt']
             pred = sample['norm_pred'] if sample.get('norm_pred') else sample['pred']
             try:
@@ -64,7 +64,7 @@ class call_TEDS():
                 sample['metric'] = {}
             sample['metric']['TEDS'] = score
             sample['metric']['TEDS_structure_only'] = score_structure_only
-            per_table_score[sample['img_id']+'_'+str(sample.get('gt_idx', 0))] = {'TEDS': score, 'TEDS_structure_only': score_structure_only}
+            per_table_score[sample['img_id']+'_'+str(sample.get('gt_idx', idx))] = {'TEDS': score, 'TEDS_structure_only': score_structure_only}
             for group in group_info:
                 select_flag = True
                 for k, v in group.items():
