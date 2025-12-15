@@ -2048,7 +2048,7 @@ config中参数解释以及数据集格式请参考`Layout检测`小节，公式
 
 ## Acknowledgement
 
-- 感谢[Abaka AI](https://abaka.ai)提供的高质量数据集标注
+- 感谢[2077AI](https://2077ai.com)提供的高质量数据集标注
 - [PubTabNet](https://github.com/ibm-aur-nlp/PubTabNet) TEDS指标计算
 - [latexml](https://github.com/brucemiller/LaTeXML) LaTeX to HTML转换工具
 - [Tester](https://github.com/intsig-textin/markdown_tester) Markdown表格转HTML工具

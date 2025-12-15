@@ -2061,7 +2061,7 @@ We welcome everyone to use the OmniDocBench dataset and provide valuable feedbac
 
 ## Acknowledgement
 
-- Thank [Abaka AI](https://abaka.ai) for supporting the dataset annotation.
+- Thank [2077AI](https://2077ai.com) for supporting the dataset annotation.
 - [PubTabNet](https://github.com/ibm-aur-nlp/PubTabNet) for TEDS metric calculation
 - [latexml](https://github.com/brucemiller/LaTeXML) LaTeX to HTML conversion tool
 - [Tester](https://github.com/intsig-textin/markdown_tester) Markdown table to HTML conversion tool
