@@ -5,7 +5,7 @@ OmniDocBench
 <div align="center">
 English | <a href="./README_zh-CN.md">简体中文</a>
 
-[\[📜 arXiv\]](https://arxiv.org/abs/2412.07626) | [[Dataset (🤗Hugging Face)]](https://huggingface.co/datasets/opendatalab/OmniDocBench) | [[Dataset (OpenDataLab)]](https://opendatalab.com/OpenDataLab/OmniDocBench)
+[\[📜 arXiv\]](https://arxiv.org/abs/2412.07626) | [[Dataset (🤗Hugging Face)]](https://huggingface.co/datasets/opendatalab/OmniDocBench) | [[Dataset (OpenDataLab)]](https://opendatalab.com/OpenDataLab/OmniDocBench) | [[Official Site (OpenDataLab)]](https://opendatalab.com/omnidocbench)
 
 </div>
 

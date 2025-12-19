@@ -5,9 +5,9 @@ import json
 import shutil
 import numpy as np
 from PIL import Image, ImageDraw
-from skimage.measure import ransac
-from .cdm.modules.latex2bbox_color import latex2bbox_color
-from .cdm.modules.visual_matcher import HungarianMatcher, SimpleAffineTransform
+
+
+
 
 class CDM:
     def __init__(self, output_root="./result"):
@@ -17,6 +17,7 @@ class CDM:
         Args:
             output_root (str): Root directory for saving intermediate and final results
         """
+        from .cdm.modules.visual_matcher import HungarianMatcher
         self.output_root = output_root
         self.matcher = HungarianMatcher()
         
@@ -64,6 +65,7 @@ class CDM:
     
     def _generate_bboxes(self, gt_latex, pred_latex, img_id):
         """Generate bounding boxes for both GT and prediction"""
+        from .cdm.modules.latex2bbox_color import latex2bbox_color
         total_color_list = self.gen_color_list(num=5800)
         
         for subset, latex in zip(['gt', 'pred'], [gt_latex, pred_latex]):
@@ -95,6 +97,8 @@ class CDM:
     
     def _match_boxes(self, box_gt, box_pred, img_gt, img_pred):
         """Perform box matching using Hungarian algorithm and RANSAC"""
+        from skimage.measure import ransac
+        from .cdm.modules.visual_matcher import HungarianMatcher, SimpleAffineTransform
         matched_idxes = self.matcher(box_gt, box_pred, img_gt.size, img_pred.size)
         
         # Prepare matching points
