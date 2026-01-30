@@ -431,23 +431,33 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
     <tbody>
         <tr>
             <td rowspan="16"><strong>Specialized</strong><br><strong>VLMs</strong></td>
+            <td>PaddleOCR-VL-1.5</td>
+            <td>0.9B</td>
+            <td><strong>94.50</strong></td>
+            <td><strong>0.035</strong></td>
+            <td><strong>94.21</strong></td>
+            <td><strong>92.76</strong></td>
+            <td><strong>95.79</strong></td>
+            <td><strong>0.042</strong></td>
+        </tr>
+        </tr>
             <td>PaddleOCR-VL</td>
             <td>0.9B</td>
-            <td><strong>92.86</strong></td>
+            <td><ins>92.86</ins></td>
             <td><strong>0.035</strong></td>
-            <td><strong>91.22</strong></td>
-            <td><strong>90.89</strong></td>
-            <td><strong>94.76</strong></td>
-            <td><strong>0.043</strong></td>
+            <td><ins>91.22</ins></td>
+            <td><ins>90.89</ins></td>
+            <td><ins>94.76</ins></td>
+            <td><ins>0.043</ins></td>
         </tr>
             <td>MinerU2.5</td>
             <td>1.2B</td>
-            <td><ins>90.67</ins></td>
+            <td>90.67</td>
             <td><ins>0.047</ins></td>
-            <td><ins>88.46</ins></td>
-            <td><ins>88.22</ins></td>
-            <td><ins>92.38</ins></td>
-            <td><ins>0.044</ins></td>
+            <td>88.46</td>
+            <td>88.22</td>
+            <td>92.38</td>
+            <td>0.044</td>
         </tr>
         <tr>
             <td>MonkeyOCR-pro-3B</td>
