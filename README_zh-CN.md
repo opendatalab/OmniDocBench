@@ -435,7 +435,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>MinerU2.5</td>
             <td>1.2B</td>
             <td><ins>90.67</ins></td>
-            <td><ins>0.047</ins></td>
+            <td>0.047</td>
             <td><ins>88.46</ins></td>
             <td><ins>88.22</ins></td>
             <td><ins>92.38</ins></td>
@@ -444,12 +444,12 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
         </tr>
             <td>OpenDoc-0.1B</td>
             <td>0.1B</td>
-            <td><ins>90.4851</ins></td>
+            <td>90.4851</td>
             <td><ins>0.0430</ins></td>
-            <td><ins>87.7036</ins></td>
-            <td><ins>88.0480</ins></td>
-            <td><ins>91.9716</ins></td>
-            <td><ins>0.0494</ins></td>
+            <td>87.7036</td>
+            <td>88.0480</td>
+            <td>91.9716</td>
+            <td>0.0494</td>
         </tr>
         <tr>
             <td>MonkeyOCR-pro-3B</td>
