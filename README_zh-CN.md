@@ -30,6 +30,7 @@ OmniDocBench
 
 ## 目录
 
+- [目录](#目录)
 - [更新](#更新)
 - [评测集介绍](#评测集介绍)
 - [评测](#评测)
@@ -45,9 +46,14 @@ OmniDocBench
   - [公式检测](#公式检测)
 - [工具](#工具)
 - [评测模型信息](#评测模型信息)
+  - [End2End](#end2end)
+  - [Text Recognition](#text-recognition)
+  - [Layout](#layout)
+  - [Formula](#formula)
+  - [Table](#table)
 - [TODO](#todo)
-- [已知问题](#已知问题)
-- [致谢](#致谢)
+- [Known Issues](#known-issues)
+- [Acknowledgement](#acknowledgement)
 - [版权声明](#版权声明)
 - [引用](#引用)
 
@@ -434,6 +440,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td><ins>88.22</ins></td>
             <td><ins>92.38</ins></td>
             <td><ins>0.044</ins></td>
+        </tr>
+        </tr>
+            <td>OpenDoc-0.1B</td>
+            <td>0.1B</td>
+            <td><ins>90.4851</ins></td>
+            <td><ins>0.0430</ins></td>
+            <td><ins>87.7036</ins></td>
+            <td><ins>88.0480</ins></td>
+            <td><ins>91.9716</ins></td>
+            <td><ins>0.0494</ins></td>
         </tr>
         <tr>
             <td>MonkeyOCR-pro-3B</td>
