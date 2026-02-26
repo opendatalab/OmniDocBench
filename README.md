@@ -31,14 +31,12 @@ Currently supported metrics include:
 - COCODet (mAP, mAR, etc.)
 
 ## Table of Contents
+- [Table of Contents](#table-of-contents)
 - [Updates](#updates)
 - [Benchmark Introduction](#benchmark-introduction)
-  - [Dataset File Format](#dataset-file-format)
-  - [Evaluation Categories](#evaluation-categories)
-  - [Attribute Labels](#attribute-labels)
 - [Evaluation](#evaluation)
   - [Environment Setup and Running](#environment-setup-and-running)
-    - [Using Docker](#using-docker)
+    - [Using docker](#using-docker)
   - [End-to-End Evaluation](#end-to-end-evaluation)
     - [End-to-End Evaluation Method - end2end](#end-to-end-evaluation-method---end2end)
     - [End-to-end Evaluation Method - md2md](#end-to-end-evaluation-method---md2md)
@@ -49,7 +47,8 @@ Currently supported metrics include:
   - [Formula Detection](#formula-detection)
 - [Tools](#tools)
 - [The evaluation model information](#the-evaluation-model-information)
-  - [end2end](#end2end)
+  - [End2End](#end2end)
+  - [Text Recognition](#text-recognition)
   - [Layout](#layout)
   - [Formula](#formula)
   - [Table](#table)
@@ -448,6 +447,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td><ins>88.22</ins></td>
             <td><ins>92.38</ins></td>
             <td><ins>0.044</ins></td>
+        </tr>
+        </tr>
+            <td>OpenDoc-0.1B</td>
+            <td>0.1B</td>
+            <td><ins>90.4851</ins></td>
+            <td><ins>0.0430</ins></td>
+            <td><ins>87.7036</ins></td>
+            <td><ins>88.0480</ins></td>
+            <td><ins>91.9716</ins></td>
+            <td><ins>0.0494</ins></td>
         </tr>
         <tr>
             <td>MonkeyOCR-pro-3B</td>
