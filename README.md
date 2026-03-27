@@ -429,34 +429,86 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
     </thead>
     <tbody>
         <tr>
-            <td rowspan="16"><strong>Specialized</strong><br><strong>VLMs</strong></td>
-            <td>PaddleOCR-VL</td>
+            <td rowspan="24"><strong>Specialized</strong><br><strong>VLMs</strong></td>
+        <tr>
+            <td>PaddleOCR-VL-1.5</td>
             <td>0.9B</td>
-            <td><strong>92.86</strong></td>
-            <td><strong>0.035</strong></td>
-            <td><strong>91.22</strong></td>
-            <td><strong>90.89</strong></td>
-            <td><strong>94.76</strong></td>
+            <td><strong>94.38</strong></td>
+            <td><strong>0.037</strong></td>
+            <td><strong>94.45</strong></td>
+            <td><strong>92.33</strong></td>
+            <td><strong>95.37</strong></td>
             <td><strong>0.043</strong></td>
         </tr>
+        <tr>    
+            <td>PaddleOCR-VL</td>
+            <td>0.9B</td>
+            <td>92.86</td>
+            <td>0.035</td>
+            <td>91.22</td>
+            <td>90.89</td>
+            <td>94.76</td>
+            <td>0.043</td>
+        </tr>
+        <tr>
+            <td>Logics-Parsing-v2</td>
+            <td>4B</td>
+            <td>92.56</td>
+            <td>0.043</td>
+            <td>91.41</td>
+            <td>90.54</td>
+            <td>93.85</td>
+            <td>0.044</td>
+        </tr>
+        <tr>
+            <td>Ovis2.6-30B-A3B</td>
+            <td>30B</td>
+            <td>92.36</td>
+            <td>0.037</td>
+            <td>90.32</td>
+            <td>90.46</td>
+            <td>94.00</td>
+            <td>0.046</td>
+        </tr>
+        <tr>
             <td>MinerU2.5</td>
             <td>1.2B</td>
-            <td><ins>90.67</ins></td>
-            <td>0.047</td>
-            <td><ins>88.46</ins></td>
-            <td><ins>88.22</ins></td>
-            <td><ins>92.38</ins></td>
+            <td><ins>90.93</ins></td>
+            <td><ins>0.045</ins></td>
+            <td><ins>88.86</ins></td>
+            <td><ins>88.44</ins></td>
+            <td><ins>92.42</ins></td>
             <td><ins>0.044</ins></td>
         </tr>
+        <tr>
+            <td>HunyuanOCR</td>
+            <td>1B</td>
+            <td>90.57</td>
+            <td>0.085</td>
+            <td>86.01</td>
+            <td>94.19</td>
+            <td>95.96</td>
+            <td>0.082</td>
         </tr>
-            <td>OpenDoc-0.1B</td>
-            <td>0.1B</td>
-            <td>90.4851</td>
-            <td><ins>0.0430</ins></td>
-            <td>87.7036</td>
-            <td>88.0480</td>
-            <td>91.9716</td>
-            <td>0.0494</td>
+        <tr>
+            <td>FD-RL</td>
+            <td>4B</td>
+            <td>90.20</td>
+            <td>0.053</td>
+            <td>88.52</td>
+            <td>87.43</td>
+            <td>92.19</td>
+            <td>0.063</td>
+        </tr>
+        <tr>
+            <td>DeepSeek-OCR-2</td>
+            <td>3B</td>
+            <td>89.17</td>
+            <td>0.049</td>
+            <td>86.85</td>
+            <td>85.57</td>
+            <td>90.06</td>
+            <td>0.060</td>
         </tr>
         <tr>
             <td>MonkeyOCR-pro-3B</td>
@@ -471,7 +523,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
         <tr>
             <td>OCRVerse</td>
             <td>4B</td>
-            <td>88.56</td>
+            <td>88.55</td>
             <td>0.058</td>
             <td>86.91</td>
             <td>84.55</td>
@@ -487,6 +539,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>86.78</td>
             <td>90.62</td>
             <td>0.053</td>
+        </tr>
+        <tr>
+            <td>Dolphin-2.0</td>
+            <td>3B</td>
+            <td>88.71</td>
+            <td>0.073</td>
+            <td>87.26</td>
+            <td>86.20</td>
+            <td>89.77</td>
+            <td>0.064</td>
         </tr>
         <tr>
             <td>MonkeyOCR-3B</td>
@@ -599,7 +661,28 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.124</td>
         </tr>
         <tr>
-            <td rowspan="6"><strong>General</strong><br><strong>VLMs</strong></td>
+            <td rowspan="11"><strong>General</strong><br><strong>VLMs</strong></td>
+        <tr>
+            <td>Gemini-3 Flash</td>
+            <td>-</td>
+            <td>90.37</td>
+            <td>0.065</td>
+            <td>89.56</td>
+            <td>88.01</td>
+            <td>93.79</td>
+            <td>0.071</td>
+        </tr>
+        <tr>
+            <td>Gemini-3 Pro</td>
+            <td>-</td>
+            <td>90.17</td>
+            <td>0.062</td>
+            <td>88.79</td>
+            <td>87.83</td>
+            <td>93.32</td>
+            <td>0.074</td>
+        </tr>
+        <tr>
             <td>Qwen3-VL-235B-A22B-Instruct</td>
             <td>235B</td>
             <td>89.15</td>
@@ -609,6 +692,17 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>90.55</td>
             <td>0.068</td>
         </tr>
+        <tr>
+            <td>Kimi K2.5</td>
+            <td>1T</td>
+            <td>89.33</td>
+            <td>0.065</td>
+            <td>86.92</td>
+            <td>87.57</td>
+            <td>91.82</td>
+            <td>0.084</td>
+        </tr>
+        <tr>
             <td>Gemini-2.5 Pro</td>
             <td>-</td>
             <td>88.03</td>
@@ -627,6 +721,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>82.15</td>
             <td>86.22</td>
             <td>0.102</td>
+        </tr>
+        <tr>
+            <td>GPT5.2</td>
+            <td>-</td>
+            <td>85.75</td>
+            <td>0.124</td>
+            <td>86.93</td>
+            <td>82.76</td>
+            <td>88.25</td>
+            <td>0.106</td>
         </tr>
         <tr>
             <td>InternVL3.5</td>
@@ -659,7 +763,28 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.148</td>
         </tr>
         <tr>
-            <td rowspan="4"><strong>Pipeline</strong><br><strong>Tools</strong></td>
+            <td rowspan="7"><strong>Pipeline</strong><br><strong>Tools</strong></td>
+        <tr>
+            <td>GLM-OCR</td>
+            <td>0.9B</td>
+            <td>94.35</td>
+            <td>0.045</td>
+            <td>93.65</td>
+            <td>93.89</td>
+            <td>96.50</td>
+            <td>0.047</td>
+        </tr>
+        <tr>
+            <td>OpenDoc</td>
+            <td>0.1B</td>
+            <td>90.57</td>
+            <td>0.043</td>
+            <td>87.70</td>
+            <td>88.30</td>
+            <td>92.24</td>
+            <td>0.050</td>
+        </tr>
+        <tr>
             <td>PP-StructureV3</td>
             <td>-</td>
             <td>86.73</td>
@@ -688,6 +813,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>57.88</td>
             <td>71.17</td>
             <td>0.250</td>
+        </tr>
+        <tr>
+            <td>Mathpix</td>
+            <td>-</td>
+            <td>80.11</td>
+            <td>0.168</td>
+            <td>84.75</td>
+            <td>72.43</td>
+            <td>79.25</td>
+            <td>0.165</td>
         </tr>
     </tbody>
 </table>
