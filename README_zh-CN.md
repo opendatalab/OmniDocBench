@@ -428,12 +428,12 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
         <tr>
             <td>PaddleOCR-VL-1.5</td>
             <td>0.9B</td>
-            <td><strong>94.38</strong></td>
-            <td><strong>0.037</strong></td>
-            <td><strong>94.45</strong></td>
-            <td><strong>92.33</strong></td>
-            <td><strong>95.37</strong></td>
-            <td><strong>0.043</strong></td>
+            <td><strong>94.50</strong></td>
+            <td><strong>0.035</strong></td>
+            <td><strong>94.21</strong></td>
+            <td><strong>92.76</strong></td>
+            <td><strong>95.79</strong></td>
+            <td><strong>0.042</strong></td>
         </tr>
         <tr>    
             <td>Youtu-Parsing</td>
@@ -556,7 +556,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.053</td>
         </tr>
         <tr>
-            <td>Dolphin-2.0</td>
+            <td>Dolphin-v2</td>
             <td>3B</td>
             <td>88.71</td>
             <td>0.073</td>
@@ -698,7 +698,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.074</td>
         </tr>
         <tr>
-            <td>Qwen3-VL-235B-A22B-Instruct</td>
+            <td>Qwen3-VL-235B</td>
             <td>235B</td>
             <td>89.15</td>
             <td>0.069</td>
