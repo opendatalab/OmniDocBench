@@ -60,6 +60,8 @@ Currently supported metrics include:
 
 ## Updates
 
+[2026/03/31] Update the model evaluation for PaddleOCR-VL-1.5, Youtu-Parsing, FireRed-OCR, Logics-Parsing-v2, Ovis2.6-30B-A3B, MinerU2.5, HunyuanOCR, FD-RL, DeepSeek-OCR-2, MonkeyOCR-pro-3B, OCRVerse, dots.ocr, Dolphin-v2, MonkeyOCR-3B, POINTS-Reader, Gemini-3 Flash, Gemini-3 Pro, Kimi K2.5, GPT5.2, GPT-4o, InternVL3.5, GLM-OCR, OpenDoc and Mathpix. Add the inference scripts for Dolphin-v2, FireRed-OCR, Gemini-3-Flash, Gemini-3-Pro, GPT-5.2, Logics-Parsing-v2, Ovis2.6-30B-A3B and Youtu-Parsing.
+
 [2025/11/04] Add a Docker runtime environment, including the evaluation environment and the CDM environment. 
 
 [2025/10/28] Update PaddleOCR-VL, Qwen3-VL-235B-A22B-Instruct, Deepseek-OCR, Dolphin-1.5 model evaluation.
@@ -74,7 +76,7 @@ Currently supported metrics include:
 
 [2025/08/20] Updated PP-StructureV3, MonkeyOCR-pro-1.2B model evaluation; Added Mistral OCR, Pix2text, phocr, Nanonets-OCR-s infer scripts;
 
-[2025/07/31] Added MinerU2.0-vlm, Marker-1.7.1, PP-StructureV3, MonkeyOCR-pro-1.2B, Dolphin, Nanonets-OCR-s, OCRFlux-3B, Qwen2.5-VL-7B and InternVL3-78B model evaluation; Updated versions of MinerU.
+[2025/07/31] Added MinerU2-VLM, Marker-1.7.1, PP-StructureV3, MonkeyOCR-pro-1.2B, Dolphin, Nanonets-OCR-s, OCRFlux-3B, Qwen2.5-VL-7B and InternVL3-78B model evaluation; Updated versions of MinerU.
 
 [2025/03/27] Added Pix2Text, Unstructured, OpenParse, Gemini-2.0 Flash, Gemini-2.5 Pro, Mistral OCR, olmOCR, Qwen2.5-VL-72B model evaluation;
 
@@ -429,34 +431,106 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
     </thead>
     <tbody>
         <tr>
-            <td rowspan="16"><strong>Specialized</strong><br><strong>VLMs</strong></td>
+            <td rowspan="26"><strong>Specialized</strong><br><strong>VLMs</strong></td>
+        <tr>
+            <td>PaddleOCR-VL-1.5</td>
+            <td>0.9B</td>
+            <td><strong>94.50</strong></td>
+            <td><strong>0.035</strong></td>
+            <td><strong>94.21</strong></td>
+            <td><strong>92.76</strong></td>
+            <td><strong>95.79</strong></td>
+            <td><strong>0.042</strong></td>
+        </tr>
+        <tr>    
+            <td>Youtu-Parsing</td>
+            <td>2.5B</td>
+            <td>93.37</td>
+            <td>0.042</td>
+            <td>91.22</td>
+            <td>93.10</td>
+            <td>96.47</td>
+            <td>0.026</td>
+        </tr>
+        <tr>    
+            <td>FireRed-OCR</td>
+            <td>2B</td>
+            <td>92.07</td>
+            <td>0.035</td>
+            <td>90.98</td>
+            <td>88.72</td>
+            <td>92.38</td>
+            <td>0.041</td>
+        </tr>
+        <tr>    
             <td>PaddleOCR-VL</td>
             <td>0.9B</td>
-            <td><strong>92.86</strong></td>
-            <td><strong>0.035</strong></td>
-            <td><strong>91.22</strong></td>
-            <td><strong>90.89</strong></td>
-            <td><strong>94.76</strong></td>
-            <td><strong>0.043</strong></td>
+            <td>92.86</td>
+            <td>0.035</td>
+            <td>91.22</td>
+            <td>90.89</td>
+            <td>94.76</td>
+            <td>0.043</td>
         </tr>
+        <tr>
+            <td>Logics-Parsing-v2</td>
+            <td>4B</td>
+            <td>92.56</td>
+            <td>0.043</td>
+            <td>91.41</td>
+            <td>90.54</td>
+            <td>93.85</td>
+            <td>0.044</td>
+        </tr>
+        <tr>
+            <td>Ovis2.6-30B-A3B</td>
+            <td>30B</td>
+            <td>92.36</td>
+            <td>0.037</td>
+            <td>90.32</td>
+            <td>90.46</td>
+            <td>94.00</td>
+            <td>0.046</td>
+        </tr>
+        <tr>
             <td>MinerU2.5</td>
             <td>1.2B</td>
-            <td><ins>90.67</ins></td>
-            <td>0.047</td>
-            <td><ins>88.46</ins></td>
-            <td><ins>88.22</ins></td>
-            <td><ins>92.38</ins></td>
+            <td><ins>90.93</ins></td>
+            <td><ins>0.045</ins></td>
+            <td><ins>88.86</ins></td>
+            <td><ins>88.44</ins></td>
+            <td><ins>92.42</ins></td>
             <td><ins>0.044</ins></td>
         </tr>
+        <tr>
+            <td>HunyuanOCR</td>
+            <td>1B</td>
+            <td>90.57</td>
+            <td>0.085</td>
+            <td>86.01</td>
+            <td>94.19</td>
+            <td>95.96</td>
+            <td>0.082</td>
         </tr>
-            <td>OpenDoc-0.1B</td>
-            <td>0.1B</td>
-            <td>90.4851</td>
-            <td><ins>0.0430</ins></td>
-            <td>87.7036</td>
-            <td>88.0480</td>
-            <td>91.9716</td>
-            <td>0.0494</td>
+        <tr>
+            <td>FD-RL</td>
+            <td>4B</td>
+            <td>90.20</td>
+            <td>0.053</td>
+            <td>88.52</td>
+            <td>87.43</td>
+            <td>92.19</td>
+            <td>0.063</td>
+        </tr>
+        <tr>
+            <td>DeepSeek-OCR-2</td>
+            <td>3B</td>
+            <td>89.17</td>
+            <td>0.049</td>
+            <td>86.85</td>
+            <td>85.57</td>
+            <td>90.06</td>
+            <td>0.060</td>
         </tr>
         <tr>
             <td>MonkeyOCR-pro-3B</td>
@@ -471,7 +545,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
         <tr>
             <td>OCRVerse</td>
             <td>4B</td>
-            <td>88.56</td>
+            <td>88.55</td>
             <td>0.058</td>
             <td>86.91</td>
             <td>84.55</td>
@@ -487,6 +561,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>86.78</td>
             <td>90.62</td>
             <td>0.053</td>
+        </tr>
+        <tr>
+            <td>Dolphin-v2</td>
+            <td>3B</td>
+            <td>88.71</td>
+            <td>0.073</td>
+            <td>87.26</td>
+            <td>86.20</td>
+            <td>89.77</td>
+            <td>0.064</td>
         </tr>
         <tr>
             <td>MonkeyOCR-3B</td>
@@ -599,8 +683,29 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.124</td>
         </tr>
         <tr>
-            <td rowspan="6"><strong>General</strong><br><strong>VLMs</strong></td>
-            <td>Qwen3-VL-235B-A22B-Instruct</td>
+            <td rowspan="11"><strong>General</strong><br><strong>VLMs</strong></td>
+        <tr>
+            <td>Gemini-3 Flash</td>
+            <td>-</td>
+            <td>90.37</td>
+            <td>0.065</td>
+            <td>89.56</td>
+            <td>88.01</td>
+            <td>93.79</td>
+            <td>0.071</td>
+        </tr>
+        <tr>
+            <td>Gemini-3 Pro</td>
+            <td>-</td>
+            <td>90.17</td>
+            <td>0.062</td>
+            <td>88.79</td>
+            <td>87.83</td>
+            <td>93.32</td>
+            <td>0.074</td>
+        </tr>
+        <tr>
+            <td>Qwen3-VL-235B</td>
             <td>235B</td>
             <td>89.15</td>
             <td>0.069</td>
@@ -609,6 +714,17 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>90.55</td>
             <td>0.068</td>
         </tr>
+        <tr>
+            <td>Kimi K2.5</td>
+            <td>1T</td>
+            <td>89.33</td>
+            <td>0.065</td>
+            <td>86.92</td>
+            <td>87.57</td>
+            <td>91.82</td>
+            <td>0.084</td>
+        </tr>
+        <tr>
             <td>Gemini-2.5 Pro</td>
             <td>-</td>
             <td>88.03</td>
@@ -627,6 +743,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>82.15</td>
             <td>86.22</td>
             <td>0.102</td>
+        </tr>
+        <tr>
+            <td>GPT5.2</td>
+            <td>-</td>
+            <td>85.75</td>
+            <td>0.124</td>
+            <td>86.93</td>
+            <td>82.76</td>
+            <td>88.25</td>
+            <td>0.106</td>
         </tr>
         <tr>
             <td>InternVL3.5</td>
@@ -659,7 +785,28 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.148</td>
         </tr>
         <tr>
-            <td rowspan="4"><strong>Pipeline</strong><br><strong>Tools</strong></td>
+            <td rowspan="7"><strong>Pipeline</strong><br><strong>Tools</strong></td>
+        <tr>
+            <td>GLM-OCR</td>
+            <td>0.9B</td>
+            <td>94.35</td>
+            <td>0.045</td>
+            <td>93.65</td>
+            <td>93.89</td>
+            <td>96.50</td>
+            <td>0.047</td>
+        </tr>
+        <tr>
+            <td>OpenDoc</td>
+            <td>0.1B</td>
+            <td>90.57</td>
+            <td>0.043</td>
+            <td>87.70</td>
+            <td>88.30</td>
+            <td>92.24</td>
+            <td>0.050</td>
+        </tr>
+        <tr>
             <td>PP-StructureV3</td>
             <td>-</td>
             <td>86.73</td>
@@ -688,6 +835,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>57.88</td>
             <td>71.17</td>
             <td>0.250</td>
+        </tr>
+        <tr>
+            <td>Mathpix</td>
+            <td>-</td>
+            <td>80.11</td>
+            <td>0.168</td>
+            <td>84.75</td>
+            <td>72.43</td>
+            <td>79.25</td>
+            <td>0.165</td>
         </tr>
     </tbody>
 </table>
@@ -1719,6 +1876,56 @@ We provide several tools in the `tools` directory:
       <td>2.1.1</td>
     </tr>
     <tr>
+      <td>MinerU2-VLM</td>
+      <td><a href="https://github.com/opendatalab/MinerU">MinerU</a></td>
+      <td><a href="https://huggingface.co/opendatalab/MinerU2.0-2505-0.9B">HuggingFace MinerU2.0-2505-0.9B</a></td>
+    </tr>
+    <tr>
+      <td>MinerU2.5</td>
+      <td><a href="https://github.com/opendatalab/MinerU">MinerU</a></td>
+      <td><a href="https://huggingface.co/opendatalab/MinerU2.5-2509-1.2B">HuggingFace MinerU2.5-2509-1.2B</a></td>
+    </tr>
+    <tr>
+      <td>GLM-OCR</td>
+      <td><a href="https://github.com/zai-org/GLM-OCR">GLM-OCR</a></td>
+      <td><a href="https://huggingface.co/zai-org/GLM-OCR">HuggingFace GLM-OCR</a></td>
+    </tr>
+    <tr>
+      <td>Youtu-Parsing</td>
+      <td><a href="https://github.com/TencentCloudADP/youtu-parsing">Youtu-Parsing</a></td>
+      <td><a href="https://huggingface.co/tencent/Youtu-Parsing">HuggingFace Youtu-Parsing</a></td>
+    </tr>
+    <tr>
+      <td>FireRed-OCR</td>
+      <td><a href="https://github.com/FireRedTeam/FireRed-OCR">FireRed-OCR</a></td>
+      <td><a href="https://huggingface.co/FireRedTeam/FireRed-OCR">HuggingFace FireRed-OCR</a></td>
+    </tr>
+    <tr>
+      <td>dots.ocr</td>
+      <td><a href="https://github.com/rednote-hilab/dots.ocr">dots.ocr</a></td>
+      <td><a href="https://huggingface.co/rednote-hilab/dots.ocr">HuggingFace dots.ocr</a></td>
+    </tr>
+    <tr>
+      <td>Logics-Parsing-v2</td>
+      <td><a href="https://github.com/alibaba/Logics-Parsing">Logics-Parsing</a></td>
+      <td><a href="https://huggingface.co/Logics-MLLM/Logics-Parsing-v2">HuggingFace Logics-Parsing-v2</a></td>
+    </tr>
+    <tr>
+      <td>Ovis2.6-30B-A3B</td>
+      <td><a href="https://github.com/AIDC-AI/Ovis">Ovis</a></td>
+      <td><a href="https://huggingface.co/AIDC-AI/Ovis2.6-30B-A3B">HuggingFace Ovis2.6-30B-A3B</a></td>
+    </tr>
+    <tr>
+      <td>HunyuanOCR</td>
+      <td><a href="https://hunyuan.tencent.com/vision/zh?tabIndex=0">HunyuanOCR</a></td>
+      <td><a href="https://huggingface.co/tencent/HunyuanOCR">HuggingFace HunyuanOCR</a></td>
+    </tr>
+    <tr>
+      <td>POINTS-Reader</td>
+      <td><a href="https://github.com/Tencent/POINTS-Reader">POINTS-Reader</a></td>
+      <td><a href="https://huggingface.co/tencent/POINTS-Reader">HuggingFace POINTS-Reader</a></td>
+    </tr>
+    <tr>
       <td>Marker</td>
       <td><a href="https://github.com/VikParuchuri/marker">Marker</a></td>
       <td>1.8.2</td>
@@ -1726,7 +1933,7 @@ We provide several tools in the `tools` directory:
     <tr>
       <td>Mathpix</td>
       <td><a href="https://mathpix.com/">Mathpix</a></td>
-      <td>———</td>
+      <td>-</td>
     </tr>
     <tr>
       <td>PaddleOCR PP-StructureV3</td>
@@ -1734,9 +1941,29 @@ We provide several tools in the `tools` directory:
       <td><a href="https://www.paddleocr.ai/latest/version3.x/pipeline_usage/PP-StructureV3.html">PP-StructureV3</a></td>
     </tr>
     <tr>
+      <td>PaddleOCR-VL</td>
+      <td><a href="https://github.com/PaddlePaddle/PaddleOCR">PaddleOCR</a></td>
+      <td><a href="https://huggingface.co/PaddlePaddle/PaddleOCR-VL">Hugging Face PaddleOCR-VL</a></td>
+    </tr>
+    <tr>
+      <td>PaddleOCR-VL-1.5</td>
+      <td><a href="https://github.com/PaddlePaddle/PaddleOCR">PaddleOCR</a></td>
+      <td><a href="https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.5">Hugging Face PaddleOCR-VL-1.5</a></td>
+    </tr>
+    <tr>
+      <td>FD-RL</td>
+      <td><a href="https://github.com/DocTron-hub/FD-RL">FD-RL</a></td>
+      <td><a href="https://huggingface.co/DocTron/FD-RL">Hugging Face FD-RL</a></td>
+    </tr>
+    <tr>
       <td>Docling</td>
-      <td><a href="https://ds4sd.github.io/docling/">Docling</a></td>
-      <td>2.14.0</td>
+      <td><a href="https://www.docling.ai/">Docling</a></td>
+      <td><a href="https://huggingface.co/docling-project/docling-layout-heron">Hugging Face docling-layout-heron</a></td>
+    </tr>
+    <tr>
+      <td>OpenDoc-0.1B</td>
+      <td><a href="https://github.com/Topdu/OpenOCR/blob/main/docs/opendoc.md">OpenDoc</a></td>
+      <td><a href="https://huggingface.co/spaces/topdu/OpenDoc-0.1B-Demo">Hugging Face OpenDoc-0.1B</a></td>
     </tr>
     <tr>
       <td>Pix2Text</td>
@@ -1752,11 +1979,6 @@ We provide several tools in the `tools` directory:
       <td>OpenParse</td>
       <td><a href="https://github.com/Filimoa/open-parse">OpenParse</a></td>
       <td>0.7.0</td>
-    </tr>
-    <tr>
-      <td>MinerU2-VLM</td>
-      <td><a href="https://github.com/opendatalab/MinerU">MinerU</a></td>
-      <td><a href="https://huggingface.co/opendatalab/MinerU2.0-2505-0.9B">MinerU2.0-2505-0.9B</a></td>
     </tr>
     <tr>
       <td>MonkeyOCR-pro-1.2B</td>
@@ -1777,6 +1999,16 @@ We provide several tools in the `tools` directory:
       <td>Dolphin</td>
       <td><a href="https://github.com/bytedance/Dolphin">Dolphin</a></td>
       <td><a href="https://huggingface.co/ByteDance/Dolphin">HuggingFace Dolphin</a></td>
+    </tr>
+    <tr>
+      <td>Dolphin-1.5</td>
+      <td><a href="https://github.com/bytedance/Dolphin">Dolphin</a></td>
+      <td><a href="https://huggingface.co/ByteDance/Dolphin-1.5">Hugging Face Dolphin-1.5</a></td>
+    </tr>
+    <tr>
+      <td>Dolphin-v2</td>
+      <td><a href="https://github.com/bytedance/Dolphin">Dolphin</a></td>
+      <td><a href="https://huggingface.co/ByteDance/Dolphin-v2">Hugging Face Dolphin-v2</a></td>
     </tr>
     <tr>
       <td>Nanonets-OCR-s</td>
@@ -1814,9 +2046,14 @@ We provide several tools in the `tools` directory:
       <td>256M-Preview-transformer</td>
     </tr>
     <tr>
-      <td>GPT4o</td>
-      <td><a href="https://openai.com/index/hello-gpt-4o/">OpenAI GPT4o</a></td>
+      <td>GPT-4o</td>
+      <td><a href="https://openai.com/index/hello-gpt-4o/">OpenAI GPT-4o</a></td>
       <td>2024-08-06</td>
+    </tr>
+    <tr>
+      <td>GPT-5.2</td>
+      <td><a href="https://openai.com/index/introducing-gpt-5-2/">OpenAI GPT-5.2</a></td>
+      <td>2025-12-11</td>
     </tr>
     <tr>
       <td>Gemini-2.0 Flash</td>
@@ -1824,8 +2061,18 @@ We provide several tools in the `tools` directory:
       <td>-</td>
     </tr>
     <tr>
+      <td>Gemini-3.0 Flash</td>
+      <td><a href="https://deepmind.google/technologies/gemini/flash/">Gemini-3.0 Flash</a></td>
+      <td>-</td>
+    </tr>
+    <tr>
       <td>Gemini-2.5 Pro</td>
       <td><a href="https://deepmind.google/technologies/gemini/pro/">Gemini-2.5 Pro</a></td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Gemini-3 Pro</td>
+      <td><a href="https://deepmind.google/technologies/gemini/pro/">Gemini-3 Pro</a></td>
       <td>-</td>
     </tr>
     <tr>
@@ -1844,6 +2091,11 @@ We provide several tools in the `tools` directory:
       <td><a href="https://huggingface.co/Qwen/Qwen2.5-VL-72B-Instruct">Hugging Face Qwen2.5-VL-72B-Instruct</a>    </td>
     </tr>
     <tr>
+      <td>Qwen3-VL-235B-A22B-Instruct</td>
+      <td><a href="https://github.com/QwenLM/Qwen3-VL">Qwen3-VL</a></td>
+      <td><a href="https://huggingface.co/Qwen/Qwen3-VL-235B-A22B-Instruct">Hugging Face Qwen3-VL-235B-A22B-Instruct</a></td>
+    </tr>
+    <tr>
       <td>InternVL2-Llama3-76B</td>
       <td><a href="https://github.com/OpenGVLab/InternVL">InternVL</a></td>
       <td><a href="https://huggingface.co/OpenGVLab/InternVL2-Llama3-76B">Hugging Face InternVL2-Llama3-76B</a></td>
@@ -1854,9 +2106,9 @@ We provide several tools in the `tools` directory:
       <td><a href="https://huggingface.co/OpenGVLab/InternVL3-78B">Hugging Face InternVL3-78B</a></td>
     </tr>
     <tr>
-      <td>Qwen3-VL-235B-A22B-Instruct</td>
-      <td><a href="https://github.com/QwenLM/Qwen3-VL">Qwen3-VL</a></td>
-      <td><a href="https://huggingface.co/Qwen/Qwen3-VL-235B-A22B-Instruct">Hugging Face Qwen3-VL-235B-A22B-Instruct</a></td>
+      <td>InternVL3_5-241B-A28B</td>
+      <td><a href="https://github.com/OpenGVLab/InternVL">InternVL</a></td>
+      <td><a href="https://huggingface.co/OpenGVLab/InternVL3_5-241B-A28B">Hugging Face InternVL3_5-241B-A28B</a></td>
     </tr>
     <tr>
       <td>DeepSeek-OCR</td>
@@ -1864,14 +2116,14 @@ We provide several tools in the `tools` directory:
       <td><a href="https://huggingface.co/deepseek-ai/DeepSeek-OCR">Hugging Face DeepSeek-OCR</a></td>
     </tr>
     <tr>
-      <td>PaddleOCR-VL</td>
-      <td><a href="https://github.com/PaddlePaddle/PaddleOCR">PaddleOCR</a></td>
-      <td><a href="https://huggingface.co/PaddlePaddle/PaddleOCR-VL">Hugging Face PaddleOCR-VL</a></td>
+      <td>DeepSeek-OCR-2</td>
+      <td><a href="https://github.com/deepseek-ai/DeepSeek-OCR-2">DeepSeek-OCR</a></td>
+      <td><a href="https://huggingface.co/deepseek-ai/DeepSeek-OCR-2">Hugging Face DeepSeek-OCR-2</a></td>
     </tr>
     <tr>
-      <td>Dolphin-1.5</td>
-      <td><a href="https://github.com/bytedance/Dolphin">Dolphin</a></td>
-      <td><a href="https://huggingface.co/ByteDance/Dolphin-1.5">Hugging Face Dolphin-1.5</a></td>
+      <td>Kimi K2.5</td>
+      <td><a href="https://platform.moonshot.cn/docs/guide/kimi-k2-5-quickstart">Kimi K2.5</a></td>
+      <td>-</td>
     </tr>
     <tr>
       <td>OCRVerse</td>
