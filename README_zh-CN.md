@@ -424,7 +424,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
     </thead>
     <tbody>
         <tr>
-            <td rowspan="26"><strong>Specialized</strong><br><strong>VLMs</strong></td>
+            <td rowspan="27"><strong>Specialized</strong><br><strong>VLMs</strong></td>
         <tr>
             <td>PaddleOCR-VL-1.5</td>
             <td>0.9B</td>
@@ -435,6 +435,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td><strong>95.79</strong></td>
             <td><strong>0.042</strong></td>
         </tr>
+        <tr>
+            <td>GLM-OCR</td>
+            <td>0.9B</td>
+            <td>94.35</td>
+            <td>0.045</td>
+            <td>93.65</td>
+            <td>93.89</td>
+            <td>96.50</td>
+            <td>0.047</td>
+        </tr>
         <tr>    
             <td>Youtu-Parsing</td>
             <td>2.5B</td>
@@ -444,16 +454,6 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>93.10</td>
             <td>96.47</td>
             <td>0.026</td>
-        </tr>
-        <tr>    
-            <td>FireRed-OCR</td>
-            <td>2B</td>
-            <td>92.07</td>
-            <td>0.035</td>
-            <td>90.98</td>
-            <td>88.72</td>
-            <td>92.38</td>
-            <td>0.041</td>
         </tr>
         <tr>    
             <td>PaddleOCR-VL</td>
@@ -475,15 +475,15 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>93.85</td>
             <td>0.044</td>
         </tr>
-        <tr>
-            <td>Ovis2.6-30B-A3B</td>
-            <td>30B</td>
-            <td>92.36</td>
-            <td>0.037</td>
-            <td>90.32</td>
-            <td>90.46</td>
-            <td>94.00</td>
-            <td>0.046</td>
+        <tr>    
+            <td>FireRed-OCR</td>
+            <td>2B</td>
+            <td>92.07</td>
+            <td>0.035</td>
+            <td>90.98</td>
+            <td>88.72</td>
+            <td>92.38</td>
+            <td>0.041</td>
         </tr>
         <tr>
             <td>MinerU2.5</td>
@@ -504,6 +504,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>94.19</td>
             <td>95.96</td>
             <td>0.082</td>
+        </tr>
+        <tr>
+            <td>OpenDoc</td>
+            <td>0.1B</td>
+            <td>90.57</td>
+            <td>0.043</td>
+            <td>87.70</td>
+            <td>88.30</td>
+            <td>92.24</td>
+            <td>0.050</td>
         </tr>
         <tr>
             <td>FD-RL</td>
@@ -536,6 +546,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.128</td>
         </tr>
         <tr>
+            <td>Dolphin-v2</td>
+            <td>3B</td>
+            <td>88.71</td>
+            <td>0.073</td>
+            <td>87.26</td>
+            <td>86.20</td>
+            <td>89.77</td>
+            <td>0.064</td>
+        </tr>
+        <tr>
             <td>OCRVerse</td>
             <td>4B</td>
             <td>88.55</td>
@@ -554,16 +574,6 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>86.78</td>
             <td>90.62</td>
             <td>0.053</td>
-        </tr>
-        <tr>
-            <td>Dolphin-v2</td>
-            <td>3B</td>
-            <td>88.71</td>
-            <td>0.073</td>
-            <td>87.26</td>
-            <td>86.20</td>
-            <td>89.77</td>
-            <td>0.064</td>
         </tr>
         <tr>
             <td>MonkeyOCR-3B</td>
@@ -616,16 +626,6 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.086</td>
         </tr>
         <tr>
-            <td>olmOCR</td>
-            <td>7B</td>
-            <td>81.79</td>
-            <td>0.096</td>
-            <td>86.04</td>
-            <td>68.92</td>
-            <td>74.77</td>
-            <td>0.121</td>
-        </tr>
-        <tr>
             <td>Dolphin-1.5</td>
             <td>0.3B</td>
             <td>83.21</td>
@@ -634,6 +634,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>78.06</td>
             <td>84.10</td>
             <td>0.080</td>
+        </tr>
+        <tr>
+            <td>olmOCR</td>
+            <td>7B</td>
+            <td>81.79</td>
+            <td>0.096</td>
+            <td>86.04</td>
+            <td>68.92</td>
+            <td>74.77</td>
+            <td>0.121</td>
         </tr>
         <tr>
             <td>POINTS-Reader</td>
@@ -676,7 +686,17 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.124</td>
         </tr>
         <tr>
-            <td rowspan="11"><strong>General</strong><br><strong>VLMs</strong></td>
+            <td rowspan="12"><strong>General</strong><br><strong>VLMs</strong></td>
+        <tr>
+            <td>Ovis2.6-30B-A3B</td>
+            <td>30B</td>
+            <td>92.36</td>
+            <td>0.037</td>
+            <td>90.32</td>
+            <td>90.46</td>
+            <td>94.00</td>
+            <td>0.046</td>
+        </tr>
         <tr>
             <td>Gemini-3 Flash</td>
             <td>-</td>
@@ -698,16 +718,6 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.074</td>
         </tr>
         <tr>
-            <td>Qwen3-VL-235B</td>
-            <td>235B</td>
-            <td>89.15</td>
-            <td>0.069</td>
-            <td>88.14</td>
-            <td>86.21</td>
-            <td>90.55</td>
-            <td>0.068</td>
-        </tr>
-        <tr>
             <td>Kimi K2.5</td>
             <td>1T</td>
             <td>89.33</td>
@@ -716,6 +726,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>87.57</td>
             <td>91.82</td>
             <td>0.084</td>
+        </tr>
+        <tr>
+            <td>Qwen3-VL-235B</td>
+            <td>235B</td>
+            <td>89.15</td>
+            <td>0.069</td>
+            <td>88.14</td>
+            <td>86.21</td>
+            <td>90.55</td>
+            <td>0.068</td>
         </tr>
         <tr>
             <td>Gemini-2.5 Pro</td>
@@ -778,27 +798,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.148</td>
         </tr>
         <tr>
-            <td rowspan="7"><strong>Pipeline</strong><br><strong>Tools</strong></td>
-        <tr>
-            <td>GLM-OCR</td>
-            <td>0.9B</td>
-            <td>94.35</td>
-            <td>0.045</td>
-            <td>93.65</td>
-            <td>93.89</td>
-            <td>96.50</td>
-            <td>0.047</td>
-        </tr>
-        <tr>
-            <td>OpenDoc</td>
-            <td>0.1B</td>
-            <td>90.57</td>
-            <td>0.043</td>
-            <td>87.70</td>
-            <td>88.30</td>
-            <td>92.24</td>
-            <td>0.050</td>
-        </tr>
+            <td rowspan="5"><strong>Pipeline</strong><br><strong>Tools</strong></td>
         <tr>
             <td>PP-StructureV3</td>
             <td>-</td>
@@ -808,6 +808,16 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>81.68</td>
             <td>89.48</td>
             <td>0.073</td>
+        </tr>
+        <tr>
+            <td>Mathpix</td>
+            <td>-</td>
+            <td>80.11</td>
+            <td>0.168</td>
+            <td>84.75</td>
+            <td>72.43</td>
+            <td>79.25</td>
+            <td>0.165</td>
         </tr>
         <tr>
             <td>Mineru2-pipeline</td>
@@ -828,16 +838,6 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>57.88</td>
             <td>71.17</td>
             <td>0.250</td>
-        </tr>
-        <tr>
-            <td>Mathpix</td>
-            <td>-</td>
-            <td>80.11</td>
-            <td>0.168</td>
-            <td>84.75</td>
-            <td>72.43</td>
-            <td>79.25</td>
-            <td>0.165</td>
         </tr>
     </tbody>
 </table>
