@@ -431,18 +431,18 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td><strong>94.50</strong></td>
             <td><strong>0.035</strong></td>
             <td><strong>94.21</strong></td>
-            <td><strong>92.76</strong></td>
-            <td><strong>95.79</strong></td>
-            <td><strong>0.042</strong></td>
+            <td>92.76</td>
+            <td>95.79</td>
+            <td>0.042</td>
         </tr>
         <tr>
             <td>GLM-OCR</td>
             <td>0.9B</td>
-            <td>94.35</td>
+            <td><ins>94.35</ins></td>
             <td>0.045</td>
-            <td>93.65</td>
-            <td>93.89</td>
-            <td>96.50</td>
+            <td><ins>93.65</ins></td>
+            <td><ins>93.89</ins></td>
+            <td><strong>96.50</strong></td>
             <td>0.047</td>
         </tr>
         <tr>    
@@ -452,14 +452,14 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.042</td>
             <td>91.22</td>
             <td>93.10</td>
-            <td>96.47</td>
-            <td>0.026</td>
+            <td><ins>96.47</ins></td>
+            <td><strong>0.026</strong></td>
         </tr>
         <tr>    
             <td>PaddleOCR-VL</td>
             <td>0.9B</td>
             <td>92.86</td>
-            <td>0.035</td>
+            <td><strong>0.035</strong></td>
             <td>91.22</td>
             <td>90.89</td>
             <td>94.76</td>
@@ -479,21 +479,21 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>FireRed-OCR</td>
             <td>2B</td>
             <td>92.07</td>
-            <td>0.035</td>
+            <td><strong>0.035</strong></td>
             <td>90.98</td>
             <td>88.72</td>
             <td>92.38</td>
-            <td>0.041</td>
+            <td><ins>0.041</ins></td>
         </tr>
         <tr>
             <td>MinerU2.5</td>
             <td>1.2B</td>
-            <td><ins>90.93</ins></td>
-            <td><ins>0.045</ins></td>
-            <td><ins>88.86</ins></td>
-            <td><ins>88.44</ins></td>
-            <td><ins>92.42</ins></td>
-            <td><ins>0.044</ins></td>
+            <td>90.93</td>
+            <td>0.045</td>
+            <td>88.86</td>
+            <td>88.44</td>
+            <td>92.42</td>
+            <td>0.044</td>
         </tr>
         <tr>
             <td>HunyuanOCR</td>
@@ -501,7 +501,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>90.57</td>
             <td>0.085</td>
             <td>86.01</td>
-            <td>94.19</td>
+            <td><strong>94.19</strong></td>
             <td>95.96</td>
             <td>0.082</td>
         </tr>
@@ -691,7 +691,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>Ovis2.6-30B-A3B</td>
             <td>30B</td>
             <td>92.36</td>
-            <td>0.037</td>
+            <td><ins>0.037</ins></td>
             <td>90.32</td>
             <td>90.46</td>
             <td>94.00</td>
