@@ -60,8 +60,7 @@ Currently supported metrics include:
 
 ## Updates
 
-[2026/03/31] Update the model evaluation for PaddleOCR-VL-1.5, Youtu-Parsing, FireRed-OCR, Logics-Parsing-v2, Ovis2.6-30B-A3B, MinerU2.5, HunyuanOCR, FD-RL, DeepSeek-OCR-2, MonkeyOCR-pro-3B, OCRVerse, dots.ocr, Dolphin-v2, MonkeyOCR-3B, POINTS-Reader, Gemini-3 Flash, Gemini-3 Pro, Kimi K2.5, GPT5.2, GPT-4o, InternVL3.5, GLM-OCR, OpenDoc and Mathpix. Add the inference scripts for Dolphin-v2, FireRed-OCR, Gemini-3-Flash, Gemini-3-Pro, GPT-5.2, Logics-Parsing-v2, Ovis2.6-30B-A3B and Youtu-Parsing.
-
+[2026/03/31] Update the model evaluation for PaddleOCR-VL-1.5, Youtu-Parsing, FireRed-OCR, Logics-Parsing-v2, Ovis2.6-30B-A3B, MinerU2.5, HunyuanOCR, FD-RL, DeepSeek-OCR-2, MonkeyOCR-pro-3B, OCRVerse, dots.ocr, Dolphin-v2, MonkeyOCR-3B, POINTS-Reader, Gemini-3 Flash, Gemini-3 Pro, Kimi 2.5, GPT5.2, GPT-4o, InternVL3.5, GLM-OCR, OpenDoc and Mathpix. Added inference scripts for the models listed above.
 [2025/11/04] Add a Docker runtime environment, including the evaluation environment and the CDM environment. 
 
 [2025/10/28] Update PaddleOCR-VL, Qwen3-VL-235B-A22B-Instruct, Deepseek-OCR, Dolphin-1.5 model evaluation.
@@ -538,7 +537,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>89.17</td>
             <td>0.049</td>
             <td>86.85</td>
-            <td>85.57</td>
+            <td>85.60</td>
             <td>90.06</td>
             <td>0.060</td>
         </tr>
