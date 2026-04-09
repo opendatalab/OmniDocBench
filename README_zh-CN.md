@@ -59,7 +59,7 @@ OmniDocBench
 
 ## 更新
 
-[2026/03/31] 更新了PaddleOCR-VL-1.5、Youtu-Parsing、FireRed-OCR、Logics-Parsing-v2、Ovis2.6-30B-A3B、MinerU2.5、HunyuanOCR、FD-RL、DeepSeek-OCR-2、MonkeyOCR-pro-3B、OCRVerse、dots.ocr、Dolphin-v2、MonkeyOCR-3B、POINTS-Reader、Gemini-3 Flash、Gemini-3 Pro、Kimi K2.5、GPT5.2、GPT-4o、InternVL3.5、GLM-OCR、OpenDoc 和 Mathpix 的模型评测结果，新增了 Dolphin-v2、FireRed-OCR、Gemini-3 Flash、Gemini-3 Pro、GPT-5.2、Logics-Parsing-v2、Ovis2.6-30B-A3B 和 Youtu-Parsing 的推理脚本。
+[2026/03/31] 更新了PaddleOCR-VL-1.5、Youtu-Parsing、FireRed-OCR、Logics-Parsing-v2、Ovis2.6-30B-A3B、MinerU2.5、HunyuanOCR、FD-RL、DeepSeek-OCR-2、MonkeyOCR-pro-3B、OCRVerse、dots.ocr、Dolphin-v2、MonkeyOCR-Pro-3B、POINTS-Reader、Gemini-3 Flash、Gemini-3 Pro、Kimi 2.5、GPT5.2、GPT-4o、InternVL3.5、GLM-OCR、OpenDoc 和 Mathpix 的模型评测结果，新增了上述榜单模型的推理代码。
 
 [2025/11/04] 增加docker运行环境，包含评测环境和CDM环境。
 
@@ -531,7 +531,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>89.17</td>
             <td>0.049</td>
             <td>86.85</td>
-            <td>85.57</td>
+            <td>85.60</td>
             <td>90.06</td>
             <td>0.060</td>
         </tr>
