@@ -70,7 +70,7 @@ class DetectionDataset():
             else:
                 class_name = item['category_type']
 
-            if class_name in label_classes_level.get('block_level'):
+            if class_name in label_classes_level.get('block_level', []):
                 bbox = poly2bbox(item['poly'])
                 bboxes.append(bbox)
                 labels.append(label_classes.index(class_name))
@@ -85,7 +85,7 @@ class DetectionDataset():
                 else:
                     class_name = span['category_type']
 
-                if class_name in label_classes_level.get('span_level'):
+                if class_name in label_classes_level.get('span_level', []):
                     bbox = poly2bbox(span['poly'])
                     bboxes.append(bbox)
                     labels.append(label_classes.index(class_name))

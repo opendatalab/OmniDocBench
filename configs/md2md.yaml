@@ -3,12 +3,12 @@ end2end_eval:
     text_block:
       metric:
         - Edit_dist
-        - METEOR
-        - BLEU
+        # - METEOR
+        # - BLEU
     display_formula:
       metric:
         - Edit_dist
-        - CDM
+        - CDM_plain
     table:
       metric:
         - TEDS
@@ -22,6 +22,6 @@ end2end_eval:
       data_path: ./demo_data/omnidocbench_demo/mds
       page_info: ./demo_data/omnidocbench_demo/OmniDocBench_demo.json
     prediction:
-      data_path: ../demo_data/end2end
+      data_path: ./demo_data/end2end
     match_method: quick_match
     

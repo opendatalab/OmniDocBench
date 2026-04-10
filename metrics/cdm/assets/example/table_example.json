@@ -1,0 +1,10 @@
+[
+    {
+        "pred": "\\begin{tabular}{cccc}Property&Value\\\\ \\hline$e^{min}_c$&0.069\\\\ $e^{min}_d$&0.074\\\\ $e^{max}_c$&0.39\\\\ $e^{max}_d$&0.365\\\\ $\\epsilon$&0.17\\\\ $i^{min}_c$&$16.0^\\circ$\\\\ $i^{min}_d$&$11.6^\\circ$\\\\ $i^{max}_c$&$20.4^\\circ$\\\\ $i^{max}_d$&$16.7^\\circ$\\\\ $\\Psi^{min}$&$27.6^\\circ$\\\\ $\\Psi^{max}$&$37.1^\\circ$\\\\ $\\beta/\\beta_{crit}$&1.075\\\\ \\end{tabular} ",
+        "gt": "\\begin{tabular}{cc}Property&Value\\\\\\hline$e^{min}_c$&0.069\\\\$e^{min}_d$&0.074\\\\$e^{max}_c$&0.39\\\\$e^{max}_d$&0.365\\\\$\\epsilon$&0.17\\\\$i^{min}_c$&$16.0^\\circ$\\\\$i^{min}_d$&$11.6^\\circ$\\\\$i^{max}_c$&$20.4^\\circ$\\\\$i^{max}_d$&$16.7^\\circ$\\\\$\\Psi^{min}$&$27.6^\\circ$\\\\$\\Psi^{max}$&$37.1^\\circ$\\\\$\\beta/\\beta_{crit}$&1.075\\\\ \\end{tabular}\n"
+    },
+    {
+        "pred": "\\begin{tabular}{l r r r r}\\hline Element&\\multicolumn{2}{c}{fully convective}&\\multicolumn{2}{c}{convective at$\\tau_{\\rm R}=3.2$}\\\\ &$\\log\\tau_{\\rm diff}$[yrs]&$\\dot{m}$[g\\,s$^{-1}$]&$\\log\\tau_{\\rm diff}$[yrs]&$\\dot{m}$[g\\,s$^{-1}$]\\\\ \\hline$12$Mg&$-0.46$&$1.7\\times10^8$&$-2.2$&$7.3\\times10^7$\\\\ $14$Si&$-0.36$&$\\leq2.5\\times10^8$&$-2.5$&$\\leq2.9\\times10^8$\\\\ $20$Ca&$-0.37$&$7.2\\times10^6$&$-2.3$&$5.0\\times10^6$\\\\ \\hline\\end{tabular} ",
+        "gt": "\\begin{tabular}{lrrrr}\\hline\nElement&\\multicolumn{2}{c}{fully convective}&\\multicolumn{2}{c}{convective at$\\tau_\\mathrm{R}=3.2$}\\\\ &$\\log\\tau_\\mathrm{diff}$[yrs]&$\\dot m~[\\mathrm{g\\,s^{-1}}]$&$\\log\\tau_\\mathrm{diff}$[yrs]&$\\dot m~[\\mathrm{g\\,s^{-1}}]$\\\\\\hline12Mg&$-0.46$&$1.7\\times10^8$&$-2.2$&$7.3\\times10^7$\\\\14Si&$-0.36$&$\\leq2.5\\times10^8$&$-2.5$&$\\leq2.9\\times10^8$\\\\20Ca&$-0.37$&$7.2\\times10^6$&$-2.3$&$5.0\\times10^6$\\\\\\hline\\end{tabular}\n"
+    }
+]

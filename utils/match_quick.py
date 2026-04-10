@@ -10,10 +10,269 @@ import evaluate
 from collections import Counter
 from Levenshtein import distance as Levenshtein_distance
 
+import re
+from copy import deepcopy
+from typing import List, Dict, Any
 
+# ARRAY_RE = re.compile(
+#     r'\\begin\{array\}\{[^}]*\}(.*?)\\end\{array\}', re.S
+# )
+
+# def split_gt_equation_arrays(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+#     """
+#     拆分带 \\begin{array} … \\end{array} 的 GT 字典条目。
+
+#     - 仅针对 category_type == 'equation_isolated' 且 latex 含 array。
+#     - 每行公式拆出一个新条目：
+#         * 更新 'latex'
+#         * 若存在 line_with_spans，则同步替换其内部 latex
+#         * 'order' 由 7 --> 7.1, 7.2, …
+#     """
+#     output = []
+
+#     for item in data:
+#         # 只处理满足条件的字典
+#         if (item.get("category_type") == "equation_isolated" and
+#                 "\\begin{array" in item.get("latex", "")):
+
+#             # 抽取 array 内部内容
+#             match = ARRAY_RE.search(item["latex"])
+#             if match:
+#                 body = match.group(1)           # 去掉 array 外壳
+#                 # 按 LaTeX 行分隔符 \\\\ 拆分
+#                 lines = [ln.strip() for ln in re.split(r'\\\\', body) if ln.strip()]
+
+#                 base_order = float(item["order"])  # 7 -> 7.0，可兼容 float/int
+
+#                 for idx, line in enumerate(lines, start=1):
+#                     new_item = deepcopy(item)
+#                     new_item["latex"] = f"\\[{line}\\]"
+#                     new_item["order"] = round(base_order + idx / 10, 1)
+#                     output.append(new_item)
+#                 continue  # 跳过把原 item 加入
+#         # 其它情况不修改
+#         output.append(item)
+
+#     return output
+
+# def _wrap(line: str) -> str:
+#     """给单行公式重新包 \\[ ... \\]"""
+#     return f"\\[{line.strip()}\\]"
+
+# def split_equation_arrays(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+#     """
+#     处理 category_type == 'equation_isolated' 且含 \\begin{array} … 的条目：
+#     * 拆分多行公式
+#     * 重新包装 content
+#     * **重计算 position / positions**
+#     """
+#     out: List[Dict[str, Any]] = []
+
+#     for item in data:
+#         if (item.get("category_type") == "equation_isolated" and
+#                 "\\begin{array" in item.get("content", "")):
+
+#             content = item["content"]
+#             m = ARRAY_RE.search(content)
+#             if not m:
+#                 out.append(item)
+#                 continue
+
+#             body = m.group(1)
+#             lines = [ln.strip() for ln in re.split(r'\\\\', body) if ln.strip()]
+
+#             # 全局起始字符索引
+#             pos_key = "position" if "position" in item else "positions"
+#             global_start = item[pos_key][0]
+
+#             # array 正文在原 content 内的起点
+#             body_start_in_content = m.start(1)
+
+#             search_from = 0  # 在 body 中的游标
+#             for ln in lines:
+#                 # 在 body 中找到当前行的偏移
+#                 idx_in_body = body.find(ln, search_from)
+#                 if idx_in_body == -1:
+#                     # 不太可能发生；保守处理
+#                     idx_in_body = search_from
+#                 search_from = idx_in_body + len(ln)  # 更新游标
+
+#                 # 计算全局索引
+#                 line_start_global = global_start + body_start_in_content + idx_in_body
+#                 line_end_global   = line_start_global + len(ln) - 1
+
+#                 new_item = deepcopy(item)
+#                 new_item["content"] = _wrap(ln)
+#                 new_item[pos_key]   = [line_start_global, line_end_global]
+
+#                 out.append(new_item)
+
+#             # 拆分完成，不保留原条目
+#             continue
+
+#         # 其它条目直接加入
+#         out.append(item)
+
+#     return out
+
+ARRAY_RE = re.compile(
+    r'\\begin\{array\}\{(?P<spec>[^}]*)\}(?P<body>.*?)\\end\{array\}',
+    re.S
+)
+
+def is_all_l(spec: str) -> bool:
+    """检查是否为单列array格式，用于排除矩阵等多列格式。这个函数只拆分单列的array"""
+    spec = re.sub(r'\s+|\|', '', spec)          # 删空白与竖线
+    spec = re.sub(r'@{[^}]*}', '', spec)        # 删 @{…} 修饰
+    spec = re.sub(r'!{[^}]*}', '', spec)        # 删 !{…} 修饰
+    # 检查是否为单列基本对齐格式：l, c, r
+    return bool(spec) and len(spec) == 1 and spec in {'l', 'c', 'r'}
+
+# def is_all_l(spec: str) -> bool:
+#     """忽略空格 / 竖线 / @{…} 之后，判断列格式是否只剩基本对齐格式。这个函数会将多行多列的array按行拆分"""
+#     spec = re.sub(r'\s+|\|', '', spec)          # 删空白与竖线
+#     spec = re.sub(r'@{[^}]*}', '', spec)        # 删 @{…} 修饰
+#     spec = re.sub(r'!{[^}]*}', '', spec)        # 删 !{…} 修饰
+#     # 检查是否只包含基本对齐格式：l, c, r
+#     return bool(spec) and set(spec) <= {'l', 'c', 'r'}
+
+def split_gt_equation_arrays(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    拆分带 \\begin{array} … \\end{array} 的 GT 字典条目。
+
+    - 仅针对 category_type == 'equation_isolated' 且 latex 含 array。
+    - 每行公式拆出一个新条目：
+        * 更新 'latex'
+        * 若存在 line_with_spans，则同步替换其内部 latex
+        * 'order' 由 7 --> 7.1, 7.2, …
+    """
+    output = []
+
+    for item in data:
+        # 只处理满足条件的字典
+        if (item.get("category_type") == "equation_isolated" and
+                "\\begin{array" in item.get("latex", "")):
+
+            # 抽取 array 内部内容
+            match = ARRAY_RE.search(item["latex"])
+            if match:
+
+                spec = match.group("spec")
+                if not is_all_l(spec):
+                    # 若列里混有 r / c / p{…} 等，直接保留原条目
+                    output.append(item)
+                    continue
+                
+                body  = match.group("body")
+                # body = match.group(1)           # 去掉 array 外壳
+                # 按 LaTeX 行分隔符 \\\\ 拆分
+                lines = [ln.strip() for ln in re.split(r'\\\\', body) if ln.strip()]
+
+                base_order = float(item["order"])  # 7 -> 7.0，可兼容 float/int
+
+                for idx, line in enumerate(lines, start=1):
+                    new_item = deepcopy(item)
+                    new_item["latex"] = f"\\[{line}\\]"
+                    new_item["order"] = round(base_order + idx / 10, 1)
+                    output.append(new_item)
+                continue  # 跳过把原 item 加入
+        # 其它情况不修改
+        output.append(item)
+
+    return output
+
+def _wrap(line: str) -> str:
+    """给单行公式重新包 \\[ ... \\]"""
+    return f"\\[{line.strip()}\\]"
+
+def split_equation_arrays(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    处理 category_type == 'equation_isolated' 且含 \\begin{array} … 的条目：
+    * 拆分多行公式
+    * 重新包装 content
+    * **重计算 position / positions**
+    """
+    out: List[Dict[str, Any]] = []
+
+    for item in data:
+        if (item.get("category_type") == "equation_isolated" and
+                "\\begin{array" in item.get("content", "")):
+
+            content = item["content"]
+            m = ARRAY_RE.search(content)
+            if not m:
+                out.append(item)
+                continue
+
+            if not is_all_l(m.group('spec')):
+                out.append(item)
+                continue
+            
+            # body = m.group(1)
+            body = m.group('body')
+            lines = [ln.strip() for ln in re.split(r'\\\\', body) if ln.strip()]
+
+            # 全局起始字符索引
+            pos_key = "position" if "position" in item else "positions"
+            global_start = item[pos_key][0]
+
+            # array 正文在原 content 内的起点
+            # body_start_in_content = m.start(1)
+            body_start_in_content = m.start('body')
+
+            search_from = 0  # 在 body 中的游标
+            for ln in lines:
+                # 在 body 中找到当前行的偏移
+                idx_in_body = body.find(ln, search_from)
+                if idx_in_body == -1:
+                    # 不太可能发生；保守处理
+                    idx_in_body = search_from
+                search_from = idx_in_body + len(ln)  # 更新游标
+
+                # 计算全局索引
+                line_start_global = global_start + body_start_in_content + idx_in_body
+                line_end_global   = line_start_global + len(ln) - 1
+
+                new_item = deepcopy(item)
+                new_item["content"] = _wrap(ln)
+                new_item[pos_key]   = [line_start_global, line_end_global]
+
+                out.append(new_item)
+
+            # 拆分完成，不保留原条目
+            continue
+
+        # 其它条目直接加入
+        out.append(item)
+
+    return out
+
+def sort_by_position_skip_inline(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    先按 position[0] 从小到大排序；
+    若 fine_category_type == 'equation_inline'，则统一放到最后，
+    并保持它们在原列表中的相对顺序（稳定排序）。
+    """
+    # enumerate 保留原始顺序索引，用于 equation_inline “并列时” 的稳定性
+    return sorted(
+        enumerate(items),
+        key=lambda pair: (
+            pair[1].get('fine_category_type') == 'equation_inline',  # False < True
+            pair[1]['position'][0],                                   # 位置起点
+            pair[0]                                                   # 原序号，确保稳定
+        )
+    )
 def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
 
-    gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines= get_gt_pred_lines(gt_items, pred_items, line_type)
+    gt_items = split_gt_equation_arrays(gt_items)
+    
+    # pred_items = sorted(pred_items, key=lambda x: x['position'][0])
+    pred_items = [pair[1] for pair in sort_by_position_skip_inline(pred_items)]
+
+    pred_items = split_equation_arrays(pred_items)
+
+    # gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines= get_gt_pred_lines(gt_items, pred_items, line_type)
+    gt_lines, norm_gt_lines, gt_cat_list, pred_lines, norm_pred_lines, gt_items, pred_items = get_gt_pred_lines(gt_items, pred_items, None)
     all_gt_indices = set(range(len(norm_gt_lines)))  
     all_pred_indices = set(range(len(norm_pred_lines)))  
     
@@ -25,7 +284,7 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
                 'gt': "",
                 'pred_idx': [pred_idx],
                 'pred': pred_lines[pred_idx],
-                'gt_position': "",
+                'gt_position': [""],
                 'pred_position': pred_items[pred_idx]['position'][0],
                 'norm_gt': "",
                 'norm_pred': norm_pred_lines[pred_idx],
@@ -73,49 +332,326 @@ def match_gt2pred_quick(gt_items, pred_items, line_type, img_name):
             'edit': normalized_edit_distance,
             'img_id': img_name
         }]
- 
-    cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
     
-    matched_col_idx, row_ind, cost_list = cal_final_match(cost_matrix, norm_gt_lines, norm_pred_lines)
+    # match category ignore first
+    ignores = ['figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 
+               'code_algorithm_caption', 'header', 'footer', 'page_footnote', 'page_number', 'equation_caption']
     
-    gt_lens_dict, pred_lens_dict = initialize_indices(norm_gt_lines, norm_pred_lines)
+    ignore_gt_lines = []
+    ignores_ori_gt_lines= []
+    ignores_gt_items = []
+    ignore_gt_idxs = []
+    ignores_gt_cat_list = []
     
-    matches, unmatched_gt_indices, unmatched_pred_indices = process_matches(matched_col_idx, row_ind, cost_list, norm_gt_lines, norm_pred_lines, pred_lines)
-    
-    matching_dict = fuzzy_match_unmatched_items(unmatched_gt_indices, norm_gt_lines, norm_pred_lines)
-    
-    final_matches = merge_matches(matches, matching_dict)
-    
-    recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_pred_lines)
-    
-    converted_results = convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines)
-    
-    merged_results = merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, gt_lines, pred_lines, all_gt_indices, all_pred_indices)
+    no_ignores_gt_lines = []
+    no_ignores_ori_gt_lines = []
+    no_ignores_gt_idxs = []
+    no_ignores_gt_items = []
+    no_ignores_gt_cat_list = []
 
-    for entry in merged_results:
+    for i, line in enumerate(norm_gt_lines):
+        if gt_cat_list[i] in ignores:
+            ignore_gt_lines.append(line)
+            ignores_ori_gt_lines.append(gt_lines[i])
+            ignores_gt_items.append(gt_items[i])
+            ignore_gt_idxs.append(i)
+            ignores_gt_cat_list.append(gt_cat_list[i])
+        else:
+            no_ignores_gt_lines.append(line)
+            no_ignores_ori_gt_lines.append(gt_lines[i])
+            no_ignores_gt_items.append(gt_items[i])
+            no_ignores_gt_cat_list.append(gt_cat_list[i])
+            no_ignores_gt_idxs.append(i)
+
+    # print("-------------ignore_gt_lines-------------------")
+    # for idx, line in zip(ignore_idx,ignore_gt_lines):
+    #     print(f"{gt_cat_list[idx]}: {line}")
+    
+    # print("-------------no_ignores_gt_lines-------------------")
+    # for line in no_ignores_gt_lines:
+    #     print(line)
+
+    ignore_pred_idxs = []
+    ignore_pred_lines = []
+    ignores_pred_items = []
+    ignores_ori_pred_lines = []
+
+    merged_ignore_results = []
+
+    if len(ignore_gt_lines) > 0:
+        
+        ignore_matches_dict = {}
+
+        ignore_matrix = compute_edit_distance_matrix_new(ignore_gt_lines, norm_pred_lines)
+        # print("-------------ignore_matrix-------------")
+        # print(ignore_matrix)
+        
+        ignores_gt_indices = set(range(len(ignore_gt_lines)))  
+        ignores_pred_indices = set(range(len(ignore_pred_lines)))
+
+        ignore_matches = np.argwhere(ignore_matrix < 0.25) 
+        # print("-------------ignore_matches-------------")
+        # print(ignore_matches)
+        if len(ignore_matches) > 0:
+            ignore_pred_idxs = [_[1] for _ in ignore_matches]
+            ignore_gt_matched_idxs = [ignore_gt_idxs[_[0]] for _ in ignore_matches]
+            # print("-------------ignore_pred_idxs-------------")
+            # print(ignore_pred_idxs)
+            # print("-------------ignore_gt_matched_idxs-------------")
+            # print(ignore_gt_matched_idxs)
+
+            for i in ignore_pred_idxs:
+                ignore_pred_lines.append(norm_pred_lines[i])
+                ignores_ori_pred_lines.append(pred_lines[i])
+                ignores_pred_items.append(pred_items[i])
+            # print("-------------ignore_pred_lines-------------")
+            # for i in ignore_pred_lines:
+            #     print(i)
+
+                ignores_gt_indices = set(range(len(ignore_gt_lines)))  
+                ignores_pred_indices = set(range(len(ignore_pred_lines))) 
+
+            for idx, i in enumerate(ignore_matches):
+                ignore_matches_dict[i[0]] = {
+                    'pred_indices': [idx],
+                    'edit_distance': ignore_matrix[i[0]][i[1]]
+                }
+            # print("-------------ignore_matches_dict-------------")
+            # print(ignore_matches_dict)
+
+        ignore_final_matches = merge_matches(ignore_matches_dict, {})
+        # print("-------------ignore_final_matches-------------")
+        # print(ignore_final_matches)
+        
+        recalculate_edit_distances(ignore_final_matches, {}, ignore_gt_lines, ignore_pred_lines)
+        # print("-------------recalculate_ignore_final_matches-------------")
+        # print(ignore_final_matches)
+
+        converted_ignore_results = convert_final_matches(ignore_final_matches, ignore_gt_lines, ignore_pred_lines)
+        # print("-------------converted_ignore_results-------------")
+        # for i in converted_ignore_results:
+        #     print(i)
+            
+        merged_ignore_results = merge_duplicates_add_unmatched(converted_ignore_results, ignore_gt_lines, ignore_pred_lines, ignores_ori_gt_lines, ignores_ori_pred_lines, ignores_gt_indices, ignores_pred_indices)
+
+        for entry in merged_ignore_results:
             entry['gt_idx'] = [entry['gt_idx']] if not isinstance(entry['gt_idx'], list) else entry['gt_idx']
             entry['pred_idx'] = [entry['pred_idx']] if not isinstance(entry['pred_idx'], list) else entry['pred_idx']
-            entry['gt_position'] = [gt_items[_].get('order') if gt_items[_].get('order') else gt_items[_].get('position', [""])[0] for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [""]
-            entry['pred_position'] = pred_items[entry['pred_idx'][0]]['position'][0] if entry['pred_idx'] != [""] else "" 
-            entry['gt'] = ''.join([gt_lines[_] for _ in entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
-            entry['pred'] = ''.join([pred_lines[_] for _ in entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
-            entry['norm_gt'] = ''.join([norm_gt_lines[_] for _ in entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
-            entry['norm_pred'] = ''.join([norm_pred_lines[_] for _ in entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
+            entry['gt_position'] = [ignores_gt_items[_].get('order') if ignores_gt_items[_].get('order') else ignores_gt_items[_].get('position', [""])[0] for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [""]
+            entry['pred_position'] = ignores_pred_items[entry['pred_idx'][0]]['position'][0] if entry['pred_idx'] != [""] else "" 
+            entry['gt'] = ''.join([ignores_ori_gt_lines[_] for _ in entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
+            entry['pred'] = ''.join([ignores_ori_pred_lines[_] for _ in entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
+            entry['norm_gt'] = ''.join([ignore_gt_lines[_] for _ in entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
+            entry['norm_pred'] = ''.join([ignore_pred_lines[_] for _ in entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
 
             if entry['gt_idx'] != [""]:
                 ignore_type = ['figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption', 'header', 'footer', 'page_footnote', 'page_number', 'equation_caption']
-                gt_cagegory_clean = [gt_cat_list[_] for _ in entry['gt_idx'] if gt_cat_list[_] not in ignore_type] 
+                gt_cagegory_clean = [ignores_gt_cat_list[_] for _ in entry['gt_idx'] if ignores_gt_cat_list[_] not in ignore_type] 
                 if gt_cagegory_clean:
                     entry['gt_category_type'] = Counter(gt_cagegory_clean).most_common(1)[0][0] 
                 else:
-                    entry['gt_category_type'] = Counter([gt_cat_list[_] for _ in entry['gt_idx']]).most_common(1)[0][0] 
+                    entry['gt_category_type'] = Counter([ignores_gt_cat_list[_] for _ in entry['gt_idx']]).most_common(1)[0][0] 
             else:
                 entry['gt_category_type'] = ""
-            entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], pred_items) if entry['pred_idx'] != [""] else ""
-            entry['gt_attribute'] = [gt_items[_].get("attribute", {}) for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [{}] 
+                entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], ignores_pred_items) if entry['pred_idx'] != [""] else ""
+                if entry['pred_category_type'] == 'equation_inline':
+                    merged_ignore_results.remove(entry)
+            entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], ignores_pred_items) if entry['pred_idx'] != [""] else ""
+            entry['gt_attribute'] = [ignores_gt_items[_].get("attribute", {}) for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [{}] 
             entry['img_id'] = img_name
         
+        for entry in merged_ignore_results:
+            if isinstance(entry['gt_idx'], list) and entry['gt_idx'] != [""]:
+                gt_idx = []
+                for i in entry['gt_idx']:
+                    gt_idx.append(ignore_gt_idxs[i])
+                entry['gt_idx'] = gt_idx
+            if isinstance(entry['pred_idx'], list) and entry['pred_idx'] != [""]:
+                pred_idx = []
+                for i in entry['pred_idx']:
+                    pred_idx.append(int(ignore_pred_idxs[i]))
+                entry['pred_idx'] = pred_idx
+
+        # print("-------------merged_ignore_results-------------")
+        # for i in merged_ignore_results:
+        #     print(i)
+
+    no_ignores_pred_lines = []
+    no_ignores_ori_pred_lines = []
+    no_ignores_pred_indices = []
+    no_ignores_pred_items = []
+    no_ignore_pred_idxs = []
+
+    for idx, line in enumerate(norm_pred_lines):
+        if not idx in ignore_pred_idxs:
+            no_ignores_pred_lines.append(line)
+            no_ignores_ori_pred_lines.append(pred_lines[idx])
+            # no_ignores_pred_indices.append(idx)
+            no_ignores_pred_items.append(pred_items[idx])
+            no_ignore_pred_idxs.append(idx)
+    
+    # initialize new indices for lines without ignore categories
+    no_ignores_gt_indices = set(range(len(no_ignores_gt_lines)))  
+    no_ignores_pred_indices = set(range(len(no_ignores_pred_lines)))  
+    
+    # exclude ignore categories
+    cost_matrix = compute_edit_distance_matrix_new(no_ignores_gt_lines, no_ignores_pred_lines)
+    # print("-------------cost matrix-------------")
+    # print(cost_matrix)
+
+    matched_col_idx, row_ind, cost_list = cal_final_match(cost_matrix, no_ignores_gt_lines, no_ignores_pred_lines)
+    # print("-------------matched_col_idx-------------")
+    # print(matched_col_idx)
+    
+    # print("-------------gt_row_ind-------------")
+    # print(row_ind)
+
+    # print("-------------cost_list-------------")
+    # print(cost_list)
+        
+    gt_lens_dict, pred_lens_dict = initialize_indices(no_ignores_gt_lines, no_ignores_pred_lines)
+    # print("-------------gt_lens_dict-------------")
+    # print(gt_lens_dict)
+
+    # print("-------------pred_lens_dict-------------")
+    # print(pred_lens_dict)
+    
+    matches, unmatched_gt_indices, unmatched_pred_indices = process_matches(matched_col_idx, row_ind, cost_list, no_ignores_gt_lines, no_ignores_pred_lines, no_ignores_ori_pred_lines)
+
+    # print("-------------matches-------------")
+    # print(matches)
+
+    # print("-------------unmatched_gt_indices-------------")
+    # print(unmatched_gt_indices)
+
+    # print("-------------unmatched_pred_indices-------------")
+    # print(unmatched_pred_indices)
+    
+    matching_dict = fuzzy_match_unmatched_items(unmatched_gt_indices, no_ignores_gt_lines, no_ignores_pred_lines)
+    # print("-------------matching_dict-------------")
+    # print(matching_dict)
+    
+    final_matches = merge_matches(matches, matching_dict)
+    # print("-------------final_matches-------------")
+    # print(final_matches)
+
+    recalculate_edit_distances(final_matches, gt_lens_dict, no_ignores_gt_lines, no_ignores_pred_lines)
+    # print("-------------recalculate_edit_distances-------------")
+    # print(final_matches)
+    
+    converted_results = convert_final_matches(final_matches, no_ignores_gt_lines, no_ignores_pred_lines)
+    # print("-------------converted_results-------------")
+    # print(converted_results)
+    
+    merged_results = merge_duplicates_add_unmatched(converted_results, no_ignores_gt_lines, no_ignores_pred_lines, no_ignores_ori_gt_lines, no_ignores_ori_pred_lines, no_ignores_gt_indices, no_ignores_pred_indices)
+
+    for entry in merged_results:
+        if entry['gt_idx'] != [""]:
+            ignore_type = ['figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption', 'header', 'footer', 'page_footnote', 'page_number', 'equation_caption']
+            gt_cagegory_clean = [no_ignores_gt_cat_list[_] for _ in entry['gt_idx'] if no_ignores_gt_cat_list[_] not in ignore_type] 
+            if gt_cagegory_clean:
+                entry['gt_category_type'] = Counter(gt_cagegory_clean).most_common(1)[0][0] 
+            else:
+                entry['gt_category_type'] = Counter([no_ignores_gt_cat_list[_] for _ in entry['gt_idx']]).most_common(1)[0][0] 
+        else:
+            entry['gt_category_type'] = ""
+            entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], no_ignores_pred_items) if entry['pred_idx'] != [""] else ""
+            if entry['pred_category_type'] == 'equation_inline':
+                merged_results.remove(entry)
+
+
+        entry['gt_idx'] = [entry['gt_idx']] if not isinstance(entry['gt_idx'], list) else entry['gt_idx']
+        entry['pred_idx'] = [entry['pred_idx']] if not isinstance(entry['pred_idx'], list) else entry['pred_idx']
+        entry['gt_position'] = [no_ignores_gt_items[_].get('order') if no_ignores_gt_items[_].get('order') else no_ignores_gt_items[_].get('position', [""])[0] for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [""]
+        entry['pred_position'] = no_ignores_pred_items[entry['pred_idx'][0]]['position'][0] if entry['pred_idx'] != [""] else "" 
+        #  0507 多行公式拼接修改
+        if entry['gt_category_type'] == 'equation_isolated' and len(entry['gt_idx']) > 1:
+            mutli_formula  = ' \\\\ '.join(['{'+no_ignores_ori_gt_lines[_].strip('$$').strip('\n')+'}' for _ in  entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
+            mutli_formula = '\\begin{array}{l} ' + mutli_formula + ' \end{array}'
+            entry['gt'] = mutli_formula
+        else:
+            entry['gt'] = ''.join([no_ignores_ori_gt_lines[_] for _ in entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
+
+        entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], no_ignores_pred_items) if entry['pred_idx'] != [""] else ""
+        entry['gt_attribute'] = [no_ignores_gt_items[_].get("attribute", {}) for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [{}] 
+        entry['img_id'] = img_name
+        
+        #  0724 多行公式拼接修改pred
+        if 'equation' in entry['pred_category_type'] and len(entry['pred_idx']) > 1:
+            mutli_formula  = ' \\\\ '.join(['{'+no_ignores_ori_pred_lines[_].strip('$$').strip('\n')+'}' for _ in  entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
+            mutli_formula = '\\begin{array}{l} ' + mutli_formula + ' \end{array}'
+            entry['pred'] = mutli_formula
+        else:
+            entry['pred'] = ''.join([no_ignores_ori_pred_lines[_] for _ in entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
+
+        entry['norm_gt'] = ''.join([no_ignores_gt_lines[_] for _ in entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
+        entry['norm_pred'] = ''.join([no_ignores_pred_lines[_] for _ in entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
+
+    
+    # print("-------------merged_results-------------")
+    # for i in merged_results:
+    #     print(i)
+    for entry in merged_results:
+        if isinstance(entry['gt_idx'], list) and entry['gt_idx'] != [""]:
+            gt_idx = []
+            for i in entry['gt_idx']:
+                gt_idx.append(no_ignores_gt_idxs[i])
+            entry['gt_idx'] = gt_idx
+        if isinstance(entry['pred_idx'], list) and entry['pred_idx'] != [""]:
+            pred_idx = []
+            for i in entry['pred_idx']:
+                pred_idx.append(int(no_ignore_pred_idxs[i]))
+            entry['pred_idx'] = pred_idx
+
+    if len(merged_ignore_results) > 0:
+        merged_results.extend(merged_ignore_results)
+        # for i in merged_ignore_results:
+        #     merged_results.append(i)
+
     return merged_results
+
+    # cost_matrix = compute_edit_distance_matrix_new(norm_gt_lines, norm_pred_lines)
+    
+    # matched_col_idx, row_ind, cost_list = cal_final_match(cost_matrix, norm_gt_lines, norm_pred_lines)
+    
+    # gt_lens_dict, pred_lens_dict = initialize_indices(norm_gt_lines, norm_pred_lines)
+    
+    # matches, unmatched_gt_indices, unmatched_pred_indices = process_matches(matched_col_idx, row_ind, cost_list, norm_gt_lines, norm_pred_lines, pred_lines)
+    
+    # matching_dict = fuzzy_match_unmatched_items(unmatched_gt_indices, norm_gt_lines, norm_pred_lines)
+    
+    # final_matches = merge_matches(matches, matching_dict)
+    
+    # recalculate_edit_distances(final_matches, gt_lens_dict, norm_gt_lines, norm_pred_lines)
+    
+    # converted_results = convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines)
+    
+    # merged_results = merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, gt_lines, pred_lines, all_gt_indices, all_pred_indices)
+
+    # for entry in merged_results:
+    #         entry['gt_idx'] = [entry['gt_idx']] if not isinstance(entry['gt_idx'], list) else entry['gt_idx']
+    #         entry['pred_idx'] = [entry['pred_idx']] if not isinstance(entry['pred_idx'], list) else entry['pred_idx']
+    #         entry['gt_position'] = [gt_items[_].get('order') if gt_items[_].get('order') else gt_items[_].get('position', [""])[0] for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [""]
+    #         entry['pred_position'] = pred_items[entry['pred_idx'][0]]['position'][0] if entry['pred_idx'] != [""] else "" 
+    #         entry['gt'] = ''.join([gt_lines[_] for _ in entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
+    #         entry['pred'] = ''.join([pred_lines[_] for _ in entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
+    #         entry['norm_gt'] = ''.join([norm_gt_lines[_] for _ in entry['gt_idx']]) if entry['gt_idx'] != [""] else ""
+    #         entry['norm_pred'] = ''.join([norm_pred_lines[_] for _ in entry['pred_idx']]) if entry['pred_idx'] != [""] else ""
+
+    #         if entry['gt_idx'] != [""]:
+    #             ignore_type = ['figure_caption', 'figure_footnote', 'table_caption', 'table_footnote', 'code_algorithm', 'code_algorithm_caption', 'header', 'footer', 'page_footnote', 'page_number', 'equation_caption']
+    #             gt_cagegory_clean = [gt_cat_list[_] for _ in entry['gt_idx'] if gt_cat_list[_] not in ignore_type] 
+    #             if gt_cagegory_clean:
+    #                 entry['gt_category_type'] = Counter(gt_cagegory_clean).most_common(1)[0][0] 
+    #             else:
+    #                 entry['gt_category_type'] = Counter([gt_cat_list[_] for _ in entry['gt_idx']]).most_common(1)[0][0] 
+    #         else:
+    #             entry['gt_category_type'] = ""
+    #         entry['pred_category_type'] = get_pred_category_type(entry['pred_idx'][0], pred_items) if entry['pred_idx'] != [""] else ""
+    #         entry['gt_attribute'] = [gt_items[_].get("attribute", {}) for _ in entry['gt_idx']] if entry['gt_idx'] != [""] else [{}] 
+    #         entry['img_id'] = img_name
+        
+    # return merged_results
 
 
 def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_lines, gt_lines, pred_lines, all_gt_indices, all_pred_indices):
@@ -402,7 +938,7 @@ def cal_move_dist(gt, pred):
     return step / len(gt)
 
 def cal_final_match(cost_matrix, norm_gt_lines, norm_pred_lines):
-    min_indice = cost_matrix.argmax(axis=1)
+    # min_indice = cost_matrix.argmax(axis=1)
 
     new_cost_matrix, final_norm_pred_lines, final_pred_idx_list = deal_with_truncated(cost_matrix, norm_gt_lines, norm_pred_lines)
 
@@ -579,7 +1115,8 @@ def convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines):
     if unmatched_pred_indices:
         if unmatched_gt_indices:
             distance_matrix = [
-                [Levenshtein_distance(norm_gt_lines[gt_idx], norm_pred_lines[pred_idx]) for pred_idx in unmatched_pred_indices]
+                # [Levenshtein_distance(norm_gt_lines[gt_idx], norm_pred_lines[pred_idx]) for pred_idx in unmatched_pred_indices]
+                [Levenshtein_distance(norm_gt_lines[gt_idx], norm_pred_lines[pred_idx])/max(len(norm_gt_lines[gt_idx]), len(norm_pred_lines[pred_idx])) for pred_idx in unmatched_pred_indices]
                 for gt_idx in unmatched_gt_indices
             ]
 
@@ -619,4 +1156,3 @@ def convert_final_matches(final_matches, norm_gt_lines, norm_pred_lines):
             converted_results.append(result_entry)
 
     return converted_results
-

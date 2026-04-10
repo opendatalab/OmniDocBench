@@ -8,7 +8,7 @@ end2end_eval:
     display_formula:
       metric:
         - Edit_dist
-        - CDM
+        - CDM_plain  # CDM can be calculated directly by calling CDM in config file if you have CDM environment
     table:
       metric:
         - TEDS

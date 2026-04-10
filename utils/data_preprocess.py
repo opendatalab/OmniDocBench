@@ -10,6 +10,8 @@ import os
 
 def remove_markdown_fences(content):
     content = re.sub(r'^```markdown\n?', '', content, flags=re.MULTILINE)
+    content = re.sub(r'^```html\n?', '', content, flags=re.MULTILINE)
+    content = re.sub(r'^```latex\n?', '', content, flags=re.MULTILINE)
     content = re.sub(r'```\n?$', '', content, flags=re.MULTILINE)
     return content
 
@@ -17,7 +19,8 @@ def remove_markdown_fences(content):
 def replace_repeated_chars(input_str):
     input_str = re.sub(r'_{4,}', '____', input_str) # Replace more than 4 consecutive underscores with 4 underscores
     input_str = re.sub(r' {4,}', '    ', input_str)   # Replace more than 4 consecutive spaces with 4 spaces
-    return re.sub(r'([^a-zA-Z0-9])\1{10,}', r'\1\1\1\1', input_str) # For other consecutive symbols (except numbers and letters), replace more than 10 occurrences with 4
+    return input_str
+    # return re.sub(r'([^a-zA-Z0-9])\1{10,}', r'\1\1\1\1', input_str) # For other consecutive symbols (except numbers and letters), replace more than 10 occurrences with 4
 
 # Special Unicode handling
 def fullwidth_to_halfwidth(s):
@@ -102,10 +105,11 @@ def normalized_formula(text):
                    '\\textbf', '\\text', '\\boldmath', '\\boldsymbol', '\\operatorname', '\\bm',
                    '\\symbfit', '\\mathbfcal', '\\symbf', '\\scriptscriptstyle', '\\notag',
                    '\\setlength', '\\coloneqq', '\\space', '\\thickspace', '\\thinspace', '\\medspace', '\\nobreakspace', '\\negmedspace',
-                   '\\quad', '\\qquad', '\\enspace', '\\substackw', ' ']
+                   '\\quad', '\\qquad', '\\enspace', '\\substackw', ' ', '$$', '\\left', '\\right', '\\displaystyle', '\\text']
                 #    '\\left', '\\right', '{', '}', ' ']
     
     # delimiter_filter
+    text = text.strip().strip('$').strip('\n')
     pattern = re.compile(r"\\\[(.+?)(?<!\\)\\\]")
     match = pattern.search(text)
 
@@ -442,6 +446,7 @@ def inline_filter(text):
 # Text OCR quality check processing:
 def clean_string(input_string):
     # Use regex to keep Chinese characters, English letters and numbers
+    # input_string = input_string.replace('\\t', '').replace('\\n', '').replace('\t', '').replace('\n', '').replace('/t', '').replace('/n', '')
     input_string = input_string.replace('\\t', '').replace('\\n', '').replace('\t', '').replace('\n', '').replace('/t', '').replace('/n', '')
-    cleaned_string = re.sub(r'[^\w\u4e00-\u9fff]', '', input_string)
+    cleaned_string = re.sub(r'[^\w\u4e00-\u9fff]', '', input_string)   # 只保留中英文和数字
     return cleaned_string

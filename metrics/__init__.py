@@ -9,6 +9,7 @@ __all__ = [
     "call_METEOR",
     "call_Edit_dist",
     "call_CDM",
+    "call_CDM_plain",
     "call_Move_dist"
 ]
 

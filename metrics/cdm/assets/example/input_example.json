@@ -1,0 +1,17 @@
+[
+    {
+        "img_id": "case_1",
+        "gt": "r = \\frac { \\alpha } { \\beta } \\vert \\sin \\beta \\left( \\sigma _ { 1 } \\pm \\sigma _ { 2 } \\right) \\vert",
+        "pred": "r={\\frac{\\alpha}{\\beta}}|\\sin\\beta\\left(\\sigma_{2}+\\sigma_{1}\\right)|"
+    },
+    {
+        "img_id": "case_2",
+        "gt": "y = 2z + 3x",
+        "pred": "y = 2x + 3z"
+    },
+    {
+        "img_id": "case_3",
+        "gt": "\\begin{array} { r l r } & { } & { \\mathbf { J } _ { L } = \\left( \\begin{array} { c c } { 0 } & { 0 } \\\\ { v _ { n } } & { 0 } \\end{array} \\right) , ~ \\mathbf { J } _ { R } = \\left( \\begin{array} { c c } { u _ { n - 1 } } & { 0 } \\\\ { 0 } & { 0 } \\end{array} \\right) , ~ } \\\\ & { } & { ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ \\mathbf { K } = \\left( \\begin{array} { c c } { V _ { n - 1 } } & { u _ { n } } \\\\ { v _ { n - 1 } } & { V _ { n } } \\end{array} \\right) , } \\end{array}",
+        "pred": "\\mathbf{J}_{R}={\\left(\\begin{array}{l l}{0}&{0}\\\\ {v_{n}}&{0}\\end{array}\\right)}\\,,\\ \\mathbf{J}_{L}={\\left(\\begin{array}{l l}{u_{n-1}}&{0}\\\\ {0}&{0}\\end{array}\\right)}\\,,\\mathbf{K}={\\left(\\begin{array}{l l}{V_{n-1}}&{u_{n}}\\\\ {v_{n-1}}&{V_{n}}\\end{array}\\right)}\\,,"
+    }
+]

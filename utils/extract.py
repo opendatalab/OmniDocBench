@@ -60,6 +60,10 @@ def extract_tabular(text):
     # r'\\begin{align\*?}(.*?)\\end{align\*?}|'
     # r'\\begin{gather\*?}(.*?)\\end{gather\*?}|'
 display_reg = re.compile(
+    # r'\\begin{equation\*?}(.*?)\\end{equation\*?}|'
+    # r'\\begin{align\*?}(.*?)\\end{align\*?}|'
+    # r'\\begin{gather\*?}(.*?)\\end{gather\*?}|'
+    # r'\\begin{array\*?}(.*?)\\end{array\*?}|'
     r'\$\$(.*?)\$\$|'
     r'\\\[(.*?)\\\]|'
     r'\$(.*?)\$|'
@@ -112,6 +116,7 @@ def md_tex_filter(content):
     content = re.sub(img_pattern, '', content)  # remove image
     content = remove_markdown_fences(content)   # remove markdown fences
     content = replace_repeated_chars(content) # replace all consecutive characters
+    content = content.replace('<html>', '').replace('</html>', '').replace('<body>', '').replace('</body>', '')
     
     # # 使用正则表达式对unicode进行替换
     # special_unicode = ''.join(unicode_replacements.keys())
@@ -194,10 +199,12 @@ def md_tex_filter(content):
 
     # extract interline formula
     display_matches = display_reg.finditer(content)
+    content_copy = content
     for match in display_matches:
         matched = match.group(0)
         if matched:
-            single_line = ''.join(matched.split())
+            # single_line = ''.join(matched.split())
+            single_line = ' '.join(matched.strip().split('\n'))
             position = [match.start(), match.end()]
             # replace $$ with \[\]
             dollar_pattern = re.compile(r'\$\$(.*?)\$\$|\$(.*?)\$|\\\((.*?)\\\)', re.DOTALL)
@@ -219,6 +226,17 @@ def md_tex_filter(content):
                     'content': single_line
                 })
             else:
+                # start, end = match.span()
+                # char_before = content_copy[start-1] if start > 0           else '\n'
+                # char_after  = content_copy[end]   if end   < len(content_copy) else '\n'
+                # if char_before == '\n' or char_after == '\n':
+                #     single_line = re.sub(dollar_pattern, r'\\[\2\3\\]', single_line)
+                #     pred_all.append({
+                #         'category_type': 'equation_isolated',
+                #         'position': position,
+                #         'content': single_line,
+                #         'fine_category_type': 'equation_inline'
+                #     })
                 single_line = re.sub(dollar_pattern, r'\\[\2\3\\]', single_line)
                 pred_all.append({
                     'category_type': 'equation_isolated',
