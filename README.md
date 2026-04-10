@@ -10,8 +10,8 @@ English | <a href="./README_zh-CN.md">简体中文</a>
 </div>
 
 **OmniDocBench** is a benchmark for evaluating diverse document parsing in real-world scenarios, featuring the following characteristics:
-- **Diverse Document Types**: This benchmark includes 1355 PDF pages, covering 9 document types, 4 layout types, and 3 language types. It encompasses a wide range of content, including academic papers, financial reports, newspapers, textbooks, and handwritten notes.
-- **Rich Annotation Information**: It contains **localization information** for 15 block-level (such as text paragraphs, headings, tables, etc., totaling over 20k) and 4 span-level (such as text lines, inline formulas, subscripts, etc., totaling over 80k) document elements. Each element's region includes **recognition results** (text annotations, LaTeX annotations for formulas, and both LaTeX and HTML annotations for tables). OmniDocBench also provides annotations for the **reading order** of document components. Additionally, it includes various attribute tags at the page and block levels, with annotations for 5 **page attribute tags**, 3 **text attribute tags**, and 6 **table attribute tags**.
+- **Diverse Document Types**: This benchmark includes 1651 PDF pages, covering 10 document types, 5 layout types, and 5 language types. It encompasses a wide range of content, including academic papers, financial reports, newspapers, textbooks, and handwritten notes.
+- **Rich Annotation Information**: It contains **localization information** for 28 block-level (such as text paragraphs, headings, tables, etc.) and 4 span-level (such as text lines, inline formulas, subscripts, etc.) document elements. Each element's region includes **recognition results** (text annotations, LaTeX annotations for formulas, and both LaTeX and HTML annotations for tables). OmniDocBench also provides annotations for the **reading order** of document components. Additionally, it includes various attribute tags at the page and block levels, with annotations for 5 **page attribute tags**, 3 **text attribute tags**, and 6 **table attribute tags**.
 - **High Annotation Quality**: The data quality is high, achieved through manual screening, intelligent annotation, manual annotation, and comprehensive expert and large model quality checks.
 - **Supporting Evaluation Code**: It includes end-to-end and single-module evaluation code to ensure fairness and accuracy in assessments.
 
@@ -60,7 +60,13 @@ Currently supported metrics include:
 
 ## Updates
 
+[2026/04/10] **Major update**: Updated from **v1.5** to **v1.6**
+  - Evaluation code: (1) We propose **Multi-Granularity Adaptive Matching (MGAM)**, which eliminates matching bias through adaptive granularity adjustment on the prediction side. The core principle is to keep the ground truth unchanged and **search for the optimal segmentation granularity only on the prediction side.** (2) To optimize the deployment of CDM, dependency packages such as Node.js and KaTeX have been rewritten in Python and replaced, resulting in an approximately 3x speed improvement.
+  - Benchmark dataset: (1) Added **296 new pages**, samples are chosen to cover the **more challenging scenario categories** in document parsing, including complex nested tables, dense mathematical formula layouts, and unconventional layout structures; (2) Fixed typos in some text and table annotations；
+  - Note: The main branch of evaludation code (this repo) and dataset in HuggingFace and OpenDataLab are now updated to Version **v1.6**, if you still want to evaluate your model in v1.0 or v1.5, please checkout to specific branch.
+
 [2026/03/31] Update the model evaluation for PaddleOCR-VL-1.5, Youtu-Parsing, FireRed-OCR, Logics-Parsing-v2, Ovis2.6-30B-A3B, MinerU2.5, HunyuanOCR, FD-RL, DeepSeek-OCR-2, MonkeyOCR-pro-3B, OCRVerse, dots.ocr, Dolphin-v2, MonkeyOCR-3B, POINTS-Reader, Gemini-3 Flash, Gemini-3 Pro, Kimi 2.5, GPT5.2, GPT-4o, InternVL3.5, GLM-OCR, OpenDoc and Mathpix. Added inference scripts for the models listed above.
+
 [2025/11/04] Add a Docker runtime environment, including the evaluation environment and the CDM environment. 
 
 [2025/10/28] Update PaddleOCR-VL, Qwen3-VL-235B-A22B-Instruct, Deepseek-OCR, Dolphin-1.5 model evaluation.
@@ -85,7 +91,7 @@ Currently supported metrics include:
 
 ## Benchmark Introduction
 
-This benchmark includes 1355 PDF pages, covering 9 document types, 4 layout types, and 3 language types. OmniDocBench features rich annotations, containing 15 block-level annotations (text paragraphs, headings, tables, etc.) and 4 span-level annotations (text lines, inline formulas, subscripts, etc.). All text-related annotation boxes include text recognition annotations, formulas contain LaTeX annotations, and tables include both LaTeX and HTML annotations. OmniDocBench also provides reading order annotations for document components. Additionally, it includes various attribute tags at the page and block levels, with annotations for 5 page attribute tags, 3 text attribute tags, and 6 table attribute tags.
+This benchmark includes 1651 PDF pages, covering 10 document types, 5 layout types, and 5 language types. OmniDocBench features rich annotations, containing 28 block-level annotations (text paragraphs, headings, tables, etc.) and 4 span-level annotations (text lines, inline formulas, subscripts, etc.). All text-related annotation boxes include text recognition annotations, formulas contain LaTeX annotations, and tables include both LaTeX and HTML annotations. OmniDocBench also provides reading order annotations for document components. Additionally, it includes various attribute tags at the page and block levels, with annotations for 5 page attribute tags, 3 text attribute tags, and 6 table attribute tags.
 
 ![](https://github.com/user-attachments/assets/f3e53ba8-bb97-4ca9-b2e7-e2530865aaa9)
 
@@ -322,88 +328,170 @@ OmniDocBench has developed an evaluation methodology based on document component
 
 ### Environment Setup and Running
 
-To set up the environment, simply run the following commands in the project directory:
-
-```bash
-conda create -n omnidocbench python=3.10
-conda activate omnidocbench
-pip install -r requirements.txt
-```
-
-If your model parsing table in LaTeX format, you need to install the [LaTeXML](https://math.nist.gov/~BMiller/LaTeXML/) package. It will automatically convert LaTeX tables to HTML during evaluation process. We have not included the installation of this package in the *requirements.txt*. If needed, please install it separately.
-
-Please download the OmniDocBench dataset from [Hugging Face](https://huggingface.co/datasets/opendatalab/OmniDocBench) or [OpenDataLab](https://opendatalab.com/OpenDataLab/OmniDocBench). The folder structure should be as follows:
-
-```
-OmniDocBench/
-├── images/     // Image files
-│   ├── xxx.jpg
-│   ├── ...
-├── pdfs/       // Same page as images but in PDF format
-│   ├── xxx.pdf
-│   ├── ...
-├── OmniDocBench.json // OmniDocBench ground truth
-```
-
-Run the model inference with images or pdfs is all allowed. The model inference results should be in `markdown format` and stored in the directory with the ***file name same as the image filename*** but with the `.md` extension.
-
-All evaluation inputs are configured through config files. We provide templates for each task under the [configs](./configs) directory, and we will explain the contents of the config files in detail in the following sections. 
-
-Simply, for end2end evaluation, you should provide the path to `OmniDocBench.json` in `data_path` of `ground_truth` and the path to the directory containing the model inference results in `data_path` of `prediction` in [end2end.yaml](./configs/end2end.yaml) as follows:
-
-```yaml
- # ----- Here are the lines to be modifed -----
- dataset:
-    dataset_name: end2end_dataset
-    ground_truth:
-      data_path: ./OmniDocBench.json
-    prediction:
-      data_path: path/to/your/model/result/dir
-```
-
-After configuring the config file, simply pass it as a parameter and run the following code to perform the evaluation:
-
-```bash
-python pdf_validation.py --config <config_path>
-```
-
-After running the evaluation, the results will be stored in the [result](./result) directory. You can use the [tools/generate_result_tables.ipynb](./tools/generate_result_tables.ipynb) to generate the result leaderboard.
+The evaluation pipeline requires Python 3.10 and several system-level dependencies (TeX Live, ImageMagick, Ghostscript) for CDM formula metrics. Two deployment methods are provided, and the Docker approach is recommended:
 
 <details>
-  <summary>【The information of result folder】</summary>
+<summary><b>Option A: Docker (recommended)</b></summary>
 
-The result folder contains the following information:
+A pre-built Docker image bundles the exact verified runtime (Python 3.10 conda env + TeX Live 2025 + ImageMagick 7.1.1-47 + Ghostscript 9.55.0).
 
+**Pull the image**
+
+```bash
+docker pull ghcr.io/zeng-weijun/omnidocbench-eval:repro-ubuntu2204
 ```
-result/
-├── <model_name>_<match_method>_metric_result.json
-├── <model_name>_<match_method>_<element>_per_page_edit.json
-├── <model_name>_<match_method>_<element>_result.json
+
+**Run with your own data**
+
+```bash
+docker run --rm \
+  --entrypoint bash \
+  -v /path/to/your_gt.json:/workspace/gt/your_gt.json:ro \
+  -v /path/to/your_predictions:/workspace/data_md/predictions:ro \
+  -v /path/to/output:/workspace/result \
+  ghcr.io/zeng-weijun/omnidocbench-eval:repro-ubuntu2204 \
+  -c 'cat > configs/custom.yaml << "EOF"
+end2end_eval:
+  metrics:
+    text_block:
+      metric: [Edit_dist]
+    display_formula:
+      metric: [Edit_dist, CDM]
+    table:
+      metric: [TEDS, Edit_dist]
+    reading_order:
+      metric: [Edit_dist]
+  dataset:
+    dataset_name: end2end_dataset
+    ground_truth:
+      data_path: ./gt/your_gt.json
+    prediction:
+      data_path: ./data_md/predictions
+    match_method: quick_match
+    match_workers: 4
+    quick_match_truncated_timeout_sec: 300
+    timeout_fallback_max_chunk_span: 10
+    timeout_fallback_order_penalty: 0.10
+EOF
+python pdf_validation.py --config configs/custom.yaml'
 ```
 
-The `<model_name>` is the name of the model (it is the same as the folder name of prediction results in the config file). `<match_method>` is the method used for matching, for example, `quick_match` or `simple_match`. `<element>` is the element type, including `text`, `dispaly_formula`, `table`, and `reading_order`.
+**Verify runtime inside the image**
 
-The `<model_name>_<match_method>_metric_result.json` file contains the evaluation metrics, including edit distance, TEDS, etc.
+```bash
+docker run --rm --entrypoint bash \
+  ghcr.io/zeng-weijun/omnidocbench-eval:repro-ubuntu2204 \
+  -lc 'bash script/verify_repro_runtime.sh'
+```
 
-The `<model_name>_<match_method>_<element>_per_page_edit.json` file contains the edit distance of each page for each element.
+**Build from source** (optional)
 
-The `<model_name>_<match_method>_<element>_result.json` file contains the matched pairs of ground truth and predictions for each element.
+```bash
+bash script/build_repro_docker_image.sh
+```
 
 </details>
 
-#### Using docker
+<details>
+<summary><b>Option B: Conda</b></summary>
 
-pull the docker images
+> Requires Ubuntu 22.04 / 20.04, at least 8 GB disk space and 8 GB RAM, root access.
+
+**Step 1 — Create environment and install Python dependencies**
+
+```bash
+conda create -n omnidocbench python=3.10 -y
+conda activate omnidocbench
+git clone <repo_url> && cd Omnidocbench_v1.6
+pip install -e .
+python -c "from src.core.pipeline import run_config_file; print('OK')"
 ```
-docker pull sunyuefeng/omnidocbench-env:v1.5
+
+**Step 2 — Install Ghostscript**
+
+CDM metrics need Ghostscript for PDF-to-PNG conversion via ImageMagick.
+
+```bash
+sudo apt-get update && sudo apt-get install -y ghostscript
+gs --version   # expected: 9.55.0 on Ubuntu 22.04
 ```
-run the container interactively（mount your data and OmniDocBench code）
+
+**Step 3 — Install TeX Live 2025**
+
+CDM metrics need `pdflatex` with CJK Chinese font support.
+
+```bash
+cd ~ && wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+tar -xzf install-tl-unx.tar.gz && cd install-tl-*/
+sudo ./install-tl   # interactive, full install ~7 GB
+
+echo 'export PATH=/usr/local/texlive/2025/bin/x86_64-linux:$PATH' >> ~/.bashrc
+source ~/.bashrc
+pdflatex --version | head -2   # expected: pdfTeX ... (TeX Live 2025)
+
+# Verify CJK support
+kpsewhich CJK.sty && kpsewhich c70gkai.fd
+# If missing: sudo tlmgr install cjk cjkutils arphic gkai
 ```
-docker run -it -v /your/path/to/OmniDocBench:/your/OmniDocBench/path/in/docker --name omnidocbench-env sunyuefeng/omnidocbench-env:v1.5 /bin/bash
+
+**Step 4 — Install ImageMagick 7.x** (compile from source)
+
+Ubuntu 22.04 ships ImageMagick 6.x; CDM requires 7.x.
+
+```bash
+sudo apt-get install -y build-essential pkg-config \
+  libjpeg-dev libpng-dev libtiff-dev libwebp-dev \
+  libfreetype6-dev libfontconfig1-dev
+
+cd /tmp
+wget https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.1-47.tar.gz
+tar xzf 7.1.1-47.tar.gz && cd ImageMagick-7.1.1-47
+./configure --with-modules --enable-shared --with-gslib \
+  --with-gs-font-dir=/usr/share/fonts/type1/gsfonts --prefix=/usr/local
+make -j$(nproc) && sudo make install && sudo ldconfig
+magick --version | head -2   # expected: ImageMagick 7.1.1-47
+
+# Allow PDF read/write
+POLICY_FILE=$(find /usr/local/etc/ImageMagick-7 -name policy.xml 2>/dev/null | head -1)
+[ -n "$POLICY_FILE" ] && sudo sed -i \
+  's|<policy domain="coder" rights="none" pattern="PDF" />|<policy domain="coder" rights="read\|write" pattern="PDF" />|' \
+  "$POLICY_FILE"
 ```
-All dependencies are already installed. You can run `pdf_validation.py`:
+
+**Step 5 — Verify and run**
+
+```bash
+python -m pytest tools/test_environment_and_smoke.py::TestEnvironmentVersions -v -s
+python pdf_validation.py --config configs/end2end.yaml
 ```
-cd /your/OmniDocBench/path/in/docker
+
+</details>
+
+#### Verified versions
+
+| Component | Version |
+|-----------|---------|
+| Python | 3.10.x |
+| TeX Live | 2025 |
+| pdflatex | 3.141592653-2.6-1.40.28 |
+| ImageMagick | 7.1.1-47 |
+| Ghostscript | 9.55.0 |
+
+#### Worker concurrency
+
+The pipeline has three parallel stages. Set each to 1/3–1/2 of available CPU cores to avoid deadlocks or OOM:
+
+| Stage | Config key | Notes |
+|-------|-----------|-------|
+| Page matching | `match_workers` | text alignment |
+| CDM rendering | `cdm_workers` | ~1 GB RAM per worker |
+| TEDS tables | `teds_workers` | table structure similarity |
+
+#### Running the evaluation
+
+All evaluation inputs are configured through [configs/end2end.yaml](./configs/end2end.yaml). Edit `ground_truth.data_path` and `prediction.data_path` to point to your data, then run:
+
+```bash
 python pdf_validation.py --config <config_path>
 ```
 
@@ -414,7 +502,7 @@ End-to-end evaluation assesses the model's accuracy in parsing PDF page content.
 $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Table TEDS} +\textit{Formula CDM}}{3}$$
 
 <table style="width:100%; border-collapse: collapse;">
-    <caption>Comprehensive evaluation of document parsing on OmniDocBench (v1.5)</caption>
+    <caption>Comprehensive evaluation of document parsing on OmniDocBench (v1.6_full)</caption>
     <thead>
         <tr>
             <th>Model Type</th>
@@ -430,420 +518,312 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
     </thead>
     <tbody>
         <tr>
-            <td rowspan="27"><strong>Specialized</strong><br><strong>VLMs</strong></td>
-        <tr>
-            <td>PaddleOCR-VL-1.5</td>
-            <td>0.9B</td>
-            <td><strong>94.50</strong></td>
-            <td><strong>0.035</strong></td>
-            <td><strong>94.21</strong></td>
-            <td>92.76</td>
-            <td>95.79</td>
-            <td>0.042</td>
-        </tr>
-        <tr>
-            <td>GLM-OCR</td>
-            <td>0.9B</td>
-            <td><ins>94.35</ins></td>
-            <td>0.045</td>
-            <td><ins>93.65</ins></td>
-            <td><ins>93.89</ins></td>
-            <td><strong>96.50</strong></td>
-            <td>0.047</td>
+            <td>MinerU2.5-Pro</td>
+            <td>Specialized VLMs</td>
+            <td>1.2B</td>
+            <td><strong>95.75</strong></td>
+            <td><ins>0.036<ins></td>
+            <td><strong>97.45</strong></td>
+            <td><strong>93.42</strong></td>
+            <td><strong>95.92</strong></td>
+            <td><ins>0.120<ins></td>
         </tr>
         <tr>    
-            <td>Youtu-Parsing</td>
-            <td>2.5B</td>
-            <td>93.37</td>
-            <td>0.042</td>
-            <td>91.22</td>
-            <td>93.10</td>
-            <td><ins>96.47</ins></td>
-            <td><strong>0.026</strong></td>
+            <td>GLM-OCR</td>
+            <td>Specialized VLMs</td>
+            <td>0.9B</td>
+            <td><ins>95.22<ins></td>
+            <td>0.044</td>
+            <td><ins>97.18<ins></td>
+            <td><ins>92.83<ins></td>
+            <td><ins>95.39<ins></td>
+            <td>0.133</td>
+        </tr>
+        <tr>    
+            <td>PaddleOCR-VL-1.5</td>
+            <td>Specialized VLMs</td>
+            <td>0.9B</td>
+            <td>94.93</td>
+            <td>0.038</td>
+            <td>96.89</td>
+            <td>91.67</td>
+            <td>94.37</td>
+            <td>0.130</td>
         </tr>
         <tr>    
             <td>PaddleOCR-VL</td>
+            <td>Specialized VLMs</td>
             <td>0.9B</td>
-            <td>92.86</td>
-            <td><strong>0.035</strong></td>
-            <td>91.22</td>
-            <td>90.89</td>
-            <td>94.76</td>
-            <td>0.043</td>
+            <td>94.18</td>
+            <td>0.040</td>
+            <td>95.91</td>
+            <td>90.65</td>
+            <td>93.74</td>
+            <td>0.135</td>
+        </tr>
+        <tr>
+            <td>Youtu-Parsing</td>
+            <td>Specialized VLMs</td>
+            <td>2.5B</td>
+            <td>93.74</td>
+            <td>0.044</td>
+            <td>93.63</td>
+            <td>92.02</td>
+            <td>95.00</td>
+            <td><strong>0.116<strong></td>
+        </tr>
+        <tr>
+            <td>Ovis2.6-30B-A3B</td>
+            <td>General VLMs</td>
+            <td>30B</td>
+            <td>93.70</td>
+            <td><strong>0.035<strong></td>
+            <td>95.17</td>
+            <td>89.44</td>
+            <td>92.40</td>
+            <td>0.135</td>
         </tr>
         <tr>
             <td>Logics-Parsing-v2</td>
+            <td>Specialized VLMs</td>
             <td>4B</td>
-            <td>92.56</td>
-            <td>0.043</td>
-            <td>91.41</td>
-            <td>90.54</td>
-            <td>93.85</td>
-            <td>0.044</td>
+            <td>93.33</td>
+            <td>0.041</td>
+            <td>95.65</td>
+            <td>88.42</td>
+            <td>91.98</td>
+            <td>0.137</td>
         </tr>
-        <tr>    
+        <tr>
             <td>FireRed-OCR</td>
+            <td>Specialized VLMs</td>
             <td>2B</td>
-            <td>92.07</td>
-            <td><strong>0.035</strong></td>
-            <td>90.98</td>
-            <td>88.72</td>
-            <td>92.38</td>
-            <td><ins>0.041</ins></td>
+            <td>93.26</td>
+            <td>0.037</td>
+            <td>95.44</td>
+            <td>88.04</td>
+            <td>91.06</td>
+            <td>0.131</td>
         </tr>
         <tr>
-            <td>MinerU2.5</td>
+            <td>MinerU-2.5</td>
+            <td>Specialized VLMs</td>
             <td>1.2B</td>
-            <td>90.93</td>
+            <td>93.04</td>
             <td>0.045</td>
-            <td>88.86</td>
-            <td>88.44</td>
-            <td>92.42</td>
-            <td>0.044</td>
-        </tr>
-        <tr>
-            <td>HunyuanOCR</td>
-            <td>1B</td>
-            <td>90.57</td>
-            <td>0.085</td>
-            <td>86.01</td>
-            <td><strong>94.19</strong></td>
-            <td>95.96</td>
-            <td>0.082</td>
-        </tr>
-        <tr>
-            <td>OpenDoc</td>
-            <td>0.1B</td>
-            <td>90.57</td>
-            <td>0.043</td>
-            <td>87.70</td>
-            <td>88.30</td>
-            <td>92.24</td>
-            <td>0.050</td>
-        </tr>
-        <tr>
-            <td>FD-RL</td>
-            <td>4B</td>
-            <td>90.20</td>
-            <td>0.053</td>
-            <td>88.52</td>
-            <td>87.43</td>
-            <td>92.19</td>
-            <td>0.063</td>
-        </tr>
-        <tr>
-            <td>DeepSeek-OCR-2</td>
-            <td>3B</td>
-            <td>89.17</td>
-            <td>0.049</td>
-            <td>86.85</td>
-            <td>85.60</td>
-            <td>90.06</td>
-            <td>0.060</td>
-        </tr>
-        <tr>
-            <td>MonkeyOCR-pro-3B</td>
-            <td>3B</td>
-            <td>88.85</td>
-            <td>0.075</td>
-            <td>87.25</td>
-            <td>86.78</td>
-            <td>90.63</td>
-            <td>0.128</td>
-        </tr>
-        <tr>
-            <td>Dolphin-v2</td>
-            <td>3B</td>
-            <td>88.71</td>
-            <td>0.073</td>
-            <td>87.26</td>
-            <td>86.20</td>
-            <td>89.77</td>
-            <td>0.064</td>
-        </tr>
-        <tr>
-            <td>OCRVerse</td>
-            <td>4B</td>
-            <td>88.55</td>
-            <td>0.058</td>
-            <td>86.91</td>
-            <td>84.55</td>
-            <td>88.45</td>
-            <td>0.071</td>
-        </tr>
-        <tr>
-            <td>dots.ocr</td>
-            <td>3B</td>
-            <td>88.41</td>
-            <td>0.048</td>
-            <td>83.22</td>
-            <td>86.78</td>
-            <td>90.62</td>
-            <td>0.053</td>
-        </tr>
-        <tr>
-            <td>MonkeyOCR-3B</td>
-            <td>3B</td>
-            <td>87.13</td>
-            <td>0.075</td>
-            <td>87.45</td>
-            <td>81.39</td>
-            <td>85.92</td>
-            <td>0.129</td>
-        </tr>
-        <tr>
-            <td>Deepseek-OCR</td>
-            <td>3B</td>
-            <td>87.01</td>
-            <td>0.073</td>
-            <td>83.37</td>
-            <td>84.97</td>
-            <td>88.80</td>
-            <td>0.086</td>
-        </tr>
-        <tr>
-            <td>MonkeyOCR-pro-1.2B</td>
-            <td>1.2B</td>
-            <td>86.96</td>
-            <td>0.084</td>
-            <td>85.02</td>
-            <td>84.24</td>
-            <td>89.02</td>
+            <td>95.77</td>
+            <td>87.88</td>
+            <td>91.47</td>
             <td>0.130</td>
         </tr>
         <tr>
-            <td>Nanonets-OCR-s</td>
-            <td>3B</td>
-            <td>85.59</td>
-            <td>0.093</td>
-            <td>85.90</td>
-            <td>80.14</td>
-            <td>85.57</td>
-            <td>0.108</td>
-        </tr>
-        <tr>
-            <td>MinerU2-VLM</td>
-            <td>0.9B</td>
-            <td>85.56</td>
-            <td>0.078</td>
-            <td>80.95</td>
-            <td>83.54</td>
-            <td>87.66</td>
-            <td>0.086</td>
-        </tr>
-        <tr>
-            <td>Dolphin-1.5</td>
-            <td>0.3B</td>
-            <td>83.21</td>
-            <td>0.092</td>
-            <td>80.78</td>
-            <td>78.06</td>
-            <td>84.10</td>
-            <td>0.080</td>
-        </tr>
-        <tr>
-            <td>olmOCR</td>
-            <td>7B</td>
-            <td>81.79</td>
-            <td>0.096</td>
-            <td>86.04</td>
-            <td>68.92</td>
-            <td>74.77</td>
-            <td>0.121</td>
-        </tr>
-        <tr>
-            <td>POINTS-Reader</td>
-            <td>3B</td>
-            <td>80.98</td>
-            <td>0.134</td>
-            <td>79.20</td>
-            <td>77.13</td>
-            <td>81.66</td>
-            <td>0.145</td>
-        </tr>
-        <tr>
-            <td>Mistral OCR</td>
+            <td>Gemini 3 Pro</td>
+            <td>General VLMs</td>
             <td>-</td>
-            <td>78.83</td>
-            <td>0.164</td>
-            <td>82.84</td>
-            <td>70.03</td>
-            <td>78.04</td>
-            <td>0.144</td>
-        </tr>
-        <tr>
-            <td>OCRFlux</td>
-            <td>3B</td>
-            <td>74.82</td>
-            <td>0.193</td>
-            <td>68.03</td>
-            <td>75.75</td>
-            <td>80.23</td>
-            <td>0.202</td>
-        </tr>
-        <tr>
-            <td>Dolphin</td>
-            <td>0.3B</td>
-            <td>74.67</td>
-            <td>0.125</td>
-            <td>67.85</td>
-            <td>68.70</td>
-            <td>77.77</td>
-            <td>0.124</td>
-        </tr>
-        <tr>
-            <td rowspan="12"><strong>General</strong><br><strong>VLMs</strong></td>
-        <tr>
-            <td>Ovis2.6-30B-A3B</td>
-            <td>30B</td>
-            <td>92.36</td>
-            <td><ins>0.037</ins></td>
-            <td>90.32</td>
-            <td>90.46</td>
-            <td>94.00</td>
-            <td>0.046</td>
-        </tr>
-        <tr>
-            <td>Gemini-3 Flash</td>
-            <td>-</td>
-            <td>90.37</td>
-            <td>0.065</td>
-            <td>89.56</td>
-            <td>88.01</td>
-            <td>93.79</td>
-            <td>0.071</td>
-        </tr>
-        <tr>
-            <td>Gemini-3 Pro</td>
-            <td>-</td>
-            <td>90.17</td>
-            <td>0.062</td>
-            <td>88.79</td>
-            <td>87.83</td>
-            <td>93.32</td>
-            <td>0.074</td>
-        </tr>
-        <tr>
-            <td>Kimi K2.5</td>
-            <td>1T</td>
-            <td>89.33</td>
-            <td>0.065</td>
-            <td>86.92</td>
-            <td>87.57</td>
-            <td>91.82</td>
-            <td>0.084</td>
-        </tr>
-        <tr>
-            <td>Qwen3-VL-235B</td>
-            <td>235B</td>
+            <td>92.91</td>
+            <td>0.064</td>
+            <td>95.99</td>
             <td>89.15</td>
-            <td>0.069</td>
-            <td>88.14</td>
-            <td>86.21</td>
-            <td>90.55</td>
-            <td>0.068</td>
-        </tr>
-        <tr>
-            <td>Gemini-2.5 Pro</td>
-            <td>-</td>
-            <td>88.03</td>
-            <td>0.075</td>
-            <td>85.82</td>
-            <td>85.71</td>
-            <td>90.29</td>
-            <td>0.097</td>
-        </tr>
-        <tr>
-            <td>Qwen2.5-VL</td>
-            <td>72B</td>
-            <td>87.02</td>
-            <td>0.094</td>
-            <td>88.27</td>
-            <td>82.15</td>
-            <td>86.22</td>
-            <td>0.102</td>
-        </tr>
-        <tr>
-            <td>GPT5.2</td>
-            <td>-</td>
-            <td>85.75</td>
-            <td>0.124</td>
-            <td>86.93</td>
-            <td>82.76</td>
-            <td>88.25</td>
-            <td>0.106</td>
-        </tr>
-        <tr>
-            <td>InternVL3.5</td>
-            <td>241B</td>
-            <td>82.67</td>
-            <td>0.142</td>
-            <td>87.23</td>
-            <td>75.00</td>
-            <td>81.28</td>
-            <td>0.125</td>
-        </tr>
-        <tr>
-            <td>InternVL3</td>
-            <td>78B</td>
-            <td>80.33</td>
-            <td>0.131</td>
-            <td>83.42</td>
-            <td>70.64</td>
-            <td>77.74</td>
-            <td>0.113</td>
-        </tr>
-        <tr>
-            <td>GPT-4o</td>
-            <td>-</td>
-            <td>75.02</td>
-            <td>0.217</td>
-            <td>79.70</td>
-            <td>67.07</td>
-            <td>76.09</td>
-            <td>0.148</td>
-        </tr>
-        <tr>
-            <td rowspan="5"><strong>Pipeline</strong><br><strong>Tools</strong></td>
-        <tr>
-            <td>PP-StructureV3</td>
-            <td>-</td>
-            <td>86.73</td>
-            <td>0.073</td>
-            <td>85.79</td>
-            <td>81.68</td>
-            <td>89.48</td>
-            <td>0.073</td>
-        </tr>
-        <tr>
-            <td>Mathpix</td>
-            <td>-</td>
-            <td>80.11</td>
-            <td>0.168</td>
-            <td>84.75</td>
-            <td>72.43</td>
-            <td>79.25</td>
+            <td>92.96</td>
             <td>0.165</td>
         </tr>
         <tr>
-            <td>Mineru2-pipeline</td>
+            <td>Gemini 3 Flash</td>
+            <td>General VLMs</td>
             <td>-</td>
-            <td>75.51</td>
-            <td>0.209</td>
-            <td>76.55</td>
-            <td>70.90</td>
-            <td>79.11</td>
-            <td>0.225</td>
+            <td>92.62</td>
+            <td>0.066</td>
+            <td>95.16</td>
+            <td>89.29</td>
+            <td>93.51</td>
+            <td>0.172</td>
         </tr>
         <tr>
-            <td>Marker-1.8.2</td>
+            <td>dots.ocr</td>
+            <td>Specialized VLMs</td>
+            <td>3B</td>
+            <td>90.77</td>
+            <td>0.048</td>
+            <td>89.95</td>
+            <td>87.18</td>
+            <td>90.58</td>
+            <td>0.138</td>
+        </tr>
+        <tr>
+            <td>OpenDoc-0.1B</td>
+            <td>Specialized VLMs</td>
+            <td>0.1B</td>
+            <td>90.67</td>
+            <td>0.049</td>
+            <td>93.02</td>
+            <td>83.88</td>
+            <td>87.45</td>
+            <td>0.140</td>
+        </tr>
+        <tr>
+            <td>DeepSeek-OCR 2</td>
+            <td>Specialized VLMs</td>
+            <td>3B</td>
+            <td>90.25</td>
+            <td>0.050</td>
+            <td>91.84</td>
+            <td>83.89</td>
+            <td>87.75</td>
+            <td>0.144</td>
+        </tr>
+        <tr>
+            <td>HunyuanOCR</td>
+            <td>Specialized VLMs</td>
+            <td>1B</td>
+            <td>89.95</td>
+            <td>0.088</td>
+            <td>87.68</td>
+            <td>91.01</td>
+            <td>93.23</td>
+            <td>0.171</td>
+        </tr>
+        <tr>
+            <td>Qwen3-VL-235B</td>
+            <td>General VLMs</td>
+            <td>235B</td>
+            <td>89.78</td>
+            <td>0.063</td>
+            <td>92.55</td>
+            <td>83.07</td>
+            <td>86.75</td>
+            <td>0.166</td>
+        </tr>
+        <tr>
+            <td>Dolphin-v2</td>
+            <td>Specialized VLMs</td>
+            <td>3B</td>
+            <td>89.50</td>
+            <td>0.069</td>
+            <td>91.01</td>
+            <td>84.40</td>
+            <td>87.44</td>
+            <td>0.150</td>
+        </tr>
+        <tr>
+            <td>OCRVerse</td>
+            <td>Specialized VLMs</td>
+            <td>4B</td>
+            <td>88.60</td>
+            <td>0.063</td>
+            <td>89.61</td>
+            <td>82.44</td>
+            <td>86.27</td>
+            <td>0.163</td>
+        </tr>
+        <tr>
+            <td>MonkeyOCR-pro-3B</td>
+            <td>Specialized VLMs</td>
+            <td>3B</td>
+            <td>88.57</td>
+            <td>0.074</td>
+            <td>88.74</td>
+            <td>84.35</td>
+            <td>88.62</td>
+            <td>0.189</td>
+        </tr>
+        <tr>
+            <td>GPT-5.2</td>
+            <td>General VLMs</td>
             <td>-</td>
-            <td>71.30</td>
-            <td>0.206</td>
-            <td>76.66</td>
-            <td>57.88</td>
-            <td>71.17</td>
-            <td>0.250</td>
+            <td>86.59</td>
+            <td>0.114</td>
+            <td>88.21</td>
+            <td>82.95</td>
+            <td>87.93</td>
+            <td>0.193</td>
+        </tr>
+        <tr>
+            <td>Dolphin-1.5</td>
+            <td>Specialized VLMs</td>
+            <td>0.3B</td>
+            <td>86.52</td>
+            <td>0.094</td>
+            <td>87.49</td>
+            <td>81.43</td>
+            <td>84.82</td>
+            <td>0.167</td>
+        </tr>
+        <tr>
+            <td>olmOCR</td>
+            <td>Specialized VLMs</td>
+            <td>7B</td>
+            <td>85.74</td>
+            <td>0.139</td>
+            <td>88.10</td>
+            <td>83.00</td>
+            <td>87.17</td>
+            <td>0.216</td>
+        </tr>
+        <tr>
+            <td>Mistral OCR</td>
+            <td>Specialized VLMs</td>
+            <td>-</td>
+            <td>85.66</td>
+            <td>0.097</td>
+            <td>89.91</td>
+            <td>76.78</td>
+            <td>80.93</td>
+            <td>0.171</td>
+        </tr>
+        <tr>
+            <td>Kimi K2.5</td>
+            <td>General VLMs</td>
+            <td>1T</td>
+            <td>84.53</td>
+            <td>0.107</td>
+            <td>83.50</td>
+            <td>80.76</td>
+            <td>84.00</td>
+            <td>0.211</td>
+        </tr>
+        <tr>
+            <td>InternVL3.5-241B</td>
+            <td>General VLMs</td>
+            <td>241B</td>
+            <td>83.76</td>
+            <td>0.130</td>
+            <td>89.95</td>
+            <td>74.35</td>
+            <td>79.78</td>
+            <td>0.215</td>
+        </tr>
+        <tr>
+            <td>Nanonets-OCR-s</td>
+            <td>Specialized VLMs</td>
+            <td>3B</td>
+            <td>83.61</td>
+            <td>0.108</td>
+            <td>81.46</td>
+            <td>80.18</td>
+            <td>84.51</td>
+            <td>0.213</td>
+        </tr>
+        <tr>
+            <td>POINTS-Reader</td>
+            <td>Specialized VLMs</td>
+            <td>3B</td>
+            <td>83.37</td>
+            <td>0.096</td>
+            <td>85.72</td>
+            <td>73.98</td>
+            <td>77.40</td>
+            <td>0.198</td>
+        </tr>
+        <tr>
+            <td>Marker</td>
+            <td>Pipeline Tools</td>
+            <td>-</td>
+            <td>78.44</td>
+            <td>0.157</td>
+            <td>85.24</td>
+            <td>65.77</td>
+            <td>73.24</td>
+            <td>0.243</td>
         </tr>
     </tbody>
 </table>
@@ -917,7 +897,7 @@ The `filter` field allows filtering the dataset. For example, setting `filter` t
 
 #### End-to-end Evaluation Method - md2md
 
-The markdown-to-markdown evaluation uses the model's markdown output of the entire PDF page parsing as the Prediction, and OmniDocBench's markdown format as the Ground Truth. Please refer to the config file: [md2md](./configs/md2md.yaml). We recommend using the `end2end` approach from the previous section to evaluate with OmniDocBench, as it preserves rich attribute annotations and ignore logic. However, we still provide the `md2md` evaluation method to align with existing evaluation approaches.
+The markdown-to-markdown evaluation uses the model's markdown output of the entire PDF page parsing as the Prediction, and OmniDocBench's markdown format as the Ground Truth. Please refer to the config file: [md2md](https://github.com/opendatalab/OmniDocBench/blob/v1_5/configs/md2md.yaml). We recommend using the `end2end` approach from the previous section to evaluate with OmniDocBench, as it preserves rich attribute annotations and ignore logic. However, we still provide the `md2md` evaluation method to align with existing evaluation approaches.
 
 The `md2md` evaluation can assess four dimensions:
 - Text paragraphs
@@ -1038,7 +1018,7 @@ OmniDocBench contains bounding box information for formulas on each PDF page alo
 <p>Component-level formula recognition evaluation on OmniDocBench (v1.0) formula subset.</p>
 
 
-Formula recognition evaluation can be configured according to [formula_recognition](./configs/formula_recognition.yaml).
+Formula recognition evaluation can be configured according to [formula_recognition](https://github.com/opendatalab/OmniDocBench/blob/v1_5/configs/formula_recognition.yaml).
 
 <details>
   <summary>【Field explanations for formula_recognition.yaml】</summary>
@@ -1063,7 +1043,7 @@ recogition_eval:      # Specify task name, common for all recognition-related ta
 
 For the `metrics` section, in addition to the supported metrics, it also supports exporting formats required for [CDM](https://github.com/opendatalab/UniMERNet/tree/main/cdm) evaluation. Simply configure the CDM field in metrics to organize the output into CDM input format, which will be stored in [result](./result).
 
-For the `dataset` section, the data format in the `ground_truth` `data_path` remains consistent with OmniDocBench, with just a custom field added under the corresponding formula sample to store the model's prediction results. The field storing prediction information is specified through the `data_key` under the `prediction` field in `dataset`, such as `pred`. For more details about OmniDocBench's file structure, please refer to the "Dataset Introduction" section. The input format for model results can be found in [OmniDocBench_demo_formula](./demo_data/recognition/OmniDocBench_demo_formula.json), which follows this format:
+For the `dataset` section, the data format in the `ground_truth` `data_path` remains consistent with OmniDocBench, with just a custom field added under the corresponding formula sample to store the model's prediction results. The field storing prediction information is specified through the `data_key` under the `prediction` field in `dataset`, such as `pred`. For more details about OmniDocBench's file structure, please refer to the "Dataset Introduction" section. The input format for model results can be found in [OmniDocBench_demo_formula](https://github.com/opendatalab/OmniDocBench/blob/v1_5/demo_data/recognition/OmniDocBench_demo_formula.json), which follows this format:
 
 ```JSON
 [{
@@ -1302,7 +1282,7 @@ OmniDocBench contains bounding box information and corresponding text recognitio
 </table>
 <p>Component-level OCR text recognition evaluation on OmniDocBench (v1.0) text subset.</p>
 
-OCR text recognition evaluation can be configured according to [ocr](./configs/ocr.yaml). 
+OCR text recognition evaluation can be configured according to [ocr](https://github.com/opendatalab/OmniDocBench/blob/v1_5/configs/ocr.yaml). 
 
 <details>
   <summary>【The field explanation of ocr.yaml】</summary>
@@ -1325,7 +1305,7 @@ recogition_eval:      # Specify task name, common for all recognition-related ta
     category_type: text                                                      # category_type is mainly used for selecting data preprocessing strategy, options: formula/text
 ```
 
-For the `dataset` section, the input `ground_truth` `data_path` follows the same data format as OmniDocBench, with just a new custom field added under samples containing the text field to store the model's prediction results. The field storing prediction information is specified through the `data_key` under the `prediction` field in `dataset`, for example `pred`. The input format of the dataset can be referenced in [OmniDocBench_demo_text_ocr](./demo_data/recognition/OmniDocBench_demo_text_ocr.json), and the meanings of various fields can be found in the examples provided in the *Formula Recognition Evaluation* section.
+For the `dataset` section, the input `ground_truth` `data_path` follows the same data format as OmniDocBench, with just a new custom field added under samples containing the text field to store the model's prediction results. The field storing prediction information is specified through the `data_key` under the `prediction` field in `dataset`, for example `pred`. The input format of the dataset can be referenced in [OmniDocBench_demo_text_ocr](https://github.com/opendatalab/OmniDocBench/blob/v1_5/demo_data/recognition/OmniDocBench_demo_text_ocr.json), and the meanings of various fields can be found in the examples provided in the *Formula Recognition Evaluation* section.
 
 Here is a reference model inference script for your consideration:
 
@@ -1500,7 +1480,7 @@ OmniDocBench contains bounding box information for tables on each PDF page along
 <p>Component-level Table Recognition evaluation on OmniDocBench(v1.0) table subset. <i>(+/-)</i> means <i>with/without</i> special situation.</p>
 
 
-Table recognition evaluation can be configured according to [table_recognition](./configs/table_recognition.yaml). 
+Table recognition evaluation can be configured according to [table_recognition](https://github.com/opendatalab/OmniDocBench/blob/v1_5/configs/table_recognition.yaml). 
 
 **For tables predicted to be in LaTeX format, the [latexml](https://math.nist.gov/~BMiller/LaTeXML/) tool will be used to convert LaTeX to HTML before evaluation. The evaluation code will automatically perform format conversion, and users need to preinstall [latexml](https://math.nist.gov/~BMiller/LaTeXML/)**
 
@@ -1525,7 +1505,7 @@ recogition_eval:      # Specify task name, common for all recognition-related ta
     category_type: table                                                     # category_type is mainly used for data preprocessing strategy selection
 ```
 
-For the `dataset` section, the data format in the `ground_truth`'s `data_path` remains consistent with OmniDocBench, with only a custom field added under the corresponding table sample to store the model's prediction result. The field storing prediction information is specified through `data_key` under the `prediction` field in `dataset`, such as `pred`. For more details about OmniDocBench's file structure, please refer to the "Dataset Introduction" section. The input format for model results can be found in [OmniDocBench_demo_table](./demo_data/recognition/OmniDocBench_demo_table.json), which follows this format:
+For the `dataset` section, the data format in the `ground_truth`'s `data_path` remains consistent with OmniDocBench, with only a custom field added under the corresponding table sample to store the model's prediction result. The field storing prediction information is specified through `data_key` under the `prediction` field in `dataset`, such as `pred`. For more details about OmniDocBench's file structure, please refer to the "Dataset Introduction" section. The input format for model results can be found in [OmniDocBench_demo_table](https://github.com/opendatalab/OmniDocBench/blob/v1_5/demo_data/recognition/OmniDocBench_demo_table.json), which follows this format:
 
 ```JSON
 [{
@@ -1723,7 +1703,7 @@ OmniDocBench contains bounding box information for all document components on ea
 
 
 
-Layout detection config file reference [layout_detection](./configs/layout_detection.yaml), data format reference [detection_prediction](./demo_data/detection/detection_prediction.json).
+Layout detection config file reference [layout_detection](https://github.com/opendatalab/OmniDocBench/blob/v1_5/configs/layout_detection.yaml), data format reference [detection_prediction](https://github.com/opendatalab/OmniDocBench/blob/v1_5/demo_data/detection/detection_prediction.json).
 
 <details>
   <summary>【The field explanation of layout_detection.yaml】</summary>
@@ -1809,7 +1789,7 @@ The `data_path` under the `prediction` section in `dataset` takes the model's pr
 
 OmniDocBench contains bounding box information for each formula on each PDF page, making it suitable as a benchmark for formula detection task evaluation.
 
-The format for formula detection is essentially the same as layout detection. Formulas include both inline and display formulas. In this section, we provide a config example that can evaluate detection results for both display formulas and inline formulas simultaneously. Formula detection can be configured according to [formula_detection](./configs/formula_detection.yaml).
+The format for formula detection is essentially the same as layout detection. Formulas include both inline and display formulas. In this section, we provide a config example that can evaluate detection results for both display formulas and inline formulas simultaneously. Formula detection can be configured according to [formula_detection](https://github.com/opendatalab/OmniDocBench/blob/v1_5/configs/formula_detection.yaml).
 
 <details>
   <summary>【The field explanation of formula_detection.yaml】</summary>
