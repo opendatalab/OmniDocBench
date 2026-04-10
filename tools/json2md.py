@@ -30,7 +30,7 @@ with open(r'../demo_data/omnidocbench_demo/OmniDocBench_demo.json', 'r', encodin
 
 def text_norm(text):
     after_text = replace_repeated_chars(text)
-    return after_text.replace('/t', '\t').replace("\\t", '\t').replace('/n', '\n')
+    return after_text.replace('/t', '\t').replace('/n', '\n')
 
 # 标准化所有连续的字符
 def replace_repeated_chars(input_str):
@@ -42,7 +42,7 @@ def remove_unencodable_characters(s, encoding):
 for sample in samples:
     annos = []
     for x in sample['layout_dets']:
-        if x.get('order') is not None:
+        if x.get('order'):
             annos.append(x)
 
     # deal with truncated

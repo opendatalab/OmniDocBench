@@ -125,7 +125,7 @@ if __name__ == "__main__":
     args = parse_args()
     
     image_dir = "./images"
-    result_dir = f"./{args.model_name.split("/")[-1]}"
+    result_dir = f"./{args.model_name.split('/')[-1]}"
     os.makedirs(result_dir, exist_ok=True)
 
     client = OpenAI(

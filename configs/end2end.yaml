@@ -2,20 +2,18 @@ end2end_eval:
   metrics:
     text_block:
       metric:
-        - Edit_dist
-        # - BLEU
-        # - METEOR
+      - Edit_dist
     display_formula:
       metric:
-        - Edit_dist
-        - CDM_plain  # CDM can be calculated directly by calling CDM in config file if you have CDM environment
+      - Edit_dist
+      - CDM
     table:
       metric:
-        - TEDS
-        - Edit_dist
+      - TEDS
+      - Edit_dist
     reading_order:
       metric:
-        - Edit_dist
+      - Edit_dist
   dataset:
     dataset_name: end2end_dataset
     ground_truth:
@@ -23,5 +21,7 @@ end2end_eval:
     prediction:
       data_path: ./demo_data/end2end
     match_method: quick_match
-    # filter: 
-    #   language: english
+    quick_match_truncated_timeout_sec: 300
+    match_timeout_sec: 420
+    timeout_fallback_max_chunk_span: 10
+    timeout_fallback_order_penalty: 0.10

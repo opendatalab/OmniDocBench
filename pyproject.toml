@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "omnidocbench-eval"
+version = "1.6.0"
+description = "OmniDocBench evaluation toolkit"
+readme = "README.md"
+requires-python = ">=3.10,<3.12"
+license = { file = "LICENSE" }
+dependencies = [
+  "apted==1.0.3",
+  "beautifulsoup4==4.11.1",
+  "evaluate==0.4.3",
+  "func-timeout==4.3.5",
+  "Levenshtein==0.25.1",
+  "loguru==0.7.2",
+  "lxml==4.9.1",
+  "matplotlib==3.7.5",
+  "nltk==3.9.1",
+  "numpy==1.24.4",
+  "pandas==2.0.3",
+  "Pillow==10.4.0",
+  "pylatexenc==2.10",
+  "PyYAML==6.0.2",
+  "scipy==1.10.1",
+  "tabulate==0.9.0",
+  "tqdm==4.67.1",
+]
+
+[project.scripts]
+omnidocbench-eval = "src.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.omnidocbench.runtime]
+entrypoint = "python pdf_validation.py --config <config_path>"
+default_config = "configs/end2end.yaml"
+needs_writable_hf_cache = true
+hf_cache_env = ["HF_HOME", "XDG_CACHE_HOME", "HUGGINGFACE_HUB_CACHE"]
+prefetch_evaluate_modules = ["bleu", "meteor"]
+
+[tool.omnidocbench.system-dependencies]
+required = [
+  "A Linux environment with working Ghostscript when CDM is enabled",
+  "A working ImageMagick installation with PDF read/write enabled when CDM is enabled",
+  "A working TeX Live installation providing pdflatex and kpsewhich when CDM is enabled",
+  "TeX Live CJK resources providing CJK.sty and c70gkai.fd for Chinese formula CDM",
+]
+optional = [
+  "latexmlc when LaTeX tables must be converted to HTML before TEDS/Edit_dist",
+]
