@@ -634,12 +634,12 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
         <tr>
             <td>Dolphin-1.5</td>
             <td>0.3B</td>
-            <td>83.21</td>
-            <td>0.092</td>
-            <td>80.78</td>
-            <td>78.06</td>
-            <td>84.10</td>
-            <td>0.080</td>
+            <td>85.07</td>
+            <td>0.095</td>
+            <td>81.10</td>
+            <td>83.63</td>
+            <td>87.27</td>
+            <td>0.082</td>
         </tr>
         <tr>
             <td>olmOCR</td>
