@@ -51,7 +51,7 @@ def get_gt_pred_lines(gt_mix,pred_dataset_mix,line_type):
             elif line_type == 'formula':
                 gt_lines.append(str(item['latex']))
             elif line_type == 'latex_table':
-                gt_lines.append(str(item['latex']))
+                # gt_lines.append(str(item['latex']))
                 norm_html_lines.append(str(item['html']))
         
         pred_lines = [str(item['content']) for item in pred_dataset_mix]
