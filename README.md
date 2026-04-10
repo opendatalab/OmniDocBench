@@ -60,7 +60,10 @@ Currently supported metrics include:
 
 ## Updates
 
-[2026/04/09] (1) Added a collection of difficult formulas, tables and layouts covering 296 pages; (2) Corrected annotations for tables, formulas and OCR in version 1.5; For the full 1651 pages, please refer to `OmniDocBench.json`.
+[2026/04/10] **Major update**: Updated from **v1.5** to **v1.6**
+  - Evaluation code: (1) We propose **Multi-Granularity Adaptive Matching (MGAM)**, which eliminates matching bias through adaptive granularity adjustment on the prediction side. The core principle is to keep the ground truth unchanged and **search for the optimal segmentation granularity only on the prediction side.** (2) To optimize the deployment of CDM, dependency packages such as Node.js and KaTeX have been rewritten in Python and replaced, resulting in an approximately 3x speed improvement.
+  - Benchmark dataset: (1) Added **296 new pages**, samples are chosen to cover the **more challenging scenario categories** in document parsing, including complex nested tables, dense mathematical formula layouts, and unconventional layout structures; (2) Fixed typos in some text and table annotations；
+  - Note: The main branch of evaludation code (this repo) and dataset in HuggingFace and OpenDataLab are now updated to Version **v1.6**, if you still want to evaluate your model in v1.0 or v1.5, please checkout to specific branch.
 
 [2026/03/31] Update the model evaluation for PaddleOCR-VL-1.5, Youtu-Parsing, FireRed-OCR, Logics-Parsing-v2, Ovis2.6-30B-A3B, MinerU2.5, HunyuanOCR, FD-RL, DeepSeek-OCR-2, MonkeyOCR-pro-3B, OCRVerse, dots.ocr, Dolphin-v2, MonkeyOCR-3B, POINTS-Reader, Gemini-3 Flash, Gemini-3 Pro, Kimi 2.5, GPT5.2, GPT-4o, InternVL3.5, GLM-OCR, OpenDoc and Mathpix. Added inference scripts for the models listed above.
 
@@ -325,10 +328,72 @@ OmniDocBench has developed an evaluation methodology based on document component
 
 ### Environment Setup and Running
 
-The evaluation pipeline requires Python 3.10 and several system-level dependencies (TeX Live, ImageMagick, Ghostscript) for CDM formula metrics. Two deployment methods are provided:
+The evaluation pipeline requires Python 3.10 and several system-level dependencies (TeX Live, ImageMagick, Ghostscript) for CDM formula metrics. Two deployment methods are provided, and the Docker approach is recommended:
 
 <details>
-<summary><b>Option A: Conda (recommended for development)</b></summary>
+<summary><b>Option A: Docker (recommended)</b></summary>
+
+A pre-built Docker image bundles the exact verified runtime (Python 3.10 conda env + TeX Live 2025 + ImageMagick 7.1.1-47 + Ghostscript 9.55.0).
+
+**Pull the image**
+
+```bash
+docker pull ghcr.io/zeng-weijun/omnidocbench-eval:repro-ubuntu2204
+```
+
+**Run with your own data**
+
+```bash
+docker run --rm \
+  --entrypoint bash \
+  -v /path/to/your_gt.json:/workspace/gt/your_gt.json:ro \
+  -v /path/to/your_predictions:/workspace/data_md/predictions:ro \
+  -v /path/to/output:/workspace/result \
+  ghcr.io/zeng-weijun/omnidocbench-eval:repro-ubuntu2204 \
+  -c 'cat > configs/custom.yaml << "EOF"
+end2end_eval:
+  metrics:
+    text_block:
+      metric: [Edit_dist]
+    display_formula:
+      metric: [Edit_dist, CDM]
+    table:
+      metric: [TEDS, Edit_dist]
+    reading_order:
+      metric: [Edit_dist]
+  dataset:
+    dataset_name: end2end_dataset
+    ground_truth:
+      data_path: ./gt/your_gt.json
+    prediction:
+      data_path: ./data_md/predictions
+    match_method: quick_match
+    match_workers: 4
+    quick_match_truncated_timeout_sec: 300
+    timeout_fallback_max_chunk_span: 10
+    timeout_fallback_order_penalty: 0.10
+EOF
+python pdf_validation.py --config configs/custom.yaml'
+```
+
+**Verify runtime inside the image**
+
+```bash
+docker run --rm --entrypoint bash \
+  ghcr.io/zeng-weijun/omnidocbench-eval:repro-ubuntu2204 \
+  -lc 'bash script/verify_repro_runtime.sh'
+```
+
+**Build from source** (optional)
+
+```bash
+bash script/build_repro_docker_image.sh
+```
+
+</details>
+
+<details>
+<summary><b>Option B: Conda</b></summary>
 
 > Requires Ubuntu 22.04 / 20.04, at least 8 GB disk space and 8 GB RAM, root access.
 
@@ -398,68 +463,6 @@ POLICY_FILE=$(find /usr/local/etc/ImageMagick-7 -name policy.xml 2>/dev/null | h
 ```bash
 python -m pytest tools/test_environment_and_smoke.py::TestEnvironmentVersions -v -s
 python pdf_validation.py --config configs/end2end.yaml
-```
-
-</details>
-
-<details>
-<summary><b>Option B: Docker (recommended for reproducibility)</b></summary>
-
-A pre-built Docker image bundles the exact verified runtime (Python 3.10 conda env + TeX Live 2025 + ImageMagick 7.1.1-47 + Ghostscript 9.55.0).
-
-**Pull the image**
-
-```bash
-docker pull ghcr.io/zeng-weijun/omnidocbench-eval:repro-ubuntu2204
-```
-
-**Run with your own data**
-
-```bash
-docker run --rm \
-  --entrypoint bash \
-  -v /path/to/your_gt.json:/workspace/gt/your_gt.json:ro \
-  -v /path/to/your_predictions:/workspace/data_md/predictions:ro \
-  -v /path/to/output:/workspace/result \
-  ghcr.io/zeng-weijun/omnidocbench-eval:repro-ubuntu2204 \
-  -c 'cat > configs/custom.yaml << "EOF"
-end2end_eval:
-  metrics:
-    text_block:
-      metric: [Edit_dist]
-    display_formula:
-      metric: [Edit_dist, CDM]
-    table:
-      metric: [TEDS, Edit_dist]
-    reading_order:
-      metric: [Edit_dist]
-  dataset:
-    dataset_name: end2end_dataset
-    ground_truth:
-      data_path: ./gt/your_gt.json
-    prediction:
-      data_path: ./data_md/predictions
-    match_method: quick_match
-    match_workers: 4
-    quick_match_truncated_timeout_sec: 300
-    timeout_fallback_max_chunk_span: 10
-    timeout_fallback_order_penalty: 0.10
-EOF
-python pdf_validation.py --config configs/custom.yaml'
-```
-
-**Verify runtime inside the image**
-
-```bash
-docker run --rm --entrypoint bash \
-  ghcr.io/zeng-weijun/omnidocbench-eval:repro-ubuntu2204 \
-  -lc 'bash script/verify_repro_runtime.sh'
-```
-
-**Build from source** (optional)
-
-```bash
-bash script/build_repro_docker_image.sh
 ```
 
 </details>
@@ -609,7 +612,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>93.04</td>
             <td>0.045</td>
             <td>95.77</td>
-            <td>87.87</td>
+            <td>87.88</td>
             <td>91.47</td>
             <td>0.130</td>
         </tr>
