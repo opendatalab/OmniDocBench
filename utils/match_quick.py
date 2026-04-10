@@ -679,9 +679,10 @@ def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_l
             processed_pred.add(pred_idx)
             processed_gt.add(entry['gt_idx'])
 
-    # for entry in converted_results:
-    #     if entry['gt_idx'] not in processed_gt:
-    #         merged_results.append(entry)
+    for entry in converted_results:
+        if entry['gt_idx'] not in processed_gt:
+            merged_results.append(entry)
+            processed_gt.add(entry['gt_idx'])
 
     for gt_idx in range(len(norm_gt_lines)):
         if gt_idx not in processed_gt:
@@ -692,6 +693,7 @@ def merge_duplicates_add_unmatched(converted_results, norm_gt_lines, norm_pred_l
                 'pred': "",
                 'edit': 1
             })
+            processed_gt.add(entry['gt_idx'])
     return merged_results
 
 
