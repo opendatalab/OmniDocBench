@@ -79,7 +79,7 @@ ptyprocess==0.7.0
 pyarrow==17.0.0
 Pygments==2.18.0
 pylatexenc==3.0a30
-PyNomaly==0.3.4
+PyNomaly==0.3.5
 pyparsing==3.1.4
 pyrsistent==0.18.1
 python-dateutil==2.9.0.post0
