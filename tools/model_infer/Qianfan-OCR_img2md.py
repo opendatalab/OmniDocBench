@@ -219,9 +219,6 @@ def process_single_image(image_path: Path, cfg: Config) -> str:
                 else _parse_normal_response(resp)
             )
 
-            if not content.strip():
-                raise ValueError("API 返回内容为空")
-
             # 写入输出文件
             md_path = cfg.output_dir / f"{image_path.stem}.md"
             md_path.write_text(content, encoding="utf-8")
