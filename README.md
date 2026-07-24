@@ -531,25 +531,36 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
     </thead>
     <tbody>
         <tr>
+            <td>PaddleOCR-VL-1.6</td>
+            <td>Specialized VLMs</td>
+            <td>0.9B</td>
+            <td><strong>96.34</strong></td>
+            <td><strong>0.0326</strong></td>
+            <td><strong>97.5304</strong></td>
+            <td><strong>94.7619</strong></td>
+            <td><strong>97.1002</strong></td>
+            <td>0.1278</td>
+        </tr>
+        <tr>
             <td>MinerU2.5-Pro</td>
             <td>Specialized VLMs</td>
             <td>1.2B</td>
-            <td><strong>95.75</strong></td>
-            <td><ins>0.036<ins></td>
-            <td><strong>97.45</strong></td>
-            <td><strong>93.42</strong></td>
-            <td><strong>95.92</strong></td>
-            <td><ins>0.120<ins></td>
+            <td><ins>95.75</ins></td>
+            <td>0.036</td>
+            <td><ins>97.45</ins></td>
+            <td><ins>93.42</ins></td>
+            <td><ins>95.92</ins></td>
+            <td><ins>0.120</ins></td>
         </tr>
         <tr>    
             <td>GLM-OCR</td>
             <td>Specialized VLMs</td>
             <td>0.9B</td>
-            <td><ins>95.22<ins></td>
+            <td>95.22</td>
             <td>0.044</td>
-            <td><ins>97.18<ins></td>
-            <td><ins>92.83<ins></td>
-            <td><ins>95.39<ins></td>
+            <td>97.18</td>
+            <td>92.83</td>
+            <td>95.39</td>
             <td>0.133</td>
         </tr>
         <tr>    
@@ -583,7 +594,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>93.63</td>
             <td>92.02</td>
             <td>95.00</td>
-            <td><strong>0.116<strong></td>
+            <td><strong>0.116</strong></td>
         </tr>
         <tr>
             <td>Qianfan-OCR</td>
@@ -601,7 +612,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>General VLMs</td>
             <td>30B</td>
             <td>93.70</td>
-            <td><strong>0.035<strong></td>
+            <td><ins>0.035</ins></td>
             <td>95.17</td>
             <td>89.44</td>
             <td>92.40</td>
