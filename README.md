@@ -62,6 +62,8 @@ Currently supported metrics include:
 
 ## Updates
 
+[2026/07/27] Added a community-maintained [EvalScope](https://github.com/modelscope/evalscope) integration for running OmniDocBench with OpenAI-compatible model endpoints and standardized predictions, metrics, and reports. See the EvalScope guide: https://evalscope.readthedocs.io/en/latest/benchmarks/omni_doc_bench.html
+
 [2026/04/30] Updated from **v1.6** to **v1.7**, added the Qianfan-OCR leaderboard, and supported skills-based evaluation.
 
 [2026/04/10] **Major update**: Updated from **v1.5** to **v1.6**
