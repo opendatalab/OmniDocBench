@@ -62,6 +62,8 @@ Currently supported metrics include:
 
 ## Updates
 
+[2026/08/31] Added an OrcaRouter inference script ([tools/model_infer/orcarouter_img2md.py](./tools/model_infer/orcarouter_img2md.py)) for converting images to Markdown through OrcaRouter's OpenAI-compatible gateway. See the [OrcaRouter](https://www.orcarouter.ai) docs for available model names.
+
 [2026/07/27] Added a community-maintained [EvalScope](https://github.com/modelscope/evalscope) integration for running OmniDocBench with OpenAI-compatible model endpoints and standardized predictions, metrics, and reports. See the EvalScope guide: https://evalscope.readthedocs.io/en/latest/benchmarks/omni_doc_bench.html
 
 [2026/04/30] Updated from **v1.6** to **v1.7**, added the Qianfan-OCR leaderboard, and supported skills-based evaluation.
