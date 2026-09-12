@@ -18,7 +18,7 @@ dependencies = [
   "loguru==0.7.2",
   "lxml==4.9.1",
   "matplotlib==3.7.5",
-  "nltk==3.9.1",
+  "nltk==3.10.3",
   "numpy==1.24.4",
   "pandas==2.0.3",
   "Pillow==10.4.0",
