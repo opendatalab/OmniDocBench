@@ -603,6 +603,28 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.130</td>
         </tr>
         <tr>    
+            <td>Qwen3.8-Max</td>
+            <td>Specialized VLMs</td>
+            <td>95B</td>
+            <td>94.73</td>
+            <td>0.0419</td>
+            <td>96.2006</td>
+            <td>92.1745</td>
+            <td>95.2640</td>
+            <td>0.1373</td>
+        </tr>       
+        <tr>    
+            <td>Qwen3.8-Flash</td>
+            <td>Specialized VLMs</td>
+            <td>125B</td>
+            <td>94.23</td>
+            <td>0.0454</td>
+            <td>95.8865</td>
+            <td>91.3325</td>
+            <td>94.7991</td>
+            <td>0.1358</td>
+        </tr>      
+        <tr>    
             <td>PaddleOCR-VL</td>
             <td>Specialized VLMs</td>
             <td>0.9B</td>
