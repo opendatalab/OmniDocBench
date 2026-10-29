@@ -537,22 +537,33 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
     </thead>
     <tbody>
         <tr>
+            <td>XOCR1.0</td>
+            <td>Specialized VLMs</td>
+            <td>-</td>
+            <td><strong>97.03</strong></td>
+            <td><strong>0.0244</strong></td>
+            <td>96.93</td>
+            <td><ins>96.61</ins></td>
+            <td><strong>98.44</strong></td>
+            <td>0.1216</td>
+        </tr>
+        <tr>
             <td>TeleOCR</td>
             <td>Specialized VLMs</td>
             <td>1.2B</td>
-            <td><strong>96.91</strong></td>
-            <td><ins>0.0267</ins></td>
+            <td><ins>96.91</ins></td>
+            <td>0.0267</td>
             <td>96.5895</td>
             <td><strong>96.8183</strong></td>
-            <td><strong>98.1806</strong></td>
+            <td><ins>98.1806</ins></td>
             <td>0.1184</td>
         </tr>
         <tr>
             <td>OvisOCR2</td>
             <td>Specialized VLMs</td>
             <td>0.8B</td>
-            <td><ins>96.47</ins></td>
-            <td><strong>0.0265</strong></td>
+            <td>96.47</td>
+            <td><ins>0.0265</ins></td>
             <td><ins>97.4854</ins></td>
             <td>94.5842</td>
             <td>96.9768</td>
@@ -565,8 +576,8 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>96.34</td>
             <td>0.0326</td>
             <td><strong>97.5304</strong></td>
-            <td><ins>94.7619</ins></td>
-            <td><ins>97.1002</ins></td>
+            <td>94.7619</td>
+            <td>97.1002</td>
             <td>0.1278</td>
         </tr>
         <tr>
@@ -722,6 +733,17 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>89.29</td>
             <td>93.51</td>
             <td>0.172</td>
+        </tr>
+        <tr>
+            <td>MonkeyOCR V2</td>
+            <td>Specialized VLMs</td>
+            <td>-</td>
+            <td>91.80</td>
+            <td>0.0636</td>
+            <td>93.4985</td>
+            <td>88.2628</td>
+            <td>91.2397</td>
+            <td>0.1337</td>
         </tr>
         <tr>
             <td>dots.ocr</td>
