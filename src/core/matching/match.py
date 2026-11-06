@@ -710,8 +710,8 @@ def match_gt2pred_simple(gt_items, pred_items, line_type, img_name):
             'pred_idx': [pred_idx],
             'pred': pred_line,
             'norm_pred': norm_pred_line,
-            'pred_category_type': get_pred_category_type(pred_idx, pred_items) if pred_idx else "",
-            'pred_position': pred_items[pred_idx]['position'][0] if pred_idx else "",
+            'pred_category_type': get_pred_category_type(pred_idx, pred_items) if pred_idx != "" else "",
+            'pred_position': pred_items[pred_idx]['position'][0] if pred_idx != "" else "",
             'edit': edit,
             'img_id': img_name
         })
