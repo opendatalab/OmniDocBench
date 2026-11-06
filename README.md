@@ -539,7 +539,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
         <tr>
             <td>OXR-1.0</td>
             <td>Specialized VLMs</td>
-            <td>-</td>
+            <td>1.3B</td>
             <td><strong>97.03</strong></td>
             <td><strong>0.0244</strong></td>
             <td>96.93</td>
