@@ -31,6 +31,7 @@ from src.core.preprocess import (
     textblock2unicode,
     textblock_with_norm_formula,
 )
+from src.core.matching.match import split_pred_table_to_text_items
 from src.core.registry import DATASET_REGISTRY
 from src.dataset.table_dataset import RecognitionTableDataset
 from src.runtime.concurrency import resolve_match_workers
@@ -2182,12 +2183,20 @@ class End2EndDataset():
                 converted_item['fine_category_type'] = converted_item.get('fine_category_type', 'latex2html_table')
                 pred_table_candidates.append(converted_item)
 
+        unmatch_table_pred = []
         if gt_page_elements.get('table'):
             stage_start = time.monotonic()
             gt_table = self.get_sorted_text_list(gt_page_elements['table'])
             html_table_match_s, unmatch_table_pred = match_gt2pred_simple(gt_table, pred_table_candidates, 'html_table', img_name)
+            unmatch_table_pred = unmatch_table_pred or []
             html_table_match_s = [x for x in html_table_match_s if x['gt_idx'] != [""]]  # Remove extra preds
             self._log_slow_stage(img_name, 'table_match', stage_start)
+        elif pred_table_candidates:
+            # GT has no table but the model emitted one(s): linearize to plain text
+            # and feed into the same text-matching pipeline (issue #238).
+            unmatch_table_pred = split_pred_table_to_text_items(pred_table_candidates)
+        if unmatch_table_pred:
+            pred_dataset_mix.extend(unmatch_table_pred)
 
         stage_start = time.monotonic()
         try:
