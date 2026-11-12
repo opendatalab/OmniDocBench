@@ -63,6 +63,8 @@ Currently supported metrics include:
 ## Updates
 
 
+[2026/11/12] Added MiniCPM-OCR 1.0 leaderboard results.
+
 [2026/09/11] Added TeleOCR, OvisOCR2, and Unlimited-OCR leaderboard results.
 
 [2026/07/27] Added a community-maintained [EvalScope](https://github.com/modelscope/evalscope) integration for running OmniDocBench with OpenAI-compatible model endpoints and standardized predictions, metrics, and reports. See the EvalScope guide: https://evalscope.readthedocs.io/en/latest/benchmarks/omni_doc_bench.html
@@ -564,10 +566,21 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.8B</td>
             <td>96.47</td>
             <td><ins>0.0265</ins></td>
-            <td><ins>97.4854</ins></td>
+            <td>97.4854</td>
             <td>94.5842</td>
             <td>96.9768</td>
             <td><strong>0.1120</strong></td>
+        </tr>
+        <tr>
+            <td>MiniCPM-OCR 1.0</td>
+            <td>Specialized VLMs</td>
+            <td>1.3B</td>
+            <td>96.44</td>
+            <td>0.0316</td>
+            <td><strong>98.0814</strong></td>
+            <td>94.3999</td>
+            <td>96.5967</td>
+            <td>0.1269</td>
         </tr>
         <tr>
             <td>PaddleOCR-VL-1.6</td>
@@ -575,7 +588,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.9B</td>
             <td>96.34</td>
             <td>0.0326</td>
-            <td><strong>97.5304</strong></td>
+            <td><ins>97.5304</ins></td>
             <td>94.7619</td>
             <td>97.1002</td>
             <td>0.1278</td>

@@ -60,6 +60,8 @@ OmniDocBench
 - [引用](#引用)
 
 ## 更新
+[2026/11/12] 新增MiniCPM-OCR 1.0的榜单。
+
 [2026/09/11] 新增TeleOCR、OvisOCR2、Unlimited-OCR的榜单。
 
 [2026/04/30] 从版本**v1.6** 更新到 **v1.7**,新增QianfanOCR的榜单,支持skills方式评测。
@@ -550,10 +552,21 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.8B</td>
             <td>96.47</td>
             <td><ins>0.0265</ins></td>
-            <td><ins>97.4854</ins></td>
+            <td>97.4854</td>
             <td>94.5842</td>
             <td>96.9768</td>
             <td><strong>0.1120</strong></td>
+        </tr>
+        <tr>
+            <td>MiniCPM-OCR 1.0</td>
+            <td>Specialized VLMs</td>
+            <td>1.3B</td>
+            <td>96.44</td>
+            <td>0.0316</td>
+            <td><strong>98.0814</strong></td>
+            <td>94.3999</td>
+            <td>96.5967</td>
+            <td>0.1269</td>
         </tr>
         <tr>
             <td>PaddleOCR-VL-1.6</td>
@@ -561,7 +574,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.9B</td>
             <td>96.34</td>
             <td>0.0326</td>
-            <td><strong>97.5304</strong></td>
+            <td><ins>97.5304</ins></td>
             <td>94.7619</td>
             <td>97.1002</td>
             <td>0.1278</td>
