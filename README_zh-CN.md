@@ -60,6 +60,8 @@ OmniDocBench
 - [引用](#引用)
 
 ## 更新
+[2026/11/23] 新增OvisOCR3的榜单。
+
 [2026/11/12] 新增MiniCPM-OCR 1.0的榜单。
 
 [2026/09/11] 新增TeleOCR、OvisOCR2、Unlimited-OCR的榜单。
@@ -512,7 +514,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
     <caption>Comprehensive evaluation of document parsing on OmniDocBench (v1.6_full)</caption>
     <thead>
         <tr>
-            <th>Model Type</th>
+            <th>Model Name</th>
             <th>Methods</th>
             <th>Size</th>
             <th>Overall&#x2191;</th>
@@ -547,11 +549,22 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.1184</td>
         </tr>
         <tr>
+            <td>OvisOCR3</td>
+            <td>Specialized VLMs</td>
+            <td>0.8B</td>
+            <td>96.6861</td>
+            <td><ins>0.025846</ins></td>
+            <td><ins>97.6571</ins></td>
+            <td>94.9858</td>
+            <td>97.3552</td>
+            <td><ins>0.113291</ins></td>
+        </tr>
+        <tr>
             <td>OvisOCR2</td>
             <td>Specialized VLMs</td>
             <td>0.8B</td>
             <td>96.47</td>
-            <td><ins>0.0265</ins></td>
+            <td>0.0265</td>
             <td>97.4854</td>
             <td>94.5842</td>
             <td>96.9768</td>
@@ -574,7 +587,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.9B</td>
             <td>96.34</td>
             <td>0.0326</td>
-            <td><ins>97.5304</ins></td>
+            <td>97.5304</td>
             <td>94.7619</td>
             <td>97.1002</td>
             <td>0.1278</td>
@@ -643,7 +656,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>93.63</td>
             <td>92.02</td>
             <td>95.00</td>
-            <td><ins>0.116</ins></td>
+            <td>0.116</td>
         </tr>
         <tr>
             <td>Qianfan-OCR</td>
@@ -2021,6 +2034,11 @@ config中参数解释以及数据集格式请参考`Layout检测`小节，公式
       <td>OvisOCR2</td>
       <td><a href="https://huggingface.co/ATH-MaaS/OvisOCR2">OvisOCR2</a></td>
       <td><a href="https://huggingface.co/ATH-MaaS/OvisOCR2">HuggingFace OvisOCR2</a></td>
+    </tr>
+    <tr>
+      <td>OvisOCR3</td>
+      <td><a href="https://huggingface.co/ATH-MaaS/OvisOCR3">OvisOCR3</a></td>
+      <td><a href="https://huggingface.co/ATH-MaaS/OvisOCR3">HuggingFace OvisOCR3</a></td>
     </tr>
     <tr>
       <td>Unlimited-OCR</td>
