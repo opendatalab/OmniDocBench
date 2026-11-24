@@ -19,7 +19,7 @@ def process_args(args):
 def load_config(config_path):
     if isinstance(config_path, (str, pathlib.Path)):
         with io.open(os.path.abspath(config_path), "r", encoding="utf-8") as f:
-            cfg = yaml.load(f, Loader=yaml.FullLoader)
+            cfg = yaml.safe_load(f)
     else:
         raise TypeError("Unexpected file type")
 
