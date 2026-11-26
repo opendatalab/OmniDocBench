@@ -63,6 +63,8 @@ Currently supported metrics include:
 ## Updates
 
 
+[2026/11/26] Added Sangfor-OCR leaderboard results; updated Youtu-Parsing leaderboard results (Omni-modal Parser, 5B).
+
 [2026/11/23] Added OvisOCR3 leaderboard results.
 
 [2026/11/12] Added MiniCPM-OCR 1.0 leaderboard results.
@@ -541,25 +543,47 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
     </thead>
     <tbody>
         <tr>
+            <td>Sangfor-OCR</td>
+            <td>Specialized VLMs</td>
+            <td>1.2B</td>
+            <td><strong>97.12</strong></td>
+            <td>0.0288</td>
+            <td><strong>98.5932</strong></td>
+            <td>95.6527</td>
+            <td>97.5051</td>
+            <td>0.1174</td>
+        </tr>
+        <tr>
+            <td>Youtu-Parsing</td>
+            <td>Omni-modal Parser</td>
+            <td>5B</td>
+            <td><ins>97.11</ins></td>
+            <td>0.026</td>
+            <td>96.84</td>
+            <td><strong>97.13</strong></td>
+            <td><strong>98.55</strong></td>
+            <td><strong>0.11</strong></td>
+        </tr>
+        <tr>
             <td>OXR-1.0</td>
             <td>Specialized VLMs</td>
             <td>1.3B</td>
-            <td><strong>97.03</strong></td>
+            <td>97.03</td>
             <td><strong>0.0244</strong></td>
             <td>96.93</td>
-            <td><ins>96.61</ins></td>
-            <td><strong>98.44</strong></td>
+            <td>96.61</td>
+            <td><ins>98.44</ins></td>
             <td>0.1216</td>
         </tr>
         <tr>
             <td>TeleOCR</td>
             <td>Specialized VLMs</td>
             <td>1.2B</td>
-            <td><ins>96.91</ins></td>
+            <td>96.91</td>
             <td>0.0267</td>
             <td>96.5895</td>
-            <td><strong>96.8183</strong></td>
-            <td><ins>98.1806</ins></td>
+            <td><ins>96.8183</ins></td>
+            <td>98.1806</td>
             <td>0.1184</td>
         </tr>
         <tr>
@@ -568,10 +592,10 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.8B</td>
             <td>96.6861</td>
             <td><ins>0.025846</ins></td>
-            <td><ins>97.6571</ins></td>
+            <td>97.6571</td>
             <td>94.9858</td>
             <td>97.3552</td>
-            <td><ins>0.113291</ins></td>
+            <td>0.113291</td>
         </tr>
         <tr>
             <td>OvisOCR2</td>
@@ -582,7 +606,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>97.4854</td>
             <td>94.5842</td>
             <td>96.9768</td>
-            <td><strong>0.1120</strong></td>
+            <td><ins>0.112</ins></td>
         </tr>
         <tr>
             <td>MiniCPM-OCR 1.0</td>
@@ -590,7 +614,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>1.3B</td>
             <td>96.44</td>
             <td>0.0316</td>
-            <td><strong>98.0814</strong></td>
+            <td><ins>98.0814</ins></td>
             <td>94.3999</td>
             <td>96.5967</td>
             <td>0.1269</td>
@@ -660,17 +684,6 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>90.21</td>
             <td>93.3565</td>
             <td>0.1281</td>
-        </tr>
-        <tr>
-            <td>Youtu-Parsing</td>
-            <td>Specialized VLMs</td>
-            <td>2.5B</td>
-            <td>93.74</td>
-            <td>0.044</td>
-            <td>93.63</td>
-            <td>92.02</td>
-            <td>95.00</td>
-            <td>0.116</td>
         </tr>
         <tr>
             <td>Qianfan-OCR</td>
