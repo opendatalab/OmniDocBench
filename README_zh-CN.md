@@ -60,7 +60,7 @@ OmniDocBench
 - [引用](#引用)
 
 ## 更新
-[2026/11/26] 新增Sangfor-OCR的榜单；更新Youtu-Parsing的榜单（Omni-modal Parser，5B）。
+[2026/11/26] 新增Sangfor-OCR的榜单；更新Youtu-Parsing-Omni的榜单（Omni-modal Parser，5B）。
 
 [2026/11/23] 新增OvisOCR3的榜单。
 
@@ -540,7 +540,7 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>0.1174</td>
         </tr>
         <tr>
-            <td>Youtu-Parsing</td>
+            <td>Youtu-Parsing-Omni</td>
             <td>Omni-modal Parser</td>
             <td>5B</td>
             <td><ins>97.11</ins></td>
@@ -681,6 +681,17 @@ $$\text{Overall} = \frac{(1-\textit{Text Edit Distance}) \times 100 + \textit{Ta
             <td>90.53</td>
             <td>93.31</td>
             <td>0.13</td>
+        </tr>
+        <tr>
+            <td>Youtu-Parsing</td>
+            <td>Specialized VLMs</td>
+            <td>2.5B</td>
+            <td>93.74</td>
+            <td>0.044</td>
+            <td>93.63</td>
+            <td>92.02</td>
+            <td>95.00</td>
+            <td>0.116</td>
         </tr>
         <tr>
             <td>Ovis2.6-30B-A3B</td>
