@@ -1988,7 +1988,7 @@ Please refer to the `Layout Detection` section for parameter explanations and da
 We provide several tools in the `tools` directory:
 - [json2md](./tools/json2md.py) for converting OmniDocBench from JSON format to Markdown format;
 - [visualization](./tools/visualization.py) for visualizing OmniDocBench JSON files;
-- [generate_result_tables](./tools/generate_result_tables.py) for generating the result leaderboard of the evaluation;
+- [generate_result_tables](./tools/generate_result_tables.ipynb) for generating the result leaderboard of the evaluation;
 - The [model_infer](./tools/model_infer) folder provides some model inference scripts for reference. Please use after configuring the model environment. Including:
   - `<model_name>_img2md.py` for calling the models to convert images to Markdown format;
   - `<model_name>_ocr.py` is to invoke the models for text recognition of block-level document text paragraphs;

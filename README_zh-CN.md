@@ -1025,7 +1025,7 @@ end2end_eval:          # 指定task名称，端到端评测通用该task
 
 `prediction`下的`data_path`输入的是模型对PDF页面解析结果的文件夹路径，路径中保存的是每个页面对应的markdown，文件名与图片名保持一致，仅将.jpg后缀替换成.md。
 
-目前[CDM](https://github.com/opendatalab/UniMERNet/tree/main/cdm)已支持直接评测，需要根据[README](./metrics/cdm/README-CN.md)配置CDM环境后使用，并且在config文件中直接调用`CDM`。除此之外，仍然保留了之前导出CDM评测所需的格式的JSON文件，只需要在metric中配置`CDM_plain`字段，即可将输出整理为CDM的输入格式，并存储在[result](./result)中。
+目前[CDM](https://github.com/opendatalab/UniMERNet/tree/main/cdm)已支持直接评测，需要根据[README](./metrics/cdm/README.md)配置CDM环境后使用，并且在config文件中直接调用`CDM`。除此之外，仍然保留了之前导出CDM评测所需的格式的JSON文件，只需要在metric中配置`CDM_plain`字段，即可将输出整理为CDM的输入格式，并存储在[result](./result)中。
 
 在端到端的评测中，config里可以选择配置不同的匹配方式，一共有三种匹配方式：
 - `no_split`: 不对text block做拆分和匹配的操作，而是直接合并成一整个markdown进行计算，这种方式下，将不会输出分属性的结果，也不会输出阅读顺序的结果；
@@ -1975,7 +1975,7 @@ config中参数解释以及数据集格式请参考`Layout检测`小节，公式
 我们在`tools`目录下提供了一些工具：
 - [json2md](./tools/json2md.py) 用于将JSON格式的OmniDocBench转换为Markdown格式；
 - [visualization](./tools/visualization.py) 用于可视化OmniDocBench的JSON文件；
-- [generate_result_tables](./tools/generate_result_tables.py) 可用于整理模型结果榜单;
+- [generate_result_tables](./tools/generate_result_tables.ipynb) 可用于整理模型结果榜单;
 - [model_infer](./tools/model_infer)文件夹下提供了一些模型推理的脚本供参考，请在配置了模型环境后使用，包括：
   - `<model_name>_img2md.py` 用于调用模型将图片转换为Markdown格式；
   - `<model_name>_ocr.py` 用于调用模型对block级别的文档文本段落进行文本识别；
